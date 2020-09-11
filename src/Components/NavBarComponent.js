@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import  {Navbar, Nav}  from 'react-bootstrap'
+// import humaniki from '../humaniki.png'
 
 function NavBarComponent (props){
   function handleAboutClick() {
@@ -33,7 +34,7 @@ function NavBarComponent (props){
     <React.Fragment>
         <Navbar bg="light" variant="light" sticky="top">
           <Navbar.Brand href="#About">
-            Humaniki 
+            <img className="nav-logo" src="./humaniki.png" alt="humaniki-logo"/> 
           </Navbar.Brand>
           <Nav className="mr-auto">
             <Nav.Link onClick={handleAboutClick} >About</Nav.Link>

@@ -1,21 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { Component } from 'react'
 import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import NavBarComponent from './Components/NavBarComponent'
-
-function App() {
-  const [navBar, setNavBar] = useState("about")
-
-  
-
-  return (
-    <div className="App">
-      <NavBarComponent setNavBar={setNavBar} />
-      Nav Bar Selected: {navBar}
-      {/* <AppContainer navBar={navBar} /> */}
-      {/* <Footer /> */}
-    </div>
-  );
+import 'bootstrap/dist/css/bootstrap.min.css'
+import AppContainer from './Containers/AppContainer'
+class App extends Component {
+  render(){
+    return (
+      <div className="App"> 
+        <AppContainer />
+      </div>
+    )
+  }
 }
 
 export default App;
