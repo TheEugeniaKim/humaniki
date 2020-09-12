@@ -2,9 +2,9 @@ import React from 'react'
 
 function Footer(){
   return (
-    <React.Fragment>
-      hi from footer 
-    </React.Fragment>
+    <div className="Footer">
+      Powered by a grant funded by the Wikipedia Foundation 
+    </div>
   )
 }
 
