@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import 'bootstrap/dist/css/bootstrap.min.css'
+import DataContainer from '../Containers/DataContainer'
 import NavBarComponent from '../Components/NavBarComponent'
 import AboutPage from '../Components/AboutPage'
 import Footer from '../Components/Footer'
+import GenderByCountryView from '../Views/GenderByCountryView'
 
 function App() {
   const [navBar, setNavBar] = useState("about")
@@ -13,7 +14,9 @@ function App() {
       <NavBarComponent setNavBar={setNavBar} />
       Nav Bar Selected: {navBar}
 
-      { navBar === "about" ? <AboutPage /> : null}
+      {navBar === "about" ? <AboutPage /> : null}
+      {navBar === "advanced-search" ? <DataContainer /> : null}
+      {navBar === "gender-by-country" ? <GenderByCountryView /> : null}
       <br />
       <Footer />
     </div>

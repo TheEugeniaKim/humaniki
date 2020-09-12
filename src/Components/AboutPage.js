@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import "../App.css"
 import DataContainer from '../Containers/DataContainer'
 
 function AboutPage(){
@@ -14,6 +15,7 @@ function AboutPage(){
           in all Wikipedias.
         </h3>
       </div>
+      
       <div className="About-DataContainer">
         <h4>Recent Distribution of Articles</h4>
 
