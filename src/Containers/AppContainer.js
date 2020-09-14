@@ -8,7 +8,6 @@ import GenderByCountryView from '../Views/GenderByCountryView'
 function App() {
   const [navBar, setNavBar] = useState("about")
 
-
   return (
     <div className="App">
       <NavBarComponent setNavBar={setNavBar} />

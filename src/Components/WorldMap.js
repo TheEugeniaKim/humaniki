@@ -38,7 +38,7 @@ function WorldMap({data,property}){
   }, [data, dimensions, property])
 
   return(
-    <div ref={wrapperRef} style={{marginBottom: "2rem"}}>
+    <div className="svg-wrapper" ref={wrapperRef} style={{marginBottom: "2rem"}}>
       <svg ref={svgRef}></svg>
     </div>
   )
