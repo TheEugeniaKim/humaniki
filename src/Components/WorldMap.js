@@ -35,7 +35,7 @@ function WorldMap({data,property}){
       .attr("class", "country")
       .attr("fill", feature => colorScale(feature.properties[property]))
       .attr("d", feature => pathGenerator(feature))
-  }, [data, dimensions, property])
+  }, [data, dimensions])
 
   return(
     <div className="svg-wrapper" ref={wrapperRef} style={{marginBottom: "2rem"}}>

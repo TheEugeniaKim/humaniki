@@ -10,17 +10,14 @@ function GenderByCountryView(){
       <h1>Gender Gap By Country</h1>
       <h5>This will be the description of the plot data that's represented below</h5>
       <div className="input-area">
-        <h2>Select Property to highlight</h2>
-        <select 
-          value={property}
-          onChange={event => setProperty(event.target.value)}
-        >
-          <option value="pop_est">Population</option>
-          <option value="name_len">Name Length</option>
-          <option value="gdp_md_est">GDP</option>
-        </select>
+        <div>
+          <p>
+            Note: As for January, 2016, only about 30% of biographies had place
+            of birth, so this data is incomplete.
+          </p>
+        </div>
       </div>
-      <WorldMap data={data} property={property} />
+      <WorldMap data={data} />
     </div>
   )
 }

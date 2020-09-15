@@ -20,15 +20,12 @@ function AboutPage(){
   useEffect(() => {
     const svg = select(svgRef.current)
 
-    const colorScale = scaleLinear()
-      .domain(calculatePercentageGap(totalMen, totalOthers, totalWomen))
-      .range(["#BC8F00","#00BCA1", "#6200F8"])
-      .clamp(true)
+    const colors = ["#BC8F00","#00BCA1", "#6200F8"]
 
     svg.selectAll("rect")
     .data([totalMen,totalOthers, totalWomen])
     .join("rect")
-    .attr("fill", colorScale)
+    .attr("fill", function(d, i) {return colors[i]; })
     .attr("width", "100%")
     .attr("height", "300px")
     .attr("x", (value) => value)    
