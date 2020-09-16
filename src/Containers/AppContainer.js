@@ -5,7 +5,7 @@ import AboutPage from '../Components/AboutPage'
 import Footer from '../Components/Footer'
 import GenderByCountryView from '../Views/GenderByCountryView'
 import GenderByDOBView from '../Views/GenderByDOBView'
-import GenderByLanguage from '../Views/GenderByLanguageView'
+import GenderByLanguageView from '../Views/GenderByLanguageView'
 
 function App() {
   const [navBar, setNavBar] = useState("about")
@@ -18,7 +18,8 @@ function App() {
       {navBar === "about" ? <AboutPage /> : null}
       {navBar === "advanced-search" ? <DataContainer /> : null}
       {navBar === "gender-by-country" ? <GenderByCountryView /> : null}
-      {navBar === "gender-by-DOB" ? <GenderByDOBView /> : null}      
+      {navBar === "gender-by-DOB" ? <GenderByDOBView /> : null}  
+      {navBar === "language" ? <GenderByLanguageView /> : null}  
       <br />
       <Footer />
     </div>

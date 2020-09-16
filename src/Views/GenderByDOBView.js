@@ -37,52 +37,43 @@ function GenderByDOBView(){
           </ToggleButtonGroup>
         
         <div>
-          <Form>
-            <Form.Group as={Row}>
-              <Form.Label as="legend" column sm={2}>
-                Data Selection
-              </Form.Label>
-              <Col sm={10}>
-                <Form.Check
-                  type="radio"
-                  label="Gender by Date of Birth"
-                  name="gender-by-dob"
-                  id="gender-by-dob"
-                />
-                <Form.Check
-                  type="radio"
-                  label="Gender by Date of Death"
-                  name="gender-by-dod"
-                  id="gender-by-dod"
-                />
-              </Col>
-            </Form.Group>
-            <Form.Group as={Row}>
-              <Form.Label as="legend" column sm={2}>
-                Gender Selection
-              </Form.Label>
-              <Col sm={10}>
-                <Form.Check
-                  type="checkbox"
-                  label="Male"
-                  name="male"
-                  id="male"
-                />
-                <Form.Check
-                  type="checkbox"
-                  label="Female"
-                  name="female"
-                  id="female"
-                />
-                <Form.Check
-                  type="checkbox"
-                  label="Non Binary"
-                  name="non-binary"
-                  id="non-binary"
-                />
-              </Col>
-            </Form.Group>
-          </Form>
+          <ToggleButtonGroup type="radio" name="data-selection" defaultValue={"dob"} onChange={handleChange}> 
+            <Form.Check
+              type="radio"
+              label="Gender by Date of Birth"
+              name="gender-by-dob"
+              value="gender-by-dob"
+            />
+            <Form.Check
+              type="radio"
+              label="Gender by Date of Death"
+              name="gender-by-dod"
+              value="gender-by-dod"
+            />
+          </ToggleButtonGroup>
+
+
+          <ToggleButtonGroup type="checkbox" name="gender-selection" defaultValue={"female"} onChange={handleChange}>
+            <Form.Check
+              type="checkbox"
+              label="Male"
+              name="male"
+              value="male"
+            />
+            <Form.Check
+              type="checkbox"
+              label="Female"
+              name="female"
+              value="female"
+            />
+            <Form.Check
+              type="checkbox"
+              label="Non Binary"
+              name="non-binary"
+              value="non-binary"
+            />
+          </ToggleButtonGroup>
+
         </div>
 
       </div>      
