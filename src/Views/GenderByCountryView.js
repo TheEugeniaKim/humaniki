@@ -1,12 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import WorldMap from '../Components/WorldMap'
 import data from '../Components/WorldData.geo.json'
 import { ToggleButtonGroup, ToggleButton, Table } from 'react-bootstrap'
 
 function GenderByCountryView(){
+  
   const [selectBirthVsCitizenship, setBirthVsCitizenship] = useState("country-of-birth")
   const [selectedWikipediaHumanType, setSelectedWikipediaHumanType] = useState("all")
-
+  
   function handleChange(event){
     if (event === "birth") {
       setBirthVsCitizenship("country-of-birth")
@@ -48,7 +49,7 @@ function GenderByCountryView(){
           <br/>
         <h6>Different Wikipedia Categories of Humans</h6>
           <ToggleButtonGroup type="radio" name="human-type" defaultValue={"all"} onChange={handleHumanChange}>
-            <ToggleButton value={"all"} name="all" size="lg" variant="outline-dark">All Humans on Wikipedia</ToggleButton>
+            <ToggleButton value={"all"} name="all" size="lg" variant="outline-dark">All Humans on Wikidata</ToggleButton>
             <ToggleButton value={"at-least-one"} name="at-least-one" size="lg" variant="outline-dark">Humans With Atleast One Wikipedia Article</ToggleButton>
             <ToggleButton value={"more-than-one"} name="at-least-one" size="lg" variant="outline-dark">Humans With More Than One Wikipedia Article</ToggleButton>
           </ToggleButtonGroup>
