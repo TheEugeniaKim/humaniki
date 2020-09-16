@@ -51,7 +51,7 @@ function AboutPage(){
         <svg ref={svgRef}></svg>
 
       </div>
-
+      
       <p>
         Expore further dynames of the gender gap in bibliographic content on Wikipedia
         with Humaniki and learn how you can contribute to bridge this gap. Compare gender 

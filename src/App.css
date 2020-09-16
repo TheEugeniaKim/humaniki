@@ -10,6 +10,7 @@
   width: 100vh;
   height: 65vh;
   border: 2px solid;
+  margin: 2rem;
 }
 
 svg {
