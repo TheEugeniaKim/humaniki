@@ -1,5 +1,5 @@
 import React from 'react'
-import { ToggleButtonGroup, ToggleButton, InputGroup, FormControl, Form, Row, Col } from 'react-bootstrap'
+import { ToggleButtonGroup, ToggleButton, InputGroup, FormControl, Form, Row, Col, Table } from 'react-bootstrap'
 
 
 function GenderByLanguageView(){
@@ -32,6 +32,27 @@ function GenderByLanguageView(){
             <ToggleButton value={"more-than-one"} name="at-least-one" size="lg" variant="outline-dark">Humans With More Than One Wikipedia Article</ToggleButton>
           </ToggleButtonGroup>
       </div>
+
+      <br />
+
+      <Table responsive="md">
+        <thead>
+          <tr>
+            <th>Year of Birth</th>
+            <th>Total</th>
+            <th>Total with Gender</th>
+            <th>Female</th>
+            <th>Female (%)</th>
+            <th>Male</th>
+            <th>Male (%)</th>
+            <th>Others</th>
+            <th>Others (%)</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </Table>
+
     </div>
   )
 }

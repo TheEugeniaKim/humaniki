@@ -20,7 +20,7 @@ function AboutPage(){
   useEffect(() => {
     const svg = select(svgRef.current)
 
-    const colors = ["#BC8F00","#00BCA1", "#6200F8"]
+    const colors = ["#BC8F00","#6200F8","#00BCA1"]
 
     svg.selectAll("rect")
     .data([totalMen,totalOthers, totalWomen])

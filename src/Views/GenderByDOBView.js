@@ -1,5 +1,6 @@
 import React from 'react'
-import { ToggleButtonGroup, ToggleButton, InputGroup, FormControl, Form, Row, Col } from 'react-bootstrap'
+import { ToggleButtonGroup, ToggleButton, InputGroup, FormControl, Form, Row, Col, Table } from 'react-bootstrap'
+import LineChart from '../Components/LineChart'
 
 function GenderByDOBView(){
   
@@ -75,6 +76,29 @@ function GenderByDOBView(){
           </ToggleButtonGroup>
 
         </div>
+        <br />
+        
+        <LineChart />
+
+        <br />
+
+        <Table responsive="md">
+        <thead>
+          <tr>
+            <th>Year of Birth</th>
+            <th>Total</th>
+            <th>Total with Gender</th>
+            <th>Female</th>
+            <th>Female (%)</th>
+            <th>Male</th>
+            <th>Male (%)</th>
+            <th>Others</th>
+            <th>Others (%)</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </Table>
 
       </div>      
 
