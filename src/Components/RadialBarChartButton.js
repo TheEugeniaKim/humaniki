@@ -3,7 +3,6 @@ import "../App.css";
 import * as d3 from 'd3'
 
 function RadialBarChart(props){
-  console.log(props.data.filter(obj => obj.label === "women")[0].value)
   const ref = useRef(null)
   const createPie = d3
     .pie()

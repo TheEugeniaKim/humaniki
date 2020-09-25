@@ -1,15 +1,49 @@
 import React, { useState, useEffect } from 'react'
 import WorldMap from '../Components/WorldMap'
 import data from '../Components/WorldData.geo.json'
-import { ToggleButtonGroup, ToggleButton, useAccordionToggle } from 'react-bootstrap'
-import BootstrapTable from 'react-bootstrap-table-next';
+import { ToggleButtonGroup, ToggleButton, Form } from 'react-bootstrap'
 import RadialBarChart from '../Components/RadialBarChartButton'
 import { propTypes } from 'react-bootstrap/esm/Image';
+
+import BootstrapTable from 'react-bootstrap-table-next'
+import 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css';
+import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
 
 
 function GenderByCountryView(props){
   const [selectBirthVsCitizenship, setBirthVsCitizenship] = useState("country-of-birth")
   const [selectedWikipediaHumanType, setSelectedWikipediaHumanType] = useState("all")
+  
+  function handleChange(event){
+    if (event === "birth") {
+      setBirthVsCitizenship("country-of-birth")
+    } else if (event === "citizenship") {
+      setBirthVsCitizenship("country-of-citizenship")
+    }
+  }
+
+  function handleHumanChange(event){
+    console.log("Handle Human Change", event)
+    if (event === "all") {
+      setSelectedWikipediaHumanType("all")
+    } else if (event === "at-least-one") {
+      setSelectedWikipediaHumanType("at-least-one")
+    } else if (event === "more-than-one") {
+      setSelectedWikipediaHumanType("more-than-one")
+    }
+  }
+
+  const [apiData, setAPIData] = useState([])
+  function fetchData() {
+    // fetch(`http://localhost:3000/v1/${selectedWikipediaHumanType}/gender/aggregated/2020-09-15/geography/${selectBirthVsCitizenship}`)
+    fetch("http://localhost:3000/v1")
+      .then(response => response.json())
+      .then(data => {
+        setAPIData(data)
+      })
+      // .then(processAPIData())
+  }
+
   const tableData = [{
     id: 1, 
     country:"United States", 
@@ -32,77 +66,75 @@ function GenderByCountryView(props){
     MenPercent: 72,
     nonBinary: 32,
     nonBinaryPercent: 0
+  }, {
+    id: 3, 
+    country: "Mexico",
+    total: 84345324,
+    totalWithGender: 24234352,
+    women: 243503,
+    WomenPercent: 28,
+    men: 30429424,
+    MenPercent: 72,
+    nonBinary: 32,
+    nonBinaryPercent: 0
   }]
   const columns = [{
     dataField: "country",
-    text: "Country"
+    text: "Country",
+    filter: textFilter()
+
   }, {
     dataField: "total",
-    text: "Total"
+    text: "Total",
+    sort: true
     
   }, {
     dataField: "totalWithGender",
-    text: "Total With Gender"
+    text: "Total With Gender",
+    sort: true
   }, {
     dataField: "women",
-    text: "Women"
+    text: "Women",
+    sort: true
   }, {
     dataField: "WomenPercent",
-    text: "Women (%)"
+    text: "Women (%)",
+    sort: true
   }, {
     dataField: "men",
-    text: "Men"
+    text: "Men",
+    sort: true
   }, {
     dataField: "MenPercent",
-    text: "Men (%)"
+    text: "Men (%)",
+    sort: true
   }, {
     dataField: "nonBinary",
-    text: "Non-binary"
+    text: "Non-binary",
+    sort: true
   }, {
     dataField: "nonBinaryPercent",
-    text: "Non-Binary (%)"
+    text: "Non-Binary (%)",
+    sort: true
   }]
 
-  function handleChange(event){
-    if (event === "birth") {
-      setBirthVsCitizenship("country-of-birth")
-    } else if (event === "citizenship") {
-      setBirthVsCitizenship("country-of-citizenship")
-    }
+
+  useEffect(() => {
+    fetchData()
+  },[selectedWikipediaHumanType, selectBirthVsCitizenship])
+ 
+  function processAPIData(){
+    console.log(apiData)
+    // return apiData.all-wikidata.gender.aggregated
   }
 
-  function handleHumanChange(event){
-    console.log("Handle Human Change", event)
-    if (event === "all") {
-      setSelectedWikipediaHumanType("all")
-    } else if (event === "at-least-one") {
-      setSelectedWikipediaHumanType("at-least-one")
-    } else if (event === "more-than-one") {
-      setSelectedWikipediaHumanType("more-than-one")
-    }
+  function afterFilter(newResult, newFilters) {
+    console.log(newResult);
+    console.log(newFilters);
   }
-
-  const MySearch = (props) => {
-    let input
-    const handleClick = () => {
-      props.onSearch(input.value);
-  }
-
-    return (
-      <div>
-        <input
-          className="form-control"
-          style={ { backgroundColor: 'pink' } }
-          ref={ n => input = n }
-          type="text"
-        />
-        <button className="btn btn-warning" onClick={ handleClick }>Click to Search!!</button>
-      </div>
-    );
-  };
-
   return (
     <div>
+    {console.log(processAPIData())}
       <h1>Gender Gap By Country</h1>
       <h5>This will be the description of the plot data that's represented below</h5>
       
@@ -115,10 +147,22 @@ function GenderByCountryView(props){
         </div>
 
         <h6>Data Selection</h6>
-          <ToggleButtonGroup type="radio" name="birthVsCitizenship" defaultValue={"birth"} onChange={handleChange}>
-            <ToggleButton value={"birth"} name="birth" variant="outline-dark">Country of Birth</ToggleButton>
-            <ToggleButton value={"citizenship"} name="citizenship" variant="outline-dark">Country of Citizenship</ToggleButton>
-          </ToggleButtonGroup>  
+          {selectBirthVsCitizenship}
+
+          <ToggleButtonGroup type="radio" name="data-selection" defaultValue={"birth"} onChange={handleChange}> 
+            <Form.Check
+              type="radio"
+              label="Country of Birth"
+              name="birth"
+              value="birth"
+            />
+            <Form.Check
+              type="radio"
+              label="Country of Citizenship"
+              name="citizenship"
+              value="citizenship"
+            />
+          </ToggleButtonGroup>
 
           <br/>
         <h6>Different Wikipedia Categories of Humans</h6>
@@ -160,10 +204,16 @@ function GenderByCountryView(props){
 
       <WorldMap data={data} />
 
-      <MySearch {...props.searchProps} />
-      <BootstrapTable className=".table-striped" keyField="id" data={tableData} columns={columns} />
-
-    </div>
+      <div className="table-container">
+        <BootstrapTable 
+          keyField='id' 
+          data={ tableData } 
+          columns={ columns } 
+          filter={ filterFactory({ afterFilter }) } 
+        />
+      </div>
+     
+    </div> 
 
   )
 }

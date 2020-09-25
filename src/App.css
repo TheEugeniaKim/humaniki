@@ -37,7 +37,9 @@ svg {
   top: 299px;
 }
 
-
+.table-container {
+  margin: 4%;
+}
 
 .Footer {
   background: #F3F0F0;
