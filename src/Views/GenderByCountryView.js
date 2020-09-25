@@ -165,39 +165,42 @@ function GenderByCountryView(props){
           </ToggleButtonGroup>
 
           <br/>
-        <h6>Different Wikipedia Categories of Humans</h6>
-          <ToggleButtonGroup type="radio" name="human-type" defaultValue={"all"} onChange={handleHumanChange}>
-            <ToggleButton value={"all"} name="all" size="lg" variant="outline-dark"> 
-              <RadialBarChart 
-                width={70} 
-                height={70} 
-                outerRadius={35} 
-                innerRadius={25}
-                data={[{label:"men", value: 69},{label: "non-binary", value:1},{label: "women", value: 30}]}
-              /> 
-              All Humans on Wikidata
-            </ToggleButton>
-            <ToggleButton value={"at-least-one"} name="at-least-one" size="lg" variant="outline-dark">
-              <RadialBarChart 
-                width={70} 
-                height={70} 
-                outerRadius={35} 
-                innerRadius={25}
-                data={[{label:"men", value: 69},{label: "non-binary", value:1},{label: "women", value: 30}]}
-              /> 
-              Humans With Atleast One Wikipedia Article
-            </ToggleButton>
-            <ToggleButton value={"more-than-one"} name="at-least-one" size="lg" variant="outline-dark">
-              <RadialBarChart 
-                width={70} 
-                height={70} 
-                outerRadius={35} 
-                innerRadius={25}
-                data={[{label:"men", value: 69},{label: "non-binary", value:1},{label: "women", value: 30}]}
-              /> 
-              Humans With More Than One Wikipedia Article
-            </ToggleButton>
-          </ToggleButtonGroup>
+          
+          <div >
+            <h6>Different Wikipedia Categories of Humans</h6>
+            <ToggleButtonGroup type="radio" name="human-type" defaultValue={"all"} onChange={handleHumanChange}>
+              <ToggleButton value={"all"} name="all" size="lg" variant="outline-dark"> 
+                <RadialBarChart 
+                  width={70} 
+                  height={70} 
+                  outerRadius={35} 
+                  innerRadius={25}
+                  data={[{label:"men", value: 69},{label: "non-binary", value:1},{label: "women", value: 30}]}
+                /> 
+                All Humans on Wikidata
+              </ToggleButton>
+              <ToggleButton value={"at-least-one"} name="at-least-one" size="lg" variant="outline-dark">
+                <RadialBarChart 
+                  width={70} 
+                  height={70} 
+                  outerRadius={35} 
+                  innerRadius={25}
+                  data={[{label:"men", value: 69},{label: "non-binary", value:1},{label: "women", value: 30}]}
+                /> 
+                Humans With Atleast One Wikipedia Article
+              </ToggleButton>
+              <ToggleButton value={"more-than-one"} name="at-least-one" size="lg" variant="outline-dark">
+                <RadialBarChart 
+                  width={70} 
+                  height={70} 
+                  outerRadius={35} 
+                  innerRadius={25}
+                  data={[{label:"men", value: 69},{label: "non-binary", value:1},{label: "women", value: 30}]}
+                /> 
+                Humans With More Than One Wikipedia Article
+              </ToggleButton>
+            </ToggleButtonGroup>
+          </div>
 
         
       </div>      
