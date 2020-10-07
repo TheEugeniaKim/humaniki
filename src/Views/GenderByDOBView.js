@@ -2,7 +2,90 @@ import React from 'react'
 import { ToggleButtonGroup, ToggleButton, InputGroup, FormControl, Form, Row, Col, Table } from 'react-bootstrap'
 import LineChart from '../Components/LineChart'
 
+import BootstrapTable from 'react-bootstrap-table-next'
+import 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css';
+import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
+
+
 function GenderByDOBView(){
+  function afterFilter(newResult, newFilters) {
+    console.log(newResult);
+    console.log(newFilters);
+  }
+  
+  const tableData = [{
+    id: 1, 
+    country:"United States", 
+    total: 84345324,
+    totalWithGender: 24234352,
+    women: 243503,
+    WomenPercent: 23423,
+    men: 30429424,
+    MenPercent: 72,
+    nonBinary: 32,
+    nonBinaryPercent: 0
+  }, {
+    id: 2, 
+    country: "Canada",
+    total: 84345324,
+    totalWithGender: 24234352,
+    women: 243503,
+    WomenPercent: 28,
+    men: 30429424,
+    MenPercent: 72,
+    nonBinary: 32,
+    nonBinaryPercent: 0
+  }, {
+    id: 3, 
+    country: "Mexico",
+    total: 84345324,
+    totalWithGender: 24234352,
+    women: 243503,
+    WomenPercent: 28,
+    men: 30429424,
+    MenPercent: 72,
+    nonBinary: 32,
+    nonBinaryPercent: 0
+  }]
+  const columns = [{
+    dataField: "country",
+    text: "Country",
+    filter: textFilter()
+
+  }, {
+    dataField: "total",
+    text: "Total",
+    sort: true
+    
+  }, {
+    dataField: "totalWithGender",
+    text: "Total With Gender",
+    sort: true
+  }, {
+    dataField: "women",
+    text: "Women",
+    sort: true
+  }, {
+    dataField: "WomenPercent",
+    text: "Women (%)",
+    sort: true
+  }, {
+    dataField: "men",
+    text: "Men",
+    sort: true
+  }, {
+    dataField: "MenPercent",
+    text: "Men (%)",
+    sort: true
+  }, {
+    dataField: "nonBinary",
+    text: "Non-binary",
+    sort: true
+  }, {
+    dataField: "nonBinaryPercent",
+    text: "Non-Binary (%)",
+    sort: true
+  }]
   
   function handleChange() {
     console.log("Handle Change")
@@ -82,23 +165,14 @@ function GenderByDOBView(){
 
         <br />
 
-        <Table responsive="md">
-        <thead>
-          <tr>
-            <th>Year of Birth</th>
-            <th>Total</th>
-            <th>Total with Gender</th>
-            <th>Female</th>
-            <th>Female (%)</th>
-            <th>Male</th>
-            <th>Male (%)</th>
-            <th>Others</th>
-            <th>Others (%)</th>
-          </tr>
-        </thead>
-        <tbody>
-        </tbody>
-      </Table>
+        <div className="table-container">
+          <BootstrapTable 
+            keyField='id' 
+            data={ tableData } 
+            columns={ columns } 
+            filter={ filterFactory({ afterFilter }) } 
+          />
+        </div>
 
       </div>      
 

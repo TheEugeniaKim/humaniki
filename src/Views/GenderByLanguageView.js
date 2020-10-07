@@ -1,49 +1,48 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { ToggleButtonGroup, ToggleButton } from 'react-bootstrap'
 
 import BootstrapTable from 'react-bootstrap-table-next'
-import 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css';
-import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
+import 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css'
+import filterFactory, { textFilter } from 'react-bootstrap-table2-filter'
+import paginationFactory from 'react-bootstrap-table2-paginator'
 
+import languageCodes from '../Components/LanguageCodes.json'
 
 function GenderByLanguageView(){
-  const tableData = [{
-    id: 1, 
-    country:"United States", 
-    total: 84345324,
-    totalWithGender: 24234352,
-    women: 243503,
-    WomenPercent: 23423,
-    men: 30429424,
-    MenPercent: 72,
-    nonBinary: 32,
-    nonBinaryPercent: 0
-  }, {
-    id: 2, 
-    country: "Canada",
-    total: 84345324,
-    totalWithGender: 24234352,
-    women: 243503,
-    WomenPercent: 28,
-    men: 30429424,
-    MenPercent: 72,
-    nonBinary: 32,
-    nonBinaryPercent: 0
-  }, {
-    id: 3, 
-    country: "Mexico",
-    total: 84345324,
-    totalWithGender: 24234352,
-    women: 243503,
-    WomenPercent: 28,
-    men: 30429424,
-    MenPercent: 72,
-    nonBinary: 32,
-    nonBinaryPercent: 0
-  }]
+  const [tableData, setTableData] = useState([])
+  let tableArr = []
+  function fetchData(){
+    fetch("http://localhost:3000/v1/all-wikidata/gender/aggregated/2020-09-15/wikipedia-project/wikipedias/language.json")
+      .then(response => response.json())
+      .then(data => processData(data))
+  }
+  function processData(data){
+    languageCodes.forEach((language, index) => {
+      // console.log("in loop", Object.keys(data))
+      let languageCode = language.alpha2
+      let num = data.length
+      
+      languageCodes[index]["men"] = data[languageCode]["men"]
+      language["men"] = data[languageCode]["men"]
+      language["women"] = data[languageCode]["women"]
+      language["nonBinary"] = data[languageCode]["non-binary"]
+      language["total"] = language.men + language.women + language.nonBinary
+      language["menPercent"] = (language["men"]/language["total"]*100).toFixed(2)
+      language["womenPercent"] = (language["women"]/language["total"]*100).toFixed(2)
+      language["nonBinaryPercent"] = (language["nonBinary"]/language["total"]*100).toFixed(2)
+
+      tableArr.push(language)
+    })
+    console.log(tableArr)
+    return setTableData(tableArr) 
+  }
+  useEffect(() => {
+    fetchData()
+  }, [])
+  
   const columns = [{
-    dataField: "country",
-    text: "Country",
+    dataField: "English",
+    text: "Language",
     filter: textFilter()
 
   }, {
@@ -52,15 +51,11 @@ function GenderByLanguageView(){
     sort: true
     
   }, {
-    dataField: "totalWithGender",
-    text: "Total With Gender",
-    sort: true
-  }, {
     dataField: "women",
     text: "Women",
     sort: true
   }, {
-    dataField: "WomenPercent",
+    dataField: "womenPercent",
     text: "Women (%)",
     sort: true
   }, {
@@ -68,7 +63,7 @@ function GenderByLanguageView(){
     text: "Men",
     sort: true
   }, {
-    dataField: "MenPercent",
+    dataField: "menPercent",
     text: "Men (%)",
     sort: true
   }, {
@@ -118,10 +113,11 @@ function GenderByLanguageView(){
       <br />
       <div className="table-container">
         <BootstrapTable 
-          keyField='id' 
+          keyField='alpha2' 
           data={ tableData } 
           columns={ columns } 
           filter={ filterFactory({ afterFilter }) } 
+          pagination={ paginationFactory() }
         />
       </div>
 

@@ -49,3 +49,15 @@ svg {
   width: 100%; 
   height: 3rem;
 }
+
+.world-map {
+  width: 100%;
+  height: 50vh
+}
+.country {
+  stroke: black;
+  stroke-width: 0.05px;
+}
+.country:hover {
+  fill: red;
+}

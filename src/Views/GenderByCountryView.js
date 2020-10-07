@@ -8,12 +8,16 @@ import { propTypes } from 'react-bootstrap/esm/Image';
 import BootstrapTable from 'react-bootstrap-table-next'
 import 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css';
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
+import paginationFactory from 'react-bootstrap-table2-paginator'
 
 
 function GenderByCountryView(props){
   const [selectBirthVsCitizenship, setBirthVsCitizenship] = useState("country-of-birth")
   const [selectedWikipediaHumanType, setSelectedWikipediaHumanType] = useState("all")
-  
+  const [apiData, setAPIData] = useState([])
+  const [mapData, setMapData] = useState(null)
+  const [tableArr, setTableArr] = useState([])
+
   function handleChange(event){
     if (event === "birth") {
       setBirthVsCitizenship("country-of-birth")
@@ -23,9 +27,8 @@ function GenderByCountryView(props){
   }
 
   function handleHumanChange(event){
-    console.log("Handle Human Change", event)
     if (event === "all") {
-      setSelectedWikipediaHumanType("all")
+      setSelectedWikipediaHumanType("all-wikidata")
     } else if (event === "at-least-one") {
       setSelectedWikipediaHumanType("at-least-one")
     } else if (event === "more-than-one") {
@@ -33,51 +36,51 @@ function GenderByCountryView(props){
     }
   }
 
-  const [apiData, setAPIData] = useState([])
   function fetchData() {
-    // fetch(`http://localhost:3000/v1/${selectedWikipediaHumanType}/gender/aggregated/2020-09-15/geography/${selectBirthVsCitizenship}`)
-    fetch("http://localhost:3000/v1")
+    // fetch(`http://localhost:3000/v1/${selectedWikipediaHumanType}/gender/aggregated/2020-09-15/geography/${selectBirthVsCitizenship}.json`)
+    fetch('http://localhost:3000/v1/all-wikidata/gender/aggregated/2020-09-15/geography/citizenship.json')
+    // fetch("http://localhost:3000/v1")
       .then(response => response.json())
-      .then(data => {
-        setAPIData(data)
+      .then(fetchData => {
+        fetchData = Object.entries(fetchData).map((e) => ( { [e[0]]: e[1] } ))
+        setAPIData(fetchData)
+        processAPIData(fetchData)
       })
-      // .then(processAPIData())
   }
 
-  const tableData = [{
-    id: 1, 
-    country:"United States", 
-    total: 84345324,
-    totalWithGender: 24234352,
-    women: 243503,
-    WomenPercent: 23423,
-    men: 30429424,
-    MenPercent: 72,
-    nonBinary: 32,
-    nonBinaryPercent: 0
-  }, {
-    id: 2, 
-    country: "Canada",
-    total: 84345324,
-    totalWithGender: 24234352,
-    women: 243503,
-    WomenPercent: 28,
-    men: 30429424,
-    MenPercent: 72,
-    nonBinary: 32,
-    nonBinaryPercent: 0
-  }, {
-    id: 3, 
-    country: "Mexico",
-    total: 84345324,
-    totalWithGender: 24234352,
-    women: 243503,
-    WomenPercent: 28,
-    men: 30429424,
-    MenPercent: 72,
-    nonBinary: 32,
-    nonBinaryPercent: 0
-  }]
+  let arr = []
+  function processAPIData(fetchData){
+    data.features.forEach(country => {
+      fetchData.forEach((fetchObj, index) => {
+        let key = Object.keys(fetchObj)[0]
+        if (country.properties.iso_a2 === key) {
+          country["properties"]["total"] = fetchObj[key]["men"] + fetchObj[key]["women"] + fetchObj[key]["non-binary"]
+          country["properties"]["men"] = fetchObj[key]["men"]
+          country["properties"]["women"] = fetchObj[key]["women"]
+          country["properties"]["non-binary"] = fetchObj[key]["non-binary"]
+          country["properties"]["percent-men"] = (fetchObj[key]["men"]/country["properties"]["total"]*100).toFixed(2)
+          country["properties"]["percent-women"] = (fetchObj[key]["women"]/country["properties"]["total"]*100).toFixed(2)
+          country["properties"]["percent-non-binary"] = (fetchObj[key]["non-binary"]/country["properties"]["total"]*100).toFixed(2)
+
+          let obj = {
+            id: index,
+            country: country["properties"]["name_long"],
+            total: fetchObj[key]["men"] + fetchObj[key]["women"] + fetchObj[key]["non-binary"],
+            women: fetchObj[key]["women"],
+            womenPercent: (fetchObj[key]["women"]/country["properties"]["total"]*100).toFixed(2),
+            men: fetchObj[key]["men"],
+            menPercent: (fetchObj[key]["men"]/country["properties"]["total"]*100).toFixed(2),
+            nonBinary: fetchObj[key]["non-binary"],
+            nonBinaryPercent: (fetchObj[key]["non-binary"]/country["properties"]["total"]*100).toFixed(2)
+          }
+          arr.push(obj)
+        }
+      })
+    })
+    setMapData(data)
+    setTableArr(arr)
+  }
+
   const columns = [{
     dataField: "country",
     text: "Country",
@@ -89,15 +92,11 @@ function GenderByCountryView(props){
     sort: true
     
   }, {
-    dataField: "totalWithGender",
-    text: "Total With Gender",
-    sort: true
-  }, {
     dataField: "women",
     text: "Women",
     sort: true
   }, {
-    dataField: "WomenPercent",
+    dataField: "womenPercent",
     text: "Women (%)",
     sort: true
   }, {
@@ -105,7 +104,7 @@ function GenderByCountryView(props){
     text: "Men",
     sort: true
   }, {
-    dataField: "MenPercent",
+    dataField: "menPercent",
     text: "Men (%)",
     sort: true
   }, {
@@ -118,23 +117,18 @@ function GenderByCountryView(props){
     sort: true
   }]
 
-
   useEffect(() => {
     fetchData()
   },[selectedWikipediaHumanType, selectBirthVsCitizenship])
- 
-  function processAPIData(){
-    console.log(apiData)
-    // return apiData.all-wikidata.gender.aggregated
-  }
 
   function afterFilter(newResult, newFilters) {
     console.log(newResult);
     console.log(newFilters);
   }
+  const [property, setProperty] = useState("women")
+
   return (
     <div>
-    {console.log(processAPIData())}
       <h1>Gender Gap By Country</h1>
       <h5>This will be the description of the plot data that's represented below</h5>
       
@@ -165,8 +159,8 @@ function GenderByCountryView(props){
           </ToggleButtonGroup>
 
           <br/>
-          
-          <div >
+
+          <div className="human-div">
             <h6>Different Wikipedia Categories of Humans</h6>
             <ToggleButtonGroup type="radio" name="human-type" defaultValue={"all"} onChange={handleHumanChange}>
               <ToggleButton value={"all"} name="all" size="lg" variant="outline-dark"> 
@@ -205,14 +199,31 @@ function GenderByCountryView(props){
         
       </div>      
 
-      <WorldMap data={data} />
+      <WorldMap 
+        style="width: 600px;"
+        mapData={mapData}
+        property={property}
+      />
+      <select
+        value={property}
+        onChange={event => setProperty(event.target.value)}
+      >
+        <option value="men">Men</option>
+        <option value="women">Women</option>
+        <option value="non-binary">Non-binary</option>
+        <option value="percent-men">Percent Men</option>
+        <option value="percent-women">Percent Women</option>
+        <option value="percent-non-binary">Percent Non-Binary</option>
+      </select>
+
 
       <div className="table-container">
         <BootstrapTable 
           keyField='id' 
-          data={ tableData } 
+          data={ tableArr } 
           columns={ columns } 
           filter={ filterFactory({ afterFilter }) } 
+          pagination={ paginationFactory(10) }
         />
       </div>
      
