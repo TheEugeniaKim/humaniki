@@ -7,41 +7,70 @@ import filterFactory, { textFilter } from 'react-bootstrap-table2-filter'
 import paginationFactory from 'react-bootstrap-table2-paginator'
 
 import languageCodes from '../Components/LanguageCodes.json'
+import ScatterPlot from '../Components/ScatterPlot'
 
 function GenderByLanguageView(){
   const [tableData, setTableData] = useState([])
-  let tableArr = []
+  const [tableMetaData, setTableMetaData] = useState({})
   function fetchData(){
-    fetch("http://localhost:3000/v1/all-wikidata/gender/aggregated/2020-09-15/wikipedia-project/wikipedias/language.json")
+    // fetch("http://localhost:3000/v1/all-wikidata/gender/aggregated/2020-09-15/wikipedia-project/wikipedias/language.json")
+    fetch('http://127.0.0.1:5000/v1/gender/gap/latest/all_wikidata/properties?project=all') 
       .then(response => response.json())
       .then(data => processData(data))
   }
   function processData(data){
-    languageCodes.forEach((language, index) => {
-      // console.log("in loop", Object.keys(data))
-      let languageCode = language.alpha2
-      let num = data.length
-      
-      languageCodes[index]["men"] = data[languageCode]["men"]
-      language["men"] = data[languageCode]["men"]
-      language["women"] = data[languageCode]["women"]
-      language["nonBinary"] = data[languageCode]["non-binary"]
-      language["total"] = language.men + language.women + language.nonBinary
-      language["menPercent"] = (language["men"]/language["total"]*100).toFixed(2)
-      language["womenPercent"] = (language["women"]/language["total"]*100).toFixed(2)
-      language["nonBinaryPercent"] = (language["nonBinary"]/language["total"]*100).toFixed(2)
+    let arrOfLangObj = []
+    const tableArr = [];
+    for(let property in data["2018-01-08"]["GTE_ONE_SITELINK"]) {
+      let obj = {}
+      obj[property] = data["2018-01-08"]["GTE_ONE_SITELINK"][property]
+      arrOfLangObj.push(obj)
+    }
+    let extrema = {
+      percentMax: Number.NEGATIVE_INFINITY,
+      percentMin: Number.POSITIVE_INFINITY,
+      totalMax: Number.NEGATIVE_INFINITY,
+      totalMin: Number.POSITIVE_INFINITY
+    }
+    arrOfLangObj.forEach((obj, index) => {
+      let tableObj = {}
+      let language = Object.keys(obj)[0]
+      let totalValue = Object.values(obj[language]).reduce((a, b) => a + b)
+      tableObj.key = index
+      tableObj.language = language
+      tableObj.total = totalValue
+      tableObj.men = obj[language]["men"] ? obj[language]["men"] : 0
+      tableObj.women = obj[language]["women"] ? obj[language]["women"]: 0
+      tableObj.nonBinary = obj[language]["nonBinary"] ? obj[language]["nonBinary"]: 0
+      tableObj.menPercent = tableObj["men"]/tableObj["total"]*100
+      tableObj.womenPercent = tableObj["women"]/tableObj["total"]*100
+      tableObj.nonBinaryPercent = tableObj["nonBinary"]/tableObj["total"]*100
+      tableArr.push(tableObj)
 
-      tableArr.push(language)
+      if (tableObj.womenPercent > extrema.percentMax) {
+        console.log(tableObj.language, tableObj.womenPercent)
+        extrema.percentMax = tableObj.womenPercent
+      } else if (tableObj.womenPercent < extrema.percentMin) {
+        extrema.percentMin = tableObj.womenPercent
+      }
+
+      if (tableObj.total > extrema.totalMax) {
+        extrema.totalMax = tableObj.total
+      } else if (tableObj.total < extrema.totalMin) {
+        extrema.totalMin = tableObj.total
+      }
     })
-    console.log(tableArr)
-    return setTableData(tableArr) 
+    setTableMetaData(extrema)
+    setTableData(tableArr) 
+    return true
   }
+
   useEffect(() => {
     fetchData()
   }, [])
   
   const columns = [{
-    dataField: "English",
+    dataField: "language",
     text: "Language",
     filter: textFilter()
 
@@ -109,11 +138,14 @@ function GenderByLanguageView(){
             <ToggleButton value={"more-than-one"} name="at-least-one" size="lg" variant="outline-dark">Humans With More Than One Wikipedia Article</ToggleButton>
           </ToggleButtonGroup>
       </div>
-
+      <ScatterPlot 
+        data={tableData} 
+        extrema={tableMetaData}
+      />
       <br />
       <div className="table-container">
         <BootstrapTable 
-          keyField='alpha2' 
+          keyField='key' 
           data={ tableData } 
           columns={ columns } 
           filter={ filterFactory({ afterFilter }) } 
