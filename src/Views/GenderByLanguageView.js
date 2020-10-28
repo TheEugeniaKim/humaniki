@@ -8,47 +8,60 @@ import paginationFactory from 'react-bootstrap-table2-paginator'
 
 import languageCodes from '../Components/LanguageCodes.json'
 import ScatterPlot from '../Components/ScatterPlot'
+import ScatterPlotSelection from '../Components/ScatterPlotSelection'
+import ScatterPlotContainer from '../Containers/ScatterPlotContainer'
 
 function GenderByLanguageView(){
   const [tableData, setTableData] = useState([])
   const [tableMetaData, setTableMetaData] = useState({})
+  const [labelArr, setLabelArr] = useState([])
+  const [tableColumns, setTableColumns] = useState([])
+
   function fetchData(){
     // fetch("http://localhost:3000/v1/all-wikidata/gender/aggregated/2020-09-15/wikipedia-project/wikipedias/language.json")
     fetch('http://127.0.0.1:5000/v1/gender/gap/latest/all_wikidata/properties?project=all') 
       .then(response => response.json())
       .then(data => processData(data))
   }
+
   function processData(data){
-    let arrOfLangObj = []
-    const tableArr = [];
-    for(let property in data["2018-01-08"]["GTE_ONE_SITELINK"]) {
-      let obj = {}
-      obj[property] = data["2018-01-08"]["GTE_ONE_SITELINK"][property]
-      arrOfLangObj.push(obj)
-    }
-    let extrema = {
+    const labelArrObj = {}
+    const tableArr = []
+    const columns = []
+    const extrema = {
       percentMax: Number.NEGATIVE_INFINITY,
       percentMin: Number.POSITIVE_INFINITY,
       totalMax: Number.NEGATIVE_INFINITY,
       totalMin: Number.POSITIVE_INFINITY
     }
-    arrOfLangObj.forEach((obj, index) => {
+
+    data.metrics.forEach((obj, index) => {
       let tableObj = {}
-      let language = Object.keys(obj)[0]
-      let totalValue = Object.values(obj[language]).reduce((a, b) => a + b)
+      // let totalValue = Object.values(obj[language]).reduce((a, b) => a + b)
       tableObj.key = index
-      tableObj.language = language
-      tableObj.total = totalValue
-      tableObj.men = obj[language]["men"] ? obj[language]["men"] : 0
-      tableObj.women = obj[language]["women"] ? obj[language]["women"]: 0
-      tableObj.nonBinary = obj[language]["nonBinary"] ? obj[language]["nonBinary"]: 0
-      tableObj.menPercent = tableObj["men"]/tableObj["total"]*100
-      tableObj.womenPercent = tableObj["women"]/tableObj["total"]*100
-      tableObj.nonBinaryPercent = tableObj["nonBinary"]/tableObj["total"]*100
+      tableObj.language = obj.item_label.project
+      tableObj.total = Object.values(obj.values).reduce((a, b) => a + b)
+      
+      let labelNames = Object.keys(obj.labels)
+
+      for (let i=0; i<labelNames.length; i++) {
+        let numLabel = labelNames[i]
+        tableObj[obj["labels"][numLabel]] = obj["values"][numLabel]
+        tableObj[obj["labels"][numLabel] + "Percent"] =  (obj["values"][numLabel]/tableObj["total"])*100
+        if (!(numLabel in labelArrObj)) {
+          labelArrObj[numLabel] = obj["labels"][numLabel]
+        } 
+        else if (!Object.keys(obj.labels).includes(numLabel.toString())){
+          labelArrObj[numLabel] = obj["labels"][numLabel]
+        } else if (!Object.keys(tableObj).includes("women")){
+          tableObj.women = 0
+          tableObj.womenPercent = 0
+        }
+      }
+
       tableArr.push(tableObj)
 
       if (tableObj.womenPercent > extrema.percentMax) {
-        console.log(tableObj.language, tableObj.womenPercent)
         extrema.percentMax = tableObj.womenPercent
       } else if (tableObj.womenPercent < extrema.percentMin) {
         extrema.percentMin = tableObj.womenPercent
@@ -60,8 +73,16 @@ function GenderByLanguageView(){
         extrema.totalMin = tableObj.total
       }
     })
+    columns.push({dataField: "language", text: "Language", filter: textFilter()})
+    columns.push({dataField: "total",text: "Total",sort: true})
+    for (let obj in labelArrObj) {
+      columns.push({dataField: labelArrObj[obj.toString()], text: labelArrObj[obj.toString()], sort:true})
+      columns.push({dataField: labelArrObj[obj.toString()] + "Percent", text: labelArrObj[obj.toString()] + " Percent (%)", sort:true})
+    }
     setTableMetaData(extrema)
     setTableData(tableArr) 
+    setLabelArr(labelArrObj)
+    setTableColumns(columns)
     return true
   }
 
@@ -69,42 +90,6 @@ function GenderByLanguageView(){
     fetchData()
   }, [])
   
-  const columns = [{
-    dataField: "language",
-    text: "Language",
-    filter: textFilter()
-
-  }, {
-    dataField: "total",
-    text: "Total",
-    sort: true
-    
-  }, {
-    dataField: "women",
-    text: "Women",
-    sort: true
-  }, {
-    dataField: "womenPercent",
-    text: "Women (%)",
-    sort: true
-  }, {
-    dataField: "men",
-    text: "Men",
-    sort: true
-  }, {
-    dataField: "menPercent",
-    text: "Men (%)",
-    sort: true
-  }, {
-    dataField: "nonBinary",
-    text: "Non-binary",
-    sort: true
-  }, {
-    dataField: "nonBinaryPercent",
-    text: "Non-Binary (%)",
-    sort: true
-  }]
-
   function afterFilter(newResult, newFilters) {
     console.log(newResult);
     console.log(newFilters);
@@ -138,19 +123,24 @@ function GenderByLanguageView(){
             <ToggleButton value={"more-than-one"} name="at-least-one" size="lg" variant="outline-dark">Humans With More Than One Wikipedia Article</ToggleButton>
           </ToggleButtonGroup>
       </div>
-      <ScatterPlot 
-        data={tableData} 
-        extrema={tableMetaData}
-      />
+      <div className="scatter-wrapper">
+        <ScatterPlotContainer 
+          data={tableData}
+          extrema={tableMetaData}
+          columns={tableColumns}
+        />
+      </div>
       <br />
       <div className="table-container">
+        {tableColumns.length == 0 ? null :
         <BootstrapTable 
           keyField='key' 
           data={ tableData } 
-          columns={ columns } 
+          columns={ tableColumns } 
           filter={ filterFactory({ afterFilter }) } 
           pagination={ paginationFactory() }
-        />
+          className={".table-striped"}
+        />}
       </div>
 
     </div>

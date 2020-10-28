@@ -1,11 +1,11 @@
 import React, { useRef, useEffect, useState } from "react";
-import "../App.css";
+import '../App.css'
 import {
   select,
-  scaleBand,
   scaleLinear,
+  scaleLog,
   axisBottom,
-  axisRight,
+  axisLeft,
   selection,
   color,
 } from "d3";
@@ -34,38 +34,38 @@ function ScatterPlot(data) {
   const dimensions = useResizeObserver(wrapperRef);
 
   useEffect(() => {
-    console.log(data.data, data.extrema);
+    console.log(data.data, data.extrema, dimensions);
     const svg = select(svgRef.current);
     if (!dimensions) return;
 
     const colorScale = scaleLinear()
-      .domain([0, 30])
-      .range(["white", "purple"])
+      .domain([data.extrema.totalMin, data.extrema.totalMax])
+      .range(["white", "#6200F8"])
       .clamp(true);
 
     const xScale = scaleLinear()
-      .domain([data.extrema.percentMin, data.extrema.percentMax])
+      .domain([data.extrema.percentMin, data.extrema.percentMax+10])
       .range([0, dimensions.width]);
 
-    const yScale = scaleLinear()
+    const yScale = scaleLog()
       .domain([data.extrema.totalMin, data.extrema.totalMax])
-      .range([dimensions.height, 0]); // 150 pixels is the size of the svg
-
-    const xAxis = axisBottom(xScale)
-      .ticks(7)
-      .tickFormat((index) => index + 1);
+      .range([dimensions.height, 0]) // 150 pixels is the size of the svg
+      
+    const xAxis = axisBottom(xScale);
     svg
       .select(".x-axis")
       .style("transform", `translateY(${dimensions.height}px)`)
       .call(xAxis)
-      .style("fill", "red");
+      .style("fill", "black")
+      .text("Percentage Female Biographies (%)")
 
-    const yAxis = axisRight(yScale);
+    const yAxis = axisLeft(yScale);
     svg
       .select(".y-axis")
       .style("transform", `translateX(${dimensions.width}px)`)
       .call(yAxis)
-      .style("fill", "red");
+      .style("fill", "black")
+      .attr("text","Total Biographies");
 
     svg
       .selectAll(".circle")
@@ -73,10 +73,11 @@ function ScatterPlot(data) {
       .join("circle")
       .attr("class", "circle")
       .style("transform", "scale(1, -1)")
-      .attr("r", 8)
+      .attr("r", 6)
       .attr("cx", (obj, dataIndex) => xScale(obj.womenPercent))
       .attr("cy", (obj, dataIndex) => -yScale(obj.women))
-      // .attr("fill", (obj,dataIndex) => colorScale(obj.women))
+      .attr("fill", (obj,dataIndex) => colorScale(obj.women))
+      .attr("stroke", "black")
       .append("title")
       .text(
         (obj) => `
@@ -107,8 +108,8 @@ function ScatterPlot(data) {
   }, [data, dimensions]);
 
   return (
-    <div className="wrapper" ref={wrapperRef} style={{ margin: "100px" }}>
-      <svg ref={svgRef}>
+    <div className="wrapper" ref={wrapperRef} >
+      <svg ref={svgRef} className="svg">
         <g className="x-axis" />
         <g className="y-axis" />
       </svg>

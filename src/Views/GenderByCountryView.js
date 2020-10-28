@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import WorldMap from '../Components/WorldMap'
-import data from '../Components/WorldData.geo.json'
+import data from '../Components/custom.geo.json'
 import { ToggleButtonGroup, ToggleButton, Form } from 'react-bootstrap'
 import RadialBarChart from '../Components/RadialBarChartButton'
 import { propTypes } from 'react-bootstrap/esm/Image';
@@ -38,49 +38,46 @@ function GenderByCountryView(props){
 
   function fetchData() {
     // fetch(`http://localhost:3000/v1/${selectedWikipediaHumanType}/gender/aggregated/2020-09-15/geography/${selectBirthVsCitizenship}.json`)
-    fetch('http://localhost:3000/v1/all-wikidata/gender/aggregated/2020-09-15/geography/citizenship.json')
-    // fetch("http://localhost:3000/v1")
+    // fetch('http://localhost:3000/v1/all-wikidata/gender/aggregated/2020-09-15/geography/citizenship.json')
+    fetch("http://127.0.0.1:5000/v1/gender/gap/latest/gte_one_sitelink/properties?citizenship=all")
       .then(response => response.json())
       .then(fetchData => {
-        fetchData = Object.entries(fetchData).map((e) => ( { [e[0]]: e[1] } ))
         setAPIData(fetchData)
         processAPIData(fetchData)
       })
   }
 
-  let arr = []
+  
   function processAPIData(fetchData){
+    let arr = []
+    const labelArrObj = {}
+    const columns = []
+    const countryData = []
     data.features.forEach(country => {
-      fetchData.forEach((fetchObj, index) => {
+      fetchData.metrics.forEach((fetchObj, index) => {
         let key = Object.keys(fetchObj)[0]
-        if (country.properties.iso_a2 === key) {
-          country["properties"]["total"] = fetchObj[key]["men"] + fetchObj[key]["women"] + fetchObj[key]["non-binary"]
-          country["properties"]["men"] = fetchObj[key]["men"]
-          country["properties"]["women"] = fetchObj[key]["women"]
-          country["properties"]["non-binary"] = fetchObj[key]["non-binary"]
-          country["properties"]["percent-men"] = (fetchObj[key]["men"]/country["properties"]["total"]*100).toFixed(2)
-          country["properties"]["percent-women"] = (fetchObj[key]["women"]/country["properties"]["total"]*100).toFixed(2)
-          country["properties"]["percent-non-binary"] = (fetchObj[key]["non-binary"]/country["properties"]["total"]*100).toFixed(2)
+        if (country["properties"]["iso_a2"] === fetchObj["item_label"]["iso_3166"]) {          
+          country.properties.total = Object.values(fetchObj.values).reduce((a, b) => a + b)
+          country.properties.women = fetchObj.values["6581072"] ? fetchObj.values["6581072"] : 0
+          country.properties.men = fetchObj.values["6581097"] ? fetchObj.values["6581097"] : 0
+          country.properties.womenPercent = (country.properties.women/country.properties.total)*100
+          country.properties.menPercent = (country.properties.men/country.properties.total)*100
+          countryData.push(country)
 
-          let obj = {
-            id: index,
-            country: country["properties"]["name_long"],
-            total: fetchObj[key]["men"] + fetchObj[key]["women"] + fetchObj[key]["non-binary"],
-            women: fetchObj[key]["women"],
-            womenPercent: (fetchObj[key]["women"]/country["properties"]["total"]*100).toFixed(2),
-            men: fetchObj[key]["men"],
-            menPercent: (fetchObj[key]["men"]/country["properties"]["total"]*100).toFixed(2),
-            nonBinary: fetchObj[key]["non-binary"],
-            nonBinaryPercent: (fetchObj[key]["non-binary"]/country["properties"]["total"]*100).toFixed(2)
-          }
-          arr.push(obj)
+          arr.push({
+            country: country.properties.name,
+            total: country.properties.total,
+            women: country.properties.women,
+            men: country.properties.men,
+            womenPercent: country.properties.womenPercent,
+            menPercent: country.properties.menPercent
+          })
         }
       })
     })
     setMapData(data)
     setTableArr(arr)
   }
-
   const columns = [{
     dataField: "country",
     text: "Country",
@@ -107,14 +104,6 @@ function GenderByCountryView(props){
     dataField: "menPercent",
     text: "Men (%)",
     sort: true
-  }, {
-    dataField: "nonBinary",
-    text: "Non-binary",
-    sort: true
-  }, {
-    dataField: "nonBinaryPercent",
-    text: "Non-Binary (%)",
-    sort: true
   }]
 
   useEffect(() => {
@@ -126,7 +115,6 @@ function GenderByCountryView(props){
     console.log(newFilters);
   }
   const [property, setProperty] = useState("women")
-
   return (
     <div>
       <h1>Gender Gap By Country</h1>
@@ -211,15 +199,15 @@ function GenderByCountryView(props){
         <option value="men">Men</option>
         <option value="women">Women</option>
         <option value="non-binary">Non-binary</option>
-        <option value="percent-men">Percent Men</option>
-        <option value="percent-women">Percent Women</option>
+        <option value="menPercent">Percent Men</option>
+        <option value="womenPercent">Percent Women</option>
         <option value="percent-non-binary">Percent Non-Binary</option>
       </select>
 
 
       <div className="table-container">
         <BootstrapTable 
-          keyField='id' 
+          keyField='country' 
           data={ tableArr } 
           columns={ columns } 
           filter={ filterFactory({ afterFilter }) } 
