@@ -49,23 +49,22 @@ function ScatterPlot(data) {
 
     const yScale = scaleLog()
       .domain([data.extrema.totalMin, data.extrema.totalMax])
-      .range([dimensions.height, 0]) // 150 pixels is the size of the svg
+      .range([dimensions.height, 0]) 
       
     const xAxis = axisBottom(xScale);
     svg
       .select(".x-axis")
       .style("transform", `translateY(${dimensions.height}px)`)
       .call(xAxis)
-      .style("fill", "black")
-      .text("Percentage Female Biographies (%)")
-
+      
     const yAxis = axisLeft(yScale);
     svg
       .select(".y-axis")
       .style("transform", `translateX(${dimensions.width}px)`)
       .call(yAxis)
       .style("fill", "black")
-      .attr("text","Total Biographies");
+      .append("title")
+      .text("Total Biographies");
 
     svg
       .selectAll(".circle")
@@ -76,15 +75,15 @@ function ScatterPlot(data) {
       .attr("r", 6)
       .attr("cx", (obj, dataIndex) => xScale(obj.womenPercent))
       .attr("cy", (obj, dataIndex) => -yScale(obj.women))
-      .attr("fill", (obj,dataIndex) => colorScale(obj.women))
+      .attr("fill", (obj, dataIndex) => colorScale(obj.women))
       .attr("stroke", "black")
       .append("title")
       .text(
         (obj) => `
           ${obj.language}
-          total bios: ${obj.total}
-          total women bios: ${obj.women}
-          women: ${obj.womenPercent}%
+          Total Bios: ${obj.total}
+          Total Women Bios: ${obj.women}
+          Women: ${obj.womenPercent}%
         `
       )
       // .on("mouseenter", function(event, d) {

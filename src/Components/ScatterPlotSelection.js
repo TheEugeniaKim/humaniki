@@ -12,15 +12,18 @@ function ScatterPlotSelection(props){
   
   return props.data.map(langObj => {
     return (
-      <label>
-        <input
-          name={langObj.language}
-          type="checkbox"
-          // checked={}
-          onChange={handleChecks} 
-        /> 
-        {langObj.language}
-      </label>
+      <div>
+        <label>
+          <input
+            name={langObj.language}
+            type="checkbox"
+            // checked={}
+            onChange={handleChecks} 
+          /> 
+          {langObj.language}
+        </label>
+        <br/>
+      </div>
     )
   })
 }

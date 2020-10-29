@@ -32,9 +32,10 @@ function ScatterPlotContainer(props){
         <Col sm={8}>
           <ScatterPlot data={props.data} extrema={props.extrema}/>
         </Col>
-        
         <Col sm={4}> 
-          <ScatterPlotSelection data={props.data}/>
+          <div className="input-wrapper">
+            <ScatterPlotSelection data={props.data}/>
+          </div>
         </Col>
       </Row>
     </Container>

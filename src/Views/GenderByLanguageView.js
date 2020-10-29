@@ -18,14 +18,13 @@ function GenderByLanguageView(){
   const [tableColumns, setTableColumns] = useState([])
 
   function fetchData(){
-    // fetch("http://localhost:3000/v1/all-wikidata/gender/aggregated/2020-09-15/wikipedia-project/wikipedias/language.json")
-    fetch('http://127.0.0.1:5000/v1/gender/gap/latest/all_wikidata/properties?project=all') 
+    fetch('http://127.0.0.1:5000/v1/gender/gap/latest/all_wikidata/properties?project=all&label_lang=en') 
       .then(response => response.json())
       .then(data => processData(data))
   }
 
   function processData(data){
-    const labelArrObj = {}
+    console.log("in process data", data)
     const tableArr = []
     const columns = []
     const extrema = {
@@ -35,30 +34,36 @@ function GenderByLanguageView(){
       totalMin: Number.POSITIVE_INFINITY
     }
 
+    columns.push({dataField: "language", text: "Language", filter: textFilter()})
+    columns.push({dataField: "total",text: "Total",sort: true})
+    for (let genderId in data.meta.bias_labels) {
+      let obj = {
+        dataField: data.meta.bias_labels[genderId],
+        text: data.meta.bias_labels[genderId],
+        sort: true
+      }
+      let objPercent = {
+        dataField: data.meta.bias_labels[genderId] + "Percent",
+        text: data.meta.bias_labels[genderId] + " Percent",
+        sort: true
+      }
+      obj.label = data.meta.bias_labels[genderId]
+      columns.push(obj)
+      columns.push(objPercent)
+    }
+    console.log("columns", columns)
+
     data.metrics.forEach((obj, index) => {
       let tableObj = {}
-      // let totalValue = Object.values(obj[language]).reduce((a, b) => a + b)
+      let columnsLength = columns.length 
       tableObj.key = index
       tableObj.language = obj.item_label.project
       tableObj.total = Object.values(obj.values).reduce((a, b) => a + b)
-      
-      let labelNames = Object.keys(obj.labels)
-
-      for (let i=0; i<labelNames.length; i++) {
-        let numLabel = labelNames[i]
-        tableObj[obj["labels"][numLabel]] = obj["values"][numLabel]
-        tableObj[obj["labels"][numLabel] + "Percent"] =  (obj["values"][numLabel]/tableObj["total"])*100
-        if (!(numLabel in labelArrObj)) {
-          labelArrObj[numLabel] = obj["labels"][numLabel]
-        } 
-        else if (!Object.keys(obj.labels).includes(numLabel.toString())){
-          labelArrObj[numLabel] = obj["labels"][numLabel]
-        } else if (!Object.keys(tableObj).includes("women")){
-          tableObj.women = 0
-          tableObj.womenPercent = 0
-        }
+      for (let genderId in data.meta.bias_labels) {
+        let label = data.meta.bias_labels[genderId]
+        tableObj[label] = obj["values"][genderId] ? obj["values"][genderId] : 0 
+        tableObj[label + "Percent"] = obj["values"][genderId] ? (obj["values"][genderId]/tableObj["total"])*100 : 0
       }
-
       tableArr.push(tableObj)
 
       if (tableObj.womenPercent > extrema.percentMax) {
@@ -73,15 +78,9 @@ function GenderByLanguageView(){
         extrema.totalMin = tableObj.total
       }
     })
-    columns.push({dataField: "language", text: "Language", filter: textFilter()})
-    columns.push({dataField: "total",text: "Total",sort: true})
-    for (let obj in labelArrObj) {
-      columns.push({dataField: labelArrObj[obj.toString()], text: labelArrObj[obj.toString()], sort:true})
-      columns.push({dataField: labelArrObj[obj.toString()] + "Percent", text: labelArrObj[obj.toString()] + " Percent (%)", sort:true})
-    }
+    
     setTableMetaData(extrema)
     setTableData(tableArr) 
-    setLabelArr(labelArrObj)
     setTableColumns(columns)
     return true
   }
@@ -132,15 +131,17 @@ function GenderByLanguageView(){
       </div>
       <br />
       <div className="table-container">
-        {tableColumns.length == 0 ? null :
-        <BootstrapTable 
-          keyField='key' 
-          data={ tableData } 
-          columns={ tableColumns } 
-          filter={ filterFactory({ afterFilter }) } 
-          pagination={ paginationFactory() }
-          className={".table-striped"}
-        />}
+        {
+          tableColumns.length === 0 ? null :
+          <BootstrapTable 
+            keyField='key' 
+            data={ tableData } 
+            columns={ tableColumns } 
+            filter={ filterFactory({ afterFilter }) } 
+            pagination={ paginationFactory() }
+            className={".table-striped"}
+          />
+        }
       </div>
 
     </div>

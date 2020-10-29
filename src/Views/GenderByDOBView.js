@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { ToggleButtonGroup, ToggleButton, InputGroup, FormControl, Form, Row, Col, Table } from 'react-bootstrap'
 import LineChart from '../Components/LineChart'
 
@@ -8,84 +8,14 @@ import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
 
 
 function GenderByDOBView(){
+  const [lineData, setLineData] = useState([])
+  const [tableColumns, setTableColumns] = useState([])
+  const [tableArr, setTableArr] = useState([])
+
   function afterFilter(newResult, newFilters) {
     console.log(newResult);
     console.log(newFilters);
   }
-  
-  const tableData = [{
-    id: 1, 
-    country:"United States", 
-    total: 84345324,
-    totalWithGender: 24234352,
-    women: 243503,
-    WomenPercent: 23423,
-    men: 30429424,
-    MenPercent: 72,
-    nonBinary: 32,
-    nonBinaryPercent: 0
-  }, {
-    id: 2, 
-    country: "Canada",
-    total: 84345324,
-    totalWithGender: 24234352,
-    women: 243503,
-    WomenPercent: 28,
-    men: 30429424,
-    MenPercent: 72,
-    nonBinary: 32,
-    nonBinaryPercent: 0
-  }, {
-    id: 3, 
-    country: "Mexico",
-    total: 84345324,
-    totalWithGender: 24234352,
-    women: 243503,
-    WomenPercent: 28,
-    men: 30429424,
-    MenPercent: 72,
-    nonBinary: 32,
-    nonBinaryPercent: 0
-  }]
-  const columns = [{
-    dataField: "country",
-    text: "Country",
-    filter: textFilter()
-
-  }, {
-    dataField: "total",
-    text: "Total",
-    sort: true
-    
-  }, {
-    dataField: "totalWithGender",
-    text: "Total With Gender",
-    sort: true
-  }, {
-    dataField: "women",
-    text: "Women",
-    sort: true
-  }, {
-    dataField: "WomenPercent",
-    text: "Women (%)",
-    sort: true
-  }, {
-    dataField: "men",
-    text: "Men",
-    sort: true
-  }, {
-    dataField: "MenPercent",
-    text: "Men (%)",
-    sort: true
-  }, {
-    dataField: "nonBinary",
-    text: "Non-binary",
-    sort: true
-  }, {
-    dataField: "nonBinaryPercent",
-    text: "Non-Binary (%)",
-    sort: true
-  }]
   
   function handleChange() {
     console.log("Handle Change")
@@ -95,6 +25,62 @@ function GenderByDOBView(){
     console.log("HANDLE HUMAN CHANGE")
   }
 
+  function processData(data){
+    const tableArr = []
+    const columns = []
+    const graphData = []
+    columns.push({dataField: "year", text: "Year", filter: textFilter()})
+    columns.push({dataField: "total",text: "Total",sort: true})
+
+    for (let genderId in data.meta.bias_labels) {
+      console.log("genderID and value" , genderId, data.meta.bias_labels[genderId])
+      let obj = {
+        dataField: data.meta.bias_labels[genderId],
+        text: data.meta.bias_labels[genderId],
+        sort: true
+      }
+      let objPercent = {
+        dataField: data.meta.bias_labels[genderId] + "Percent",
+        text: data.meta.bias_labels[genderId] + " Percent",
+        sort: true
+      }
+      obj.label = data.meta.bias_labels[genderId]
+      columns.push(obj)
+      columns.push(objPercent)
+    }
+
+    data.metrics.forEach((dp, index) => {
+      let tableObj = {}
+      let columnsLength = columns.length 
+      // obj.year = parseInt(dp.item_label.date_of_birth)
+      // obj.value = dp.values["6581072"] ? dp.values["6581072"] : 0
+      tableObj.key = index
+      tableObj.year = dp.item_label.date_of_birth
+      tableObj.total = Object.values(dp.values).reduce((a,b) => a + b)
+      for (let genderId in data.meta.bias_labels){
+        let label = data.meta.bias_labels[genderId]
+        tableObj[label] = dp["values"][genderId] ? dp["values"][genderId] : 0 
+        tableObj[label + "Percent"] = dp["values"][genderId] ? (dp["values"][genderId]/tableObj["total"])*100 : 0
+      }
+      tableArr.push(tableObj)
+      // if (Object.keys(dp.values).includes("6581097")) {
+      //   let obj = {}
+      //   obj.year = parseInt(dp.item_label.date_of_birth)
+      //   obj.value = dp.values["6581097"]
+      //   women.push(obj) 
+      // }
+    })
+    // setLineData(women)
+    setTableArr(tableArr)
+    setTableColumns(columns)
+    return true 
+  }
+
+  useEffect(() => {
+    fetch('http://127.0.0.1:5000/v1/gender/gap/latest/gte_one_sitelink/properties?date_of_birth=all&label_lang=en')
+      .then(response => response.json())
+      .then(data => processData(data))
+  }, [])
 
   return (
     <div>
@@ -161,17 +147,20 @@ function GenderByDOBView(){
         </div>
         <br />
         
-        <LineChart />
+        <LineChart lineData={lineData} />
 
         <br />
 
         <div className="table-container">
-          <BootstrapTable 
-            keyField='id' 
-            data={ tableData } 
-            columns={ columns } 
-            filter={ filterFactory({ afterFilter }) } 
-          />
+          {
+            tableColumns.length === 0 ? null :
+            <BootstrapTable 
+              keyField='id' 
+              data={ tableArr } 
+              columns={ tableColumns } 
+              filter={ filterFactory({ afterFilter }) } 
+            />
+          }
         </div>
 
       </div>      
