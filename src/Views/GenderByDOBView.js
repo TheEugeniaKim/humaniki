@@ -4,14 +4,16 @@ import LineChart from '../Components/LineChart'
 
 import BootstrapTable from 'react-bootstrap-table-next'
 import 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css';
-import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
+import filterFactory, { textFilter } from 'react-bootstrap-table2-filter'
+import paginationFactory from 'react-bootstrap-table2-paginator'
 
 
 function GenderByDOBView(){
   const [lineData, setLineData] = useState([])
+  const [tableMetaData, setTableMetaData] = useState({})
   const [tableColumns, setTableColumns] = useState([])
   const [tableArr, setTableArr] = useState([])
-
+  const [graphGenders, setGraphGenders] = useState({})
   function afterFilter(newResult, newFilters) {
     console.log(newResult);
     console.log(newFilters);
@@ -28,12 +30,18 @@ function GenderByDOBView(){
   function processData(data){
     const tableArr = []
     const columns = []
-    const graphData = []
+    const lineData = []
+    const graphLabels = Object.values(data.meta.bias_labels)
+    const extrema = {
+      percentMax: Number.NEGATIVE_INFINITY,
+      percentMin: Number.POSITIVE_INFINITY,
+      totalMax: Number.NEGATIVE_INFINITY,
+      totalMin: Number.POSITIVE_INFINITY
+    }
     columns.push({dataField: "year", text: "Year", filter: textFilter()})
     columns.push({dataField: "total",text: "Total",sort: true})
-
+    // loop over genders and create formatted column array
     for (let genderId in data.meta.bias_labels) {
-      console.log("genderID and value" , genderId, data.meta.bias_labels[genderId])
       let obj = {
         dataField: data.meta.bias_labels[genderId],
         text: data.meta.bias_labels[genderId],
@@ -49,28 +57,53 @@ function GenderByDOBView(){
       columns.push(objPercent)
     }
 
+    // lineData = [genderlines]
+    //  genderLine := {name: "qID for men", values: [{year: 1994, value: 22}, {}, ... ]}
+    
+    //line data loop
+    for (let genderId in data.meta.bias_labels) {
+      let genderLine = {}
+      genderLine.name = genderId
+      genderLine.values = []
+      data.metrics.forEach(dp => {
+        if (Object.keys(dp.values).includes(genderId)) {
+          let tupleObj = {
+            year: +dp.item_label.date_of_birth,
+            value: dp["values"][genderId]
+          }
+          genderLine.values.push(tupleObj)
+        }
+      })
+      lineData.push(genderLine)
+    }
+
+    //table loop
     data.metrics.forEach((dp, index) => {
       let tableObj = {}
-      let columnsLength = columns.length 
-      // obj.year = parseInt(dp.item_label.date_of_birth)
-      // obj.value = dp.values["6581072"] ? dp.values["6581072"] : 0
       tableObj.key = index
-      tableObj.year = dp.item_label.date_of_birth
+      tableObj.year = parseInt(dp.item_label.date_of_birth)
       tableObj.total = Object.values(dp.values).reduce((a,b) => a + b)
       for (let genderId in data.meta.bias_labels){
         let label = data.meta.bias_labels[genderId]
         tableObj[label] = dp["values"][genderId] ? dp["values"][genderId] : 0 
-        tableObj[label + "Percent"] = dp["values"][genderId] ? (dp["values"][genderId]/tableObj["total"])*100 : 0
+        tableObj[label + "Percent"] = dp["values"][genderId] ? (dp["values"][genderId]/tableObj["total"])*100 : 0  
       }
       tableArr.push(tableObj)
-      // if (Object.keys(dp.values).includes("6581097")) {
-      //   let obj = {}
-      //   obj.year = parseInt(dp.item_label.date_of_birth)
-      //   obj.value = dp.values["6581097"]
-      //   women.push(obj) 
-      // }
+      if (tableObj.womenPercent > extrema.percentMax) {
+        extrema.percentMax = tableObj.womenPercent
+      } else if (tableObj.womenPercent < extrema.percentMin) {
+        extrema.percentMin = tableObj.womenPercent
+      }
+
+      if (tableObj.total > extrema.totalMax) {
+        extrema.totalMax = tableObj.total
+      } else if (tableObj.total < extrema.totalMin) {
+        extrema.totalMin = tableObj.total
+      }
     })
-    // setLineData(women)
+    setGraphGenders(graphLabels)
+    setTableMetaData(extrema)
+    setLineData(lineData)
     setTableArr(tableArr)
     setTableColumns(columns)
     return true 
@@ -147,7 +180,11 @@ function GenderByDOBView(){
         </div>
         <br />
         
-        <LineChart lineData={lineData} />
+        <LineChart 
+          lineData={lineData} 
+          graphGenders={graphGenders}
+          extrema={tableMetaData} 
+        />
 
         <br />
 
@@ -155,10 +192,12 @@ function GenderByDOBView(){
           {
             tableColumns.length === 0 ? null :
             <BootstrapTable 
-              keyField='id' 
+              keyField='key' 
               data={ tableArr } 
               columns={ tableColumns } 
               filter={ filterFactory({ afterFilter }) } 
+              pagination={ paginationFactory() }
+              className={".table-striped"}
             />
           }
         </div>
