@@ -9,6 +9,7 @@ import paginationFactory from 'react-bootstrap-table2-paginator'
 
 
 function GenderByDOBView(){
+  const [genderMap,setGenderMap] = useState(null)
   const [lineData, setLineData] = useState([])
   const [tableMetaData, setTableMetaData] = useState({})
   const [tableColumns, setTableColumns] = useState([])
@@ -27,11 +28,20 @@ function GenderByDOBView(){
     console.log("HANDLE HUMAN CHANGE")
   }
 
+  function formatYear(num){
+    if (num > 0) {
+      return num.toString() + " CE"
+    } else {
+      return (num * (-1)).toString() + " BCE"
+    }
+  }
+
   function processData(data){
     const tableArr = []
     const columns = []
     const lineData = []
     const graphLabels = Object.values(data.meta.bias_labels)
+    const genderMap = setGenderMap(data.meta.bias_labels)
     const extrema = {
       percentMax: Number.NEGATIVE_INFINITY,
       percentMin: Number.POSITIVE_INFINITY,
@@ -81,7 +91,8 @@ function GenderByDOBView(){
     data.metrics.forEach((dp, index) => {
       let tableObj = {}
       tableObj.key = index
-      tableObj.year = parseInt(dp.item_label.date_of_birth)
+      tableObj.yearNum = parseInt(dp.item_label.date_of_birth)
+      tableObj.year = formatYear(parseInt(dp.item_label.date_of_birth))
       tableObj.total = Object.values(dp.values).reduce((a,b) => a + b)
       for (let genderId in data.meta.bias_labels){
         let label = data.meta.bias_labels[genderId]
@@ -184,6 +195,7 @@ function GenderByDOBView(){
           lineData={lineData} 
           graphGenders={graphGenders}
           extrema={tableMetaData} 
+          genderMap={genderMap}
         />
 
         <br />

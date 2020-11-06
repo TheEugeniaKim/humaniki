@@ -28,27 +28,27 @@ const useResizeObserver = (ref) => {
   return dimensions;
 };
 
-function ScatterPlot(data) {
+function ScatterPlot(props) {
   const svgRef = useRef();
   const wrapperRef = useRef();
   const dimensions = useResizeObserver(wrapperRef);
 
   useEffect(() => {
-    console.log(data.data, data.extrema, dimensions);
+    console.log("inside Scatter",props.data, props.extrema, dimensions);
     const svg = select(svgRef.current);
     if (!dimensions) return;
 
     const colorScale = scaleLinear()
-      .domain([data.extrema.totalMin, data.extrema.totalMax])
+      .domain([props.extrema.totalMin, props.extrema.totalMax])
       .range(["white", "#6200F8"])
       .clamp(true);
 
     const xScale = scaleLinear()
-      .domain([data.extrema.percentMin, data.extrema.percentMax+10])
+      .domain([props.extrema.percentMin, props.extrema.percentMax+10])
       .range([0, dimensions.width]);
 
     const yScale = scaleLog()
-      .domain([data.extrema.totalMin, data.extrema.totalMax])
+      .domain([props.extrema.totalMin, props.extrema.totalMax])
       .range([dimensions.height, 0]) 
       
     const xAxis = axisBottom(xScale);
@@ -68,7 +68,7 @@ function ScatterPlot(data) {
 
     svg
       .selectAll(".circle")
-      .data(data.data)
+      .data(props.data)
       .join("circle")
       .attr("class", "circle")
       .style("transform", "scale(1, -1)")
@@ -104,7 +104,7 @@ function ScatterPlot(data) {
       .transition()
       .attr("fill", colorScale())
       .attr("height", (value) => dimensions.height - yScale(value));
-  }, [data, dimensions]);
+  }, [props, dimensions]);
 
   return (
     <div className="wrapper" ref={wrapperRef} >

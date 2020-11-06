@@ -7,7 +7,7 @@ import GenderByCountryView from '../Views/GenderByCountryView'
 import GenderByDOBView from '../Views/GenderByDOBView'
 import GenderByLanguageView from '../Views/GenderByLanguageView'
 
-function App() {
+function AppContainer() {
   const [navBar, setNavBar] = useState("about")
 
   return (
@@ -24,4 +24,4 @@ function App() {
   );
 }
 
-export default App;
+export default AppContainer;
