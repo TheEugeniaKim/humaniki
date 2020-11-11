@@ -97,14 +97,14 @@ function LineChart(props){
         .y((dp) => yScale(+dp.value))
 
       svg
-      .selectAll(".line")
-      .data(props.lineData)
-      .join("path")
-      .attr("class", "line")
-      .attr("d", (genderLine) => myLine(genderLine.values))
-      .style("fill", "none")
-      .attr("stroke", (genderLine) => colorScale(genderLine.name))
-      .style("fill", "none")
+        .selectAll(".line")
+        .data(props.lineData)
+        .join("path")
+        .attr("class", "line")
+        .attr("d", (genderLine) => myLine(genderLine.values))
+        .style("fill", "none")
+        .attr("stroke", (genderLine) => colorScale(genderLine.name))
+        .style("fill", "none")
 
       svg
         .selectAll(".dots")
@@ -130,10 +130,10 @@ function LineChart(props){
         .data(props.lineData)
         .join("circle")
           .attr("class","circle")
-          .style("transform", "scale(1, -1)")
+          .style("transform", "scale(1, 1)")
           .attr("r", 6)
-          .attr("cx", (line, index) => xScale(-1))
-          .attr("cy", (line, index) => -yScale((index+1)*1.5))
+          .attr("cx", 32)
+          .attr("cy", (line, index) => (index+1)*20 + 19)
           .attr("fill", (line) => colorScale(line.name))
 
       svg
@@ -142,8 +142,8 @@ function LineChart(props){
           .join("text")
           .style("transform", "scale(1, 1)")
           .text((line) => props.genderMap[line.name])
-          .attr("x", (line, index) => xScale(25))
-          .attr("y", (line, index) => yScale((index+1)*1.5))
+          .attr("x", 40)
+          .attr("y", (line, index) => (index+1)*20 + 19.5)
           .attr("fill", (line) => colorScale(line.name))
 
       const zoomBehavior = zoom()
