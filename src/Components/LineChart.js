@@ -26,135 +26,140 @@ function LineChart(props){
   const wrapperRef = useRef()
   const dimensions = useResizeObserver(wrapperRef)
   const [currentZoomState, setCurrentZoomState] = useState()
+  // Object.keys(obj).length === 0 && obj.constructor === Object
 
   useEffect(() => {
-    if (!dimensions || !props.lineData || !props.genderMap || !props.extrema) return
-    console.log(props.lineData, props.extrema, props.genderMap)
-    const genderNums = props.genderMap ? Object.keys(props.genderMap).map(str => parseInt(str)) : []
-    props.lineData.forEach(genderLine => sortGenderLine(genderLine))
+    console.log("Before If", dimensions, props.lineData, props.genderMap, props.extrema)
+    if ( props.lineData.length === 0 || Object.keys(props.genderMap).length === 0 || Object.keys(props.extrema).length === 0 || !dimensions ) {
+      console.log("not entering")
+      return
+    } else {
+      console.log("Entering/calling use effect")
+      const genderNums = props.genderMap ? Object.keys(props.genderMap).map(str => parseInt(str)) : []
+      props.lineData.forEach(genderLine => sortGenderLine(genderLine))
 
-    function sortGenderLine(genderLine){
-      genderLine.values.sort((a, b) =>
-        ascending(a.year, b.year)
-      )
-    }
-    
-    const svg = select(svgRef.current)
-    const genderLineMaximums = props.lineData.map(genderLine => 
-      Math.max(...genderLine.values.map(tuple => tuple.value))
-    )
-    const totalMaxYValue = Math.max(...genderLineMaximums)
-    const yearMinimums = props.lineData.map(genderLine => 
-      Math.min(...genderLine.values.map(tuple => tuple.year))
-    )
-    const yearMaximums = props.lineData.map(genderLine => 
-      Math.max(...genderLine.values.map(tuple => tuple.year))
-    )
-    
-    const totalMinXValue = Math.min(...yearMinimums)
-    const totalMaxXValue = Math.max(...yearMaximums)
-
-    const xScale = scaleLinear()
-      .domain([totalMinXValue, totalMaxXValue+9])
-      .range([0, dimensions.width])
-      .nice()
-      if (currentZoomState) {
-        const newXScale = currentZoomState.rescaleX(xScale)
-        xScale.domain(newXScale.domain())
+      function sortGenderLine(genderLine){
+        genderLine.values.sort((a, b) =>
+          ascending(a.year, b.year)
+        )
       }
-
-    const yScale = scaleLinear()
-      .domain([0, totalMaxYValue])
-      .range([dimensions.height, 0])
-      .nice()
-    
-    const xAxis = axisBottom(xScale)
-      .ticks(parseInt(10))
-      .tickFormat(index => index + 1)
-
-    const colorScale = scaleLinear()
-      .domain(genderNums)
-      .range(schemeSet3)
-
-    svg
-      .select(".x-axis")
-      .style("transform", `translateY(${dimensions.height})px`)
-      .call(xAxis)
-    
-    const yAxis = axisRight(yScale)
-    svg
-      .select(".y-axis")
-      .style("transform", `translateX(${dimensions.width})px`)
-      .call(yAxis)
-
-    const myLine = line()
-      .x((dp) => xScale(+dp.year))
-      .y((dp) => yScale(+dp.value))
-
-    svg
-    .selectAll(".line")
-    .data(props.lineData)
-    .join("path")
-    .attr("class", "line")
-    .attr("d", (genderLine) => myLine(genderLine.values))
-    .style("fill", "none")
-    .attr("stroke", (genderLine) => colorScale(genderLine.name))
-    .style("fill", "none")
-
-    svg
-      .selectAll(".dots")
-      .data(props.lineData)
-      .join("g")
-      .style("fill", (line) => colorScale(line.name))
-      .attr("class", "scatter-group")
-        .selectAll(".points")
-        .data((line) => line.values)
-        .join("circle")
-        .attr("class", "circle")
-        .attr("r", 4) 
-        .attr("cx", (dp) => xScale(dp.year))
-        .attr("cy", (dp) => yScale(dp.value))
-        .append("title")
-          .text((dp) => `
-            Value: ${dp.value}, 
-            Year: ${dp.year}
-          `)
       
-    svg
-      .selectAll(".labels")
+      const svg = select(svgRef.current)
+      const genderLineMaximums = props.lineData.map(genderLine => 
+        Math.max(...genderLine.values.map(tuple => tuple.value))
+      )
+      const totalMaxYValue = Math.max(...genderLineMaximums)
+      const yearMinimums = props.lineData.map(genderLine => 
+        Math.min(...genderLine.values.map(tuple => tuple.year))
+      )
+      const yearMaximums = props.lineData.map(genderLine => 
+        Math.max(...genderLine.values.map(tuple => tuple.year))
+      )
+      
+      const totalMinXValue = Math.min(...yearMinimums)
+      const totalMaxXValue = Math.max(...yearMaximums)
+
+      const xScale = scaleLinear()
+        .domain([totalMinXValue, totalMaxXValue+9])
+        .range([0, dimensions.width])
+        .nice()
+        if (currentZoomState) {
+          const newXScale = currentZoomState.rescaleX(xScale)
+          xScale.domain(newXScale.domain())
+        }
+
+      const yScale = scaleLinear()
+        .domain([0, totalMaxYValue])
+        .range([dimensions.height, 0])
+        .nice()
+      
+      const xAxis = axisBottom(xScale)
+        .ticks(parseInt(10))
+        .tickFormat(index => index + 1)
+
+      const colorScale = scaleLinear()
+        .domain(genderNums)
+        .range(schemeSet3)
+
+      svg
+        .select(".x-axis")
+        .style("transform", `translateY(${dimensions.height})px`)
+        .call(xAxis)
+      
+      const yAxis = axisRight(yScale)
+      svg
+        .select(".y-axis")
+        .style("transform", `translateX(${dimensions.width})px`)
+        .call(yAxis)
+
+      const myLine = line()
+        .x((dp) => xScale(+dp.year))
+        .y((dp) => yScale(+dp.value))
+
+      svg
+      .selectAll(".line")
       .data(props.lineData)
-      .join("circle")
-        .attr("class","circle")
-        .style("transform", "scale(1, -1)")
-        .attr("r", 6)
-        .attr("cx", (line, index) => xScale(-1))
-        .attr("cy", (line, index) => -yScale((index+1)*1.5))
-        .attr("fill", (line) => colorScale(line.name))
+      .join("path")
+      .attr("class", "line")
+      .attr("d", (genderLine) => myLine(genderLine.values))
+      .style("fill", "none")
+      .attr("stroke", (genderLine) => colorScale(genderLine.name))
+      .style("fill", "none")
 
-    svg
-      .selectAll(".label-text")
-      .data(props.lineData)
-        .join("text")
-        .style("transform", "scale(1, 1)")
-        .text((line) => props.genderMap[line.name])
-        .attr("x", (line, index) => xScale(25))
-        .attr("y", (line, index) => yScale((index+1)*1.5))
-        .attr("fill", (line) => colorScale(line.name))
+      svg
+        .selectAll(".dots")
+        .data(props.lineData)
+        .join("g")
+        .style("fill", (line) => colorScale(line.name))
+        .attr("class", "scatter-group")
+          .selectAll(".points")
+          .data((line) => line.values)
+          .join("circle")
+          .attr("class", "circle")
+          .attr("r", 4) 
+          .attr("cx", (dp) => xScale(dp.year))
+          .attr("cy", (dp) => yScale(dp.value))
+          .append("title")
+            .text((dp) => `
+              Value: ${dp.value}, 
+              Year: ${dp.year}
+            `)
+        
+      svg
+        .selectAll(".legend")
+        .data(props.lineData)
+        .join("circle")
+          .attr("class","circle")
+          .style("transform", "scale(1, -1)")
+          .attr("r", 6)
+          .attr("cx", (line, index) => xScale(-1))
+          .attr("cy", (line, index) => -yScale((index+1)*1.5))
+          .attr("fill", (line) => colorScale(line.name))
 
-    const zoomBehavior = zoom()
-      .scaleExtent([0.5, 5])
-      .translateExtent([
-        [0, 0],
-        [dimensions.width, dimensions.height]
-      ])
-      .on("zoom", () => {
-        const zoomState = zoomTransform(svg.node())
-        setCurrentZoomState(zoomState)
-      })
-    
-    svg
-      .call(zoomBehavior)
+      svg
+        .selectAll(".legend")
+        .data(props.lineData)
+          .join("text")
+          .style("transform", "scale(1, 1)")
+          .text((line) => props.genderMap[line.name])
+          .attr("x", (line, index) => xScale(25))
+          .attr("y", (line, index) => yScale((index+1)*1.5))
+          .attr("fill", (line) => colorScale(line.name))
 
+      const zoomBehavior = zoom()
+        .scaleExtent([0.5, 5])
+        .translateExtent([
+          [0, 0],
+          [dimensions.width, dimensions.height]
+        ])
+        .on("zoom", () => {
+          const zoomState = zoomTransform(svg.node())
+          setCurrentZoomState(zoomState)
+        })
+      
+      // svg
+      //   .call(zoomBehavior)
+    }
   }, [currentZoomState, props, dimensions])
 
   return (

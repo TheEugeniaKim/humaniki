@@ -9,7 +9,7 @@ import paginationFactory from 'react-bootstrap-table2-paginator'
 
 
 function GenderByDOBView(){
-  const [genderMap,setGenderMap] = useState(null)
+  const [genderMap,setGenderMap] = useState({})
   const [lineData, setLineData] = useState([])
   const [tableMetaData, setTableMetaData] = useState({})
   const [tableColumns, setTableColumns] = useState([])
