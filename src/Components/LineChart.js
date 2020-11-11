@@ -45,6 +45,7 @@ function LineChart(props){
       }
       
       const svg = select(svgRef.current)
+      const legend = select(".legend")
       const genderLineMaximums = props.lineData.map(genderLine => 
         Math.max(...genderLine.values.map(tuple => tuple.value))
       )
@@ -107,12 +108,12 @@ function LineChart(props){
         .style("fill", "none")
 
       svg
-        .selectAll(".dots")
+        .selectAll(".scatter-group")
         .data(props.lineData)
         .join("g")
         .style("fill", (line) => colorScale(line.name))
         .attr("class", "scatter-group")
-          .selectAll(".points")
+          .selectAll(".scatter-group")
           .data((line) => line.values)
           .join("circle")
           .attr("class", "circle")
@@ -125,21 +126,22 @@ function LineChart(props){
               Year: ${dp.year}
             `)
         
-      svg
+      legend
         .selectAll(".legend")
         .data(props.lineData)
         .join("circle")
-          .attr("class","circle")
+          .attr("class","legend")
           .style("transform", "scale(1, 1)")
           .attr("r", 6)
           .attr("cx", 32)
           .attr("cy", (line, index) => (index+1)*20 + 19)
           .attr("fill", (line) => colorScale(line.name))
 
-      svg
-        .selectAll(".legend")
+      legend
+        .selectAll(".text-legend")
         .data(props.lineData)
           .join("text")
+          .attr("class","text-legend")
           .style("transform", "scale(1, 1)")
           .text((line) => props.genderMap[line.name])
           .attr("x", 40)
@@ -157,8 +159,8 @@ function LineChart(props){
           setCurrentZoomState(zoomState)
         })
       
-      // svg
-      //   .call(zoomBehavior)
+      svg
+        .call(zoomBehavior)
     }
   }, [currentZoomState, props, dimensions])
 
