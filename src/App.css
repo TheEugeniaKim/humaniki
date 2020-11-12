@@ -16,7 +16,7 @@
   height: 70vh;
   border: 1px solid;
   margin: 2rem;
-  overflow: visible;
+  /* overflow: visible; */
 }
 
 .button-svg {
@@ -26,14 +26,14 @@
 }
 
 svg {
-  overflow: visible;
+  /* overflow: visible; */
   width: 100%;
   height: 100%;
   z-index: -40;
 }
 
 .svg {
-  overflow: visible;
+  /* overflow: visible; */
   background-color: #C4C4C4;
 }
 
