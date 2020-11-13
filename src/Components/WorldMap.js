@@ -38,14 +38,14 @@ function WorldMap1({ mapData, property }) {
         .attr("class", "country")
         .attr("fill", feature => colorScale(feature.properties[property]))
         .attr("d", feature => pathGenerator(feature))
-      .append("title")
-        .text(feature => 
-          `${feature.properties.name} 
-          men: ${feature.properties.men ? feature.properties.men : 0}
-          women: ${feature.properties.women ? feature.properties.women : 0}
-          percent men (%): ${feature.properties.menPercent ? feature.properties.menPercent : 0}%
-          percent women (%): ${feature.properties.womenPercent ? feature.properties.womenPercent : 0}%
-        `)
+        .append("title")
+          .text(feature => 
+            `${feature.properties.name} 
+            men: ${feature.properties.men ? feature.properties.men : 0}
+            women: ${feature.properties.women ? feature.properties.women : 0}
+            percent men (%): ${feature.properties.menPercent ? feature.properties.menPercent : 0}%
+            percent women (%): ${feature.properties.womenPercent ? feature.properties.womenPercent : 0}%`
+          )
       
       svg.call(zoom().on("zoom", (event) => {
         g.attr('transform', event.transform)

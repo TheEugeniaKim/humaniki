@@ -29,12 +29,10 @@ function LineChart(props){
   // Object.keys(obj).length === 0 && obj.constructor === Object
 
   useEffect(() => {
-    console.log("Before If", dimensions, props.lineData, props.genderMap, props.extrema)
     if ( props.lineData.length === 0 || Object.keys(props.genderMap).length === 0 || Object.keys(props.extrema).length === 0 || !dimensions ) {
-      console.log("not entering")
       return
     } else {
-      console.log("Entering/calling use effect")
+      console.log("Entering/calling use effect", props.lineData, props.genderMap, props.extrema)
       const genderNums = props.genderMap ? Object.keys(props.genderMap).map(str => parseInt(str)) : []
       props.lineData.forEach(genderLine => sortGenderLine(genderLine))
 
@@ -113,10 +111,10 @@ function LineChart(props){
         .join("g")
         .style("fill", (line) => colorScale(line.name))
         .attr("class", "scatter-group")
-          .selectAll(".scatter-group")
+          .selectAll(".dp-circle")
           .data((line) => line.values)
           .join("circle")
-          .attr("class", "circle")
+          .attr("class", "dp-circle")
           .attr("r", 4) 
           .attr("cx", (dp) => xScale(dp.year))
           .attr("cy", (dp) => yScale(dp.value))

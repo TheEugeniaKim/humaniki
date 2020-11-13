@@ -165,8 +165,6 @@ function GenderByDOBView(){
               value="gender-by-dod"
             />
           </ToggleButtonGroup>
-
-
           <ToggleButtonGroup type="checkbox" name="gender-selection" defaultValue={"female"} onChange={handleChange}>
             <Form.Check
               type="checkbox"
@@ -189,17 +187,14 @@ function GenderByDOBView(){
           </ToggleButtonGroup>
 
         </div>
-        <br />
-        
+        <br /> 
         <LineChart 
           lineData={lineData} 
           graphGenders={graphGenders}
           extrema={tableMetaData} 
           genderMap={genderMap}
         />
-
         <br />
-
         <div className="table-container">
           {
             tableColumns.length === 0 ? null :
@@ -213,10 +208,7 @@ function GenderByDOBView(){
             />
           }
         </div>
-
       </div>      
-
-
     </div>
   )
 }
