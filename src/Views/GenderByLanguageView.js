@@ -34,6 +34,10 @@ function GenderByLanguageView(){
       totalMin: Number.POSITIVE_INFINITY
     }
 
+    function percentFormatter(cell,row){
+      return cell.toFixed(3)
+    }
+
     columns.push({dataField: "language", text: "Language", filter: textFilter()})
     columns.push({dataField: "total",text: "Total",sort: true})
     for (let genderId in data.meta.bias_labels) {
@@ -45,7 +49,8 @@ function GenderByLanguageView(){
       let objPercent = {
         dataField: data.meta.bias_labels[genderId] + "Percent",
         text: data.meta.bias_labels[genderId] + " Percent",
-        sort: true
+        sort: true,
+        formatter: percentFormatter
       }
       obj.label = data.meta.bias_labels[genderId]
       columns.push(obj)

@@ -36,6 +36,10 @@ function GenderByCountryView(props){
     }
   }
 
+  function percentFormatter(cell, row){
+    return cell.toFixed(3)
+  }
+
   function fetchData() {
     // fetch(`http://localhost:3000/v1/${selectedWikipediaHumanType}/gender/aggregated/2020-09-15/geography/${selectBirthVsCitizenship}.json`)
     // fetch('http://localhost:3000/v1/all-wikidata/gender/aggregated/2020-09-15/geography/citizenship.json')
@@ -47,7 +51,6 @@ function GenderByCountryView(props){
       })
   }
 
-  
   function processAPIData(fetchData){
     let arr = []
     const countryData = []
@@ -92,7 +95,8 @@ function GenderByCountryView(props){
   }, {
     dataField: "womenPercent",
     text: "Women (%)",
-    sort: true
+    sort: true,
+    formatter: percentFormatter
   }, {
     dataField: "men",
     text: "Men",
@@ -100,7 +104,8 @@ function GenderByCountryView(props){
   }, {
     dataField: "menPercent",
     text: "Men (%)",
-    sort: true
+    sort: true,
+    formatter: percentFormatter
   }]
 
   useEffect(() => {

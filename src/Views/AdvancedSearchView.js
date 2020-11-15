@@ -80,8 +80,11 @@ function AdvancedSearchView(){
     console.log(newResult);
     console.log(newFilters);
   }
-  const tableArr = []
-  
+
+  function percentFormatter(cell, row){
+    return cell.toFixed(3)
+  }
+
   const columns = []
   function processFetchData(data){
     let tableArr = []
@@ -90,11 +93,14 @@ function AdvancedSearchView(){
     //create columns
     columns.push({dataField: "index", text: "Index", sort: true})
     columns.push({dataField: "total", text: "Total", sort: true})
-    columns.push({dataField: "gap", text: "Gap", sort: true})
+    columns.push({dataField: "gap", text: "Gap", sort: true, style: {
+      width: '40px',
+      overflow: 'visible'
+    }})
     columns.push({dataField: "women", text: "women", sort:true})
-    columns.push({dataField: "womenPercent", text: "Women Percent", sort:true})
+    columns.push({dataField: "womenPercent", text: "Women Percent", sort:true, formatter: percentFormatter})
     columns.push({dataField: "men", text: "men", sort:true})
-    columns.push({dataField: "menPercent", text: "men Percent", sort:true})
+    columns.push({dataField: "menPercent", text: "men Percent", sort:true, formatter: percentFormatter})
     for (let genderId in data.meta.bias_labels) {
       console.log("GenderID", genderId)
       if (genderId !== "6581072" && genderId !== "6581097") {
@@ -106,7 +112,8 @@ function AdvancedSearchView(){
         let objPercent = {
           dataField: data.meta.bias_labels[genderId] + "Percent",
           text: data.meta.bias_labels[genderId] + " Percent",
-          sort: true
+          sort: true,
+          formatter: percentFormatter
         }
         obj.label = data.meta.bias_labels[genderId]
         columns.push(obj)
@@ -178,6 +185,7 @@ function AdvancedSearchView(){
         columns={ tableColumns } 
         filter={ filterFactory({ afterFilter }) } 
         pagination={ paginationFactory(10) }
+        noDataIndication="Table is Empty" 
       />
       
     </Container>
