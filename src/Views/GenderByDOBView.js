@@ -115,6 +115,7 @@ function GenderByDOBView(){
     setGraphGenders(graphLabels)
     setTableMetaData(extrema)
     setLineData(lineData)
+    console.log("tableArr", tableArr)
     setTableArr(tableArr)
     setTableColumns(columns)
     return true 

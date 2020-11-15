@@ -50,12 +50,9 @@ function GenderByCountryView(props){
   
   function processAPIData(fetchData){
     let arr = []
-    const labelArrObj = {}
-    const columns = []
     const countryData = []
     data.features.forEach(country => {
       fetchData.metrics.forEach((fetchObj, index) => {
-        let key = Object.keys(fetchObj)[0]
         if (country["properties"]["iso_a2"] === fetchObj["item_label"]["iso_3166"]) {          
           country.properties.total = Object.values(fetchObj.values).reduce((a, b) => a + b)
           country.properties.women = fetchObj.values["6581072"] ? fetchObj.values["6581072"] : 0
@@ -188,7 +185,6 @@ function GenderByCountryView(props){
       </div>      
 
       <WorldMap 
-        style="width: 600px;"
         mapData={mapData}
         property={property}
       />

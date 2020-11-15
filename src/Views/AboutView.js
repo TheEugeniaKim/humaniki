@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { select, scaleLinear} from 'd3'
 import "../App.css"
 
-function AboutPage(){
+function AboutView(){
   const svgRef = useRef()
   const [totalMen, setTotalMen] = useState(800)
   const [totalWomen, setTotalWomen] = useState(183)
@@ -61,4 +61,4 @@ function AboutPage(){
   )
 }
 
-export default AboutPage 
+export default AboutView 

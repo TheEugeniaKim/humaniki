@@ -81,3 +81,8 @@ svg {
 .scatter-plot-container{
   display: flexbox;
 }
+
+.dropdown {
+  height: 170px;
+  overflow-y: scroll;
+}

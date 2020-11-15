@@ -1,27 +1,79 @@
 import React, {useState, useEffect} from 'react'
-import {Row, Dropdown, DropdownButton, Button} from 'react-bootstrap'
+import {Container, Row, Dropdown, DropdownButton, Button} from 'react-bootstrap'
 import BootstrapTable from 'react-bootstrap-table-next'
 import 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css'
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter'
 import paginationFactory from 'react-bootstrap-table2-paginator'
 import { ToggleButtonGroup, ToggleButton, Form } from 'react-bootstrap'
 import RadialBarChart from '../Components/RadialBarChartButton'
-
+import AdvacnedSearchForm from '../Components/AdvancedSearchForm'
+import SingleBarChart from '../Components/SingleBarChart'
 
 function AdvancedSearchView(){
-  const [selectedWikipediaHumanType, setSelectedWikipediaHumanType] = useState("all")
+  const [selectedWikipediaHumanType, setSelectedWikipediaHumanType] = useState("all_wikidata")
+  const [formState, setFormState] = useState({})
+  const [url, seturl] = useState("")
+  const [tableColumns, setTableColumns] = useState([{dataField: "index", text: "Index", sort: true}])
+  const [tableData, setTableData] = useState([])
 
-  function onSelectCapture(e) {
-    console.log("caputre", e)
+  const [selectedSnapshot, setSelectedSnapshot] = useState("Enter Date - Latest")
+  const [selectedYear, setSelectedYear] = useState("Enter Date - Latest")
+  const [selectedWikiProject, setSelectedWikiProject] = useState(null)
+  const [selectedCitizenship, setSelectedCitizenship] = useState(null)
+
+  function onSubmit(e){
+    e.preventDefault()
+    console.log("hello", selectedSnapshot, selectedCitizenship, selectedWikiProject, selectedYear )
+    let formState = {}
+    if (selectedSnapshot !== "Enter Date - Latest"){
+      formState.snapshot = selectedSnapshot
+    }
+
+    if (selectedYear !== "Enter Date - Latest"){
+      formState.year = selectedYear
+    }
+    
+    if (selectedWikiProject !== "Wikimedia Project - Any"){
+      formState.wikiProject = selectedWikiProject 
+    }
+    
+    if (selectedCitizenship !== "Citizenship - Any"){
+      formState.citizenship = selectedCitizenship
+    }
+    setFormState(formState)
+    setFetchURL(formState)
   }
+
+  function setFetchURL(formState){
+    // let url = `http://localhost:5000/v1/gender/gap/${formState.snapshot ? formState.snapshot : "latest"}/${selectedWikipediaHumanType}/properties?`
+    // let url = `https://humaniki-staging.wmflabs.org/api/v1/gender/gap/${formState.snapshot ? formState.snapshot : "latest"}/${selectedWikipediaHumanType}/properties?`
+    let url = `http://127.0.0.1:5000/v1/gender/gap/${formState.snapshot ? formState.snapshot : "latest"}/${selectedWikipediaHumanType}/properties?`
+    console.log("formState", url, formState)
+    if (formState.year) {
+      url = url + `&date_of_birth=${formState.year}`
+    }
+
+    if (formState.wikiProject) {
+      url = url + `&project=${formState.wikiProject}`
+    }
+
+    if (formState.citizenship) {
+      url = url + `&citizenship=${formState.citizenship}`
+    }
+    
+    if (formState.year || formState.wikiProject || formState.citizenship) {
+      url = url + "&label_lang=en"
+    }
+    console.log("URL", url)
+    return seturl(url) 
+  }
+
   function handleHumanChange(event){
     if (event === "all") {
       setSelectedWikipediaHumanType("all-wikidata")
     } else if (event === "at-least-one") {
-      setSelectedWikipediaHumanType("at-least-one")
-    } else if (event === "more-than-one") {
-      setSelectedWikipediaHumanType("more-than-one")
-    }
+      setSelectedWikipediaHumanType("gte_one_sitelink")
+    } 
   }
 
   function afterFilter(newResult, newFilters) {
@@ -29,108 +81,106 @@ function AdvancedSearchView(){
     console.log(newFilters);
   }
   const tableArr = []
+  
+  const columns = []
+  function processFetchData(data){
+    let tableArr = []
+    console.log("processing fetch data", data.metrics, data.meta, data.metrics.item)
 
-  const columns = [{
-      dataField: "total", 
-      text: "Total", 
-      filter: textFilter()
-    },{
-      dataField: "totalWithGender", 
-      text: "Total With Gender", 
-      filter: textFilter()
-    }, {
-      dataField: "women", 
-      text: "Women", 
-      filter: textFilter()
-    }, { 
-      dataField: "womenPercent", 
-      text: "Women Percent", 
-      filter: textFilter()
-    }, {
-      dataField: "gap", 
-      text: "Gap", 
-      filter: textFilter()
-    }, {
-      dataField: "men", 
-      text: "Men", 
-      filter: textFilter()
-    }, {
-      dataField: "menPercent", 
-      text: "Men Percent", 
-      filter: textFilter()
+    //create columns
+    columns.push({dataField: "index", text: "Index", sort: true})
+    columns.push({dataField: "total", text: "Total", sort: true})
+    columns.push({dataField: "gap", text: "Gap", sort: true})
+    columns.push({dataField: "women", text: "women", sort:true})
+    columns.push({dataField: "womenPercent", text: "Women Percent", sort:true})
+    columns.push({dataField: "men", text: "men", sort:true})
+    columns.push({dataField: "menPercent", text: "men Percent", sort:true})
+    for (let genderId in data.meta.bias_labels) {
+      console.log("GenderID", genderId)
+      if (genderId !== "6581072" && genderId !== "6581097") {
+        let obj = {
+          dataField: data.meta.bias_labels[genderId],
+          text: data.meta.bias_labels[genderId],
+          sort: true
+        }
+        let objPercent = {
+          dataField: data.meta.bias_labels[genderId] + "Percent",
+          text: data.meta.bias_labels[genderId] + " Percent",
+          sort: true
+        }
+        obj.label = data.meta.bias_labels[genderId]
+        columns.push(obj)
+        columns.push(objPercent)
+      }
     }
+    
+    // configure data 
+    data.metrics.forEach((obj, index) => {
+      let tableObj = {}
 
-  ]
+      tableObj.key = index
+      tableObj.index = Object.values(obj["item_label"]).join()
+      tableObj.total = Object.values(obj.values).reduce((a, b) => a + b)
+      tableObj.men = 0 
+      tableObj.menPercent = 0 
+      tableObj.women = 0 
+      tableObj.womenPercent = 0
+      Object.keys(obj.values).forEach(value => {
+        let label = data.meta.bias_labels[value]
+        tableObj[label] = obj["values"][value.toString()]
+        tableObj[label + "Percent"] = obj["values"][value.toString()]/tableObj["total"]*100
+      })
+      tableObj.gap = <SingleBarChart genderTotals={[tableObj.men, tableObj.women]} />
+      tableArr.push(tableObj)
+    })
+
+    setTableColumns(columns)
+    setTableData(tableArr)
+  }
 
   useEffect(() => {
-    fetch("https://humaniki-staging.wmflabs.org/api/v1/gender/gap/latest/gte_one_sitelink/properties?project=all")
+    fetch(url)
       .then(response => response.json())
-      .then(data => console.log(data))
-  }, [])
+      .then(data => processFetchData(data))
+  }, [url])
+
   return (
-    <div>
+    <Container>
       <h1>Advanced Search</h1>
 
-      <div className="human-div">
+      <div className="human-div" >
         <h6>Different Wikipedia Categories of Humans</h6>
         <ToggleButtonGroup type="radio" name="human-type" defaultValue={"all"} onChange={handleHumanChange}>
-            <ToggleButton value={"all"} name="all" size="lg" variant="outline-dark">All Humans on Wikidata</ToggleButton>
-            <ToggleButton value={"at-least-one"} name="at-least-one" size="lg" variant="outline-dark">Humans With Atleast One Wikipedia Article</ToggleButton>
-            <ToggleButton value={"more-than-one"} name="at-least-one" size="lg" variant="outline-dark">Humans With More Than One Wikipedia Article</ToggleButton>
-          </ToggleButtonGroup>
+          <ToggleButton value={"all"} name="all" size="lg" variant="outline-dark">All Humans on Wikidata</ToggleButton>
+          <ToggleButton value={"at-least-one"} name="at-least-one" size="lg" variant="outline-dark">Humans With Atleast One Site Link</ToggleButton>
+        </ToggleButtonGroup>
       </div>
 
       <div className="input-area">
-        <Row>
-          <Form>
-          <Form.Group controlId="formBasicEmail">
-            <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" />
-            <Form.Text className="text-muted">
-              We'll never share your email with anyone else.
-            </Form.Text>
-          </Form.Group>
+        <AdvacnedSearchForm
+          onSubmit={onSubmit}
+          selectedSnapshot={selectedSnapshot}
+          setSelectedSnapshot={setSelectedSnapshot}
+          selectedYear={selectedYear}
+          setSelectedYear={setSelectedYear}
+          selectedCitizenship={selectedCitizenship}
+          setSelectedCitizenship={setSelectedCitizenship}
+          selectedWikiProject={selectedWikiProject}
+          setSelectedWikiProject={setSelectedWikiProject}
+        />
 
-          <Form.Group controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="Password" />
-          </Form.Group>
-          <Form.Group controlId="formBasicCheckbox">
-            <Form.Check type="checkbox" label="Check me out" />
-          </Form.Group>
-          <Button variant="primary" type="submit">
-            Submit
-          </Button>
-          </Form>
-          <DropdownButton title="Select Wiki Project" onSelect={onSelectCapture}>
-            <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-            <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-            <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-          </DropdownButton>
-
-          <DropdownButton id="Select Year of Birth" title="Dropdown button">
-            <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-            <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-            <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-          </DropdownButton>
-
-          <DropdownButton id="Select Country" title="Dropdown button">
-            <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-            <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-            <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-          </DropdownButton>
-        </Row>
       </div>
+      <SingleBarChart />
 
       <BootstrapTable 
         keyField='total' 
-        data={ tableArr } 
-        columns={ columns } 
+        data={ tableData } 
+        columns={ tableColumns } 
         filter={ filterFactory({ afterFilter }) } 
         pagination={ paginationFactory(10) }
       />
       
-    </div>
+    </Container>
   )
 }
 
