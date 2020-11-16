@@ -11,8 +11,7 @@ function WorldMap1({ mapData, property }) {
   // will be called initially and on every data change
   useEffect(() => {
     const svg = select(svgRef.current);
-      const g = svg.append('g');
-
+    const g = svg.select(".countries")
       
       const {width, height} = dimensions || wrapperRef.current.getBoundingClientRect() ;
       const projection = geoMercator().fitSize([width,height], mapData);
@@ -32,10 +31,10 @@ function WorldMap1({ mapData, property }) {
         .selectAll(".country")
         .data(mapData.features)
         .join("path")
+        .attr("class", "country")
         .on("click", feature => {
           setSelectedCountry(selectedCountry === feature ? null : feature);
         })
-        .attr("class", "country")
         .attr("fill", feature => colorScale(feature.properties[property]))
         .attr("d", feature => pathGenerator(feature))
         .append("title")
@@ -57,7 +56,9 @@ function WorldMap1({ mapData, property }) {
 
   return (
     <div ref={wrapperRef} style={{ marginBottom: "2rem" }}>
-      <svg className="world-map"ref={svgRef}></svg>
+      <svg className="world-map"ref={svgRef}>
+        <g className="countries"></g>
+      </svg>
     </div>
   );
 }

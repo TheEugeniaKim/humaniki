@@ -43,7 +43,9 @@ function GenderByCountryView(props){
   function fetchData() {
     // fetch(`http://localhost:3000/v1/${selectedWikipediaHumanType}/gender/aggregated/2020-09-15/geography/${selectBirthVsCitizenship}.json`)
     // fetch('http://localhost:3000/v1/all-wikidata/gender/aggregated/2020-09-15/geography/citizenship.json')
-    fetch("http://127.0.0.1:5000/v1/gender/gap/latest/gte_one_sitelink/properties?citizenship=all")
+    let baseURL = process.env.REACT_APP_API_URL
+    let url = baseURL + "v1/gender/gap/latest/gte_one_sitelink/properties?citizenship=all"
+    fetch(url)
       .then(response => response.json())
       .then(fetchData => {
         setAPIData(fetchData)

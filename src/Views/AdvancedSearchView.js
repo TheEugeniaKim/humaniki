@@ -46,7 +46,10 @@ function AdvancedSearchView(){
   function setFetchURL(formState){
     // let url = `http://localhost:5000/v1/gender/gap/${formState.snapshot ? formState.snapshot : "latest"}/${selectedWikipediaHumanType}/properties?`
     // let url = `https://humaniki-staging.wmflabs.org/api/v1/gender/gap/${formState.snapshot ? formState.snapshot : "latest"}/${selectedWikipediaHumanType}/properties?`
-    let url = `http://127.0.0.1:5000/v1/gender/gap/${formState.snapshot ? formState.snapshot : "latest"}/${selectedWikipediaHumanType}/properties?`
+    // let baseURL = "http://127.0.0.1:5000/v1/gender/gap/"
+
+    let baseURL = process.env.REACT_APP_API_URL
+    let url = `${baseURL}v1/gender/gap/${formState.snapshot ? formState.snapshot : "latest"}/${selectedWikipediaHumanType}/properties?`
     if (formState.year) {
       url = url + `&date_of_birth=${formState.year}`
     }

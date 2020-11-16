@@ -124,7 +124,9 @@ function GenderByDOBView(){
   }
 
   useEffect(() => {
-    fetch('http://127.0.0.1:5000/v1/gender/gap/latest/gte_one_sitelink/properties?date_of_birth=all&label_lang=en')
+    let baseURL = process.env.REACT_APP_API_URL
+    let url = baseURL + "v1/gender/gap/latest/gte_one_sitelink/properties?date_of_birth=all&label_lang=en"
+    fetch(url)
       .then(response => response.json())
       .then(data => processData(data))
   }, [])

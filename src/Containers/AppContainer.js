@@ -18,8 +18,7 @@ function AppContainer() {
       {navBar === "gender-by-country" ? <GenderByCountryView /> : null}
       {navBar === "gender-by-DOB" ? <GenderByDOBView /> : null}  
       {navBar === "language" ? <GenderByLanguageView /> : null}  
-      <br />
-      <Footer />
+      <Footer className="fixed-bottom" />
     </div>
   );
 }

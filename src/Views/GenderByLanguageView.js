@@ -18,7 +18,10 @@ function GenderByLanguageView(){
   const [tableColumns, setTableColumns] = useState([])
 
   function fetchData(){
-    fetch('http://127.0.0.1:5000/v1/gender/gap/latest/all_wikidata/properties?project=all&label_lang=en') 
+    let baseURL = process.env.REACT_APP_API_URL
+    let url = baseURL + 'v1/gender/gap/latest/all_wikidata/properties?project=all&label_lang=en'
+    console.log("BASE URL", baseURL)
+    fetch(url) 
       .then(response => response.json())
       .then(data => processData(data))
   }
