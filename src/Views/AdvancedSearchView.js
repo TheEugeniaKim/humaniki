@@ -23,7 +23,6 @@ function AdvancedSearchView(){
 
   function onSubmit(e){
     e.preventDefault()
-    console.log("hello", selectedSnapshot, selectedCitizenship, selectedWikiProject, selectedYear )
     let formState = {}
     if (selectedSnapshot !== "Enter Date - Latest"){
       formState.snapshot = selectedSnapshot
@@ -48,7 +47,6 @@ function AdvancedSearchView(){
     // let url = `http://localhost:5000/v1/gender/gap/${formState.snapshot ? formState.snapshot : "latest"}/${selectedWikipediaHumanType}/properties?`
     // let url = `https://humaniki-staging.wmflabs.org/api/v1/gender/gap/${formState.snapshot ? formState.snapshot : "latest"}/${selectedWikipediaHumanType}/properties?`
     let url = `http://127.0.0.1:5000/v1/gender/gap/${formState.snapshot ? formState.snapshot : "latest"}/${selectedWikipediaHumanType}/properties?`
-    console.log("formState", url, formState)
     if (formState.year) {
       url = url + `&date_of_birth=${formState.year}`
     }
@@ -64,7 +62,6 @@ function AdvancedSearchView(){
     if (formState.year || formState.wikiProject || formState.citizenship) {
       url = url + "&label_lang=en"
     }
-    console.log("URL", url)
     return seturl(url) 
   }
 
@@ -88,8 +85,6 @@ function AdvancedSearchView(){
   const columns = []
   function processFetchData(data){
     let tableArr = []
-    console.log("processing fetch data", data.metrics, data.meta, data.metrics.item)
-
     //create columns
     columns.push({dataField: "index", text: "Index", sort: true})
     columns.push({dataField: "total", text: "Total", sort: true})
@@ -102,7 +97,6 @@ function AdvancedSearchView(){
     columns.push({dataField: "men", text: "men", sort:true})
     columns.push({dataField: "menPercent", text: "men Percent", sort:true, formatter: percentFormatter})
     for (let genderId in data.meta.bias_labels) {
-      console.log("GenderID", genderId)
       if (genderId !== "6581072" && genderId !== "6581097") {
         let obj = {
           dataField: data.meta.bias_labels[genderId],
@@ -124,7 +118,6 @@ function AdvancedSearchView(){
     // configure data 
     data.metrics.forEach((obj, index) => {
       let tableObj = {}
-
       tableObj.key = index
       tableObj.index = Object.values(obj["item_label"]).join()
       tableObj.total = Object.values(obj.values).reduce((a, b) => a + b)
@@ -137,7 +130,13 @@ function AdvancedSearchView(){
         tableObj[label] = obj["values"][value.toString()]
         tableObj[label + "Percent"] = obj["values"][value.toString()]/tableObj["total"]*100
       })
-      tableObj.gap = <SingleBarChart genderTotals={[tableObj.men, tableObj.women]} />
+      let genderTotalsArr = []
+      console.log("HELLO", tableObj)
+      
+      console.log("HERE",Object.values(data.meta.bias_labels).map(gender => gender + "Percent"))
+      Object.values(data.meta.bias_labels).map(gender => gender + "Percent").map(g => genderTotalsArr.push(tableObj[g]))
+      console.log("gender total arr", genderTotalsArr)
+      tableObj.gap = <SingleBarChart genderTotals={genderTotalsArr} />
       tableArr.push(tableObj)
     })
 
