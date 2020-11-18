@@ -32,7 +32,6 @@ function LineChart(props){
     if ( props.lineData.length === 0 || Object.keys(props.genderMap).length === 0 || Object.keys(props.extrema).length === 0 || !dimensions ) {
       return
     } else {
-      console.log("Entering/calling use effect", props.lineData, props.genderMap, props.extrema)
       const genderNums = props.genderMap ? Object.keys(props.genderMap).map(str => parseInt(str)) : []
       props.lineData.forEach(genderLine => sortGenderLine(genderLine))
 

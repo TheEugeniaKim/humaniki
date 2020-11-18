@@ -15,6 +15,8 @@ function GenderByDOBView(){
   const [tableColumns, setTableColumns] = useState([])
   const [tableArr, setTableArr] = useState([])
   const [graphGenders, setGraphGenders] = useState({})
+  const [filterRange, setFilterRange] = useState({})
+  const [yearFilterRange, setYearFilterRange] = useState([])
   function afterFilter(newResult, newFilters) {
     console.log(newResult);
     console.log(newFilters);
@@ -190,7 +192,13 @@ function GenderByDOBView(){
               value="non-binary"
             />
           </ToggleButtonGroup>
-
+          <InputGroup className="mb-3" size="sm" controlId="years">
+            <InputGroup.Prepend>
+              <InputGroup.Text>Year Range:</InputGroup.Text>
+            </InputGroup.Prepend>
+            <FormControl type="text" placeholder="Year Start" />
+            <FormControl type="text" placeholder="Year End" />
+          </InputGroup>
         </div>
         <br /> 
         <LineChart 
