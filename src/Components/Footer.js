@@ -3,7 +3,7 @@ import  {Navbar, Nav}  from 'react-bootstrap'
 
 function Footer(){
   return (
-    <Navbar sticky="bottom" className="Footer">
+    <Navbar fixed="bottom" className="Footer">
       Powered by a grant funded by the Wikimedia Foundation 
     </Navbar>
   )
