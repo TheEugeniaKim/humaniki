@@ -155,7 +155,7 @@ function AdvancedSearchView(){
   }, [url])
 
   return (
-    <Container>
+    <div>
       <h1>Advanced Search</h1>
 
       <div className="human-div" >
@@ -193,7 +193,7 @@ function AdvancedSearchView(){
         noDataIndication="Table is Empty" 
       />
       
-    </Container>
+    </div>
   )
 }
 

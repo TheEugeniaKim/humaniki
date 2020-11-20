@@ -34,7 +34,7 @@ function AboutView(){
   }, [totalMen, totalOthers, totalWomen])
 
   return (
-    <Container className="About">
+    <div className="About">
       <div className="About-Content">
         <h1>Explore Gender Diversity on Wikipedia Biographies with humaniki </h1>
         <h3>
@@ -58,7 +58,7 @@ function AboutView(){
         with Humaniki and learn how you can contribute to bridge this gap. Compare gender 
         diversity across Wikipedia language editions, gender by country, and date of birth. 
       </p>
-    </Container>
+    </div>
   )
 }
 

@@ -6,12 +6,13 @@ import AdvancedSearchView from '../Views/AdvancedSearchView'
 import GenderByCountryView from '../Views/GenderByCountryView'
 import GenderByDOBView from '../Views/GenderByDOBView'
 import GenderByLanguageView from '../Views/GenderByLanguageView'
+import { Container } from 'react-bootstrap'
 
 function AppContainer() {
   const [navBar, setNavBar] = useState("about")
 
   return (
-    <div className="App">
+    <div className="App" fluid>
       <NavBarComponent setNavBar={setNavBar} />
       {navBar === "about" ? <AboutView /> : null}
       {navBar === "advanced-search" ? <AdvancedSearchView /> : null}
