@@ -17,7 +17,7 @@ function GenderByCountryView(props){
   const [apiData, setAPIData] = useState([])
   const [mapData, setMapData] = useState(null)
   const [tableArr, setTableArr] = useState([])
-  const [snapshot, setSnapshot] = useState("snapshot - latest")
+  const [snapshot, setSnapshot] = useState("snapshot - latest YYYYMMDD")
 
   function handleSnapshot(e){
     console.log(e.target.value)

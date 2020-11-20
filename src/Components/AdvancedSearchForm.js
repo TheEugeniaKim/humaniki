@@ -7,7 +7,6 @@ import allWikiCountries from '../allWikiCountries.json'
 function AdvacnedSearchForm(props){
 
   function onChangeTimestamp(e){
-    console.log(e.target.value)
     props.setSelectedSnapshot(e.target.value)
   }
   
@@ -16,7 +15,6 @@ function AdvacnedSearchForm(props){
   }
 
   function onSelectProject(eventKey, event){
-    console.log(eventKey, event, event.target.value)
     props.setSelectedWikiProject(eventKey)
   }
 
@@ -24,11 +22,16 @@ function AdvacnedSearchForm(props){
     props.setSelectedCitizenship(e)
   }
 
+  function onSelectOccupation(eventKey, event){
+    props.setSelectedOccupation(eventKey)
+  }
+
   function onClickReset(e){
     props.setSelectedSnapshot("Enter Date-Latest")
     props.setSelectedYear("Enter Date - Latest")
     props.setSelectedWikiProject(null)
     props.setSelectedCitizenship(null)
+    props.setSelectedOccupation(null)
   }
 
   function lookupWikiProjectSelection(wikiCode){
@@ -42,6 +45,7 @@ function AdvacnedSearchForm(props){
 
   const wikiCitizenshipDropdownTitle = props.selectedCitizenship == null ? "Citizenship - Any" : lookupWikiCitizenshipSelection(props.selectedCitizenship)
 
+  const occupationDropdownTitle = props.selectedOccupation == null ? "Ocupation - Any" : "insert options data"
   return(
     <Form onSubmit={props.onSubmit}>
       <Row>
@@ -72,6 +76,16 @@ function AdvacnedSearchForm(props){
         >
           <DropdownComponent options={allWikiCountries} />
         </DropdownButton>
+        <DropdownButton 
+          id="selectedOccupation" 
+          title={occupationDropdownTitle} 
+          className="dropdown" 
+          onSelect={onSelectOccupation}
+        >
+          <DropdownComponent options={["options here"]} />
+        </DropdownButton>
+      </Row>
+      <Row>
 
         <Button variant="primary" type="submit">
           Submit

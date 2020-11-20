@@ -15,7 +15,7 @@ function GenderByDOBView(){
   const [tableColumns, setTableColumns] = useState([])
   const [tableArr, setTableArr] = useState([])
   const [graphGenders, setGraphGenders] = useState({})
-  const [snapshot, setSnapshot] = useState("Snapshot - latest")
+  const [snapshot, setSnapshot] = useState("Snapshot - Latest YYYYMMDD")
   const [yearFilterRange, setYearFilterRange] = useState({yearStart: "Enter Year Start", yearEnd: "Enter Year End"})
   function afterFilter(newResult, newFilters) {
     console.log(newResult);

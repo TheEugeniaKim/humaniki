@@ -20,6 +20,7 @@ function AdvancedSearchView(){
   const [selectedYear, setSelectedYear] = useState("Enter Date - Latest")
   const [selectedWikiProject, setSelectedWikiProject] = useState(null)
   const [selectedCitizenship, setSelectedCitizenship] = useState(null)
+  const [selectedOccupation, setSelectedOccupation] = useState(null)
 
   function onSubmit(e){
     e.preventDefault()
@@ -176,6 +177,8 @@ function AdvancedSearchView(){
           setSelectedCitizenship={setSelectedCitizenship}
           selectedWikiProject={selectedWikiProject}
           setSelectedWikiProject={setSelectedWikiProject}
+          selectedOccupation={selectedOccupation}
+          setSelectedOccupation={setSelectedOccupation}
         />
 
       </div>

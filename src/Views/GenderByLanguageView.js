@@ -16,7 +16,7 @@ function GenderByLanguageView(){
   const [tableMetaData, setTableMetaData] = useState({})
   const [labelArr, setLabelArr] = useState([])
   const [tableColumns, setTableColumns] = useState([])
-  const [snapshot, setSnapshot] = useState("Enter Snapshot - Latest")
+  const [snapshot, setSnapshot] = useState("Snapshot - Latest YYYYMMDD")
 
   function handleSnapshot(e){
     setSnapshot(e.target.value)
