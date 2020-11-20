@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { ToggleButtonGroup, ToggleButton, InputGroup, FormControl, Form, Row, Col, Table } from 'react-bootstrap'
+import { ToggleButtonGroup, ToggleButton, InputGroup, FormControl, Form, Row, Col, Container } from 'react-bootstrap'
 import LineChart from '../Components/LineChart'
 
 import BootstrapTable from 'react-bootstrap-table-next'
@@ -15,8 +15,8 @@ function GenderByDOBView(){
   const [tableColumns, setTableColumns] = useState([])
   const [tableArr, setTableArr] = useState([])
   const [graphGenders, setGraphGenders] = useState({})
-  const [filterRange, setFilterRange] = useState({})
-  const [yearFilterRange, setYearFilterRange] = useState([])
+  const [snapshot, setSnapshot] = useState("Snapshot - latest")
+  const [yearFilterRange, setYearFilterRange] = useState({yearStart: "Enter Year Start", yearEnd: "Enter Year End"})
   function afterFilter(newResult, newFilters) {
     console.log(newResult);
     console.log(newFilters);
@@ -28,6 +28,19 @@ function GenderByDOBView(){
 
   function handleHumanChange() {
     console.log("HANDLE HUMAN CHANGE")
+  }
+
+  function handleYearStart(e){
+    console.log(e.target.value)
+  }
+
+  function handleYearEnd(e){
+    console.log(e.target.value)
+
+  }
+
+  function handleSnapshot(e){
+    setSnapshot(e.target.value)
   }
 
   function formatYear(num){
@@ -134,7 +147,7 @@ function GenderByDOBView(){
   }, [])
 
   return (
-    <div>
+    <Container>
       <h1>Gender Gap By Year of Birth and Year of Death Statistics</h1>
       <h5>
         This plot shows the Date of Birth (DoB) and Date of Death (DoD) of each biography in Wikidata, 
@@ -142,7 +155,7 @@ function GenderByDOBView(){
         and accounted for in the full data set 
       </h5>
 
-      <div className="input-area">
+      <Container className="input-area">
         <div>
           <p style={{border: "2px solid"}}>
             Note: As for January, 2016, only about 72% and 36% of biographies had date
@@ -196,33 +209,38 @@ function GenderByDOBView(){
             <InputGroup.Prepend>
               <InputGroup.Text>Year Range:</InputGroup.Text>
             </InputGroup.Prepend>
-            <FormControl type="text" placeholder="Year Start" />
-            <FormControl type="text" placeholder="Year End" />
+            <FormControl type="text" placeholder={yearFilterRange.yearStart} onChange={handleYearStart} />
+            <FormControl type="text" placeholder="Year End" onChange={handleYearEnd} />
+          </InputGroup>
+          <InputGroup className="mb-3" size="sm" controlId="years">
+            <InputGroup.Prepend>
+              <InputGroup.Text>Snapshot:</InputGroup.Text>
+            </InputGroup.Prepend>
+            <FormControl type="text" placeholder={snapshot} onChange={handleSnapshot} />
           </InputGroup>
         </div>
-        <br /> 
+      </Container>      
         <LineChart 
           lineData={lineData} 
           graphGenders={graphGenders}
           extrema={tableMetaData} 
           genderMap={genderMap}
-        />
-        <br />
-        <div className="table-container">
-          {
-            tableColumns.length === 0 ? null :
-            <BootstrapTable 
-              keyField='key' 
-              data={ tableArr } 
-              columns={ tableColumns } 
-              filter={ filterFactory({ afterFilter }) } 
-              pagination={ paginationFactory() }
-              className={".table-striped"}
-            />
-          }
-        </div>
-      </div>      
-    </div>
+          />
+
+      <div className="table-container">
+        {
+          tableColumns.length === 0 ? null :
+          <BootstrapTable 
+            keyField='key' 
+            data={ tableArr } 
+            columns={ tableColumns } 
+            filter={ filterFactory({ afterFilter }) } 
+            pagination={ paginationFactory() }
+            className={".table-striped"}
+          />
+        }
+      </div>
+    </Container>
   )
 }
 

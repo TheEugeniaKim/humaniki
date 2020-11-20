@@ -43,7 +43,8 @@ svg {
 }
 
 .About {
-  padding: 5%;  
+  height: 100vh; 
+  width: 100vh;
   background: linear-gradient(90deg, #6200F8 0%, #3060CB 0.01%, #00BCA1 99.99%, #00BCA1 100%); 
   color: #fff;
 }
@@ -86,3 +87,4 @@ svg {
   height: 170px;
   overflow-y: scroll;
 }
+

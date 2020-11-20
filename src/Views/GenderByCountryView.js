@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import WorldMap from '../Components/WorldMap'
 import data from '../Components/custom.geo.json'
-import { ToggleButtonGroup, ToggleButton, Form } from 'react-bootstrap'
+import { ToggleButtonGroup, ToggleButton, Form, InputGroup, FormControl, Container } from 'react-bootstrap'
 import RadialBarChart from '../Components/RadialBarChartButton'
 import { propTypes } from 'react-bootstrap/esm/Image';
 
@@ -17,6 +17,12 @@ function GenderByCountryView(props){
   const [apiData, setAPIData] = useState([])
   const [mapData, setMapData] = useState(null)
   const [tableArr, setTableArr] = useState([])
+  const [snapshot, setSnapshot] = useState("snapshot - latest")
+
+  function handleSnapshot(e){
+    console.log(e.target.value)
+    setSnapshot(e.target.value)
+  }
 
   function handleChange(event){
     if (event === "birth") {
@@ -120,7 +126,7 @@ function GenderByCountryView(props){
   }
   const [property, setProperty] = useState("women")
   return (
-    <div>
+    <Container>
       <h1>Gender Gap By Country</h1>
       <h5>This will be the description of the plot data that's represented below</h5>
       
@@ -149,40 +155,24 @@ function GenderByCountryView(props){
               value="citizenship"
             />
           </ToggleButtonGroup>
-
+          <InputGroup className="mb-3" size="sm" controlId="years">
+            <InputGroup.Prepend>
+              <InputGroup.Text>Snapshot:</InputGroup.Text>
+            </InputGroup.Prepend>
+            <FormControl type="text" placeholder={snapshot} onChange={handleSnapshot} />
+          </InputGroup>
           <br/>
 
           <div className="human-div">
             <h6>Different Wikipedia Categories of Humans</h6>
             <ToggleButtonGroup type="radio" name="human-type" defaultValue={"all"} onChange={handleHumanChange}>
               <ToggleButton value={"all"} name="all" size="lg" variant="outline-dark"> 
-                <RadialBarChart 
-                  width={70} 
-                  height={70} 
-                  outerRadius={35} 
-                  innerRadius={25}
-                  data={[{label:"men", value: 69},{label: "non-binary", value:1},{label: "women", value: 30}]}
-                /> 
                 All Humans on Wikidata
               </ToggleButton>
               <ToggleButton value={"at-least-one"} name="at-least-one" size="lg" variant="outline-dark">
-                <RadialBarChart 
-                  width={70} 
-                  height={70} 
-                  outerRadius={35} 
-                  innerRadius={25}
-                  data={[{label:"men", value: 69},{label: "non-binary", value:1},{label: "women", value: 30}]}
-                /> 
                 Humans With Atleast One Wikipedia Article
               </ToggleButton>
               <ToggleButton value={"more-than-one"} name="at-least-one" size="lg" variant="outline-dark">
-                <RadialBarChart 
-                  width={70} 
-                  height={70} 
-                  outerRadius={35} 
-                  innerRadius={25}
-                  data={[{label:"men", value: 69},{label: "non-binary", value:1},{label: "women", value: 30}]}
-                /> 
                 Humans With More Than One Wikipedia Article
               </ToggleButton>
             </ToggleButtonGroup>
@@ -218,7 +208,7 @@ function GenderByCountryView(props){
         />
       </div>
      
-    </div> 
+    </Container> 
 
   )
 }

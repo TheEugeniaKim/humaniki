@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { select, geoPath, geoMercator, min, max, scaleLinear, zoom } from "d3";
 import useResizeObserver from "./useResizeObserver";
 
-function WorldMap1({ mapData, property }) {
+function WorldMap({ mapData, property }) {
   const svgRef = useRef();
   const wrapperRef = useRef();
   const dimensions = useResizeObserver(wrapperRef);
@@ -63,4 +63,4 @@ function WorldMap1({ mapData, property }) {
   );
 }
 
-export default WorldMap1;
+export default WorldMap;

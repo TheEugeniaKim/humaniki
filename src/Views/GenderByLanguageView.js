@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { ToggleButtonGroup, ToggleButton } from 'react-bootstrap'
+import { ToggleButtonGroup, ToggleButton, InputGroup, FormControl, Container} from 'react-bootstrap'
 
 import BootstrapTable from 'react-bootstrap-table-next'
 import 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css'
@@ -16,6 +16,11 @@ function GenderByLanguageView(){
   const [tableMetaData, setTableMetaData] = useState({})
   const [labelArr, setLabelArr] = useState([])
   const [tableColumns, setTableColumns] = useState([])
+  const [snapshot, setSnapshot] = useState("Enter Snapshot - Latest")
+
+  function handleSnapshot(e){
+    setSnapshot(e.target.value)
+  }
 
   function fetchData(){
     let baseURL = process.env.REACT_APP_API_URL
@@ -107,7 +112,7 @@ function GenderByLanguageView(){
   }
 
   return (
-    <div>
+    <Container>
       <h1>Gender Gap By Wikipedia Language Editions</h1>
       <h5>
         This plot shows the Language each biography is written in Wikidata, 
@@ -129,6 +134,12 @@ function GenderByLanguageView(){
             <ToggleButton value={"at-least-one"} name="at-least-one" size="lg" variant="outline-dark">Humans With Atleast One Wikipedia Article</ToggleButton>
             <ToggleButton value={"more-than-one"} name="at-least-one" size="lg" variant="outline-dark">Humans With More Than One Wikipedia Article</ToggleButton>
           </ToggleButtonGroup>
+          <InputGroup className="mb-3" size="sm" controlId="years">
+            <InputGroup.Prepend>
+              <InputGroup.Text>Snapshot:</InputGroup.Text>
+            </InputGroup.Prepend>
+            <FormControl type="text" placeholder={snapshot} onChange={handleSnapshot} />
+          </InputGroup>
       </div>
       <div className="scatter-wrapper">
         {/* <ScatterPlotContainer 
@@ -157,7 +168,7 @@ function GenderByLanguageView(){
         }
       </div>
 
-    </div>
+    </Container>
   )
 }
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { select, scaleLinear} from 'd3'
+import { Container } from 'react-bootstrap'
 import "../App.css"
 
 function AboutView(){
@@ -33,7 +34,7 @@ function AboutView(){
   }, [totalMen, totalOthers, totalWomen])
 
   return (
-    <div className="About">
+    <Container className="About">
       <div className="About-Content">
         <h1>Explore Gender Diversity on Wikipedia Biographies with humaniki </h1>
         <h3>
@@ -57,7 +58,7 @@ function AboutView(){
         with Humaniki and learn how you can contribute to bridge this gap. Compare gender 
         diversity across Wikipedia language editions, gender by country, and date of birth. 
       </p>
-    </div>
+    </Container>
   )
 }
 
