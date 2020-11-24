@@ -127,7 +127,9 @@ function AdvancedSearchView(){
       let tableObj = {}
       delete obj["item_label"]["iso_3166"]
       tableObj.key = index
-      tableObj.index = Object.values(obj["item_label"]).join()
+        let item_labels = Object.values(obj["item_label"])
+        item_labels = item_labels.length > 0 ? item_labels : ["Overall"]
+      tableObj.index = item_labels.join(", ")
       tableObj.total = Object.values(obj.values).reduce((a, b) => a + b)
       tableObj.men = 0
       tableObj.menPercent = 0
@@ -140,7 +142,7 @@ function AdvancedSearchView(){
       })
       let genderTotalsArr = []
       console.log("HELLO", tableObj, obj)
-      
+
       console.log("HERE",Object.values(data.meta.bias_labels).map(gender => gender + "Percent"))
       Object.values(data.meta.bias_labels).map(gender => gender + "Percent").map(g => genderTotalsArr.push(tableObj[g]))
       console.log("gender total arr", genderTotalsArr)
