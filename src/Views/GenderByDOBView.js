@@ -166,8 +166,7 @@ function GenderByDOBView(){
         <h6>Different Wikipedia Categories of Humans</h6>
           <ToggleButtonGroup type="radio" name="human-type" defaultValue={"all"} onChange={handleHumanChange}>
             <ToggleButton value={"all"} name="all" size="lg" variant="outline-dark">All Humans on Wikidata</ToggleButton>
-            <ToggleButton value={"at-least-one"} name="at-least-one" size="lg" variant="outline-dark">Humans With Atleast One Wikipedia Article</ToggleButton>
-            <ToggleButton value={"more-than-one"} name="at-least-one" size="lg" variant="outline-dark">Humans With More Than One Wikipedia Article</ToggleButton>
+            <ToggleButton value={"at-least-one"} name="at-least-one" size="lg" variant="outline-dark">Humans With At Least One Wikipedia Article</ToggleButton>
           </ToggleButtonGroup>
         
         <div>
