@@ -125,6 +125,7 @@ function AdvancedSearchView(){
     // configure data 
     data.metrics.forEach((obj, index) => {
       let tableObj = {}
+      delete obj["item_label"]["iso_3166"]
       tableObj.key = index
       tableObj.index = Object.values(obj["item_label"]).join()
       tableObj.total = Object.values(obj.values).reduce((a, b) => a + b)
@@ -138,7 +139,7 @@ function AdvancedSearchView(){
         tableObj[label + "Percent"] = obj["values"][value.toString()]/tableObj["total"]*100
       })
       let genderTotalsArr = []
-      console.log("HELLO", tableObj)
+      console.log("HELLO", tableObj, obj)
       
       console.log("HERE",Object.values(data.meta.bias_labels).map(gender => gender + "Percent"))
       Object.values(data.meta.bias_labels).map(gender => gender + "Percent").map(g => genderTotalsArr.push(tableObj[g]))
