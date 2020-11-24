@@ -73,17 +73,17 @@ function ScatterPlot(props) {
       .attr("class", "circle")
       .style("transform", "scale(1, -1)")
       .attr("r", 6)
-      .attr("cx", (obj, dataIndex) => xScale(obj.womenPercent))
-      .attr("cy", (obj, dataIndex) => -yScale(obj.women))
-      .attr("fill", (obj, dataIndex) => colorScale(obj.women))
+      .attr("cx", (obj, dataIndex) => xScale(obj.femalePercent))
+      .attr("cy", (obj, dataIndex) => -yScale(obj.female))
+      .attr("fill", (obj, dataIndex) => colorScale(obj.female))
       .attr("stroke", "black")
       .append("title")
       .text(
         (obj) => `
           ${obj.language}
           Total Bios: ${obj.total}
-          Total Women Bios: ${obj.women}
-          Women: ${obj.womenPercent}%
+          Total Women Bios: ${obj.female}
+          Women: ${obj.femalePercent}%
         `
       )
       // .on("mouseenter", function(event, d) {

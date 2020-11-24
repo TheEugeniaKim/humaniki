@@ -16,15 +16,16 @@ function GenderByLanguageView(){
   const [tableMetaData, setTableMetaData] = useState({})
   const [labelArr, setLabelArr] = useState([])
   const [tableColumns, setTableColumns] = useState([])
-  const [snapshot, setSnapshot] = useState("Snapshot - Latest YYYYMMDD ")
+  const [snapshot, setSnapshot] = useState("latest")
 
   function handleSnapshot(e){
+    console.log("snapshot",e.target.value)
     setSnapshot(e.target.value)
   }
 
   function fetchData(){
     let baseURL = process.env.REACT_APP_API_URL
-    let url = baseURL + 'v1/gender/gap/latest/all_wikidata/properties?project=all&label_lang=en'
+    let url = baseURL + `v1/gender/gap/${snapshot}/all_wikidata/properties?project=all&label_lang=en`
     console.log("BASE URL", baseURL)
     fetch(url) 
       .then(response => response.json())
@@ -43,6 +44,9 @@ function GenderByLanguageView(){
     }
 
     function percentFormatter(cell,row){
+      if (!cell){
+        return
+      }
       return cell.toFixed(3)
     }
 
@@ -103,7 +107,7 @@ function GenderByLanguageView(){
 
   useEffect(() => {
     fetchData()
-  }, [])
+  }, [snapshot])
   
   function afterFilter(newResult, newFilters) {
     console.log(newResult);
