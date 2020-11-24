@@ -16,15 +16,15 @@ function AdvancedSearchView(){
   const [tableColumns, setTableColumns] = useState([{dataField: "index", text: "Index", sort: true}])
   const [tableData, setTableData] = useState([])
 
-  const [selectedSnapshot, setSelectedSnapshot] = useState("Enter Date - Latest")
-  const [selectedYear, setSelectedYear] = useState("Enter Date - Latest")
+  const [selectedSnapshot, setSelectedSnapshot] = useState(null)
+  const [selectedYear, setSelectedYear] = useState(null)
   const [selectedWikiProject, setSelectedWikiProject] = useState(null)
   const [selectedCitizenship, setSelectedCitizenship] = useState(null)
   const [selectedOccupation, setSelectedOccupation] = useState(null)
 
   function onSubmit(e){
     e.preventDefault()
-    let formState = {}
+    let formState = {} // can't we just set the regular form state
     if (selectedSnapshot !== "Enter Date - Latest"){
       formState.snapshot = selectedSnapshot
     }
@@ -32,14 +32,15 @@ function AdvancedSearchView(){
     if (selectedYear !== "Enter Date - Latest"){
       formState.year = selectedYear
     }
-    
+
     if (selectedWikiProject !== "Wikimedia Project - Any"){
-      formState.wikiProject = selectedWikiProject 
+      formState.wikiProject = selectedWikiProject
     }
-    
+
     if (selectedCitizenship !== "Citizenship - Any"){
       formState.citizenship = selectedCitizenship
     }
+    console.log("Form state is: ", formState)
     setFormState(formState)
     setFetchURL(formState)
   }
@@ -62,11 +63,10 @@ function AdvancedSearchView(){
     if (formState.citizenship) {
       url = url + `&citizenship=${formState.citizenship}`
     }
-    
-    if (formState.year || formState.wikiProject || formState.citizenship) {
-      url = url + "&label_lang=en"
-    }
-    return seturl(url) 
+
+    url = url + `&label_lang=en`
+
+    return seturl(url)
   }
 
   function handleHumanChange(event){
@@ -74,7 +74,7 @@ function AdvancedSearchView(){
       setSelectedWikipediaHumanType("all-wikidata")
     } else if (event === "at-least-one") {
       setSelectedWikipediaHumanType("gte_one_sitelink")
-    } 
+    }
   }
 
   function afterFilter(newResult, newFilters) {
@@ -118,16 +118,16 @@ function AdvancedSearchView(){
         columns.push(objPercent)
       }
     }
-    
-    // configure data 
+
+    // configure data
     data.metrics.forEach((obj, index) => {
       let tableObj = {}
       tableObj.key = index
       tableObj.index = Object.values(obj["item_label"]).join()
       tableObj.total = Object.values(obj.values).reduce((a, b) => a + b)
-      tableObj.men = 0 
-      tableObj.menPercent = 0 
-      tableObj.women = 0 
+      tableObj.men = 0
+      tableObj.menPercent = 0
+      tableObj.women = 0
       tableObj.womenPercent = 0
       Object.keys(obj.values).forEach(value => {
         let label = data.meta.bias_labels[value]
@@ -136,7 +136,7 @@ function AdvancedSearchView(){
       })
       let genderTotalsArr = []
       console.log("HELLO", tableObj)
-      
+
       console.log("HERE",Object.values(data.meta.bias_labels).map(gender => gender + "Percent"))
       Object.values(data.meta.bias_labels).map(gender => gender + "Percent").map(g => genderTotalsArr.push(tableObj[g]))
       console.log("gender total arr", genderTotalsArr)
@@ -184,15 +184,15 @@ function AdvancedSearchView(){
       </div>
       <SingleBarChart />
 
-      <BootstrapTable 
-        keyField='total' 
-        data={ tableData } 
-        columns={ tableColumns } 
-        filter={ filterFactory({ afterFilter }) } 
+      <BootstrapTable
+        keyField='total'
+        data={ tableData }
+        columns={ tableColumns }
+        filter={ filterFactory({ afterFilter }) }
         pagination={ paginationFactory(10) }
-        noDataIndication="Table is Empty" 
+        noDataIndication="Table is Empty"
       />
-      
+
     </Container>
   )
 }
