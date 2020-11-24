@@ -5,6 +5,10 @@ import allWikiProjects from '../allWikiProjects.json'
 import allWikiCountries from '../allWikiCountries.json'
 
 function AdvacnedSearchForm(props){
+  let allWikiCountriesTuples = allWikiCountries ? Object.entries(allWikiCountries) : null 
+  let allWikiProjectsTuples = allWikiProjects ? Object.entries(allWikiProjects): null 
+  allWikiProjectsTuples.unshift(["all","All"])
+  allWikiCountriesTuples.unshift(["all","All"])
 
   function onChangeTimestamp(e){
     props.setSelectedSnapshot(e.target.value)
@@ -15,10 +19,12 @@ function AdvacnedSearchForm(props){
   }
 
   function onSelectProject(eventKey, event){
+    console.log(eventKey, event)
     props.setSelectedWikiProject(eventKey)
   }
 
   function onSelectCitizenship(e){
+    console.log(e)
     props.setSelectedCitizenship(e)
   }
 
@@ -41,11 +47,11 @@ function AdvacnedSearchForm(props){
   function lookupWikiCitizenshipSelection(countryCode){
     return allWikiCountries[countryCode]
   }
-  const wikiProjectDropdownTitle =  props.selectedWikiProject == null ? "Wikimedia Project - Any" : lookupWikiProjectSelection(props.selectedWikiProject)
+  const wikiProjectDropdownTitle =  props.selectedWikiProject === null ? "No Filter" : lookupWikiProjectSelection(props.selectedWikiProject)
 
-  const wikiCitizenshipDropdownTitle = props.selectedCitizenship == null ? "Citizenship - Any" : lookupWikiCitizenshipSelection(props.selectedCitizenship)
+  const wikiCitizenshipDropdownTitle = props.selectedCitizenship === null ? "No Filter" : lookupWikiCitizenshipSelection(props.selectedCitizenship)
 
-  const occupationDropdownTitle = props.selectedOccupation == null ? "Ocupation - Any" : "insert options data"
+  const occupationDropdownTitle = props.selectedOccupation == null ? "No Filter" : "insert options data"
   return(
     <Form onSubmit={props.onSubmit}>
       <Row>
@@ -54,36 +60,48 @@ function AdvacnedSearchForm(props){
           <Form.Control type="text" placeholder={props.selectedSnapshot === null ? props.selectedSnapshot: "Latest"} onChange={onChangeTimestamp} />
         </Form.Group>
 
-        <Form.Group controlId="selectedYear">
+        <Form.Group controlId="selectedYearRange">
           <Form.Label>Year of Birth '[YEAR]~[YEAR]'</Form.Label>
           <Form.Control type="text"  placeholder={props.selectedYear ? props.selectedYear : "No filter"} onChange={onChangeYear} />
         </Form.Group>
 
-        <DropdownButton
-          id="selectedWikiProject"
-          title={wikiProjectDropdownTitle}
-          className="dropdown"
-          onSelect={onSelectProject}
-        >
-        <DropdownComponent options={allWikiProjects} />
-        </DropdownButton>
+        <Form.Group controlId="selectedWikiProject">
+          <Form.Label>Wiki Project</Form.Label>
+          <DropdownButton
+            id="selectedWikiProject"
+            title={wikiProjectDropdownTitle}
+            className="dropdown"
+            onSelect={onSelectProject}
+          >
+          <DropdownComponent options={allWikiProjectsTuples} />
+          </DropdownButton>
+        </Form.Group>
 
-        <DropdownButton
-          id="selectedCitizenship"
-          title={wikiCitizenshipDropdownTitle}
-          className="dropdown"
-          onSelect={onSelectCitizenship}
-        >
-        <DropdownComponent options={allWikiCountries} />
-        </DropdownButton>
-        <DropdownButton
-          id="selectedOccupation"
-          title={occupationDropdownTitle}
-          className="dropdown"
-          onSelect={onSelectOccupation}
-        >
-          <DropdownComponent options={["options here"]} />
-        </DropdownButton>
+        <Form.Group controlId="selectedCitizenship">
+          <Form.Label>Citizenship</Form.Label>
+
+          <DropdownButton
+            id="selectedCitizenship"
+            title={wikiCitizenshipDropdownTitle}
+            className="dropdown"
+            onSelect={onSelectCitizenship}
+          >
+          <DropdownComponent options={allWikiCountriesTuples} />
+          </DropdownButton>
+        </Form.Group>
+
+        <Form.Group controlId="selectedOccupation">
+        <Form.Label>Occupation</Form.Label>
+          <DropdownButton
+            id="selectedOccupation"
+            title={occupationDropdownTitle}
+            className="dropdown"
+            onSelect={onSelectOccupation}
+          >
+            <DropdownComponent options={["options here"]} />
+          </DropdownButton>
+        </Form.Group>
+
       </Row>
       <Row>
 

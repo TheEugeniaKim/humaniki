@@ -14,5 +14,5 @@ function appReducer(state, action){
 const initialState = {
   view: "about",
   data: []
-
+  
 }
