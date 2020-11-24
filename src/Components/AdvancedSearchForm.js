@@ -5,13 +5,11 @@ import allWikiProjects from '../allWikiProjects.json'
 import allWikiCountries from '../allWikiCountries.json'
 
 function AdvacnedSearchForm(props){
-  // allWikiProjects.push({})
-  console.log("adv search form", allWikiProjects, allWikiCountries)
 
   function onChangeTimestamp(e){
     props.setSelectedSnapshot(e.target.value)
   }
-  
+
   function onChangeYear(e) {
     props.setSelectedYear(e.target.value)
   }
@@ -29,15 +27,15 @@ function AdvacnedSearchForm(props){
   }
 
   function onClickReset(e){
-    props.setSelectedSnapshot("Enter Date-Latest")
-    props.setSelectedYear("Enter Date - Latest")
+    props.setSelectedSnapshot(null)
+    props.setSelectedYear(null)
     props.setSelectedWikiProject(null)
     props.setSelectedCitizenship(null)
     props.setSelectedOccupation(null)
   }
 
   function lookupWikiProjectSelection(wikiCode){
-    return allWikiProjects[wikiCode] 
+    return allWikiProjects[wikiCode]
   }
 
   function lookupWikiCitizenshipSelection(countryCode){
@@ -53,35 +51,35 @@ function AdvacnedSearchForm(props){
       <Row>
         <Form.Group controlId="selectedSnapshot">
           <Form.Label>Timestamp</Form.Label>
-          <Form.Control type="text" placeholder={props.selectedSnapshot ? props.selectedSnapshot: "Enter Date-Latest"} onChange={onChangeTimestamp} />
+          <Form.Control type="text" placeholder={props.selectedSnapshot === null ? props.selectedSnapshot: "Latest"} onChange={onChangeTimestamp} />
         </Form.Group>
 
         <Form.Group controlId="selectedYear">
-          <Form.Label>Year of Birth</Form.Label>
-          <Form.Control type="text"  placeholder={props.selectedYear ? props.selectedYear : "Enter Date - Latest"} onChange={onChangeYear} />
+          <Form.Label>Year of Birth '[YEAR]~[YEAR]'</Form.Label>
+          <Form.Control type="text"  placeholder={props.selectedYear ? props.selectedYear : "No filter"} onChange={onChangeYear} />
         </Form.Group>
 
-        <DropdownButton 
-          id="selectedWikiProject" 
-          title={wikiProjectDropdownTitle} 
-          className="dropdown" 
+        <DropdownButton
+          id="selectedWikiProject"
+          title={wikiProjectDropdownTitle}
+          className="dropdown"
           onSelect={onSelectProject}
         >
         <DropdownComponent options={allWikiProjects} />
         </DropdownButton>
 
-        <DropdownButton 
-          id="selectedCitizenship" 
+        <DropdownButton
+          id="selectedCitizenship"
           title={wikiCitizenshipDropdownTitle}
-          className="dropdown"  
+          className="dropdown"
           onSelect={onSelectCitizenship}
         >
         <DropdownComponent options={allWikiCountries} />
         </DropdownButton>
-        <DropdownButton 
-          id="selectedOccupation" 
-          title={occupationDropdownTitle} 
-          className="dropdown" 
+        <DropdownButton
+          id="selectedOccupation"
+          title={occupationDropdownTitle}
+          className="dropdown"
           onSelect={onSelectOccupation}
         >
           <DropdownComponent options={["options here"]} />
