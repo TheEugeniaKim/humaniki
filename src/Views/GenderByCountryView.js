@@ -17,7 +17,7 @@ function GenderByCountryView(props){
   const [apiData, setAPIData] = useState([])
   const [mapData, setMapData] = useState(null)
   const [tableArr, setTableArr] = useState([])
-  const [snapshot, setSnapshot] = useState("snapshot - latest YYYYMMDD")
+  const [snapshot, setSnapshot] = useState("latest")
 
   function handleSnapshot(e){
     console.log(e.target.value)
@@ -50,7 +50,7 @@ function GenderByCountryView(props){
     // fetch(`http://localhost:3000/v1/${selectedWikipediaHumanType}/gender/aggregated/2020-09-15/geography/${selectBirthVsCitizenship}.json`)
     // fetch('http://localhost:3000/v1/all-wikidata/gender/aggregated/2020-09-15/geography/citizenship.json')
     let baseURL = process.env.REACT_APP_API_URL
-    let url = baseURL + "v1/gender/gap/latest/gte_one_sitelink/properties?citizenship=all"
+    let url = baseURL + `v1/gender/gap/${snapshot}/gte_one_sitelink/properties?citizenship=all`
     fetch(url)
       .then(response => response.json())
       .then(fetchData => {
@@ -118,7 +118,7 @@ function GenderByCountryView(props){
 
   useEffect(() => {
     fetchData()
-  },[selectedWikipediaHumanType, selectBirthVsCitizenship])
+  },[selectedWikipediaHumanType, selectBirthVsCitizenship, snapshot])
 
   function afterFilter(newResult, newFilters) {
     console.log(newResult);
@@ -171,9 +171,6 @@ function GenderByCountryView(props){
               </ToggleButton>
               <ToggleButton value={"at-least-one"} name="at-least-one" size="lg" variant="outline-dark">
                 Humans With Atleast One Wikipedia Article
-              </ToggleButton>
-              <ToggleButton value={"more-than-one"} name="at-least-one" size="lg" variant="outline-dark">
-                Humans With More Than One Wikipedia Article
               </ToggleButton>
             </ToggleButtonGroup>
           </div>

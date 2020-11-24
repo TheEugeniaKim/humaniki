@@ -15,7 +15,7 @@ function GenderByDOBView(){
   const [tableColumns, setTableColumns] = useState([])
   const [tableArr, setTableArr] = useState([])
   const [graphGenders, setGraphGenders] = useState({})
-  const [snapshot, setSnapshot] = useState("Snapshot - Latest YYYYMMDD")
+  const [snapshot, setSnapshot] = useState("latest")
   const [yearFilterRange, setYearFilterRange] = useState({yearStart: "Enter Year Start", yearEnd: "Enter Year End"})
   function afterFilter(newResult, newFilters) {
     console.log(newResult);
@@ -140,11 +140,11 @@ function GenderByDOBView(){
 
   useEffect(() => {
     let baseURL = process.env.REACT_APP_API_URL
-    let url = baseURL + "v1/gender/gap/latest/gte_one_sitelink/properties?date_of_birth=all&label_lang=en"
+    let url = baseURL + `v1/gender/gap/${snapshot}/gte_one_sitelink/properties?date_of_birth=all&label_lang=en`
     fetch(url)
       .then(response => response.json())
       .then(data => processData(data))
-  }, [])
+  }, [snapshot])
 
   return (
     <Container>

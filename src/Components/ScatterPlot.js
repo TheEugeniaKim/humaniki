@@ -44,7 +44,7 @@ function ScatterPlot(props) {
       .clamp(true);
 
     const xScale = scaleLinear()
-      .domain([props.extrema.percentMin, props.extrema.percentMax+10])
+      .domain([0, 100])
       .range([0, dimensions.width]);
 
     const yScale = scaleLog()

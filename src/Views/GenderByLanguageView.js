@@ -16,7 +16,7 @@ function GenderByLanguageView(){
   const [tableMetaData, setTableMetaData] = useState({})
   const [labelArr, setLabelArr] = useState([])
   const [tableColumns, setTableColumns] = useState([])
-  const [snapshot, setSnapshot] = useState("Snapshot - Latest YYYYMMDD")
+  const [snapshot, setSnapshot] = useState("Snapshot - Latest YYYYMMDD ")
 
   function handleSnapshot(e){
     setSnapshot(e.target.value)
@@ -78,11 +78,14 @@ function GenderByLanguageView(){
         tableObj[label + "Percent"] = obj["values"][genderId] ? (obj["values"][genderId]/tableObj["total"])*100 : 0
       }
       tableArr.push(tableObj)
-
-      if (tableObj.womenPercent > extrema.percentMax) {
-        extrema.percentMax = tableObj.womenPercent
-      } else if (tableObj.womenPercent < extrema.percentMin) {
-        extrema.percentMin = tableObj.womenPercent
+      // debugger
+      // extrema.percentMax
+      console.log("table obj and obj", tableObj, obj)
+      let nonMalePercent = 100 - tableObj.malePercent
+      if (nonMalePercent > extrema.percentMax) {
+        extrema.percentMax = nonMalePercent
+      } else if (nonMalePercent < extrema.percentMin) {
+        extrema.percentMin = nonMalePercent
       }
 
       if (tableObj.total > extrema.totalMax) {
