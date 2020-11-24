@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {Form, Row, Button, Dropdown, DropdownButton} from 'react-bootstrap'
 import DropdownComponent from './DropdownComponent'
 import allWikiProjects from '../allWikiProjects.json'
@@ -65,7 +65,7 @@ function AdvacnedSearchForm(props){
           className="dropdown"
           onSelect={onSelectProject}
         >
-          <DropdownComponent options={allWikiProjects} />
+        <DropdownComponent options={allWikiProjects} />
         </DropdownButton>
 
         <DropdownButton
@@ -74,7 +74,7 @@ function AdvacnedSearchForm(props){
           className="dropdown"
           onSelect={onSelectCitizenship}
         >
-          <DropdownComponent options={allWikiCountries} />
+        <DropdownComponent options={allWikiCountries} />
         </DropdownButton>
         <DropdownButton
           id="selectedOccupation"

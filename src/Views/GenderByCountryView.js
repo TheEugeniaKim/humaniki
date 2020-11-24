@@ -43,6 +43,9 @@ function GenderByCountryView(props){
   }
 
   function percentFormatter(cell, row){
+    if (!cell){
+      return
+    }
     return cell.toFixed(3)
   }
 
