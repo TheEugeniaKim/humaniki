@@ -91,6 +91,7 @@ function AdvancedSearchView(){
 
   const columns = []
   function processFetchData(data){
+    console.log("data process fetch", data)
     let tableArr = []
     //create columns
     columns.push({dataField: "index", text: "Index", sort: true})
@@ -99,27 +100,25 @@ function AdvancedSearchView(){
       width: '40px',
       overflow: 'visible'
     }})
-    columns.push({dataField: "women", text: "women", sort:true})
-    columns.push({dataField: "womenPercent", text: "Women Percent", sort:true, formatter: percentFormatter})
-    columns.push({dataField: "men", text: "men", sort:true})
-    columns.push({dataField: "menPercent", text: "men Percent", sort:true, formatter: percentFormatter})
+
+    // columns.push({dataField: "men", text: "men", sort:true})
+    // columns.push({dataField: "menPercent", text: "men Percent", sort:true, formatter: percentFormatter})
+    
     for (let genderId in data.meta.bias_labels) {
-      if (genderId !== "6581072" && genderId !== "6581097") {
-        let obj = {
-          dataField: data.meta.bias_labels[genderId],
-          text: data.meta.bias_labels[genderId],
-          sort: true
-        }
-        let objPercent = {
-          dataField: data.meta.bias_labels[genderId] + "Percent",
-          text: data.meta.bias_labels[genderId] + " Percent",
-          sort: true,
-          formatter: percentFormatter
-        }
-        obj.label = data.meta.bias_labels[genderId]
-        columns.push(obj)
-        columns.push(objPercent)
+      let obj = {
+        dataField: data.meta.bias_labels[genderId],
+        text: data.meta.bias_labels[genderId],
+        sort: true
       }
+      let objPercent = {
+        dataField: data.meta.bias_labels[genderId] + "Percent",
+        text: data.meta.bias_labels[genderId] + " Percent",
+        sort: true,
+        formatter: percentFormatter
+      }
+      obj.label = data.meta.bias_labels[genderId]
+      columns.push(obj)
+      columns.push(objPercent)
     }
 
     // configure data
@@ -131,19 +130,14 @@ function AdvancedSearchView(){
         item_labels = item_labels.length > 0 ? item_labels : ["Overall"]
       tableObj.index = item_labels.join(", ")
       tableObj.total = Object.values(obj.values).reduce((a, b) => a + b)
-      tableObj.men = 0
-      tableObj.menPercent = 0
-      tableObj.women = 0
-      tableObj.womenPercent = 0
-      Object.keys(obj.values).forEach(value => {
-        let label = data.meta.bias_labels[value]
-        tableObj[label] = obj["values"][value.toString()]
-        tableObj[label + "Percent"] = obj["values"][value.toString()]/tableObj["total"]*100
-      })
+      for (let genderId in data.meta.bias_labels){
+        let label = data.meta.bias_labels[genderId]
+        tableObj[label] = obj["values"][genderId] ? obj["values"][genderId] : 0 
+        tableObj[label + "Percent"] = obj["values"][genderId] ? (obj["values"][genderId]/tableObj["total"])*100 : 0  
+      }
       let genderTotalsArr = []
       console.log("HELLO", tableObj, obj)
 
-      console.log("HERE",Object.values(data.meta.bias_labels).map(gender => gender + "Percent"))
       Object.values(data.meta.bias_labels).map(gender => gender + "Percent").map(g => genderTotalsArr.push(tableObj[g]))
       console.log("gender total arr", genderTotalsArr)
       tableObj.gap = <SingleBarChart genderTotals={genderTotalsArr} />
