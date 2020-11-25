@@ -7,6 +7,7 @@ import GenderByCountryView from '../Views/GenderByCountryView'
 import GenderByDOBView from '../Views/GenderByDOBView'
 import GenderByLanguageView from '../Views/GenderByLanguageView'
 import { Container } from 'react-bootstrap'
+import {BrowserRouter as Router, Route, Redirect} from 'react-router-dom'
 
 function AppContainer() {
   const [navBar, setNavBar] = useState("about")
@@ -14,11 +15,13 @@ function AppContainer() {
   return (
     <div className="App" fluid>
       <NavBarComponent setNavBar={setNavBar} />
-      {navBar === "about" ? <AboutView /> : null}
-      {navBar === "advanced-search" ? <AdvancedSearchView /> : null}
-      {navBar === "gender-by-country" ? <GenderByCountryView /> : null}
-      {navBar === "gender-by-DOB" ? <GenderByDOBView /> : null}  
-      {navBar === "language" ? <GenderByLanguageView /> : null}  
+               <Router>
+            <Route exact path={"/"} render={() => <AboutView/>} />
+            <Route exact path={"/advanced-search"} render={() => <AdvancedSearchView/>}  />
+            <Route exact path={"/gender-by-country"} render={() => <GenderByCountryView/>}  />
+            <Route exact path={"/gender-by-dob"} render={() => <GenderByDOBView/>}  />
+            <Route exact path={"/gender-by-language"} render={() => <GenderByLanguageView/>}  />
+        </Router>
       <Footer className="fixed-bottom" />
     </div>
   );
