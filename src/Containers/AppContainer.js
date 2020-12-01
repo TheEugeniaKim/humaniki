@@ -15,14 +15,16 @@ function AppContainer() {
   return (
     <div className="App" fluid>
       <NavBarComponent setNavBar={setNavBar} />
-               <Router>
-            <Route exact path={"/"} render={() => <AboutView/>} />
-            <Route exact path={"/advanced-search"} render={() => <AdvancedSearchView/>}  />
-            <Route exact path={"/gender-by-country"} render={() => <GenderByCountryView/>}  />
-            <Route exact path={"/gender-by-dob"} render={() => <GenderByDOBView/>}  />
-            <Route exact path={"/gender-by-language"} render={() => <GenderByLanguageView/>}  />
-        </Router>
-      <Footer className="fixed-bottom" />
+      <Router>
+        <Route exact path={"/"} render={() => <AboutView/>} />
+        <Route exact path={"/advanced-search"} render={() => <AdvancedSearchView/>}  />
+        <Route exact path={"/gender-by-country"} render={() => <GenderByCountryView/>}  />
+        <Route exact path={"/gender-by-dob"} render={() => <GenderByDOBView/>}  />
+        <Route exact path={"/gender-by-language"} render={() => <GenderByLanguageView/>}  />
+      </Router>
+      <Container>
+        <Footer className="fixed-bottom" />
+      </Container>
     </div>
   );
 }

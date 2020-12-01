@@ -82,3 +82,14 @@ svg {
   height: 170px;
   overflow-y: scroll;
 }
+
+.table {
+  overflow: auto;
+  display: block;
+  table-layout: auto;
+
+}
+
+.view-container {
+  margin-bottom: 5rem;
+}

@@ -150,7 +150,7 @@ function GenderByDOBView(){
   }, [snapshot])
 
   return (
-    <Container>
+    <Container className="view-container">
       <h1>Gender Gap By Year of Birth and Year of Death Statistics</h1>
       <h5>
         This plot shows the Date of Birth (DoB) and Date of Death (DoD) of each biography in Wikidata, 

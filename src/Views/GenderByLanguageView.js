@@ -68,11 +68,9 @@ function GenderByLanguageView(){
       columns.push(obj)
       columns.push(objPercent)
     }
-    console.log("columns", columns)
 
     data.metrics.forEach((obj, index) => {
       let tableObj = {}
-      let columnsLength = columns.length 
       tableObj.key = index
       tableObj.language = obj.item_label.project
       tableObj.total = Object.values(obj.values).reduce((a, b) => a + b)
@@ -82,9 +80,7 @@ function GenderByLanguageView(){
         tableObj[label + "Percent"] = obj["values"][genderId] ? (obj["values"][genderId]/tableObj["total"])*100 : 0
       }
       tableArr.push(tableObj)
-      // debugger
-      // extrema.percentMax
-      console.log("table obj and obj", tableObj, obj)
+    
       let nonMalePercent = 100 - tableObj.malePercent
       if (nonMalePercent > extrema.percentMax) {
         extrema.percentMax = nonMalePercent
@@ -119,7 +115,7 @@ function GenderByLanguageView(){
   }
 
   return (
-    <Container>
+    <Container className="view-container">
       <h1>Gender Gap By Wikipedia Language Editions</h1>
       <h5>
         This plot shows the Language each biography is written in Wikidata, 
@@ -170,11 +166,10 @@ function GenderByLanguageView(){
             columns={ tableColumns } 
             filter={ filterFactory({ afterFilter }) } 
             pagination={ paginationFactory() }
-            className={".table-striped"}
+            className='table'
           />
         }
       </div>
-
     </Container>
   )
 }

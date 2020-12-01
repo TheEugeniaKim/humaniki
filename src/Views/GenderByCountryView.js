@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import WorldMap from '../Components/WorldMap'
+import WorldMapPropertySelection from '../Components/WorldMapPropertySelection'
 import data from '../Components/custom.geo.json'
 import { ToggleButtonGroup, ToggleButton, Form, InputGroup, FormControl, Container } from 'react-bootstrap'
 import RadialBarChart from '../Components/RadialBarChartButton'
@@ -14,10 +15,13 @@ import paginationFactory from 'react-bootstrap-table2-paginator'
 function GenderByCountryView(props){
   const [selectBirthVsCitizenship, setBirthVsCitizenship] = useState("country-of-birth")
   const [selectedWikipediaHumanType, setSelectedWikipediaHumanType] = useState("all")
-  const [apiData, setAPIData] = useState([])
   const [mapData, setMapData] = useState(null)
+  const [tableColumns, setTableColumns] = useState([])
   const [tableArr, setTableArr] = useState([])
   const [snapshot, setSnapshot] = useState("latest")
+  const [tableMetaData, setTableMetaData] = useState({})
+  const [property, setProperty] = useState("female")
+  const [genders, setGenders] = useState([])
 
   function handleSnapshot(e){
     console.log(e.target.value)
@@ -37,9 +41,7 @@ function GenderByCountryView(props){
       setSelectedWikipediaHumanType("all-wikidata")
     } else if (event === "at-least-one") {
       setSelectedWikipediaHumanType("at-least-one")
-    } else if (event === "more-than-one") {
-      setSelectedWikipediaHumanType("more-than-one")
-    }
+    } 
   }
 
   function percentFormatter(cell, row){
@@ -53,71 +55,85 @@ function GenderByCountryView(props){
     // fetch(`http://localhost:3000/v1/${selectedWikipediaHumanType}/gender/aggregated/2020-09-15/geography/${selectBirthVsCitizenship}.json`)
     // fetch('http://localhost:3000/v1/all-wikidata/gender/aggregated/2020-09-15/geography/citizenship.json')
     let baseURL = process.env.REACT_APP_API_URL
-    let url = baseURL + `v1/gender/gap/${snapshot}/gte_one_sitelink/properties?citizenship=all`
+    let url = baseURL + `v1/gender/gap/${snapshot}/gte_one_sitelink/properties?citizenship=all&label_lang=en`
     fetch(url)
       .then(response => response.json())
       .then(fetchData => {
-        setAPIData(fetchData)
         processAPIData(fetchData)
       })
   }
 
   function processAPIData(fetchData){
-    let arr = []
-    const countryData = []
-    data.features.forEach(country => {
-      fetchData.metrics.forEach((fetchObj, index) => {
-        if (country["properties"]["iso_a2"] === fetchObj["item_label"]["iso_3166"]) {          
-          country.properties.total = Object.values(fetchObj.values).reduce((a, b) => a + b)
-          country.properties.women = fetchObj.values["6581072"] ? fetchObj.values["6581072"] : 0
-          country.properties.men = fetchObj.values["6581097"] ? fetchObj.values["6581097"] : 0
-          country.properties.womenPercent = (country.properties.women/country.properties.total)*100
-          country.properties.menPercent = (country.properties.men/country.properties.total)*100
-          countryData.push(country)
+    let tableArr = []
+    let columns = []
+    let genders = Object.values(fetchData.meta.bias_labels)
+    const extrema = {
+      totalMax: Number.NEGATIVE_INFINITY,
+      totalMin: Number.POSITIVE_INFINITY
+    }
 
-          arr.push({
-            country: country.properties.name,
-            total: country.properties.total,
-            women: country.properties.women,
-            men: country.properties.men,
-            womenPercent: country.properties.womenPercent,
-            menPercent: country.properties.menPercent
-          })
+    function percentFormatter(cell,row){
+      if (!cell){
+        return
+      }
+      return cell.toFixed(3)
+    }
+    columns.push({dataField: "country", text: "Country", filter: textFilter()})
+    columns.push({dataField: "total",text: "Total",sort: true})
+    for (let genderId in fetchData.meta.bias_labels) {
+      let obj = {
+        dataField: fetchData.meta.bias_labels[genderId],
+        text: fetchData.meta.bias_labels[genderId],
+        sort: true
+      }
+      let objPercent = {
+        dataField: fetchData.meta.bias_labels[genderId] + "Percent",
+        text: fetchData.meta.bias_labels[genderId] + " Percent",
+        sort: true,
+        formatter: percentFormatter
+      }
+      obj.label = fetchData.meta.bias_labels[genderId]
+      columns.push(obj)
+      columns.push(objPercent)
+    }
+
+    fetchData.metrics.forEach((obj, index) => {
+      // Handle Formatting Table Data 
+      let tableObj = {}
+      tableObj.key = index 
+      tableObj.country = obj.item_label.citizenship 
+      tableObj.total = Object.values(obj.values).reduce((a,b) => a + b)
+      for (let genderId in fetchData.meta.bias_labels) {
+        let label = fetchData.meta.bias_labels[genderId]
+        tableObj[label] = obj["values"][genderId] ? obj["values"][genderId] : 0 
+        tableObj[label + "Percent"] = obj["values"][genderId] ? (obj["values"][genderId]/tableObj["total"])*100 : 0
+      }
+      if (tableObj.country){
+        tableArr.push(tableObj)
+      }
+      
+      //Handle Formatting countryData for WorlMap
+      data.features.map(country => {
+        if (country["properties"]["iso_a2"] === obj["item_label"]["iso_3166"]){
+          let indexPosition = data.features.findIndex(element => element["properties"]["iso_a2"] === obj["item_label"]["iso_3166"])
+          data.features[indexPosition]["properties"]["total"] = Object.values(obj["values"]).reduce((a,b) => a + b)
+          for (let genderId in fetchData.meta.bias_labels) {
+            let label = fetchData.meta.bias_labels[genderId]
+            country["properties"][label] = obj["values"][genderId] ? obj["values"][genderId] : 0 
+            country["properties"][label + "Percent"] = obj["values"][genderId] ? (obj["values"][genderId]/country["properties"]["total"])*100 : 0
+          }
         }
       })
+      
+      
+
     })
     setMapData(data)
-    setTableArr(arr)
+    setTableArr(tableArr)
+    setTableColumns(columns)
+    setTableMetaData(extrema)
+    setGenders(genders)
   }
-  const columns = [{
-    dataField: "country",
-    text: "Country",
-    filter: textFilter()
-
-  }, {
-    dataField: "total",
-    text: "Total",
-    sort: true
-    
-  }, {
-    dataField: "women",
-    text: "Women",
-    sort: true
-  }, {
-    dataField: "womenPercent",
-    text: "Women (%)",
-    sort: true,
-    formatter: percentFormatter
-  }, {
-    dataField: "men",
-    text: "Men",
-    sort: true
-  }, {
-    dataField: "menPercent",
-    text: "Men (%)",
-    sort: true,
-    formatter: percentFormatter
-  }]
 
   useEffect(() => {
     fetchData()
@@ -127,9 +143,9 @@ function GenderByCountryView(props){
     console.log(newResult);
     console.log(newFilters);
   }
-  const [property, setProperty] = useState("women")
+
   return (
-    <Container>
+    <Container className="view-container">
       <h1>Gender Gap By Country</h1>
       <h5>This will be the description of the plot data that's represented below</h5>
       
@@ -158,7 +174,7 @@ function GenderByCountryView(props){
               value="citizenship"
             />
           </ToggleButtonGroup>
-          <InputGroup className="mb-3" size="sm" controlId="years">
+          <InputGroup className="mb-3" size="sm" controlid="years">
             <InputGroup.Prepend>
               <InputGroup.Text>Snapshot:</InputGroup.Text>
             </InputGroup.Prepend>
@@ -173,39 +189,39 @@ function GenderByCountryView(props){
                 All Humans on Wikidata
               </ToggleButton>
               <ToggleButton value={"at-least-one"} name="at-least-one" size="lg" variant="outline-dark">
-                Humans With Atleast One Wikipedia Article
+                Humans With At Least One Wikipedia Article
               </ToggleButton>
             </ToggleButtonGroup>
           </div>
-
-        
       </div>      
 
       <WorldMap 
         mapData={mapData}
         property={property}
+        extrema={tableMetaData}
       />
       <select
         value={property}
         onChange={event => setProperty(event.target.value)}
       >
-        <option value="men">Men</option>
-        <option value="women">Women</option>
-        <option value="non-binary">Non-binary</option>
-        <option value="menPercent">Percent Men</option>
-        <option value="womenPercent">Percent Women</option>
-        <option value="percent-non-binary">Percent Non-Binary</option>
+        <WorldMapPropertySelection 
+          options={genders}
+        />
       </select>
-
+      
 
       <div className="table-container">
-        <BootstrapTable 
-          keyField='country' 
-          data={ tableArr } 
-          columns={ columns } 
-          filter={ filterFactory({ afterFilter }) } 
-          pagination={ paginationFactory(10) }
-        />
+        { 
+          tableColumns.length === 0 ? null :
+          <BootstrapTable 
+            keyField='country' 
+            data={ tableArr } 
+            columns={ tableColumns } 
+            filter={ filterFactory({ afterFilter }) } 
+            pagination={ paginationFactory(10) }
+            className='table'
+          />
+        }
       </div>
      
     </Container> 

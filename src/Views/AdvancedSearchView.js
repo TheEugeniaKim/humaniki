@@ -155,7 +155,7 @@ function AdvancedSearchView(){
   }, [url])
 
   return (
-    <Container>
+    <Container className="view-container">
       <h1>Advanced Search</h1>
 
       <div className="human-div" >
