@@ -11,38 +11,39 @@ import SingleBarChart from '../Components/SingleBarChart'
 
 function AdvancedSearchView(){
   const [selectedWikipediaHumanType, setSelectedWikipediaHumanType] = useState("all_wikidata")
-  const [formState, setFormState] = useState({})
+  // const [formState, setFormState] = useState({})
   const [url, seturl] = useState("")
   const [tableColumns, setTableColumns] = useState([{dataField: "index", text: "Index", sort: true}])
   const [tableData, setTableData] = useState([])
 
-  const [selectedSnapshot, setSelectedSnapshot] = useState(null)
-  const [selectedYear, setSelectedYear] = useState(null)
-  const [selectedWikiProject, setSelectedWikiProject] = useState(null)
-  const [selectedCitizenship, setSelectedCitizenship] = useState(null)
-  const [selectedOccupation, setSelectedOccupation] = useState(null)
+  // const [selectedSnapshot, setSelectedSnapshot] = useState(null)
+  // const [selectedYear, setSelectedYear] = useState(null)
+  // const [selectedWikiProject, setSelectedWikiProject] = useState(null)
+  // const [selectedCitizenship, setSelectedCitizenship] = useState(null)
+  // const [selectedOccupation, setSelectedOccupation] = useState(null)
 
-  function onSubmit(e){
+  function onSubmit(e,formState){
     e.preventDefault()
-    let formState = {} // can't we just set the regular form state
-    if (selectedSnapshot !== "Enter Date - Latest"){
-      formState.snapshot = selectedSnapshot
-    }
+    // let formState = {} // can't we just set the regular form state
+    // if (selectedSnapshot !== "Enter Date - Latest"){
+    //   formState.snapshot = selectedSnapshot
+    // }
 
-    if (selectedYear !== "Enter Date - Latest"){
-      formState.year = selectedYear
-    }
+    // if (selectedYear !== "Enter Date - Latest"){
+    //   formState.year = selectedYear
+    // }
 
-    if (selectedWikiProject !== "Wikimedia Project - Any"){
-      formState.wikiProject = selectedWikiProject
-    }
+    // if (selectedWikiProject !== "Wikimedia Project - Any"){
+    //   formState.wikiProject = selectedWikiProject
+    // }
 
-    if (selectedCitizenship !== "Citizenship - Any"){
-      formState.citizenship = selectedCitizenship
-    }
+    // if (selectedCitizenship !== "Citizenship - Any"){
+    //   formState.citizenship = selectedCitizenship
+    // }
     console.log("Form state is: ", formState)
-    setFormState(formState)
-    setFetchURL(formState)
+    return "hello"
+    // setFormState(formState)
+    // setFetchURL(formState)
   }
 
   function setFetchURL(formState){
@@ -101,9 +102,6 @@ function AdvancedSearchView(){
       overflow: 'visible'
     }})
 
-    // columns.push({dataField: "men", text: "men", sort:true})
-    // columns.push({dataField: "menPercent", text: "men Percent", sort:true, formatter: percentFormatter})
-    
     for (let genderId in data.meta.bias_labels) {
       let obj = {
         dataField: data.meta.bias_labels[genderId],
@@ -149,6 +147,7 @@ function AdvancedSearchView(){
   }
 
   useEffect(() => {
+    if (!url) return
     fetch(url)
       .then(response => response.json())
       .then(data => processFetchData(data))
@@ -169,16 +168,16 @@ function AdvancedSearchView(){
       <div className="input-area">
         <AdvacnedSearchForm
           onSubmit={onSubmit}
-          selectedSnapshot={selectedSnapshot}
-          setSelectedSnapshot={setSelectedSnapshot}
-          selectedYear={selectedYear}
-          setSelectedYear={setSelectedYear}
-          selectedCitizenship={selectedCitizenship}
-          setSelectedCitizenship={setSelectedCitizenship}
-          selectedWikiProject={selectedWikiProject}
-          setSelectedWikiProject={setSelectedWikiProject}
-          selectedOccupation={selectedOccupation}
-          setSelectedOccupation={setSelectedOccupation}
+          // selectedSnapshot={selectedSnapshot}
+          // setSelectedSnapshot={setSelectedSnapshot}
+          // selectedYear={selectedYear}
+          // setSelectedYear={setSelectedYear}
+          // selectedCitizenship={selectedCitizenship}
+          // setSelectedCitizenship={setSelectedCitizenship}
+          // selectedWikiProject={selectedWikiProject}
+          // setSelectedWikiProject={setSelectedWikiProject}
+          // selectedOccupation={selectedOccupation}
+          // setSelectedOccupation={setSelectedOccupation}
         />
 
       </div>

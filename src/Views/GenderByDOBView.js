@@ -147,7 +147,7 @@ function GenderByDOBView(){
     fetch(url)
       .then(response => response.json())
       .then(data => processData(data))
-  }, [snapshot])
+  }, [snapshot, processData])
 
   return (
     <Container className="view-container">

@@ -42,6 +42,7 @@
     ]
   },
   "devDependencies": {
+    "eslint-plugin-react-hooks": "^1.7.0",
     "resize-observer-polyfill": "^1.5.1"
   }
 }

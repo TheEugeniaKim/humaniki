@@ -71,7 +71,7 @@ svg {
   stroke-width: 0.05px;
 }
 .country:hover {
-  fill: red;
+  fill: #6200F8;
 }
 
 .scatter-plot-container{
@@ -79,8 +79,8 @@ svg {
 }
 
 .dropdown {
-  height: 170px;
   overflow-y: scroll;
+  height: 400 px;
 }
 
 .table {

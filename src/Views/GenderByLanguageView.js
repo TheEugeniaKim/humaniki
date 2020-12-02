@@ -103,7 +103,7 @@ function GenderByLanguageView(){
 
   useEffect(() => {
     fetchData()
-  }, [snapshot])
+  }, [snapshot, fetchData])
   
   function afterFilter(newResult, newFilters) {
     console.log(newResult);
