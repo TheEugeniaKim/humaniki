@@ -67,6 +67,7 @@ function GenderByCountryView(props){
     let tableArr = []
     let columns = []
     let genders = Object.values(fetchData.meta.bias_labels)
+    let preMapData = data
     const extrema = {
       totalMax: Number.NEGATIVE_INFINITY,
       totalMin: Number.POSITIVE_INFINITY
@@ -113,10 +114,12 @@ function GenderByCountryView(props){
       }
       
       //Handle Formatting countryData for WorlMap
-      data.features.map(country => {
+      preMapData.features.map(country => {
         if (country["properties"]["iso_a2"] === obj["item_label"]["iso_3166"]){
-          let indexPosition = data.features.findIndex(element => element["properties"]["iso_a2"] === obj["item_label"]["iso_3166"])
-          data.features[indexPosition]["properties"]["total"] = Object.values(obj["values"]).reduce((a,b) => a + b)
+          console.log("editing:", country)
+          let indexPosition = preMapData.features.findIndex(element => element["properties"]["iso_a2"] === obj["item_label"]["iso_3166"])
+          preMapData.features[indexPosition]["properties"]["total"] = Object.values(obj["values"]).reduce((a,b) => a + b)
+          preMapData.features[indexPosition]["properties"]["genders"] = Object.values(fetchData.meta.bias_labels)
           for (let genderId in fetchData.meta.bias_labels) {
             let label = fetchData.meta.bias_labels[genderId]
             country["properties"][label] = obj["values"][genderId] ? obj["values"][genderId] : 0 
@@ -124,11 +127,11 @@ function GenderByCountryView(props){
           }
         }
       })
-      
+      console.log(preMapData)
       
 
     })
-    setMapData(data)
+    setMapData(preMapData)
     setTableArr(tableArr)
     setTableColumns(columns)
     setTableMetaData(extrema)

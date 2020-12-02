@@ -54,7 +54,7 @@ function WorldMap({ mapData, property, extrema }) {
       
     }
     
-  }, [mapData, dimensions, property, selectedCountry]);
+  }, [mapData, dimensions, extrema, property, selectedCountry]);
 
   return (
     <div ref={wrapperRef} style={{ marginBottom: "2rem" }}>

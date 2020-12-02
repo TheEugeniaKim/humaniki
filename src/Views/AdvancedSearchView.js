@@ -16,30 +16,8 @@ function AdvancedSearchView(){
   const [tableColumns, setTableColumns] = useState([{dataField: "index", text: "Index", sort: true}])
   const [tableData, setTableData] = useState([])
 
-  // const [selectedSnapshot, setSelectedSnapshot] = useState(null)
-  // const [selectedYear, setSelectedYear] = useState(null)
-  // const [selectedWikiProject, setSelectedWikiProject] = useState(null)
-  // const [selectedCitizenship, setSelectedCitizenship] = useState(null)
-  // const [selectedOccupation, setSelectedOccupation] = useState(null)
-
   function onSubmit(e,formState){
     e.preventDefault()
-    // let formState = {} // can't we just set the regular form state
-    // if (selectedSnapshot !== "Enter Date - Latest"){
-    //   formState.snapshot = selectedSnapshot
-    // }
-
-    // if (selectedYear !== "Enter Date - Latest"){
-    //   formState.year = selectedYear
-    // }
-
-    // if (selectedWikiProject !== "Wikimedia Project - Any"){
-    //   formState.wikiProject = selectedWikiProject
-    // }
-
-    // if (selectedCitizenship !== "Citizenship - Any"){
-    //   formState.citizenship = selectedCitizenship
-    // }
     console.log("Form state is: ", formState)
     return "hello"
     // setFormState(formState)
@@ -157,7 +135,7 @@ function AdvancedSearchView(){
     <Container className="view-container">
       <h1>Advanced Search</h1>
 
-      <div className="human-div" >
+      <div className="human-div">
         <h6>Different Wikipedia Categories of Humans</h6>
         <ToggleButtonGroup type="radio" name="human-type" defaultValue={"all"} onChange={handleHumanChange}>
           <ToggleButton value={"all"} name="all" size="lg" variant="outline-dark">All Humans on Wikidata</ToggleButton>
@@ -168,16 +146,6 @@ function AdvancedSearchView(){
       <div className="input-area">
         <AdvacnedSearchForm
           onSubmit={onSubmit}
-          // selectedSnapshot={selectedSnapshot}
-          // setSelectedSnapshot={setSelectedSnapshot}
-          // selectedYear={selectedYear}
-          // setSelectedYear={setSelectedYear}
-          // selectedCitizenship={selectedCitizenship}
-          // setSelectedCitizenship={setSelectedCitizenship}
-          // selectedWikiProject={selectedWikiProject}
-          // setSelectedWikiProject={setSelectedWikiProject}
-          // selectedOccupation={selectedOccupation}
-          // setSelectedOccupation={setSelectedOccupation}
         />
 
       </div>
