@@ -15,13 +15,11 @@ function AdvancedSearchView(){
   const [url, seturl] = useState("")
   const [tableColumns, setTableColumns] = useState([{dataField: "index", text: "Index", sort: true}])
   const [tableData, setTableData] = useState([])
+  
 
-  function onSubmit(e,formState){
-    e.preventDefault()
+  const onSubmit = (formState) => {
     console.log("Form state is: ", formState)
-    return "hello"
-    // setFormState(formState)
-    // setFetchURL(formState)
+    setFetchURL(formState)
   }
 
   function setFetchURL(formState){
@@ -30,17 +28,18 @@ function AdvancedSearchView(){
     // let baseURL = "http://127.0.0.1:5000/v1/gender/gap/"
 
     let baseURL = process.env.REACT_APP_API_URL
-    let url = `${baseURL}v1/gender/gap/${formState.snapshot ? formState.snapshot : "latest"}/${selectedWikipediaHumanType}/properties?`
-    if (formState.year) {
-      url = url + `&date_of_birth=${formState.year}`
+    let url = `${baseURL}v1/gender/gap/${formState.selectedSnapshot ? formState.selectedSnapshot : "latest"}/${selectedWikipediaHumanType}/properties?`
+    if (formState.selectedYearRange) {
+      url = url + `&date_of_birth=${formState.selectedYearRange}`
     }
 
-    if (formState.wikiProject) {
+    if (formState.selectedWikiProject) {
+      console.log(formState.selectedWikiProject)
       url = url + `&project=${formState.wikiProject}`
     }
 
-    if (formState.citizenship) {
-      url = url + `&citizenship=${formState.citizenship}`
+    if (formState.selectedCitizenship) {
+      url = url + `&citizenship=${formState.selectedCitizenship}`
     }
 
     url = url + `&label_lang=en`

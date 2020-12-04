@@ -63,7 +63,6 @@ function GenderByDOBView(){
     const columns = []
     const lineData = []
     const graphLabels = Object.values(data.meta.bias_labels)
-    const genderMap = setGenderMap(data.meta.bias_labels)
     const extrema = {
       percentMax: Number.NEGATIVE_INFINITY,
       percentMin: Number.POSITIVE_INFINITY,
@@ -147,7 +146,7 @@ function GenderByDOBView(){
     fetch(url)
       .then(response => response.json())
       .then(data => processData(data))
-  }, [snapshot, processData])
+  }, [snapshot])
 
   return (
     <Container className="view-container">

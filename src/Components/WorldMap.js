@@ -69,7 +69,7 @@ function WorldMap({ mapData, property, extrema, genders }) {
         .attr("fill", feature => colorScale(feature.properties[property]))
         .attr("d", feature => pathGenerator(feature))
         .append("title")
-        .text(feature => feature.properties.text)
+          .text(feature => feature.properties.text)
       
       svg.call(zoom().on("zoom", (event) => {
         g.attr('transform', event.transform)

@@ -3,13 +3,25 @@ import {Form, Row, Button } from 'react-bootstrap'
 import allWikiProjects from '../allWikiProjects.json'
 import allWikiCountries from '../allWikiCountries.json'
 
-function AdvacnedSearchForm(props){
+function AdvacnedSearchForm({onSubmit}){
+  // console.log("props",props)
   const [formState, setFormState] = useState({})
 
   const handleInputChange = (e) => setFormState({
     ...formState,
     [e.target.id]: e.target.value
   })
+
+  function onClickReset(e){
+    console.log(e)
+    // setFormState({
+    //   "selectedYearRange": null,
+    //   "selectedSnapshot": null
+    // })
+    setFormState({})
+
+
+  }
 
   let allWikiCountriesTuples = allWikiCountries ? Object.entries(allWikiCountries) : null 
   let allWikiProjectsTuples = allWikiProjects ? Object.entries(allWikiProjects): null 
@@ -18,11 +30,10 @@ function AdvacnedSearchForm(props){
   allWikiCountriesTuples.unshift(["all","All"])
   allWikiCountriesTuples.unshift([null,"No Filter"])
 
-  function onClickReset(e){
-    setFormState({
-      "selectedYearRange": null,
-      "selectedSnapshot": null
-    })
+  function handleOnSubmit(e){
+    e.preventDefault()
+    console.log("Form State", formState)
+    onSubmit(formState)
   }
 
   function lookupWikiProjectSelection(wikiCode){
@@ -36,7 +47,7 @@ function AdvacnedSearchForm(props){
   }
   
   return(
-    <Form onSubmit={formState => props.onSubmit}>
+    <Form onSubmit={handleOnSubmit}>
       <Row>
         <Form.Group controlId="selectedSnapshot">
           <Form.Label>Timestamp</Form.Label>
