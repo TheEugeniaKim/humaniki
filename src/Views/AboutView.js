@@ -20,8 +20,9 @@ function AboutView(){
 
   useEffect(() => {
     const svg = select(svgRef.current)
-
     const colors = ["#BC8F00","#6200F8","#00BCA1"]
+    // const url = 
+    // fetch()
 
     svg.selectAll("rect")
     .data([totalMen,totalOthers, totalWomen])

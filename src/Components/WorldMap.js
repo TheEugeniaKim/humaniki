@@ -2,15 +2,44 @@ import React, { useRef, useEffect, useState } from "react";
 import { select, geoPath, geoMercator, min, max, scaleLinear, zoom } from "d3";
 import useResizeObserver from "./useResizeObserver";
 
-function WorldMap({ mapData, property, extrema }) {
+function WorldMap({ mapData, property, extrema, genders }) {
   const svgRef = useRef();
   const wrapperRef = useRef();
   const dimensions = useResizeObserver(wrapperRef);
   const [selectedCountry, setSelectedCountry] = useState(null);
 
+  function generateLabel(feature, genders){
+    // console.log(feature, genders)
+    let country = feature.properties.name
+    let label = country
+    // for (let i=0; i<genders.length; i++){
+    //   if (feature["properties"][genders[i]]){
+    //     console.log(feature["properties"][genders[i]], "matched")
+    //     let gender = genders[i]
+    //     let value = feature.properties[genders[i]]
+    //     let valuePercent = (value/feature.properties.total*100).toFixed(3)
+    //     // console.log("here", gender,value,valuePercent)
+    //     return label = label + `${gender}: ${value} (${valuePercent}%)`
+    //   }
+    // }
+
+    genders.forEach(gender => {
+    
+      if (feature["properties"][gender]){
+        let value = feature.properties[gender]
+        let valuePercent = (value/feature.properties.total*100).toFixed(3)
+        return label = label + ` ${gender}: ${value} (${valuePercent}%)`
+
+      }
+    })
+    // console.log("genderLabels", genderLabels)
+    console.log("label", label)
+    return label
+  }
+
   // will be called initially and on every data change
   useEffect(() => {
-    console.log("world map", mapData, extrema)
+    console.log("world map", mapData, genders)
     if (!mapData) return
     if (!property) return
     if (!extrema) return
@@ -40,13 +69,7 @@ function WorldMap({ mapData, property, extrema }) {
         .attr("fill", feature => colorScale(feature.properties[property]))
         .attr("d", feature => pathGenerator(feature))
         .append("title")
-          .text(feature => 
-            `${feature.properties.name} 
-            men: ${feature.properties.male ? feature.properties.male : 0}
-            women: ${feature.properties.female ? feature.properties.female : 0}
-            percent men (%): ${feature["properties"]["malePercent"] ? feature["properties"]["malePercent"] : 0}%
-            percent women (%): ${feature["properties"]["femalePercent"] ? feature["properties"]["femalePercent"] : 0}%`
-          )
+        .text(feature => feature.properties.text)
       
       svg.call(zoom().on("zoom", (event) => {
         g.attr('transform', event.transform)
@@ -54,7 +77,7 @@ function WorldMap({ mapData, property, extrema }) {
       
     }
     
-  }, [mapData, dimensions, extrema, property, selectedCountry]);
+  }, [mapData, dimensions, extrema, property, genders, selectedCountry]);
 
   return (
     <div ref={wrapperRef} style={{ marginBottom: "2rem" }}>

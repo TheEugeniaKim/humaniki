@@ -105,7 +105,7 @@ function GenderByCountryView(props){
       tableObj.country = obj.item_label.citizenship 
       tableObj.total = Object.values(obj.values).reduce((a,b) => a + b)
       for (let genderId in fetchData.meta.bias_labels) {
-        let label = fetchData.meta.bias_labels[genderId]
+        let label = fetchData.meta.bias_labels[genderId] ? fetchData.meta.bias_labels[genderId] : genderId
         tableObj[label] = obj["values"][genderId] ? obj["values"][genderId] : 0 
         tableObj[label + "Percent"] = obj["values"][genderId] ? (obj["values"][genderId]/tableObj["total"])*100 : 0
       }
@@ -120,10 +120,17 @@ function GenderByCountryView(props){
           let indexPosition = preMapData.features.findIndex(element => element["properties"]["iso_a2"] === obj["item_label"]["iso_3166"])
           preMapData.features[indexPosition]["properties"]["total"] = Object.values(obj["values"]).reduce((a,b) => a + b)
           preMapData.features[indexPosition]["properties"]["genders"] = Object.values(fetchData.meta.bias_labels)
+          preMapData.features[indexPosition]["properties"]["text"] = preMapData.features[indexPosition]["properties"]["name"]
           for (let genderId in fetchData.meta.bias_labels) {
             let label = fetchData.meta.bias_labels[genderId]
             country["properties"][label] = obj["values"][genderId] ? obj["values"][genderId] : 0 
             country["properties"][label + "Percent"] = obj["values"][genderId] ? (obj["values"][genderId]/country["properties"]["total"])*100 : 0
+          }
+          for (let genderId in fetchData.meta.bias_labels) {
+            let label = fetchData.meta.bias_labels[genderId]
+            country["properties"]["text"] = country["properties"]["text"] + `
+              ${label}: ${country["properties"][label] ? country["properties"][label] : 0} (${country["properties"][label + "Percent"].toFixed(3)})%
+            ` 
           }
         }
       })
@@ -202,6 +209,7 @@ function GenderByCountryView(props){
         mapData={mapData}
         property={property}
         extrema={tableMetaData}
+        genders={genders}
       />
       <select
         value={property}
