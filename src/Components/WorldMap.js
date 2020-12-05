@@ -46,7 +46,7 @@ function WorldMap({ mapData, property, extrema, genders }) {
 
     const svg = select(svgRef.current);
     const g = svg.select(".countries")
-      
+    const l = svg.select(".label")  
       const {width, height} = dimensions || wrapperRef.current.getBoundingClientRect() ;
       const projection = geoMercator().fitSize([width,height], mapData);
       
@@ -65,12 +65,26 @@ function WorldMap({ mapData, property, extrema, genders }) {
         .selectAll(".country")
         .data(mapData.features)
         .join("path")
+        .on("click", (event,feature) => {
+          console.log("CLICKED", event, feature)
+
+          setSelectedCountry(feature)
+        })
         .attr("class", "country")
         .attr("fill", feature => colorScale(feature.properties[property]))
         .attr("d", feature => pathGenerator(feature))
-        .append("title")
-          .text(feature => feature.properties.text)
       
+      if(selectedCountry) {
+        l 
+        .selectAll(".label")
+        .data([selectedCountry])        
+        .join("text")
+        .attr("class","label")
+        .text(feature => feature.properties.text) 
+        .attr("x", 0)
+        .attr("y", dimensions.height - 10)
+      }
+         
       svg.call(zoom().on("zoom", (event) => {
         g.attr('transform', event.transform)
       }))
@@ -82,6 +96,7 @@ function WorldMap({ mapData, property, extrema, genders }) {
   return (
     <div ref={wrapperRef} style={{ marginBottom: "2rem" }}>
       <svg className="world-map"ref={svgRef}>
+        <g className="label"></g>
         <g className="countries"></g>
       </svg>
     </div>

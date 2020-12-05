@@ -12,6 +12,16 @@ function AdvacnedSearchForm({onSubmit}){
     [e.target.id]: e.target.value
   })
 
+  function handleWikiInputChange(e){
+    let handledEvent = {}
+    console.log(e, lookupWikiProjectSelection(e.target.value))
+    // lookupWikiProjectSelection(e)
+  }
+
+  function handleCitizenshipInputChange(e){
+    console.log(lookupWikiProjectSelection(e.target.value))
+  }
+
   function onClickReset(e){
     console.log(e)
     // setFormState({
@@ -33,12 +43,17 @@ function AdvacnedSearchForm({onSubmit}){
   function handleOnSubmit(e){
     e.preventDefault()
     console.log("Form State", formState)
+
     onSubmit(formState)
   }
 
-  function lookupWikiProjectSelection(wikiCode){
-    console.log(wikiCode)
-    return allWikiProjects[wikiCode]
+  function lookupWikiProjectSelection(wikiProjectName){
+    console.log(wikiProjectName)
+    Object.keys(allWikiProjects).map(key => {
+      if (allWikiProjects[key] === wikiProjectName){
+        return key
+      }
+    })
   }
 
   function lookupWikiCitizenshipSelection(countryCode){
@@ -71,7 +86,7 @@ function AdvacnedSearchForm({onSubmit}){
 
         <Form.Group controlId="selectedWikiProject">
           <Form.Label>Wiki Project</Form.Label>
-          <Form.Control as="select" onChange={handleInputChange} >
+          <Form.Control as="select" onChange={handleWikiInputChange} >
             {
               allWikiProjectsTuples.map(projectArr => 
                 <option key={projectArr[0]}>{projectArr[1]}</option>  

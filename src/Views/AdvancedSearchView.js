@@ -35,7 +35,7 @@ function AdvancedSearchView(){
 
     if (formState.selectedWikiProject) {
       console.log(formState.selectedWikiProject)
-      url = url + `&project=${formState.wikiProject}`
+      url = url + `&project=${formState.selectedWikiProject}`
     }
 
     if (formState.selectedCitizenship) {

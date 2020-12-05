@@ -74,6 +74,11 @@ svg {
   fill: #6200F8;
 }
 
+.label {
+  background-color: white;
+  width: 50px;
+}
+
 .scatter-plot-container{
   display: flexbox;
 }
