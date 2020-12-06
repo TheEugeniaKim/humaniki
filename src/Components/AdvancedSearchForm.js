@@ -53,17 +53,29 @@ function AdvacnedSearchForm({onSubmit}){
   function handleOnSubmit(e){
     e.preventDefault()
     console.log("Form State", formState)
-
+    setFormState({
+      "selectedSnapshot": null,
+      "selectedYearRange": null,
+      "selectedWikiProject": null,
+      "selectedCitizenship": null,
+      "selectedOccupation": null
+    })
     onSubmit(formState)
   }
 
   function lookupWikiProjectSelection(wikiProjectName){
+    let e = {}
     console.log(wikiProjectName)
     Object.keys(allWikiProjects).map(key => {
       if (allWikiProjects[key] === wikiProjectName){
-        return key
+        e.target = {}
+        e.target.selectedWikiProject = key 
       }
     })
+    console.log(e)
+    handleInputChange(e)
+    // [e.target.id] =  e.target.value
+
   }
 
   function lookupWikiCitizenshipSelection(countryCode){

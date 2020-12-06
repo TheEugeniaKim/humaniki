@@ -18,11 +18,21 @@ function AboutView(){
     return [percentTotalMen, percentTotalOthers, percentTotalWomen]
   }
 
+  function processFetchData(data){
+    let genderKey = data.meta.bias_labels
+    let values = data.metrics[0].values
+    console.log(data, "genderKey",genderKey, "values",values)
+    
+  }
+
   useEffect(() => {
     const svg = select(svgRef.current)
     const colors = ["#BC8F00","#6200F8","#00BCA1"]
-    // const url = 
-    // fetch()
+    let baseURL = process.env.REACT_APP_API_URL
+    let url = `${baseURL}v1/gender/gap/latest/gte_one_sitelink/properties?&label_lang=en`
+    fetch(url)
+    .then(response => response.json())
+    .then(data => processFetchData(data))
 
     svg.selectAll("rect")
     .data([totalMen,totalOthers, totalWomen])

@@ -29,6 +29,7 @@ function AdvancedSearchView(){
 
     let baseURL = process.env.REACT_APP_API_URL
     let url = `${baseURL}v1/gender/gap/${formState.selectedSnapshot ? formState.selectedSnapshot : "latest"}/${selectedWikipediaHumanType}/properties?`
+    console.log(url)
     if (formState.selectedYearRange) {
       url = url + `&date_of_birth=${formState.selectedYearRange}`
     }
@@ -75,7 +76,6 @@ function AdvancedSearchView(){
     columns.push({dataField: "index", text: "Index", sort: true})
     columns.push({dataField: "total", text: "Total", sort: true})
     columns.push({dataField: "gap", text: "Gap", sort: true, style: {
-      width: '40px',
       overflow: 'visible'
     }})
 
