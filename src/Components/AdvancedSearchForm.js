@@ -5,7 +5,13 @@ import allWikiCountries from '../allWikiCountries.json'
 
 function AdvacnedSearchForm({onSubmit}){
   // console.log("props",props)
-  const [formState, setFormState] = useState({})
+  const [formState, setFormState] = useState({
+    "selectedSnapshot": "latest",
+    "selectedYearRange": null,
+    "selectedWikiProject": "all",
+    "selectedCitizenship": "all",
+    "selectedOccupation": null
+  })
 
   const handleInputChange = (e) => setFormState({
     ...formState,
@@ -28,7 +34,13 @@ function AdvacnedSearchForm({onSubmit}){
     //   "selectedYearRange": null,
     //   "selectedSnapshot": null
     // })
-    setFormState({})
+    setFormState({
+      "selectedSnapshot": null,
+      "selectedYearRange": null,
+      "selectedWikiProject": null,
+      "selectedCitizenship": null,
+      "selectedOccupation": null
+    })
 
 
   }
@@ -36,9 +48,7 @@ function AdvacnedSearchForm({onSubmit}){
   let allWikiCountriesTuples = allWikiCountries ? Object.entries(allWikiCountries) : null 
   let allWikiProjectsTuples = allWikiProjects ? Object.entries(allWikiProjects): null 
   allWikiProjectsTuples.unshift(["all","All"])
-  allWikiProjectsTuples.unshift([null,"No Filter"])
   allWikiCountriesTuples.unshift(["all","All"])
-  allWikiCountriesTuples.unshift([null,"No Filter"])
 
   function handleOnSubmit(e){
     e.preventDefault()
@@ -68,7 +78,7 @@ function AdvacnedSearchForm({onSubmit}){
           <Form.Label>Timestamp</Form.Label>
           <Form.Control 
             type="text" 
-            placeholder="Latest"
+            // placeholder="Latest"
             onChange={handleInputChange} 
             value={formState.selectedSnapshot === null ? "Latest" : formState.selectedSnapshot} 
             />
@@ -78,7 +88,6 @@ function AdvacnedSearchForm({onSubmit}){
           <Form.Label>Year of Birth '[YEAR]~[YEAR]'</Form.Label>
           <Form.Control 
             type="text"  
-            placeholder="No Filter" 
             onChange={handleInputChange} 
             value={formState.selectedYearRange === null ? "No Filter" : formState.selectedYearRange}
           />

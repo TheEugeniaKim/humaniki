@@ -12,7 +12,7 @@ import SingleBarChart from '../Components/SingleBarChart'
 function AdvancedSearchView(){
   const [selectedWikipediaHumanType, setSelectedWikipediaHumanType] = useState("all_wikidata")
   // const [formState, setFormState] = useState({})
-  const [url, seturl] = useState("")
+  const [url, seturl] = useState("http://127.0.0.1:5000/v1/gender/gap/latest/gte_one_sitelink/properties?&label_lang=en")
   const [tableColumns, setTableColumns] = useState([{dataField: "index", text: "Index", sort: true}])
   const [tableData, setTableData] = useState([])
   
@@ -103,7 +103,7 @@ function AdvancedSearchView(){
       tableObj.key = index
         let item_labels = Object.values(obj["item_label"])
         item_labels = item_labels.length > 0 ? item_labels : ["Overall"]
-      tableObj.index = item_labels.join(", ")
+      tableObj.index = item_labels.length > 1 ? item_labels.join(", ") : item_labels[0]
       tableObj.total = Object.values(obj.values).reduce((a, b) => a + b)
       for (let genderId in data.meta.bias_labels){
         let label = data.meta.bias_labels[genderId]
