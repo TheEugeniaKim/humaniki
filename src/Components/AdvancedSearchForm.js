@@ -3,14 +3,19 @@ import {Form, Row, Button } from 'react-bootstrap'
 import allWikiProjects from '../allWikiProjects.json'
 import allWikiCountries from '../allWikiCountries.json'
 
-function AdvacnedSearchForm({onSubmit}){
-  // console.log("props",props)
+function AdvacnedSearchForm({onSubmit, snapshots}){
+  console.log("snapshot",snapshots)
   const [formState, setFormState] = useState({
     "selectedSnapshot": "latest",
     "selectedYearRange": null,
     "selectedWikiProject": "all",
     "selectedCitizenship": "all",
     "selectedOccupation": null
+  })
+
+  const handleSnapshotChange = (e) => setFormState({
+    ...formState,
+    [e.target.id]: e.target.value.replace(/-/g, "")
   })
 
   const handleInputChange = (e) => setFormState({
@@ -20,12 +25,43 @@ function AdvacnedSearchForm({onSubmit}){
 
   function handleWikiInputChange(e){
     let handledEvent = {}
-    console.log(e, lookupWikiProjectSelection(e.target.value))
-    // lookupWikiProjectSelection(e)
+    if (e.target.value === "All"){
+      setFormState({
+        ...formState, 
+        selectedWikiProject: "all"
+      })
+    } else {
+      allWikiProjectsTuples.map(arr => {
+        console.log(arr[1], e.target.value)
+        if (arr[1] === e.target.value){
+          console.log("setting state")
+          setFormState({
+            ...formState, 
+            selectedWikiProject: arr[0]
+          })
+        }
+      })
+      console.log("new state", formState)  
+    }
   }
 
   function handleCitizenshipInputChange(e){
-    console.log(lookupWikiProjectSelection(e.target.value))
+    if (e.target.value === "All"){
+      setFormState({
+        ...formState, 
+        selectedWikiProject: "all"
+      })
+    } else {
+      allWikiCountries.map(arr => {
+        if (arr[1] === e.target.value) {
+          setFormState({
+            ...formState,
+            selectedCitizenship: arr[0]
+          })
+        }  
+      })
+    }
+    console.log("formstate", formState)
   }
 
   function onClickReset(e){
@@ -64,17 +100,12 @@ function AdvacnedSearchForm({onSubmit}){
   }
 
   function lookupWikiProjectSelection(wikiProjectName){
-    let e = {}
-    console.log(wikiProjectName)
-    Object.keys(allWikiProjects).map(key => {
-      if (allWikiProjects[key] === wikiProjectName){
-        e.target = {}
-        e.target.selectedWikiProject = key 
+    console.log("inlookup wiki", wikiProjectName, allWikiProjectsTuples)
+    allWikiProjectsTuples.map(arr => {
+      if (arr[1] === wikiProjectName){
+        return arr
       }
     })
-    console.log(e)
-    handleInputChange(e)
-    // [e.target.id] =  e.target.value
 
   }
 
@@ -87,13 +118,14 @@ function AdvacnedSearchForm({onSubmit}){
     <Form onSubmit={handleOnSubmit}>
       <Row>
         <Form.Group controlId="selectedSnapshot">
-          <Form.Label>Timestamp</Form.Label>
-          <Form.Control 
-            type="text" 
-            // placeholder="Latest"
-            onChange={handleInputChange} 
-            value={formState.selectedSnapshot === null ? "Latest" : formState.selectedSnapshot} 
-            />
+          <Form.Label>Timestamp (YYYY-DD-MM)</Form.Label>
+          <Form.Control as="select" onChange={handleSnapshotChange} >
+            {
+              snapshots.map(snapshot =>
+                <option key={snapshot.id}>{snapshot.date}</option>  
+              )
+            }
+          </Form.Control>
         </Form.Group>
 
         <Form.Group controlId="selectedYearRange">
@@ -118,7 +150,7 @@ function AdvacnedSearchForm({onSubmit}){
 
         <Form.Group controlId="selectedCitizenship">
           <Form.Label>Citizenship</Form.Label>
-          <Form.Control as="select" onChange={handleInputChange} >
+          <Form.Control as="select" onChange={handleCitizenshipInputChange} >
             {
               allWikiCountriesTuples.map(projectArr => 
                 <option key={projectArr[0]}>{projectArr[1]}</option>  

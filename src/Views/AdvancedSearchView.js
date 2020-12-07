@@ -12,10 +12,11 @@ import SingleBarChart from '../Components/SingleBarChart'
 function AdvancedSearchView(){
   const [selectedWikipediaHumanType, setSelectedWikipediaHumanType] = useState("all_wikidata")
   // const [formState, setFormState] = useState({})
-  const [url, seturl] = useState("http://127.0.0.1:5000/v1/gender/gap/latest/gte_one_sitelink/properties?&label_lang=en")
+  const baseURL = process.env.REACT_APP_API_URL
+  const [url, seturl] = useState(`${baseURL}/v1/gender/gap/latest/gte_one_sitelink/properties?&label_lang=en`)
   const [tableColumns, setTableColumns] = useState([{dataField: "index", text: "Index", sort: true}])
   const [tableData, setTableData] = useState([])
-  
+  const [availableSnapshots, setAvailableSnapshots] = useState([])
 
   const onSubmit = (formState) => {
     console.log("Form state is: ", formState)
@@ -23,12 +24,7 @@ function AdvancedSearchView(){
   }
 
   function setFetchURL(formState){
-    // let url = `http://localhost:5000/v1/gender/gap/${formState.snapshot ? formState.snapshot : "latest"}/${selectedWikipediaHumanType}/properties?`
-    // let url = `https://humaniki-staging.wmflabs.org/api/v1/gender/gap/${formState.snapshot ? formState.snapshot : "latest"}/${selectedWikipediaHumanType}/properties?`
-    // let baseURL = "http://127.0.0.1:5000/v1/gender/gap/"
-
-    let baseURL = process.env.REACT_APP_API_URL
-    let url = `${baseURL}v1/gender/gap/${formState.selectedSnapshot ? formState.selectedSnapshot : "latest"}/${selectedWikipediaHumanType}/properties?`
+    let url = `${baseURL}/v1/gender/gap/${formState.selectedSnapshot ? formState.selectedSnapshot : "latest"}/${selectedWikipediaHumanType}/properties?`
     console.log(url)
     if (formState.selectedYearRange) {
       url = url + `&date_of_birth=${formState.selectedYearRange}`
@@ -69,35 +65,49 @@ function AdvancedSearchView(){
   }
 
   const columns = []
-  function processFetchData(data){
-    console.log("data process fetch", data)
+
+  function processFetchData(resData, snapshotData){
+    if (!resData) return
+    if (!snapshotData) return
+    console.log("data process fetch", resData, "snapshotData:", snapshotData)
+    snapshotData.forEach(snapshot => snapshot.date = snapshot.date.substring(0,4) + "-" + snapshot.date.substring(4,6) + "-" + snapshot.date.substring(6,8))
+    // for (let snapshot of snapshotData){
+    //   console.log(snapshot)
+    //   return snapshot.date.substring(0,4) + "-" + snapshot.date.substring(4,6) + "-" + snapshot.date.substring(6,8)
+    // }
+
+    snapshotData.unshift({date: "latest", id: 0})
+    console.log("SNAPSHOTDATA",snapshotData)
+    setAvailableSnapshots(snapshotData)
+    
     let tableArr = []
     //create columns
-    columns.push({dataField: "index", text: "Index", sort: true})
+    columns.push({dataField: "index", text: "Index", sort: true, filter: textFilter()})
     columns.push({dataField: "total", text: "Total", sort: true})
-    columns.push({dataField: "gap", text: "Gap", sort: true, style: {
+    columns.push({resDataField: "gap", text: "Gap", sort: true, style: {
       overflow: 'visible'
     }})
 
-    for (let genderId in data.meta.bias_labels) {
+    for (let i=0; i< Object.keys(resData["meta"]["bias_labels"]).length; i++) {
+      let genderId = Object.keys(resData["meta"]["bias_labels"])[i]
       let obj = {
-        dataField: data.meta.bias_labels[genderId],
-        text: data.meta.bias_labels[genderId],
+        dataField: resData.meta.bias_labels[genderId],
+        text: resData.meta.bias_labels[genderId],
         sort: true
       }
       let objPercent = {
-        dataField: data.meta.bias_labels[genderId] + "Percent",
-        text: data.meta.bias_labels[genderId] + " Percent",
+        dataField: resData.meta.bias_labels[genderId] + "Percent",
+        text: resData.meta.bias_labels[genderId] + " Percent",
         sort: true,
         formatter: percentFormatter
       }
-      obj.label = data.meta.bias_labels[genderId]
+      obj.label = resData.meta.bias_labels[genderId]
       columns.push(obj)
       columns.push(objPercent)
     }
 
     // configure data
-    data.metrics.forEach((obj, index) => {
+    resData.metrics.forEach((obj, index) => {
       let tableObj = {}
       delete obj["item_label"]["iso_3166"]
       tableObj.key = index
@@ -105,15 +115,15 @@ function AdvancedSearchView(){
         item_labels = item_labels.length > 0 ? item_labels : ["Overall"]
       tableObj.index = item_labels.length > 1 ? item_labels.join(", ") : item_labels[0]
       tableObj.total = Object.values(obj.values).reduce((a, b) => a + b)
-      for (let genderId in data.meta.bias_labels){
-        let label = data.meta.bias_labels[genderId]
+      for (let genderId in resData.meta.bias_labels){
+        let label = resData.meta.bias_labels[genderId]
         tableObj[label] = obj["values"][genderId] ? obj["values"][genderId] : 0 
         tableObj[label + "Percent"] = obj["values"][genderId] ? (obj["values"][genderId]/tableObj["total"])*100 : 0  
       }
       let genderTotalsArr = []
       console.log("HELLO", tableObj, obj)
 
-      Object.values(data.meta.bias_labels).map(gender => gender + "Percent").map(g => genderTotalsArr.push(tableObj[g]))
+      Object.values(resData.meta.bias_labels).map(gender => gender + "Percent").map(g => genderTotalsArr.push(tableObj[g]))
       console.log("gender total arr", genderTotalsArr)
       tableObj.gap = <SingleBarChart genderTotals={genderTotalsArr} />
       tableArr.push(tableObj)
@@ -124,10 +134,16 @@ function AdvancedSearchView(){
   }
 
   useEffect(() => {
+    const snapshotURL = baseURL + "v1/available_snapshots/"
     if (!url) return
-    fetch(url)
-      .then(response => response.json())
-      .then(data => processFetchData(data))
+    if (!snapshotURL) return
+    Promise.all([
+      fetch(url),
+      fetch(snapshotURL)
+    ])
+      .then(([resData, resSnapshot]) => Promise.all([resData.json(), resSnapshot.json()]))
+      .then(([resData, snapshotData]) => processFetchData(resData, snapshotData))
+
   }, [url])
 
   return (
@@ -145,6 +161,7 @@ function AdvancedSearchView(){
       <div className="input-area">
         <AdvacnedSearchForm
           onSubmit={onSubmit}
+          snapshots={availableSnapshots}
         />
 
       </div>
