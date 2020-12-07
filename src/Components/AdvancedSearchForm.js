@@ -4,7 +4,6 @@ import allWikiProjects from '../allWikiProjects.json'
 import allWikiCountries from '../allWikiCountries.json'
 
 function AdvacnedSearchForm({onSubmit, snapshots}){
-  console.log("snapshot",snapshots)
   const [formState, setFormState] = useState({
     "selectedSnapshot": "latest",
     "selectedYearRange": null,
@@ -24,7 +23,6 @@ function AdvacnedSearchForm({onSubmit, snapshots}){
   })
 
   function handleWikiInputChange(e){
-    let handledEvent = {}
     if (e.target.value === "All"){
       setFormState({
         ...formState, 
@@ -40,7 +38,6 @@ function AdvacnedSearchForm({onSubmit, snapshots}){
           })
         }
       })
-      console.log("new state", formState)  
     }
   }
 
@@ -71,8 +68,6 @@ function AdvacnedSearchForm({onSubmit, snapshots}){
       "selectedCitizenship": null,
       "selectedOccupation": null
     })
-
-
   }
 
   let allWikiCountriesTuples = allWikiCountries ? Object.entries(allWikiCountries) : null 
@@ -91,21 +86,6 @@ function AdvacnedSearchForm({onSubmit, snapshots}){
       "selectedOccupation": null
     })
     onSubmit(formState)
-  }
-
-  function lookupWikiProjectSelection(wikiProjectName){
-    console.log("inlookup wiki", wikiProjectName, allWikiProjectsTuples)
-    allWikiProjectsTuples.map(arr => {
-      if (arr[1] === wikiProjectName){
-        return arr
-      }
-    })
-
-  }
-
-  function lookupWikiCitizenshipSelection(countryCode){
-    console.log(countryCode)
-    return allWikiCountries[countryCode]
   }
   
   return(

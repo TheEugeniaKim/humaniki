@@ -24,7 +24,7 @@ function AdvancedSearchView(){
   }
 
   function setFetchURL(formState){
-    let url = `${baseURL}/v1/gender/gap/${formState.selectedSnapshot ? formState.selectedSnapshot : "latest"}/${selectedWikipediaHumanType}/properties?`
+    let url = `${baseURL}v1/gender/gap/${formState.selectedSnapshot ? formState.selectedSnapshot : "latest"}/${selectedWikipediaHumanType}/properties?`
     if (formState.selectedYearRange) {
       url = url + `&date_of_birth=${formState.selectedYearRange}`
     }
@@ -70,11 +70,6 @@ function AdvancedSearchView(){
     if (!snapshotData) return
     console.log("data process fetch", resData, "snapshotData:", snapshotData)
     snapshotData.forEach(snapshot => snapshot.date = snapshot.date.substring(0,4) + "-" + snapshot.date.substring(4,6) + "-" + snapshot.date.substring(6,8))
-    // for (let snapshot of snapshotData){
-    //   console.log(snapshot)
-    //   return snapshot.date.substring(0,4) + "-" + snapshot.date.substring(4,6) + "-" + snapshot.date.substring(6,8)
-    // }
-
     snapshotData.unshift({date: "latest", id: 0})
     console.log("SNAPSHOTDATA",snapshotData)
     setAvailableSnapshots(snapshotData)
@@ -83,7 +78,7 @@ function AdvancedSearchView(){
     //create columns
     columns.push({dataField: "index", text: "Index", sort: true, filter: textFilter()})
     columns.push({dataField: "total", text: "Total", sort: true})
-    columns.push({resDataField: "gap", text: "Gap", sort: true, style: {
+    columns.push({dataField: "gap", text: "Gap", sort: true, style: {
       overflow: 'visible'
     }})
 
@@ -120,10 +115,8 @@ function AdvancedSearchView(){
         tableObj[label + "Percent"] = obj["values"][genderId] ? (obj["values"][genderId]/tableObj["total"])*100 : 0  
       }
       let genderTotalsArr = []
-      console.log("HELLO", tableObj, obj)
 
       Object.values(resData.meta.bias_labels).map(gender => gender + "Percent").map(g => genderTotalsArr.push(tableObj[g]))
-      console.log("gender total arr", genderTotalsArr)
       tableObj.gap = <SingleBarChart genderTotals={genderTotalsArr} />
       tableArr.push(tableObj)
     })
