@@ -32,7 +32,6 @@ function AdvacnedSearchForm({onSubmit, snapshots}){
       })
     } else {
       allWikiProjectsTuples.map(arr => {
-        console.log(arr[1], e.target.value)
         if (arr[1] === e.target.value){
           console.log("setting state")
           setFormState({
@@ -52,7 +51,7 @@ function AdvacnedSearchForm({onSubmit, snapshots}){
         selectedWikiProject: "all"
       })
     } else {
-      allWikiCountries.map(arr => {
+      allWikiCountriesTuples.map(arr => {
         if (arr[1] === e.target.value) {
           setFormState({
             ...formState,
@@ -65,11 +64,6 @@ function AdvacnedSearchForm({onSubmit, snapshots}){
   }
 
   function onClickReset(e){
-    console.log(e)
-    // setFormState({
-    //   "selectedYearRange": null,
-    //   "selectedSnapshot": null
-    // })
     setFormState({
       "selectedSnapshot": null,
       "selectedYearRange": null,

@@ -25,7 +25,6 @@ function AdvancedSearchView(){
 
   function setFetchURL(formState){
     let url = `${baseURL}/v1/gender/gap/${formState.selectedSnapshot ? formState.selectedSnapshot : "latest"}/${selectedWikipediaHumanType}/properties?`
-    console.log(url)
     if (formState.selectedYearRange) {
       url = url + `&date_of_birth=${formState.selectedYearRange}`
     }
@@ -40,7 +39,7 @@ function AdvancedSearchView(){
     }
 
     url = url + `&label_lang=en`
-
+    console.log(url)
     return seturl(url)
   }
 
