@@ -103,7 +103,7 @@ function AdvancedSearchView(){
     // configure data
     resData.metrics.forEach((obj, index) => {
       let tableObj = {}
-      delete obj["item_label"]["iso_3166"]
+      // delete obj["item_label"]["iso_3166"]
       tableObj.key = index
         let item_labels = Object.values(obj["item_label"])
         item_labels = item_labels.length > 0 ? item_labels : ["Overall"]
