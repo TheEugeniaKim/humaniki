@@ -91,6 +91,10 @@ function AdvacnedSearchForm({onSubmit, snapshots}){
       }
     })
   }
+  
+  function formatDate(date){
+    return date.substring(0,4) + "-" + date.substring(4,6) + "-" + date.substring(6,8)
+  }
 
   function handleOnSubmit(e){
     e.preventDefault()
@@ -110,7 +114,7 @@ function AdvacnedSearchForm({onSubmit, snapshots}){
       <Row>
         <Form.Group controlId="selectedSnapshot">
           <Form.Label>Timestamp (YYYY-DD-MM)</Form.Label>
-          <Form.Control as="select" onChange={handleSnapshotChange} value={formState.selectedSnapshot}>
+          <Form.Control as="select" onChange={handleSnapshotChange} value={formState.selectedSnapshot ? formatDate(formState.selectedSnapshot) : "latest"}>
             {
               snapshots.map(snapshot =>
                 <option key={snapshot.id}>{snapshot.date}</option>  
