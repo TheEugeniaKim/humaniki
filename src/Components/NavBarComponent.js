@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import  {Navbar, Nav}  from 'react-bootstrap'
 
-// import humaniki from '../humaniki.png'
-
 function NavBarComponent (props){
   return (
     <React.Fragment>
@@ -11,7 +9,7 @@ function NavBarComponent (props){
           <img className="nav-logo" src="./humaniki.png" alt="humaniki-logo"/>
         </Navbar.Brand>
         <Nav className="justify-content-end">
-          <Nav.Link  href="/" >About</Nav.Link>
+          <Nav.Link  href="/about" >About</Nav.Link>
           {/* <Nav.Link href="/evolution" >Evolution</Nav.Link> */}
           <Nav.Link  href="/advanced-search">Advanced Search</Nav.Link>
           <Nav.Link  href="/gender-by-country">Gender By Country</Nav.Link>
