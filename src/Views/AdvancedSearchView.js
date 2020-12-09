@@ -104,20 +104,38 @@ function AdvancedSearchView(){
 
     for (let i=0; i< Object.keys(resData["meta"]["bias_labels"]).length; i++) {
       let genderId = Object.keys(resData["meta"]["bias_labels"])[i]
-      let obj = {
-        dataField: resData.meta.bias_labels[genderId],
-        text: resData.meta.bias_labels[genderId],
-        sort: true
+      console.log(resData.meta.bias_labels[genderId])
+      if (resData.meta.bias_labels[genderId]===null){
+        let obj = {
+          dataField: genderId,
+          text: genderId,
+          sort: true
+        }
+        let objPercent = {
+          dataField: genderId + "Percent",
+          text: genderId + " Percent",
+          sort: true,
+          formatter: percentFormatter
+        }
+        obj.label = resData.meta.bias_labels[genderId]
+        columns.push(obj)
+        columns.push(objPercent)
+      } else {
+        let obj = {
+          dataField: resData.meta.bias_labels[genderId],
+          text: resData.meta.bias_labels[genderId],
+          sort: true
+        }
+        let objPercent = {
+          dataField: resData.meta.bias_labels[genderId] + "Percent",
+          text: resData.meta.bias_labels[genderId] + " Percent",
+          sort: true,
+          formatter: percentFormatter
+        }
+        obj.label = resData.meta.bias_labels[genderId]
+        columns.push(obj)
+        columns.push(objPercent)
       }
-      let objPercent = {
-        dataField: resData.meta.bias_labels[genderId] + "Percent",
-        text: resData.meta.bias_labels[genderId] + " Percent",
-        sort: true,
-        formatter: percentFormatter
-      }
-      obj.label = resData.meta.bias_labels[genderId]
-      columns.push(obj)
-      columns.push(objPercent)
      
     }
     // configure data
