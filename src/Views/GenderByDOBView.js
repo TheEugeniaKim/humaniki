@@ -6,6 +6,7 @@ import BootstrapTable from 'react-bootstrap-table-next'
 import 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css';
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter'
 import paginationFactory from 'react-bootstrap-table2-paginator'
+import { line } from 'd3';
 
 
 function GenderByDOBView(){
@@ -61,7 +62,7 @@ function GenderByDOBView(){
   function processData(data){
     const tableArr = []
     const columns = []
-    const lineData = []
+    const lineDataArr = []
     const graphLabels = Object.values(data.meta.bias_labels)
     const extrema = {
       percentMax: Number.NEGATIVE_INFINITY,
@@ -91,8 +92,9 @@ function GenderByDOBView(){
 
     //line data loop
     for (let genderId in data.meta.bias_labels) {
+      console.log("genderid", genderId, data.meta.bias_labels)
       let genderLine = {}
-      genderLine.name = genderId
+      genderLine.name = data.meta.bias_labels[genderId]
       genderLine.values = []
       data.metrics.forEach(dp => {
         if (Object.keys(dp.values).includes(genderId)) {
@@ -103,7 +105,8 @@ function GenderByDOBView(){
           genderLine.values.push(tupleObj)
         }
       })
-      lineData.push(genderLine)
+      console.log("genderObj", genderLine)
+      lineDataArr.push(genderLine)
     }
 
     //table loop
@@ -133,7 +136,8 @@ function GenderByDOBView(){
     })
     setGraphGenders(graphLabels)
     setTableMetaData(extrema)
-    setLineData(lineData)
+    setLineData(lineDataArr)
+    console.log("linedata", lineDataArr)
     console.log("tableArr", tableArr)
     setTableArr(tableArr)
     setTableColumns(columns)
@@ -221,12 +225,14 @@ function GenderByDOBView(){
           </InputGroup>
         </div>
       </Container>      
-        <LineChart 
+        {
+          lineData.length === 0 ? null : 
+          <LineChart 
           lineData={lineData} 
           graphGenders={graphGenders}
           extrema={tableMetaData} 
           genderMap={genderMap}
-          />
+        />}
 
       <div className="table-container">
         {

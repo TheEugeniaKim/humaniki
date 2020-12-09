@@ -27,13 +27,16 @@ function LineChart(props){
   const wrapperRef = useRef()
   const dimensions = useResizeObserver(wrapperRef)
   const [currentZoomState, setCurrentZoomState] = useState()
-  // Object.keys(obj).length === 0 && obj.constructor === Object
 
   useEffect(() => {
-    if ( props.lineData.length === 0 || Object.keys(props.genderMap).length === 0 || Object.keys(props.extrema).length === 0 || !dimensions ) {
+    console.log("props", props, dimensions, props.lineData.length === 0, Object.keys(props.genderMap).length === 0, !dimensions)
+    // if ( props.lineData.length === 0 || Object.keys(props.genderMap).length === 0 || !dimensions ) {
+    if (!props.lineData || !props.genderMap || !props.extrema || !dimensions){
       return
     } else {
-      const genderNums = props.genderMap ? Object.keys(props.genderMap).map(str => parseInt(str)) : []
+      console.log("RENDERING LINEGRAPH")
+      const genderNums = Object.keys(props.genderMap).map(str => parseInt(str)) 
+      console.log(genderNums)
       props.lineData.forEach(genderLine => sortGenderLine(genderLine))
 
       function sortGenderLine(genderLine){
@@ -77,7 +80,7 @@ function LineChart(props){
         .tickFormat(index => index + 1)
 
       const colorScale = scaleLinear()
-        .domain(genderNums)
+        .domain([genderNums])
         .range(schemeSet3)
 
       svg
@@ -100,7 +103,7 @@ function LineChart(props){
         .data(props.lineData)
         .join("path")
         .attr("class", "line")
-        .attr("d", (genderLine) => myLine(genderLine.values))
+        .attr("d", (genderLine) => myLine(genderLine))
         .style("fill", "none")
         .attr("stroke", (genderLine) => colorScale(genderLine.name))
         .style("fill", "none")

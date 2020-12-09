@@ -21,8 +21,11 @@ function DefaultView(){
 
   function processFetchData(data){
     let genderKey = data.meta.bias_labels
-    let values = data.metrics[0].values
-    console.log(data, "genderKey",genderKey, "values",values)
+    let total = Object.values(data.metrics[0].values).reduce((a,b) => a+b)
+    let totalMen = data.metrics[0].values["6581097"]
+    let totalWomen = data.metrics[0].values["6581072"]
+    let totalOthers = 
+    console.log(data, "genderKey",genderKey, "values",total, totalMen, totalWomen )
     
   }
 
@@ -36,7 +39,7 @@ function DefaultView(){
     .then(data => processFetchData(data))
 
     svg.selectAll("rect")
-    .data([totalMen,totalOthers, totalWomen])
+    .data([totalMen, totalOthers, totalWomen])
     .join("rect")
     .attr("fill", function(d, i) {return colors[i]; })
     .attr("width", "100%")
@@ -47,14 +50,14 @@ function DefaultView(){
 
   return (
     <div className="About">
-      <div className="About-Content">
+      <Container className="About-Content">
         <h1>Explore Gender Diversity on Wikipedia Biographies with humaniki </h1>
         <h3>
           Humaniki is a project producing a open data set about the gender, 
           date of birth, place of birth, occupation, and language of biography articles 
           in all Wikipedias.
         </h3>
-      </div>
+      </Container>
       
       <div className="About-DataContainer">
         <h4>Recent Distribution of Articles</h4>
@@ -65,7 +68,7 @@ function DefaultView(){
 
       </div>
       
-      <p>
+      <p className="About-Explainer">
         Expore further dynames of the gender gap in bibliographic content on Wikipedia
         with Humaniki and learn how you can contribute to bridge this gap. Compare gender 
         diversity across Wikipedia language editions, gender by country, and date of birth. 
