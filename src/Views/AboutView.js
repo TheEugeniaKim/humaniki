@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { select, scaleLinear} from 'd3'
 import { Container } from 'react-bootstrap'
 import "../App.css"
+import "../Sk.css"
 
 function AboutView(){
   const svgRef = useRef()
