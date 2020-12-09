@@ -9,14 +9,14 @@ function AboutView(){
   return (
     <Container className="About">
       <div className="About-Content">
-        <h2>We create awareness about content diversity in online knowledge spaces </h2>
+        <h3>We create awareness about content diversity in online knowledge spaces </h3>
         <img 
           className="about-img"
           src="./politiciansGenderGap.png" 
           alt="world leaders walking and talking from the 37th G8 summit" 
         ></img>        
         <h5>The World Leaders</h5>
-        
+
         <p>
           WHGI is a project producing a open data set about the gender, date of birth, place of birth, ethnicity, 
           occupation, and language of biography articles in all Wikipedias. Our data set comes from Wikidata, the 
