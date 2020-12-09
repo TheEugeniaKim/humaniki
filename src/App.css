@@ -52,6 +52,12 @@ svg {
   color: white
 }
 
+.about-img{
+  height: 60%;
+  position: relative;
+  margin: 2rem;
+}
+
 .table-container {
   overflow: auto;
   display: block;
