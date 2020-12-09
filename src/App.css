@@ -42,10 +42,14 @@ svg {
   overflow: auto;
 }
 
-.About {
-  height: 100vh; 
+.About { 
   background: #808080;
-  color: #fff;
+  color: rgb(99, 92, 92);
+}
+
+.About-Content{
+  margin-bottom: 3rem;
+  color: white
 }
 
 .table-container {

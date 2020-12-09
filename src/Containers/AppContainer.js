@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import NavBarComponent from '../Components/NavBarComponent'
 import Footer from '../Components/Footer'
+import DefaultView from '../Views/DefaultView'
 import AboutView from '../Views/AboutView'
 import AdvancedSearchView from '../Views/AdvancedSearchView'
 import GenderByCountryView from '../Views/GenderByCountryView'
@@ -16,7 +17,8 @@ function AppContainer() {
     <div className="App" >
       <NavBarComponent setNavBar={setNavBar} />
       <Router>
-        <Route exact path={"/"} render={() => <AboutView/>} />
+        <Route exact path={"/"} render={() => <DefaultView/>} />
+        <Route exact path={"/about"} render={() => <AboutView/>} />
         <Route exact path={"/advanced-search"} render={() => <AdvancedSearchView />}  />
         <Route exact path={"/gender-by-country"} render={() => <GenderByCountryView />}  />
         <Route exact path={"/gender-by-dob"} render={() => <GenderByDOBView />}  />
