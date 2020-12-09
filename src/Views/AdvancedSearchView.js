@@ -19,7 +19,6 @@ function AdvancedSearchView(){
   const [availableSnapshots, setAvailableSnapshots] = useState([])
 
   const onSubmit = (formState) => {
-    console.log("Form state is: ", formState)
     setFetchURL(formState)
   }
 
@@ -30,7 +29,6 @@ function AdvancedSearchView(){
     }
 
     if (formState.selectedWikiProject) {
-      console.log(formState.selectedWikiProject)
       url = url + `&project=${formState.selectedWikiProject}`
     }
 
@@ -45,7 +43,7 @@ function AdvancedSearchView(){
 
   function handleHumanChange(event){
     if (event === "all") {
-      setSelectedWikipediaHumanType("all-wikidata")
+      setSelectedWikipediaHumanType("all_wikidata")
     } else if (event === "at-least-one") {
       setSelectedWikipediaHumanType("gte_one_sitelink")
     }
@@ -65,13 +63,35 @@ function AdvancedSearchView(){
 
   const columns = []
 
+
+
+  function sortColumns(columns){
+    let maleObj = columns.filter(obj => obj.text === "male")[0]
+    let maleIndex = columns.findIndex(obj => obj.text === "male")
+    columns.splice(maleIndex, 1)
+    columns.splice(3, 0, maleObj)
+
+    let malePercentObj = columns.filter(obj => obj.text === "male Percent")[0]
+    let malePercentIndex = columns.findIndex(obj => obj.text === "male Percent")
+    columns.splice(malePercentIndex, 1)
+    columns.splice(4,0,malePercentObj)
+   
+    let femaleObj = columns.filter(obj => obj.text === "female")[0]
+    let femaleIndex = columns.findIndex(obj => obj.text === "female")
+    columns.splice(femaleIndex, 1)
+    columns.splice(5,0,femaleObj)
+
+    let femalePercentObj = columns.filter(obj => obj.text === "female Percent")[0]
+    let femalePercentIndex = columns.findIndex(obj => obj.text === "female Percent")
+    columns.splice(femalePercentIndex, 1)
+    columns.splice(6,0,femalePercentObj)
+  }
+
   function processFetchData(resData, snapshotData){
     if (!resData) return
     if (!snapshotData) return
-    console.log("data process fetch", resData, "snapshotData:", snapshotData)
     snapshotData.forEach(snapshot => snapshot.date = snapshot.date.substring(0,4) + "-" + snapshot.date.substring(4,6) + "-" + snapshot.date.substring(6,8))
     snapshotData.unshift({date: "latest", id: 0})
-    console.log("SNAPSHOTDATA",snapshotData)
     setAvailableSnapshots(snapshotData)
     
     let tableArr = []
@@ -98,12 +118,12 @@ function AdvancedSearchView(){
       obj.label = resData.meta.bias_labels[genderId]
       columns.push(obj)
       columns.push(objPercent)
+     
     }
-
     // configure data
     resData.metrics.forEach((obj, index) => {
       let tableObj = {}
-      // delete obj["item_label"]["iso_3166"]
+      delete obj["item_label"]["iso_3166"]
       tableObj.key = index
         let item_labels = Object.values(obj["item_label"])
         item_labels = item_labels.length > 0 ? item_labels : ["Overall"]
@@ -120,7 +140,7 @@ function AdvancedSearchView(){
       tableObj.gap = <SingleBarChart genderTotals={genderTotalsArr} />
       tableArr.push(tableObj)
     })
-
+    sortColumns(columns)
     setTableColumns(columns)
     setTableData(tableArr)
   }
@@ -137,7 +157,6 @@ function AdvancedSearchView(){
       .then(([resData, snapshotData]) => processFetchData(resData, snapshotData))
 
   }, [url])
-
   return (
     <Container className="view-container">
       <h1>Advanced Search</h1>
@@ -160,7 +179,7 @@ function AdvancedSearchView(){
       <SingleBarChart />
 
       <BootstrapTable
-        keyField='total'
+        keyField="index"
         data={ tableData }
         columns={ tableColumns }
         filter={ filterFactory({ afterFilter }) }

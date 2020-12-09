@@ -56,11 +56,9 @@ function AdvacnedSearchForm({onSubmit, snapshots}){
         }  
       })
     }
-    console.log("formstate", formState)
   }
 
   function onClickReset(e){
-    console.log("IN RESET")
     setFormState({
       "selectedSnapshot": null,
       "selectedYearRange": null,
@@ -74,6 +72,8 @@ function AdvacnedSearchForm({onSubmit, snapshots}){
   let allWikiProjectsTuples = allWikiProjects ? Object.entries(allWikiProjects): null 
   allWikiProjectsTuples.unshift(["all","All"])
   allWikiCountriesTuples.unshift(["all","All"])
+  allWikiProjectsTuples.unshift([null,"No Filter"])
+  allWikiCountriesTuples.unshift([null,"No Filter"])
 
   function lookupWikiProject(wikiQID){
     allWikiProjectsTuples.forEach(arr => {
@@ -84,7 +84,6 @@ function AdvacnedSearchForm({onSubmit, snapshots}){
   }
 
   function lookupCitizenship(citizenshipId){
-    console.log(citizenshipId)
     allWikiCountriesTuples.forEach(arr => {
       if (arr[0] === citizenshipId){
         return arr[1]
@@ -108,7 +107,6 @@ function AdvacnedSearchForm({onSubmit, snapshots}){
     })
     onSubmit(formState)
   }
-  console.log("Formstate", formState)
   return(
     <Form onSubmit={handleOnSubmit}>
       <Row>
@@ -128,13 +126,13 @@ function AdvacnedSearchForm({onSubmit, snapshots}){
           <Form.Control 
             type="text"  
             onChange={handleInputChange} 
-            value={formState.selectedYearRange === null ? "No Filter" : formState.selectedYearRange}
+            value={formState.selectedYearRange === null ? "YYYY~YYYY" : formState.selectedYearRange}
           />
         </Form.Group>
 
         <Form.Group controlId="selectedWikiProject">
           <Form.Label>Wiki Project</Form.Label>
-          <Form.Control as="select" onChange={handleWikiInputChange} value={formState.selectedWikiProject ? lookupWikiProject(formState.selectedWikiProject) : "All"}>
+          <Form.Control as="select" onChange={handleWikiInputChange} value={formState.selectedWikiProject ? lookupWikiProject(formState.selectedWikiProject) : "No Filter"}>
             {
               allWikiProjectsTuples.map(projectArr => 
                 <option key={projectArr[0]}>{projectArr[1]}</option>  
@@ -145,7 +143,7 @@ function AdvacnedSearchForm({onSubmit, snapshots}){
 
         <Form.Group controlId="selectedCitizenship">
           <Form.Label>Citizenship</Form.Label>
-          <Form.Control as="select" onChange={handleCitizenshipInputChange} value={formState.selectedCitizenship ? lookupCitizenship(formState.selectedCitizenship) : "All"} >
+          <Form.Control as="select" onChange={handleCitizenshipInputChange} value={formState.selectedCitizenship ? lookupCitizenship(formState.selectedCitizenship) : "No Filter"} >
             {
               allWikiCountriesTuples.map(projectArr => 
                 <option key={projectArr[0]} >{projectArr[1]}</option>  
@@ -157,8 +155,8 @@ function AdvacnedSearchForm({onSubmit, snapshots}){
         <Form.Group controlId="selectedOccupation">
           <Form.Label>Occupation</Form.Label>
           <Form.Control as="select" onChange={handleInputChange} value={formState.selectedOccupation ? formState.selectedOccupation : "Occupation"}>
-              <option>occupation options</option>
-            </Form.Control>
+            <option>No Filter</option>
+          </Form.Control>
         </Form.Group>
 
       </Row>

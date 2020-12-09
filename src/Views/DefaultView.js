@@ -24,9 +24,9 @@ function DefaultView(){
     let total = Object.values(data.metrics[0].values).reduce((a,b) => a+b)
     let totalMen = data.metrics[0].values["6581097"]
     let totalWomen = data.metrics[0].values["6581072"]
-    let totalOthers = 
-    console.log(data, "genderKey",genderKey, "values",total, totalMen, totalWomen )
-    
+    let totalOthers = data.metrics[0].values
+    console.log( data.metrics[0].values, "genderKey",genderKey)
+    // calculatePercentageGap(totalMen, totalOthers, totalWomen)
   }
 
   useEffect(() => {
