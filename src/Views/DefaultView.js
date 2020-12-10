@@ -25,8 +25,12 @@ function DefaultView(){
     let totalMen = data.metrics[0].values["6581097"]
     let totalWomen = data.metrics[0].values["6581072"]
     let totalOthers = data.metrics[0].values
-    console.log( data.metrics[0].values, "genderKey",genderKey)
-    // calculatePercentageGap(totalMen, totalOthers, totalWomen)
+    totalOthers["6581097"] = 0
+    totalOthers["6581072"] = 0
+    totalOthers = Object.values(totalOthers).reduce((a,b) => a+b)
+    setTotalMen(totalMen)
+    setTotalWomen(totalWomen)
+    setTotalOthers(totalOthers)
   }
 
   useEffect(() => {
@@ -62,6 +66,7 @@ function DefaultView(){
       <div className="About-DataContainer">
         <h4>Recent Distribution of Articles</h4>
         <h3>{totalMen} Male Biographies</h3>
+        <h3>{totalOthers} Σ Other Biographies</h3>
         <h3>{totalWomen} Female Biographies</h3>
 
         <svg ref={svgRef}></svg>
