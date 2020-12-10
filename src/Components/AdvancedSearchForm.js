@@ -44,7 +44,7 @@ function AdvacnedSearchForm({onSubmit, snapshots}){
     if (e.target.value === "All"){
       setFormState({
         ...formState, 
-        selectedWikiProject: "all"
+        selectedCitizenship: "all"
       })
     } else {
       allWikiCountriesTuples.map(arr => {
@@ -97,15 +97,21 @@ function AdvacnedSearchForm({onSubmit, snapshots}){
 
   function handleOnSubmit(e){
     e.preventDefault()
+    console.log("IN HANDLE ONSUBMIT")
+    console.log(formState.selectedWikiProject, formState.selectedCitizenship, formState.selectedYearRange)
+    if (formState.selectedWikiProject && formState.selectedCitizenship && formState.selectedYearRange){
+      alert("You've selected too many dimensions. Currently Humaniki only supports two dimensional searches")
+    } else {
+      onSubmit(formState)
+      setFormState({
+        "selectedSnapshot": null,
+        "selectedYearRange": null,
+        "selectedWikiProject": null,
+        "selectedCitizenship": null,
+        "selectedOccupation": null
+      })
+    }
     console.log("Form State", formState)
-    setFormState({
-      "selectedSnapshot": null,
-      "selectedYearRange": null,
-      "selectedWikiProject": null,
-      "selectedCitizenship": null,
-      "selectedOccupation": null
-    })
-    onSubmit(formState)
   }
   return(
     <Form onSubmit={handleOnSubmit}>
@@ -143,7 +149,7 @@ function AdvacnedSearchForm({onSubmit, snapshots}){
 
         <Form.Group controlId="selectedCitizenship">
           <Form.Label>Citizenship</Form.Label>
-          <Form.Control as="select" onChange={handleCitizenshipInputChange} value={formState.selectedCitizenship ? lookupCitizenship(formState.selectedCitizenship) : "No Filter"} >
+          <Form.Control as="select" onChange={handleCitizenshipInputChange} value={formState.selectedCitizenship ? lookupCitizenship(formState.selectedCitizenship) : "No Filter"}>
             {
               allWikiCountriesTuples.map(projectArr => 
                 <option key={projectArr[0]} >{projectArr[1]}</option>  
@@ -162,7 +168,7 @@ function AdvacnedSearchForm({onSubmit, snapshots}){
       </Row>
       <Row>
 
-        <Button variant="primary" type="submit">
+        <Button variant="primary" type="submit" onSubmit={handleOnSubmit}>
           Submit
         </Button>
 

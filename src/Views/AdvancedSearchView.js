@@ -90,6 +90,7 @@ function AdvancedSearchView(){
   function processFetchData(resData, snapshotData){
     if (!resData) return
     if (!snapshotData) return
+    console.log("resData:",resData, "snapshotData:", snapshotData)
     snapshotData.forEach(snapshot => snapshot.date = snapshot.date.substring(0,4) + "-" + snapshot.date.substring(4,6) + "-" + snapshot.date.substring(6,8))
     snapshotData.unshift({date: "latest", id: 0})
     setAvailableSnapshots(snapshotData)
