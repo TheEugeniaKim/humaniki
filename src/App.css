@@ -45,6 +45,7 @@ svg {
 .About { 
   background: #808080;
   color: rgb(99, 92, 92);
+  text-align: center;
 }
 
 .About-Content{
@@ -52,6 +53,10 @@ svg {
   color: white
 }
 
+.About-DataContainer{
+  background: white;
+  width: 70%;
+}
 .about-img{
   height: 60%;
   width: 70%;
@@ -108,4 +113,33 @@ svg {
 
 .view-container {
   margin-bottom: 5rem;
+}
+
+.default{
+  margin-top: 2rem;
+  margin-bottom: 5rem;  
+  background: #808080;
+  color: white;
+  text-align: center;
+
+}
+
+.default-content{
+  display: block;
+}
+.default-title{
+  margin: 2rem;
+}
+
+.default-data-container{
+  background-color: white;
+  color: black;
+  width: 60%;
+  margin-left: 20%;
+  margin-top: 1%;
+  justify-content: center;
+}
+
+.default-svg{
+  z-index: 3;
 }
