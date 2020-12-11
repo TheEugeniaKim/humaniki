@@ -96,7 +96,7 @@ function AdvancedSearchView(){
     
     let tableArr = []
     //create columns
-    columns.push({dataField: "index", text: "Index", sort: true, filter: textFilter(), headerStyle: {"width": "20%"}})
+    columns.push({dataField: "index", text: "Index", sort: true, filter: textFilter(), headerStyle: {"minWidth": "200px", "width": "20%"}})
     columns.push({dataField: "total", text: "Total", sort: true})
     columns.push({dataField: "gap", text: "Gap", sort: true, headerStyle: {
       overflow: 'visible'
