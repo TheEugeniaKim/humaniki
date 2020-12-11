@@ -1,12 +1,11 @@
 import React, {useState, useEffect} from 'react'
-import { ToggleButtonGroup, ToggleButton, InputGroup, FormControl, Form, Row, Col, Container } from 'react-bootstrap'
+import { ToggleButtonGroup, ToggleButton, InputGroup, FormControl, Form, Container, Row, Col, Table } from 'react-bootstrap'
 import LineChart from '../Components/LineChart'
 
 import BootstrapTable from 'react-bootstrap-table-next'
 import 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css';
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter'
 import paginationFactory from 'react-bootstrap-table2-paginator'
-import { line } from 'd3';
 
 
 function GenderByDOBView(){
@@ -16,8 +15,9 @@ function GenderByDOBView(){
   const [tableColumns, setTableColumns] = useState([])
   const [tableArr, setTableArr] = useState([])
   const [graphGenders, setGraphGenders] = useState({})
+    const [yearFilterRange, setYearFilterRange] = useState({yearStart: "Enter Year Start", yearEnd: "Enter Year End"})
+
   const [snapshot, setSnapshot] = useState("latest")
-  const [yearFilterRange, setYearFilterRange] = useState({yearStart: "Enter Year Start", yearEnd: "Enter Year End"})
   function afterFilter(newResult, newFilters) {
     console.log(newResult);
     console.log(newFilters);
@@ -31,6 +31,10 @@ function GenderByDOBView(){
     console.log("HANDLE HUMAN CHANGE")
   }
 
+  function handleSnapshot(e){
+    setSnapshot(e.target.value)
+  }
+
   function handleYearStart(e){
     console.log(e.target.value)
   }
@@ -39,11 +43,7 @@ function GenderByDOBView(){
     console.log(e.target.value)
 
   }
-
-  function handleSnapshot(e){
-    setSnapshot(e.target.value)
-  }
-
+  
   function formatYear(num){
     if (num > 0) {
       return num.toString() + " CE"
@@ -52,18 +52,12 @@ function GenderByDOBView(){
     }
   }
 
-  function percentFormatter(cell,row){
-    if (!cell){
-      return
-    }
-    return cell.toFixed(3)
-  }
-
   function processData(data){
     const tableArr = []
     const columns = []
-    const lineDataArr = []
+    const lineData = []
     const graphLabels = Object.values(data.meta.bias_labels)
+    const genderMap = setGenderMap(data.meta.bias_labels)
     const extrema = {
       percentMax: Number.NEGATIVE_INFINITY,
       percentMin: Number.POSITIVE_INFINITY,
@@ -82,21 +76,21 @@ function GenderByDOBView(){
       let objPercent = {
         dataField: data.meta.bias_labels[genderId] + "Percent",
         text: data.meta.bias_labels[genderId] + " Percent",
-        sort: true,
-        formatter: percentFormatter
+        sort: true
       }
       obj.label = data.meta.bias_labels[genderId]
       columns.push(obj)
       columns.push(objPercent)
     }
 
+    // lineData = [genderlines]
+    //  genderLine := {name: "qID for men", values: [{year: 1994, value: 22}, {}, ... ]}
+    
     //line data loop
     for (let genderId in data.meta.bias_labels) {
-      console.log("genderid", genderId, data.meta.bias_labels)
       let genderLine = {}
-      genderLine.name = data.meta.bias_labels[genderId]
+      genderLine.name = genderId
       genderLine.values = []
-      genderLine.id=genderId
       data.metrics.forEach(dp => {
         if (Object.keys(dp.values).includes(genderId)) {
           let tupleObj = {
@@ -106,8 +100,7 @@ function GenderByDOBView(){
           genderLine.values.push(tupleObj)
         }
       })
-      console.log("genderObj", genderLine)
-      lineDataArr.push(genderLine)
+      lineData.push(genderLine)
     }
 
     //table loop
@@ -137,9 +130,7 @@ function GenderByDOBView(){
     })
     setGraphGenders(graphLabels)
     setTableMetaData(extrema)
-    setLineData(lineDataArr)
-    console.log("linedata", lineDataArr)
-    console.log("tableArr", tableArr)
+    setLineData(lineData)
     setTableArr(tableArr)
     setTableColumns(columns)
     return true 
@@ -155,30 +146,30 @@ function GenderByDOBView(){
 
   return (
     <Container className="view-container">
-      <h1>Gender Gap By Year of Birth and Year of Death Statistics</h1>
-      <h5>
-        This plot shows the Date of Birth (DoB) and Date of Death (DoD) of each biography in Wikidata, 
-        by gender, non-binary gender, by last count there are 9 non-binary genders, are displayed in the tables, 
-        and accounted for in the full data set 
-      </h5>
+       <h1>Gender Gap By Year of Birth and Year of Death Statistics</h1>
+       <h5>
+         This plot shows the Date of Birth (DoB) and Date of Death (DoD) of each biography in Wikidata, 
+         by gender, non-binary gender, by last count there are 9 non-binary genders, are displayed in the tables, 
+         and accounted for in the full data set 
+       </h5>
 
-      <Container className="input-area">
-        <div>
+       <Container className="input-area">
+         <div>
           <p style={{border: "2px solid"}}>
             Note: As for January, 2016, only about 72% and 36% of biographies had date
             of birth and date of death, respectively, so this data is incomplete.
           </p>
-        </div>
+         </div>
           
-        <h6>Different Wikipedia Categories of Humans</h6>
-          <ToggleButtonGroup type="radio" name="human-type" defaultValue={"all"} onChange={handleHumanChange}>
-            <ToggleButton value={"all"} name="all" size="lg" variant="outline-dark">All Humans on Wikidata</ToggleButton>
-            <ToggleButton value={"at-least-one"} name="at-least-one" size="lg" variant="outline-dark">Humans With At Least One Wikipedia Article</ToggleButton>
-          </ToggleButtonGroup>
+         <h6>Different Wikipedia Categories of Humans</h6>
+           <ToggleButtonGroup type="radio" name="human-type" defaultValue={"all"} onChange={handleHumanChange}>
+              <ToggleButton value={"all"} name="all" size="lg" variant="outline-dark">All Humans on Wikidata</ToggleButton>
+              <ToggleButton value={"at-least-one"} name="at-least-one" size="lg" variant="outline-dark">Humans With At Least One Wikipedia Article</ToggleButton>
+           </ToggleButtonGroup>
         
-        <div>
-          <ToggleButtonGroup type="radio" name="data-selection" defaultValue={"dob"} onChange={handleChange}> 
-            <Form.Check
+         <div>
+           <ToggleButtonGroup type="radio" name="data-selection" defaultValue={"dob"} onChange={handleChange}> 
+             <Form.Check
               type="radio"
               label="Gender by Date of Birth"
               name="gender-by-dob"
