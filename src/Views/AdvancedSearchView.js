@@ -11,7 +11,6 @@ import SingleBarChart from '../Components/SingleBarChart'
 
 function AdvancedSearchView(){
   const [selectedWikipediaHumanType, setSelectedWikipediaHumanType] = useState("all_wikidata")
-  // const [formState, setFormState] = useState({})
   const baseURL = process.env.REACT_APP_API_URL
   const [url, seturl] = useState(`${baseURL}/v1/gender/gap/latest/gte_one_sitelink/properties?&label_lang=en`)
   const [tableColumns, setTableColumns] = useState([{dataField: "index", text: "Index", sort: true}])
@@ -97,9 +96,9 @@ function AdvancedSearchView(){
     
     let tableArr = []
     //create columns
-    columns.push({dataField: "index", text: "Index", sort: true, filter: textFilter()})
+    columns.push({dataField: "index", text: "Index", sort: true, filter: textFilter(), headerStyle: {"width": "20%"}})
     columns.push({dataField: "total", text: "Total", sort: true})
-    columns.push({dataField: "gap", text: "Gap", sort: true, style: {
+    columns.push({dataField: "gap", text: "Gap", sort: true, headerStyle: {
       overflow: 'visible'
     }})
 
