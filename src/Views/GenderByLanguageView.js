@@ -23,15 +23,6 @@ function GenderByLanguageView(){
     setSnapshot(e.target.value)
   }
 
-  function fetchData(){
-    let baseURL = process.env.REACT_APP_API_URL
-    let url = baseURL + `v1/gender/gap/${snapshot}/all_wikidata/properties?project=all&label_lang=en`
-    console.log("BASE URL", baseURL)
-    fetch(url) 
-      .then(response => response.json())
-      .then(data => processData(data))
-  }
-
   function processData(data){
     console.log("in process data", data)
     const tableArr = []
@@ -102,8 +93,18 @@ function GenderByLanguageView(){
   }
 
   useEffect(() => {
+
+    function fetchData(){
+      let baseURL = process.env.REACT_APP_API_URL
+      let url = baseURL + `v1/gender/gap/${snapshot}/all_wikidata/properties?project=all&label_lang=en`
+      console.log("BASE URL", baseURL)
+      fetch(url) 
+        .then(response => response.json())
+        .then(data => processData(data))
+    }
+
     fetchData()
-  }, [snapshot, fetchData])
+  }, [snapshot])
   
   function afterFilter(newResult, newFilters) {
     console.log(newResult);
@@ -135,7 +136,6 @@ function GenderByLanguageView(){
           <ToggleButtonGroup type="radio" name="human-type" defaultValue={"all"} onChange={handleHumanChange}>
             <ToggleButton value={"all"} name="all" size="lg" variant="outline-dark">All Humans on Wikidata</ToggleButton>
             <ToggleButton value={"at-least-one"} name="at-least-one" size="lg" variant="outline-dark">Humans With Atleast One Wikipedia Article</ToggleButton>
-            <ToggleButton value={"more-than-one"} name="at-least-one" size="lg" variant="outline-dark">Humans With More Than One Wikipedia Article</ToggleButton>
           </ToggleButtonGroup>
           <InputGroup className="mb-3" size="sm" controlId="years">
             <InputGroup.Prepend>

@@ -96,6 +96,7 @@ function GenderByDOBView(){
       let genderLine = {}
       genderLine.name = data.meta.bias_labels[genderId]
       genderLine.values = []
+      genderLine.id=genderId
       data.metrics.forEach(dp => {
         if (Object.keys(dp.values).includes(genderId)) {
           let tupleObj = {

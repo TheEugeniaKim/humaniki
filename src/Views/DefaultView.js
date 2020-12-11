@@ -61,10 +61,12 @@ function DefaultView(){
         </h5>
       </Row>
       <Row className="default-data-container">
-        <h4>Recent Distribution of Articles</h4>
-        <h3>{totalMen} Male Biographies</h3>
-        <h3>{totalOthers} Σ Other Biographies</h3>
-        <h3>{totalWomen} Female Biographies</h3>
+        <Row>
+          <h4>Recent Distribution of Articles</h4>
+        </Row>
+          <h3>{totalMen} Male Biographies</h3>
+          <h3>{totalOthers} Σ Other Biographies</h3>
+          <h3>{totalWomen} Female Biographies</h3>
         <svg className="default-svg" ref={svgRef}></svg>
       </Row>
       

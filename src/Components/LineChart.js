@@ -29,14 +29,13 @@ function LineChart(props){
   const [currentZoomState, setCurrentZoomState] = useState()
 
   useEffect(() => {
-    console.log("props", props, dimensions, props.lineData.length === 0, Object.keys(props.genderMap).length === 0, !dimensions)
     // if ( props.lineData.length === 0 || Object.keys(props.genderMap).length === 0 || !dimensions ) {
     if (!props.lineData || !props.genderMap || !props.extrema || !dimensions){
       return
     } else {
-      console.log("RENDERING LINEGRAPH")
-      const genderNums = Object.keys(props.genderMap).map(str => parseInt(str)) 
-      console.log(genderNums)
+      console.log("RENDERING LINEGRAPH", props.genderMap, props.graphGenders)
+      const genderNums = Object.keys(props.genderMap)
+      console.log("gendernum",genderNums)
       props.lineData.forEach(genderLine => sortGenderLine(genderLine))
 
       function sortGenderLine(genderLine){
@@ -80,7 +79,7 @@ function LineChart(props){
         .tickFormat(index => index + 1)
 
       const colorScale = scaleLinear()
-        .domain([genderNums])
+        .domain([props.graphGenders])
         .range(schemeSet3)
 
       svg
@@ -179,3 +178,5 @@ function LineChart(props){
 }
 
 export default LineChart
+
+
