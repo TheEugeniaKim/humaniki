@@ -45,9 +45,8 @@ function DefaultView(){
     .join("rect")
     .attr("fill", function(d, i) {return colors[i]; })
     .attr("width", "100%")
-    .attr("height", "300px")
+    .attr("height", "100%")
     .attr("x", (value) => value)    
-    .attr("y", "100px")
   }, [totalMen, totalOthers, totalWomen])
 
   return (
@@ -60,15 +59,13 @@ function DefaultView(){
           in all Wikipedias.
         </h5>
       </Row>
-      <Row className="default-data-container">
-        <Row>
-          <h4>Recent Distribution of Articles</h4>
-        </Row>
-          <h3>{totalMen} Male Biographies</h3>
-          <h3>{totalOthers} Σ Other Biographies</h3>
-          <h3>{totalWomen} Female Biographies</h3>
+      <div className="default-data-container">
+        <h4> Recent Distribution of Articles </h4>
+        <h3> {totalMen} Male Biographies </h3>
+        <h3> {totalOthers} Σ Other Biographies </h3>
+        <h3> {totalWomen} Female Biographies </h3>
         <svg className="default-svg" ref={svgRef}></svg>
-      </Row>
+      </div>
       
       <Row className="About-Explainer">
         Expore further dynames of the gender gap in bibliographic content on Wikipedia

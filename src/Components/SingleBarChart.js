@@ -5,7 +5,6 @@ function SingleBarChart(props){
   const svgRef = useRef()
 
   useEffect(() => {
-    console.log("RENDERING SINGLE BAR", props.genderTotals)
     if (!props.genderTotals){return}
     const svg = select(svgRef.current)
 
@@ -16,19 +15,18 @@ function SingleBarChart(props){
     .range([0, 100])
     // .padding(0.5)
     let percentSoFar = 0 
-    let genderTotalCum = []
+    let genderTotalArr = []
     props.genderTotals.forEach(percent => {
-      genderTotalCum.push({percent: percent, percentSoFar: percentSoFar})
+      genderTotalArr.push({percent: percent, percentSoFar: percentSoFar})
       percentSoFar+=percent 
     })
     svg.selectAll("rect")
-    .data(genderTotalCum)
+    .data(genderTotalArr)
     .join("rect")
     .attr("fill", function(d, i) {return colors[i]; })
     .attr("width", (value) => value.percent + "%")
-    .attr("height", "30px")
+    .attr("height", "30%")
     .attr("x", (value) => value.percentSoFar + "%")    
-    .attr("y", "30px")
   }, [props.genderTotals])
 
   return (
