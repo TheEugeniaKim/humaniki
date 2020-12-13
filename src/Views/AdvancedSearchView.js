@@ -1,11 +1,10 @@
 import React, {useState, useEffect} from 'react'
-import {Container, Row, Dropdown, DropdownButton, Button} from 'react-bootstrap'
+import {Container} from 'react-bootstrap'
 import BootstrapTable from 'react-bootstrap-table-next'
 import 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css'
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter'
 import paginationFactory from 'react-bootstrap-table2-paginator'
 import { ToggleButtonGroup, ToggleButton, Form } from 'react-bootstrap'
-import RadialBarChart from '../Components/RadialBarChartButton'
 import AdvacnedSearchForm from '../Components/AdvancedSearchForm'
 import SingleBarChart from '../Components/SingleBarChart'
 
@@ -99,7 +98,9 @@ function AdvancedSearchView(){
     columns.push({dataField: "index", text: "Index", sort: true, filter: textFilter(), headerStyle: {"minWidth": "200px", "width": "20%"}})
     columns.push({dataField: "total", text: "Total", sort: true})
     columns.push({dataField: "gap", text: "Gap", sort: true, headerStyle: {
-      overflow: 'visible'
+      "overflow": 'visible',
+      "minWidth": "200px", 
+      "width": "20%"
     }})
 
     for (let i=0; i< Object.keys(resData["meta"]["bias_labels"]).length; i++) {

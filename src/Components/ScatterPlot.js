@@ -6,9 +6,7 @@ import {
   scaleLinear,
   scaleLog,
   axisBottom,
-  axisLeft,
-  selection,
-  color,
+  axisLeft
 } from "d3";
 import ResizeObserver from "resize-observer-polyfill";
 
@@ -35,7 +33,6 @@ function ScatterPlot(props) {
   const dimensions = useResizeObserver(wrapperRef);
 
   useEffect(() => {
-    console.log("inside Scatter",props.data, props.extrema, dimensions);
     const svg = select(svgRef.current);
     if (!dimensions) return;
 
@@ -87,21 +84,6 @@ function ScatterPlot(props) {
           Women: ${obj.femalePercent}%
         `
       )
-      // .on("mouseenter", function(event, d) {
-      //   const e = svg.nodes()
-      //   const i = e.indexOf(this)
-      //   console.log(e, i, d)
-      //   svg.append("title")
-      //     .text(d =>
-
-      //       // console.log(obj)
-      //       `hello ${d.name}`
-      //       // `name: ${obj["name"]}`
-      //     )
-      // })
-      // .on("mouseleave", () =>
-      //   svg.select(".d3tooltip").remove()
-      // )
       .transition()
       .attr("fill", colorScale())
       .attr("height", (value) => dimensions.height - yScale(value));

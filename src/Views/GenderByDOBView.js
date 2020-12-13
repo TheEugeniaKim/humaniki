@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { ToggleButtonGroup, ToggleButton, InputGroup, FormControl, Form, Container, Row, Col, Table } from 'react-bootstrap'
+import { ToggleButtonGroup, ToggleButton, InputGroup, FormControl, Form, Container } from 'react-bootstrap'
 import LineChart from '../Components/LineChart'
 
 import BootstrapTable from 'react-bootstrap-table-next'
@@ -64,7 +64,7 @@ function GenderByDOBView(){
       totalMax: Number.NEGATIVE_INFINITY,
       totalMin: Number.POSITIVE_INFINITY
     }
-    columns.push({dataField: "year", text: "Year", filter: textFilter()})
+    columns.push({dataField: "year", text: "Year", filter: textFilter(), headerStyle: {"minWidth": "200px", "width": "20%"}, sort: true})
     columns.push({dataField: "total",text: "Total",sort: true})
     // loop over genders and create formatted column array
     for (let genderId in data.meta.bias_labels) {

@@ -6,25 +6,19 @@ import 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.c
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter'
 import paginationFactory from 'react-bootstrap-table2-paginator'
 
-import languageCodes from '../Components/LanguageCodes.json'
 import ScatterPlot from '../Components/ScatterPlot'
-import ScatterPlotSelection from '../Components/ScatterPlotSelection'
-import ScatterPlotContainer from '../Containers/ScatterPlotContainer'
 
 function GenderByLanguageView(){
   const [tableData, setTableData] = useState([])
   const [tableMetaData, setTableMetaData] = useState({})
-  const [labelArr, setLabelArr] = useState([])
   const [tableColumns, setTableColumns] = useState([])
   const [snapshot, setSnapshot] = useState("latest")
 
   function handleSnapshot(e){
-    console.log("snapshot",e.target.value)
     setSnapshot(e.target.value)
   }
 
   function processData(data){
-    console.log("in process data", data)
     const tableArr = []
     const columns = []
     const extrema = {
@@ -97,7 +91,6 @@ function GenderByLanguageView(){
     function fetchData(){
       let baseURL = process.env.REACT_APP_API_URL
       let url = baseURL + `v1/gender/gap/${snapshot}/all_wikidata/properties?project=all&label_lang=en`
-      console.log("BASE URL", baseURL)
       fetch(url) 
         .then(response => response.json())
         .then(data => processData(data))

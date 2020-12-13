@@ -1,23 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { select, scaleLinear} from 'd3'
-import { Container, Col, Row } from 'react-bootstrap'
+import { select} from 'd3'
+import { Container, Row } from 'react-bootstrap'
 import "../App.css"
 import "../Sk.css"
 
 function DefaultView(){
   const svgRef = useRef()
-  const [totalMen, setTotalMen] = useState(800)
-  const [totalWomen, setTotalWomen] = useState(183)
-  const [totalOthers, setTotalOthers] = useState(1)
-  //when we load real data or dummy data set the variables in the useEffect
-  
-  function calculatePercentageGap(totalMen, totalOthers, totalWomen) {
-    const total = totalMen + totalOthers + totalWomen
-    const percentTotalMen = totalMen/total * 100 
-    const percentTotalOthers = totalOthers/total * 100 
-    const percentTotalWomen = totalWomen/total * 100 
-    return [percentTotalMen, percentTotalOthers, percentTotalWomen]
-  }
+  const [totalMen, setTotalMen] = useState()
+  const [totalWomen, setTotalWomen] = useState()
+  const [totalOthers, setTotalOthers] = useState()
 
   function processFetchData(data){
     let totalMen = data.metrics[0].values["6581097"]

@@ -1,11 +1,9 @@
-import React, { useState } from 'react'
-import { InputGroup, FormControl } from 'react-bootstrap'
+import React from 'react'
 
 function ScatterPlotSelection(props){
   console.log("Scatter section", props.data)
 
   function handleChecks(e){
-    let filter = []
     console.log(e.target.value)
   }
 
@@ -17,7 +15,6 @@ function ScatterPlotSelection(props){
           <input
             name={langObj.language}
             type="checkbox"
-            // checked={}
             onChange={handleChecks} 
           /> 
           {langObj.language}

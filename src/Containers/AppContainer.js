@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import NavBarComponent from '../Components/NavBarComponent'
 import Footer from '../Components/Footer'
 import DefaultView from '../Views/DefaultView'
@@ -8,7 +8,7 @@ import GenderByCountryView from '../Views/GenderByCountryView'
 import GenderByDOBView from '../Views/GenderByDOBView'
 import GenderByLanguageView from '../Views/GenderByLanguageView'
 import { Container } from 'react-bootstrap'
-import {BrowserRouter as Router, Route, Redirect} from 'react-router-dom'
+import {BrowserRouter as Router, Route} from 'react-router-dom'
 
 function AppContainer() {
   const [navBar, setNavBar] = useState("about")

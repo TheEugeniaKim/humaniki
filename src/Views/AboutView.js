@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { select, scaleLinear} from 'd3'
+import React from 'react'
 import { Container } from 'react-bootstrap'
 import "../App.css"
 import "../Sk.css"
@@ -41,6 +40,8 @@ function AboutView(){
         <p>
           This project started as a personal research interest, and is now funded by a Wikimedia Foundation Grant.
         </p>
+
+        
       </div>
     </Container>
   )

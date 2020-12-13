@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect } from "react";
 import "../App.css";
 import "../Sk.css";
 import * as d3 from 'd3'
@@ -14,7 +14,6 @@ function RadialBarChart(props){
     .innerRadius(props.innerRadius)
     .outerRadius(props.outerRadius)
   const colors = d3.scaleOrdinal(["#00BCA1","#BC8F00","#6200F8"])
-  const format = d3.format(".2F")
  
   useEffect(() => {
     const data = createPie(props.data)

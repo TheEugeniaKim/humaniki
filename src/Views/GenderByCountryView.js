@@ -3,7 +3,6 @@ import WorldMap from '../Components/WorldMap'
 import WorldMapPropertySelection from '../Components/WorldMapPropertySelection'
 import data from '../Components/custom.geo.json'
 import { ToggleButtonGroup, ToggleButton, Form, InputGroup, FormControl, Container } from 'react-bootstrap'
-import RadialBarChart from '../Components/RadialBarChartButton'
 import { propTypes } from 'react-bootstrap/esm/Image';
 
 import BootstrapTable from 'react-bootstrap-table-next'

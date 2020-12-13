@@ -97,15 +97,13 @@ function AdvacnedSearchForm({onSubmit, snapshots}){
 
   function handleOnSubmit(e){
     e.preventDefault()
-    console.log("IN HANDLE ONSUBMIT")
-    console.log(formState.selectedWikiProject, formState.selectedCitizenship, formState.selectedYearRange)
     if (formState.selectedWikiProject && formState.selectedCitizenship && formState.selectedYearRange){
       alert("You've selected too many dimensions. Currently Humaniki only supports two dimensional searches")
     } else {
       onSubmit(formState)
     }
-    console.log("Form State", formState)
   }
+  
   return(
     <Form onSubmit={handleOnSubmit}>
       <Row>

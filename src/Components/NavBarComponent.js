@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import  {Navbar, Nav}  from 'react-bootstrap'
 
 function NavBarComponent (props){
@@ -10,7 +10,6 @@ function NavBarComponent (props){
         </Navbar.Brand>
         <Nav className="justify-content-end">
           <Nav.Link  href="/about" >About</Nav.Link>
-          {/* <Nav.Link href="/evolution" >Evolution</Nav.Link> */}
           <Nav.Link  href="/advanced-search">Advanced Search</Nav.Link>
           <Nav.Link  href="/gender-by-country">Gender By Country</Nav.Link>
           <Nav.Link  href="/gender-by-dob" >Gender By Date of Birth</Nav.Link>
