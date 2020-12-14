@@ -61,8 +61,6 @@ function AdvancedSearchView(){
 
   const columns = []
 
-
-
   function sortColumns(columns){
     let maleObj = columns.filter(obj => obj.text === "male")[0]
     let maleIndex = columns.findIndex(obj => obj.text === "male")

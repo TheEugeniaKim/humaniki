@@ -41,7 +41,11 @@ function AboutView(){
           This project started as a personal research interest, and is now funded by a Wikimedia Foundation Grant.
         </p>
 
-        
+        <img 
+          className="about-img"
+          src="./about-view-graphic.png" 
+          alt="world leaders walking and talking from the 37th G8 summit" 
+        ></img> 
       </div>
     </Container>
   )

@@ -43,14 +43,12 @@ svg {
 }
 
 .About { 
-  background: #808080;
-  color: rgb(99, 92, 92);
+  background: white;
   text-align: center;
 }
 
 .About-Content{
   margin-bottom: 3rem;
-  color: white
 }
 
 .About-DataContainer{
