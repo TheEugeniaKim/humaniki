@@ -5,8 +5,14 @@ import "../App.css"
 import "../Sk.css"
 
 function DefaultView({getAPI}){
-  let APIRes = getAPI({bias: "gender", metric: "gap"})
-  
+  const processCB = (err, jsonData) => {
+    if (err) {alert('process CB got an error')}
+    else {alert("process CB success", jsonData['meta'])}
+  }
+
+  let APIRes = getAPI({bias: "gender", metric: "gap", snapshot: "latest", population:"gte_one_sitelink", property_obj:null},
+                      processCB)
+
   const svgRef = useRef()
   const [totalMen, setTotalMen] = useState()
   const [totalWomen, setTotalWomen] = useState()
