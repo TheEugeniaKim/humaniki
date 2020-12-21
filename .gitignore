@@ -23,3 +23,5 @@ yarn-debug.log*
 yarn-error.log*
 
 deploy_staging.sh
+
+.idea
