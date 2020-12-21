@@ -15,9 +15,10 @@ function GenderByDOBView(){
   const [tableColumns, setTableColumns] = useState([])
   const [tableArr, setTableArr] = useState([])
   const [graphGenders, setGraphGenders] = useState({})
-    const [yearFilterRange, setYearFilterRange] = useState({yearStart: "Enter Year Start", yearEnd: "Enter Year End"})
-
+  const [yearFilterRange, setYearFilterRange] = useState({yearStart: "Enter Year Start", yearEnd: "Enter Year End"})
   const [snapshot, setSnapshot] = useState("latest")
+  const [population, setPopulation] = useState("all_wikidata")
+
   function afterFilter(newResult, newFilters) {
     console.log(newResult);
     console.log(newFilters);
@@ -27,8 +28,10 @@ function GenderByDOBView(){
     console.log("Handle Change")
   }
 
-  function handleHumanChange() {
+  function handleHumanChange(e) {
+    console.log(e)
     console.log("HANDLE HUMAN CHANGE")
+    setPopulation(e)
   }
 
   function handleSnapshot(e){
@@ -64,7 +67,14 @@ function GenderByDOBView(){
       totalMax: Number.NEGATIVE_INFINITY,
       totalMin: Number.POSITIVE_INFINITY
     }
-    columns.push({dataField: "year", text: "Year", filter: textFilter(), headerStyle: {"minWidth": "200px", "width": "20%"}, sort: true})
+    columns.push({
+      dataField: "year", 
+      text: "Year", 
+      filter: textFilter(), 
+      headerStyle: {"minWidth": "200px", "width": "20%"}, 
+      sort: true, 
+      // sortFunc: (sortValue) => {a.sortValue - b.sortValue}
+    })
     columns.push({dataField: "total",text: "Total",sort: true})
     // loop over genders and create formatted column array
     for (let genderId in data.meta.bias_labels) {
@@ -83,9 +93,6 @@ function GenderByDOBView(){
       columns.push(objPercent)
     }
 
-    // lineData = [genderlines]
-    //  genderLine := {name: "qID for men", values: [{year: 1994, value: 22}, {}, ... ]}
-    
     //line data loop
     for (let genderId in data.meta.bias_labels) {
       let genderLine = {}
@@ -107,7 +114,7 @@ function GenderByDOBView(){
     data.metrics.forEach((dp, index) => {
       let tableObj = {}
       tableObj.key = index
-      tableObj.yearNum = parseInt(dp.item_label.date_of_birth)
+      tableObj.sortValue = parseInt(dp.item_label.date_of_birth)
       tableObj.year = formatYear(parseInt(dp.item_label.date_of_birth))
       tableObj.total = Object.values(dp.values).reduce((a,b) => a + b)
       for (let genderId in data.meta.bias_labels){
@@ -127,6 +134,7 @@ function GenderByDOBView(){
       } else if (tableObj.total < extrema.totalMin) {
         extrema.totalMin = tableObj.total
       }
+      console.log("Table Obj", tableObj)
     })
     setGraphGenders(graphLabels)
     setTableMetaData(extrema)
@@ -138,11 +146,11 @@ function GenderByDOBView(){
 
   useEffect(() => {
     let baseURL = process.env.REACT_APP_API_URL
-    let url = baseURL + `v1/gender/gap/${snapshot}/gte_one_sitelink/properties?date_of_birth=all&label_lang=en`
+    let url = baseURL + `v1/gender/gap/${snapshot}/${population}/properties?date_of_birth=all&label_lang=en`
     fetch(url)
       .then(response => response.json())
       .then(data => processData(data))
-  }, [snapshot])
+  }, [snapshot, population])
 
   return (
     <Container className="view-container">
@@ -163,8 +171,8 @@ function GenderByDOBView(){
           
          <h6>Different Wikipedia Categories of Humans</h6>
            <ToggleButtonGroup type="radio" name="human-type" defaultValue={"all"} onChange={handleHumanChange}>
-              <ToggleButton value={"all"} name="all" size="lg" variant="outline-dark">All Humans on Wikidata</ToggleButton>
-              <ToggleButton value={"at-least-one"} name="at-least-one" size="lg" variant="outline-dark">Humans With At Least One Wikipedia Article</ToggleButton>
+              <ToggleButton value={"all_wikiData"} name="all" size="lg" variant="outline-dark">All Humans on Wikidata</ToggleButton>
+              <ToggleButton value={"gte_one_sitelink"} name="at-least-one" size="lg" variant="outline-dark">Humans With At Least One Wikipedia Article</ToggleButton>
            </ToggleButtonGroup>
         
          <div>
@@ -202,14 +210,14 @@ function GenderByDOBView(){
               value="non-binary"
             />
           </ToggleButtonGroup>
-          <InputGroup className="mb-3" size="sm" controlId="years">
+          <InputGroup className="mb-3" size="sm" >
             <InputGroup.Prepend>
               <InputGroup.Text>Year Range:</InputGroup.Text>
             </InputGroup.Prepend>
             <FormControl type="text" placeholder={yearFilterRange.yearStart} onChange={handleYearStart} />
             <FormControl type="text" placeholder="Year End" onChange={handleYearEnd} />
           </InputGroup>
-          <InputGroup className="mb-3" size="sm" controlId="years">
+          <InputGroup className="mb-3" size="sm" >
             <InputGroup.Prepend>
               <InputGroup.Text>Snapshot:</InputGroup.Text>
             </InputGroup.Prepend>

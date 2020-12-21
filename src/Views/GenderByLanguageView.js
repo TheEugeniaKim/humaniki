@@ -138,11 +138,6 @@ function GenderByLanguageView(){
           </InputGroup>
       </div>
       <div className="scatter-wrapper">
-        {/* <ScatterPlotContainer 
-          data={tableData}
-          extrema={tableMetaData}
-          columns={tableColumns}
-        /> */}
         <ScatterPlot 
           data={tableData}
           extrema={tableMetaData}

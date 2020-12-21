@@ -4,7 +4,9 @@ import { Container, Row } from 'react-bootstrap'
 import "../App.css"
 import "../Sk.css"
 
-function DefaultView(){
+function DefaultView({getAPI}){
+  let APIRes = getAPI({bias: "gender", metric: "gap"})
+  
   const svgRef = useRef()
   const [totalMen, setTotalMen] = useState()
   const [totalWomen, setTotalWomen] = useState()
