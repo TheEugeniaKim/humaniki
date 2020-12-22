@@ -1,7 +1,6 @@
 import React, {useState} from 'react'
 import  {Navbar, Nav, NavDropdown, Item}  from 'react-bootstrap'
-import Popper from 'popper.js'
-import jquery from 'jquery'
+
 
 function NavBarComponent (props){
   const [isOpen, setIsOpen] = useState(false)
