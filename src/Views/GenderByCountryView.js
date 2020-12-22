@@ -4,6 +4,7 @@ import WorldMapPropertySelection from '../Components/WorldMapPropertySelection'
 import data from '../Components/custom.geo.json'
 import { ToggleButtonGroup, ToggleButton, Form, InputGroup, FormControl, Container } from 'react-bootstrap'
 import { propTypes } from 'react-bootstrap/esm/Image';
+import populations from '../utils.js'
 
 import BootstrapTable from 'react-bootstrap-table-next'
 import 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css';
@@ -11,9 +12,9 @@ import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
 import paginationFactory from 'react-bootstrap-table2-paginator'
 
 
-function GenderByCountryView(props){
+function GenderByCountryView({getAPI}){
   const [selectBirthVsCitizenship, setBirthVsCitizenship] = useState("country-of-birth")
-  const [selectedWikipediaHumanType, setSelectedWikipediaHumanType] = useState("all")
+  const [selectedWikipediaHumanType, setSelectedWikipediaHumanType] = useState(populations.ALL_WIKIDATA)
   const [mapData, setMapData] = useState(null)
   const [tableColumns, setTableColumns] = useState([])
   const [tableArr, setTableArr] = useState([])
@@ -21,6 +22,8 @@ function GenderByCountryView(props){
   const [tableMetaData, setTableMetaData] = useState({})
   const [property, setProperty] = useState("female")
   const [genders, setGenders] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [isErrored, setIsErrored] = useState(false)
 
   function handleSnapshot(e){
     console.log(e.target.value)
@@ -37,9 +40,11 @@ function GenderByCountryView(props){
 
   function handleHumanChange(event){
     if (event === "all") {
-      setSelectedWikipediaHumanType("all-wikidata")
+      setIsLoading(true)
+      setSelectedWikipediaHumanType(populations.ALL_WIKIDATA)
     } else if (event === "at-least-one") {
-      setSelectedWikipediaHumanType("at-least-one")
+      setIsLoading(true)
+      setSelectedWikipediaHumanType(populations.GTE_ONE_SITELINK)
     } 
   }
 
@@ -50,102 +55,102 @@ function GenderByCountryView(props){
     return cell.toFixed(3)
   }
 
-  function fetchData() {
-    // fetch(`http://localhost:3000/v1/${selectedWikipediaHumanType}/gender/aggregated/2020-09-15/geography/${selectBirthVsCitizenship}.json`)
-    // fetch('http://localhost:3000/v1/all-wikidata/gender/aggregated/2020-09-15/geography/citizenship.json')
-    let baseURL = process.env.REACT_APP_API_URL
-    let url = baseURL + `v1/gender/gap/${snapshot}/gte_one_sitelink/properties?citizenship=all&label_lang=en`
-    fetch(url)
-      .then(response => response.json())
-      .then(fetchData => {
-        processAPIData(fetchData)
-      })
-  }
+  function processAPIData(err, fetchData){
+    if (err){
+      setIsErrored(true)
+    } else {
+    
+      let tableArr = []
+      let columns = []
+      let genders = Object.values(fetchData.meta.bias_labels)
+      let preMapData = data
+      const extrema = {
+        totalMax: Number.NEGATIVE_INFINITY,
+        totalMin: Number.POSITIVE_INFINITY
+      }
 
-  function processAPIData(fetchData){
-    let tableArr = []
-    let columns = []
-    let genders = Object.values(fetchData.meta.bias_labels)
-    let preMapData = data
-    const extrema = {
-      totalMax: Number.NEGATIVE_INFINITY,
-      totalMin: Number.POSITIVE_INFINITY
-    }
-
-    function percentFormatter(cell,row){
-      if (!cell){
-        return
-      }
-      return cell.toFixed(3)
-    }
-    columns.push({dataField: "country", text: "Country", filter: textFilter()})
-    columns.push({dataField: "total",text: "Total",sort: true})
-    for (let genderId in fetchData.meta.bias_labels) {
-      let obj = {
-        dataField: fetchData.meta.bias_labels[genderId],
-        text: fetchData.meta.bias_labels[genderId],
-        sort: true
-      }
-      let objPercent = {
-        dataField: fetchData.meta.bias_labels[genderId] + "Percent",
-        text: fetchData.meta.bias_labels[genderId] + " Percent",
-        sort: true,
-        formatter: percentFormatter
-      }
-      obj.label = fetchData.meta.bias_labels[genderId]
-      columns.push(obj)
-      columns.push(objPercent)
-    }
-
-    fetchData.metrics.forEach((obj, index) => {
-      // Handle Formatting Table Data 
-      let tableObj = {}
-      tableObj.key = index 
-      tableObj.country = obj.item_label.citizenship 
-      tableObj.total = Object.values(obj.values).reduce((a,b) => a + b)
-      for (let genderId in fetchData.meta.bias_labels) {
-        let label = fetchData.meta.bias_labels[genderId] ? fetchData.meta.bias_labels[genderId] : genderId
-        tableObj[label] = obj["values"][genderId] ? obj["values"][genderId] : 0 
-        tableObj[label + "Percent"] = obj["values"][genderId] ? (obj["values"][genderId]/tableObj["total"])*100 : 0
-      }
-      if (tableObj.country){
-        tableArr.push(tableObj)
-      }
-      
-      //Handle Formatting countryData for WorlMap
-      preMapData.features.map(country => {
-        if (country["properties"]["iso_a2"] === obj["item_label"]["iso_3166"]){
-          console.log("editing:", country)
-          let indexPosition = preMapData.features.findIndex(element => element["properties"]["iso_a2"] === obj["item_label"]["iso_3166"])
-          preMapData.features[indexPosition]["properties"]["total"] = Object.values(obj["values"]).reduce((a,b) => a + b)
-          preMapData.features[indexPosition]["properties"]["genders"] = Object.values(fetchData.meta.bias_labels)
-          preMapData.features[indexPosition]["properties"]["text"] = preMapData.features[indexPosition]["properties"]["name"]
-          for (let genderId in fetchData.meta.bias_labels) {
-            let label = fetchData.meta.bias_labels[genderId]
-            country["properties"][label] = obj["values"][genderId] ? obj["values"][genderId] : 0 
-            country["properties"][label + "Percent"] = obj["values"][genderId] ? (obj["values"][genderId]/country["properties"]["total"])*100 : 0
-          }
-          for (let genderId in fetchData.meta.bias_labels) {
-            let label = fetchData.meta.bias_labels[genderId]
-            country["properties"]["text"] = country["properties"]["text"] + `
-              ${label}: ${country["properties"][label] ? country["properties"][label] : 0} (${country["properties"][label + "Percent"].toFixed(3)})%
-            ` 
-          }
+      function percentFormatter(cell,row){
+        if (!cell){
+          return
         }
-      })
-      console.log(preMapData)
-      
+        return cell.toFixed(3)
+      }
+      columns.push({dataField: "country", text: "Country", filter: textFilter()})
+      columns.push({dataField: "total",text: "Total",sort: true})
+      for (let genderId in fetchData.meta.bias_labels) {
+        let obj = {
+          dataField: fetchData.meta.bias_labels[genderId],
+          text: fetchData.meta.bias_labels[genderId],
+          sort: true
+        }
+        let objPercent = {
+          dataField: fetchData.meta.bias_labels[genderId] + "Percent",
+          text: fetchData.meta.bias_labels[genderId] + " Percent",
+          sort: true,
+          formatter: percentFormatter
+        }
+        obj.label = fetchData.meta.bias_labels[genderId]
+        columns.push(obj)
+        columns.push(objPercent)
+      }
 
-    })
-    setMapData(preMapData)
-    setTableArr(tableArr)
-    setTableColumns(columns)
-    setTableMetaData(extrema)
-    setGenders(genders)
+      fetchData.metrics.forEach((obj, index) => {
+        // Handle Formatting Table Data 
+        let tableObj = {}
+        tableObj.key = index 
+        tableObj.country = obj.item_label.citizenship 
+        tableObj.total = Object.values(obj.values).reduce((a,b) => a + b)
+        for (let genderId in fetchData.meta.bias_labels) {
+          let label = fetchData.meta.bias_labels[genderId] ? fetchData.meta.bias_labels[genderId] : genderId
+          tableObj[label] = obj["values"][genderId] ? obj["values"][genderId] : 0 
+          tableObj[label + "Percent"] = obj["values"][genderId] ? (obj["values"][genderId]/tableObj["total"])*100 : 0
+        }
+        if (tableObj.country){
+          tableArr.push(tableObj)
+        }
+        
+        //Handle Formatting countryData for WorlMap
+        preMapData.features.map(country => {
+          if (country["properties"]["iso_a2"] === obj["item_label"]["iso_3166"]){
+            console.log("editing:", country)
+            let indexPosition = preMapData.features.findIndex(element => element["properties"]["iso_a2"] === obj["item_label"]["iso_3166"])
+            preMapData.features[indexPosition]["properties"]["total"] = Object.values(obj["values"]).reduce((a,b) => a + b)
+            preMapData.features[indexPosition]["properties"]["genders"] = Object.values(fetchData.meta.bias_labels)
+            preMapData.features[indexPosition]["properties"]["text"] = preMapData.features[indexPosition]["properties"]["name"]
+            for (let genderId in fetchData.meta.bias_labels) {
+              let label = fetchData.meta.bias_labels[genderId]
+              country["properties"][label] = obj["values"][genderId] ? obj["values"][genderId] : 0 
+              country["properties"][label + "Percent"] = obj["values"][genderId] ? (obj["values"][genderId]/country["properties"]["total"])*100 : 0
+            }
+            for (let genderId in fetchData.meta.bias_labels) {
+              let label = fetchData.meta.bias_labels[genderId]
+              country["properties"]["text"] = country["properties"]["text"] + `
+                ${label}: ${country["properties"][label] ? country["properties"][label] : 0} (${country["properties"][label + "Percent"].toFixed(3)})%
+              ` 
+            }
+          }
+        })
+        console.log(preMapData)
+        
+
+      })
+      setMapData(preMapData)
+      setTableArr(tableArr)
+      setTableColumns(columns)
+      setTableMetaData(extrema)
+      setGenders(genders)
+    }
+    setIsLoading(false)
   }
 
   useEffect(() => {
-    fetchData()
+    getAPI({
+      bias: "gender", 
+      metric: "gap", 
+      snapshot: snapshot, 
+      population: selectedWikipediaHumanType, 
+      property_obj: {citizenship: "all", label_lang: "en"}
+    }, processAPIData)
   },[selectedWikipediaHumanType, selectBirthVsCitizenship, snapshot])
 
   function afterFilter(newResult, newFilters) {
@@ -153,6 +158,8 @@ function GenderByCountryView(props){
     console.log(newFilters);
   }
 
+  const errorDiv = <div>Error</div>
+  const loadingDiv = <div>Loading</div>
   return (
     <Container className="view-container">
       <h1>Gender Gap By Country</h1>
@@ -221,6 +228,8 @@ function GenderByCountryView(props){
       
 
       <div className="table-container">
+        {isLoading? loadingDiv:null }
+        {isErrored? errorDiv: null }
         { 
           tableColumns.length === 0 ? null :
           <BootstrapTable 

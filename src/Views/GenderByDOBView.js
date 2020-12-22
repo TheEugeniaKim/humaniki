@@ -8,7 +8,7 @@ import filterFactory, { textFilter } from 'react-bootstrap-table2-filter'
 import paginationFactory from 'react-bootstrap-table2-paginator'
 
 
-function GenderByDOBView(){
+function GenderByDOBView({getAPI}){
   const [genderMap,setGenderMap] = useState({})
   const [lineData, setLineData] = useState([])
   const [tableMetaData, setTableMetaData] = useState({})
@@ -18,6 +18,8 @@ function GenderByDOBView(){
   const [yearFilterRange, setYearFilterRange] = useState({yearStart: "Enter Year Start", yearEnd: "Enter Year End"})
   const [snapshot, setSnapshot] = useState("latest")
   const [population, setPopulation] = useState("all_wikidata")
+  const [isLoading, setIsLoading] = useState(true)
+  const [isErrored, setIsErrored] = useState(false)
 
   function afterFilter(newResult, newFilters) {
     console.log(newResult);
@@ -55,103 +57,113 @@ function GenderByDOBView(){
     }
   }
 
-  function processData(data){
-    const tableArr = []
-    const columns = []
-    const lineData = []
-    const graphLabels = Object.values(data.meta.bias_labels)
-    const genderMap = setGenderMap(data.meta.bias_labels)
-    const extrema = {
-      percentMax: Number.NEGATIVE_INFINITY,
-      percentMin: Number.POSITIVE_INFINITY,
-      totalMax: Number.NEGATIVE_INFINITY,
-      totalMin: Number.POSITIVE_INFINITY
-    }
-    columns.push({
-      dataField: "year", 
-      text: "Year", 
-      filter: textFilter(), 
-      headerStyle: {"minWidth": "200px", "width": "20%"}, 
-      sort: true, 
-      // sortFunc: (sortValue) => {a.sortValue - b.sortValue}
-    })
-    columns.push({dataField: "total",text: "Total",sort: true})
-    // loop over genders and create formatted column array
-    for (let genderId in data.meta.bias_labels) {
-      let obj = {
-        dataField: data.meta.bias_labels[genderId],
-        text: data.meta.bias_labels[genderId],
-        sort: true
-      }
-      let objPercent = {
-        dataField: data.meta.bias_labels[genderId] + "Percent",
-        text: data.meta.bias_labels[genderId] + " Percent",
-        sort: true
-      }
-      obj.label = data.meta.bias_labels[genderId]
-      columns.push(obj)
-      columns.push(objPercent)
-    }
+  function processData(err, data){
+    if (err){
+      setIsErrored(true)
+    } else {
 
-    //line data loop
-    for (let genderId in data.meta.bias_labels) {
-      let genderLine = {}
-      genderLine.name = genderId
-      genderLine.values = []
-      data.metrics.forEach(dp => {
-        if (Object.keys(dp.values).includes(genderId)) {
-          let tupleObj = {
-            year: +dp.item_label.date_of_birth,
-            value: dp["values"][genderId]
-          }
-          genderLine.values.push(tupleObj)
-        }
+      const tableArr = []
+      const columns = []
+      const lineData = []
+      const graphLabels = Object.values(data.meta.bias_labels)
+      const genderMap = setGenderMap(data.meta.bias_labels)
+      const extrema = {
+        percentMax: Number.NEGATIVE_INFINITY,
+        percentMin: Number.POSITIVE_INFINITY,
+        totalMax: Number.NEGATIVE_INFINITY,
+        totalMin: Number.POSITIVE_INFINITY
+      }
+      columns.push({
+        dataField: "year", 
+        text: "Year", 
+        filter: textFilter(), 
+        headerStyle: {"minWidth": "200px", "width": "20%"}, 
+        sort: true, 
+        // sortFunc: (sortValue) => {a.sortValue - b.sortValue}
       })
-      lineData.push(genderLine)
+      columns.push({dataField: "total",text: "Total",sort: true})
+      // loop over genders and create formatted column array
+      for (let genderId in data.meta.bias_labels) {
+        let obj = {
+          dataField: data.meta.bias_labels[genderId],
+          text: data.meta.bias_labels[genderId],
+          sort: true
+        }
+        let objPercent = {
+          dataField: data.meta.bias_labels[genderId] + "Percent",
+          text: data.meta.bias_labels[genderId] + " Percent",
+          sort: true
+        }
+        obj.label = data.meta.bias_labels[genderId]
+        columns.push(obj)
+        columns.push(objPercent)
+      }
+
+      //line data loop
+      for (let genderId in data.meta.bias_labels) {
+        let genderLine = {}
+        genderLine.name = genderId
+        genderLine.values = []
+        data.metrics.forEach(dp => {
+          if (Object.keys(dp.values).includes(genderId)) {
+            let tupleObj = {
+              year: +dp.item_label.date_of_birth,
+              value: dp["values"][genderId]
+            }
+            genderLine.values.push(tupleObj)
+          }
+        })
+        lineData.push(genderLine)
+      }
+
+      //table loop
+      data.metrics.forEach((dp, index) => {
+        let tableObj = {}
+        tableObj.key = index
+        tableObj.sortValue = parseInt(dp.item_label.date_of_birth)
+        tableObj.year = formatYear(parseInt(dp.item_label.date_of_birth))
+        tableObj.total = Object.values(dp.values).reduce((a,b) => a + b)
+        for (let genderId in data.meta.bias_labels){
+          let label = data.meta.bias_labels[genderId]
+          tableObj[label] = dp["values"][genderId] ? dp["values"][genderId] : 0 
+          tableObj[label + "Percent"] = dp["values"][genderId] ? (dp["values"][genderId]/tableObj["total"])*100 : 0  
+        }
+        tableArr.push(tableObj)
+        if (tableObj.womenPercent > extrema.percentMax) {
+          extrema.percentMax = tableObj.womenPercent
+        } else if (tableObj.womenPercent < extrema.percentMin) {
+          extrema.percentMin = tableObj.womenPercent
+        }
+
+        if (tableObj.total > extrema.totalMax) {
+          extrema.totalMax = tableObj.total
+        } else if (tableObj.total < extrema.totalMin) {
+          extrema.totalMin = tableObj.total
+        }
+        console.log("Table Obj", tableObj)
+      })
+      setGraphGenders(graphLabels)
+      setTableMetaData(extrema)
+      setLineData(lineData)
+      setTableArr(tableArr)
+      setTableColumns(columns)
     }
-
-    //table loop
-    data.metrics.forEach((dp, index) => {
-      let tableObj = {}
-      tableObj.key = index
-      tableObj.sortValue = parseInt(dp.item_label.date_of_birth)
-      tableObj.year = formatYear(parseInt(dp.item_label.date_of_birth))
-      tableObj.total = Object.values(dp.values).reduce((a,b) => a + b)
-      for (let genderId in data.meta.bias_labels){
-        let label = data.meta.bias_labels[genderId]
-        tableObj[label] = dp["values"][genderId] ? dp["values"][genderId] : 0 
-        tableObj[label + "Percent"] = dp["values"][genderId] ? (dp["values"][genderId]/tableObj["total"])*100 : 0  
-      }
-      tableArr.push(tableObj)
-      if (tableObj.womenPercent > extrema.percentMax) {
-        extrema.percentMax = tableObj.womenPercent
-      } else if (tableObj.womenPercent < extrema.percentMin) {
-        extrema.percentMin = tableObj.womenPercent
-      }
-
-      if (tableObj.total > extrema.totalMax) {
-        extrema.totalMax = tableObj.total
-      } else if (tableObj.total < extrema.totalMin) {
-        extrema.totalMin = tableObj.total
-      }
-      console.log("Table Obj", tableObj)
-    })
-    setGraphGenders(graphLabels)
-    setTableMetaData(extrema)
-    setLineData(lineData)
-    setTableArr(tableArr)
-    setTableColumns(columns)
+    setIsLoading(false)
     return true 
   }
 
   useEffect(() => {
-    let baseURL = process.env.REACT_APP_API_URL
-    let url = baseURL + `v1/gender/gap/${snapshot}/${population}/properties?date_of_birth=all&label_lang=en`
-    fetch(url)
-      .then(response => response.json())
-      .then(data => processData(data))
+    getAPI({
+      bias: "gender", 
+      metric: "gap", 
+      snapshot: "latest", 
+      population: "gte_one_sitelink", 
+      property_obj: {date_of_birth: "all", label_lang: "en"}
+    }, processData)
   }, [snapshot, population])
 
+  const errorDiv = <div>Error</div>
+  const loadingDiv = <div>Loading</div>
   return (
     <Container className="view-container">
        <h1>Gender Gap By Year of Birth and Year of Death Statistics</h1>
@@ -235,6 +247,8 @@ function GenderByDOBView(){
         />}
 
       <div className="table-container">
+        {isLoading ? loadingDiv : null }
+        {isErrored ? errorDiv : null }
         {
           tableColumns.length === 0 ? null :
           <BootstrapTable 

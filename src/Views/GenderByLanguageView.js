@@ -8,95 +8,99 @@ import paginationFactory from 'react-bootstrap-table2-paginator'
 
 import ScatterPlot from '../Components/ScatterPlot'
 
-function GenderByLanguageView(){
+function GenderByLanguageView({getAPI}){
   const [tableData, setTableData] = useState([])
   const [tableMetaData, setTableMetaData] = useState({})
   const [tableColumns, setTableColumns] = useState([])
   const [snapshot, setSnapshot] = useState("latest")
+  const [isLoading, setIsLoading] = useState(true)
+  const [isErrored, setIsErrored] = useState(false)
 
   function handleSnapshot(e){
     setSnapshot(e.target.value)
   }
 
-  function processData(data){
-    const tableArr = []
-    const columns = []
-    const extrema = {
-      percentMax: Number.NEGATIVE_INFINITY,
-      percentMin: Number.POSITIVE_INFINITY,
-      totalMax: Number.NEGATIVE_INFINITY,
-      totalMin: Number.POSITIVE_INFINITY
-    }
-
-    function percentFormatter(cell,row){
-      if (!cell){
-        return
+  function processData(err, data){
+    if (err) {
+      setIsErrored(true)
+    } else {
+      const tableArr = []
+      const columns = []
+      const extrema = {
+        percentMax: Number.NEGATIVE_INFINITY,
+        percentMin: Number.POSITIVE_INFINITY,
+        totalMax: Number.NEGATIVE_INFINITY,
+        totalMin: Number.POSITIVE_INFINITY
       }
-      return cell.toFixed(3)
-    }
 
-    columns.push({dataField: "language", text: "Language", filter: textFilter()})
-    columns.push({dataField: "total",text: "Total",sort: true})
-    for (let genderId in data.meta.bias_labels) {
-      let obj = {
-        dataField: data.meta.bias_labels[genderId],
-        text: data.meta.bias_labels[genderId],
-        sort: true
+      function percentFormatter(cell,row){
+        if (!cell){
+          return
+        }
+        return cell.toFixed(3)
       }
-      let objPercent = {
-        dataField: data.meta.bias_labels[genderId] + "Percent",
-        text: data.meta.bias_labels[genderId] + " Percent",
-        sort: true,
-        formatter: percentFormatter
-      }
-      obj.label = data.meta.bias_labels[genderId]
-      columns.push(obj)
-      columns.push(objPercent)
-    }
 
-    data.metrics.forEach((obj, index) => {
-      let tableObj = {}
-      tableObj.key = index
-      tableObj.language = obj.item_label.project
-      tableObj.total = Object.values(obj.values).reduce((a, b) => a + b)
+      columns.push({dataField: "language", text: "Language", filter: textFilter()})
+      columns.push({dataField: "total",text: "Total",sort: true})
       for (let genderId in data.meta.bias_labels) {
-        let label = data.meta.bias_labels[genderId]
-        tableObj[label] = obj["values"][genderId] ? obj["values"][genderId] : 0 
-        tableObj[label + "Percent"] = obj["values"][genderId] ? (obj["values"][genderId]/tableObj["total"])*100 : 0
-      }
-      tableArr.push(tableObj)
-    
-      let nonMalePercent = 100 - tableObj.malePercent
-      if (nonMalePercent > extrema.percentMax) {
-        extrema.percentMax = nonMalePercent
-      } else if (nonMalePercent < extrema.percentMin) {
-        extrema.percentMin = nonMalePercent
+        let obj = {
+          dataField: data.meta.bias_labels[genderId],
+          text: data.meta.bias_labels[genderId],
+          sort: true
+        }
+        let objPercent = {
+          dataField: data.meta.bias_labels[genderId] + "Percent",
+          text: data.meta.bias_labels[genderId] + " Percent",
+          sort: true,
+          formatter: percentFormatter
+        }
+        obj.label = data.meta.bias_labels[genderId]
+        columns.push(obj)
+        columns.push(objPercent)
       }
 
-      if (tableObj.total > extrema.totalMax) {
-        extrema.totalMax = tableObj.total
-      } else if (tableObj.total < extrema.totalMin) {
-        extrema.totalMin = tableObj.total
-      }
-    })
-    
-    setTableMetaData(extrema)
-    setTableData(tableArr) 
-    setTableColumns(columns)
+      data.metrics.forEach((obj, index) => {
+        let tableObj = {}
+        tableObj.key = index
+        tableObj.language = obj.item_label.project
+        tableObj.total = Object.values(obj.values).reduce((a, b) => a + b)
+        for (let genderId in data.meta.bias_labels) {
+          let label = data.meta.bias_labels[genderId]
+          tableObj[label] = obj["values"][genderId] ? obj["values"][genderId] : 0 
+          tableObj[label + "Percent"] = obj["values"][genderId] ? (obj["values"][genderId]/tableObj["total"])*100 : 0
+        }
+        tableArr.push(tableObj)
+      
+        let nonMalePercent = 100 - tableObj.malePercent
+        if (nonMalePercent > extrema.percentMax) {
+          extrema.percentMax = nonMalePercent
+        } else if (nonMalePercent < extrema.percentMin) {
+          extrema.percentMin = nonMalePercent
+        }
+
+        if (tableObj.total > extrema.totalMax) {
+          extrema.totalMax = tableObj.total
+        } else if (tableObj.total < extrema.totalMin) {
+          extrema.totalMin = tableObj.total
+        }
+      })
+      
+      setTableMetaData(extrema)
+      setTableData(tableArr) 
+      setTableColumns(columns)
+    }
+    setIsLoading(false)
     return true
   }
 
   useEffect(() => {
-
-    function fetchData(){
-      let baseURL = process.env.REACT_APP_API_URL
-      let url = baseURL + `v1/gender/gap/${snapshot}/all_wikidata/properties?project=all&label_lang=en`
-      fetch(url) 
-        .then(response => response.json())
-        .then(data => processData(data))
-    }
-
-    fetchData()
+    getAPI({
+      bias: "gender",
+      metric: "gap",
+      snapshot: "latest",
+      population: "gte_one_sitelink",
+      property_obj: {project: "all", label_lang: "en"}
+    }, processData)
   }, [snapshot])
   
   function afterFilter(newResult, newFilters) {
@@ -107,6 +111,9 @@ function GenderByLanguageView(){
   function handleHumanChange(){
     console.log("Handling human change")
   }
+
+  const errorDiv = <div>Error</div>
+  const loadingDiv = <div>Loading</div>
 
   return (
     <Container className="view-container">
@@ -146,6 +153,8 @@ function GenderByLanguageView(){
       </div>
       <br />
       <div className="table-container">
+        {isLoading ? loadingDiv : null }
+        {isErrored ? errorDiv : null }
         {
           tableColumns.length === 0 ? null :
           <BootstrapTable 

@@ -32,8 +32,13 @@ function DefaultView({getAPI}){
   }
 
   useEffect(() => {
-    getAPI({bias: "gender", metric: "gap", snapshot: "latest", population:"gte_one_sitelink", property_obj:null},
-                      processFetchData)
+    getAPI({
+      bias: "gender", 
+      metric: "gap", 
+      snapshot: "latest", 
+      population: "gte_one_sitelink", 
+      property_obj: null
+    }, processFetchData)
 
     const svg = select(svgRef.current)
     const colors = ["#BC8F00","#6200F8","#00BCA1"]
@@ -67,8 +72,8 @@ function DefaultView({getAPI}){
           in all Wikipedias.
         </h5>
       </Row>
-      {isLoading? loadingDiv:null }
-      {isErrored? errorDiv: null }
+      {isLoading ? loadingDiv : null }
+      {isErrored ? errorDiv : null }
       {!isLoading && !isErrored? viz: null }
       <Row className="About-Explainer">
         Expore further dynames of the gender gap in bibliographic content on Wikipedia
