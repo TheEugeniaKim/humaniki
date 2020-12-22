@@ -47,51 +47,45 @@ function getAPI(dataPath, processCB) {
 
 
     function handleNetworkErrors(response, props) {
-        if (response.ok){
-            console.log('Reponse was ok')
+        if (response.ok) {
+            // console.log('Reponse was ok')
         } else if (!response.ok) {
-            console.log('Response error is :', response)
+            // console.log('Response error is :', response)
+            processCB('NetworkError', {})
         }
         return response
     }
 
 
-    function handleHTTPErrors(anErr, processCB) {
-        if (Object.keys(anErr).includes("response")) {
-            if (anErr.response.status == 500) {
-                console.error("The server is down contact Humaniki team")
-            } else if (anErr.response.status == 503) {
-                console.error("Please try again soon")
-            } else if (400 <= anErr.response.status < 500) {
-                console.error("I was programmed incorrectly! (Or the backend was)")
-            } else {
-                console.error("An error that never got a reponse: ", anErr)
-            }
-        }
-        processCB(anErr, {})
-    }
-
     function getJSONFromURL(url) {
         console.log('getting URL,', url)
-        fetch(url).then(handleNetworkErrors)
-            .then( (response) => {
+        fetch(url)
+            // alert the user if the network is down/unavaile
+            .then(handleNetworkErrors)
+            .then((response) => {
                 response.json()
                     .then((data) =>
-                        // check if the data had errors
-                        { if( Object.keys(data).includes("error")){
-                            processCB(data['error'], {})
-                        } else {
-                            // else success
-                        }
-                           processCB(null, data)
+                            // check if the data had explicit errors
+                        {
+                            if (Object.keys(data).includes("error")) {
+                                processCB(data['error'], {})
+                            } else {
+                                processCB(null, data)
+                            }
                         }
                     )
+                    // catch anything else
+                    .catch((error) => processCB(error, {}))
             })
     }
 
 
     const fetchURL = makeURLFromDataPath(dataPath)
-    getJSONFromURL(fetchURL)
+    try {
+        getJSONFromURL(fetchURL)
+    } catch (e) {
+        console.error('Catching e')
+    }
 
 
 }

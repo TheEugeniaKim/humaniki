@@ -32,7 +32,7 @@ function DefaultView({getAPI}){
   }
 
   useEffect(() => {
-    let APIRes = getAPI({bias: "gender", metric: "gap", snapshot: "latest", population:"gte_one_sitelink", property_obj:null},
+    getAPI({bias: "gender", metric: "gap", snapshot: "latest", population:"gte_one_sitelink", property_obj:null},
                       processFetchData)
 
     const svg = select(svgRef.current)
@@ -47,6 +47,16 @@ function DefaultView({getAPI}){
     .attr("x", (value) => value)    
   }, [totalMen, totalOthers, totalWomen])
 
+  const errorDiv = <div>Error</div>
+  const loadingDiv = <div>Loading</div>
+  const viz = <div className="default-data-container">
+        <h4> Recent Distribution of Articles </h4>
+        <h3> {totalMen} Male Biographies </h3>
+        <h3> {totalOthers} Σ Other Biographies </h3>
+        <h3> {totalWomen} Female Biographies </h3>
+        <svg className="default-svg" ref={svgRef}></svg>
+      </div>
+
   return (
     <Container className="default">
       <Row className="default-content">
@@ -57,15 +67,9 @@ function DefaultView({getAPI}){
           in all Wikipedias.
         </h5>
       </Row>
-      {isLoading? <div>"Loading"</div> :
-      <div className="default-data-container">
-        <h4> Recent Distribution of Articles </h4>
-        <h3> {totalMen} Male Biographies </h3>
-        <h3> {totalOthers} Σ Other Biographies </h3>
-        <h3> {totalWomen} Female Biographies </h3>
-        <svg className="default-svg" ref={svgRef}></svg>
-      </div> }
-      
+      {isLoading? loadingDiv:null }
+      {isErrored? errorDiv: null }
+      {!isLoading && !isErrored? viz: null }
       <Row className="About-Explainer">
         Expore further dynames of the gender gap in bibliographic content on Wikipedia
         with Humaniki and learn how you can contribute to bridge this gap. Compare gender 
