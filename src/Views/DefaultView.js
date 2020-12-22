@@ -5,39 +5,38 @@ import "../App.css"
 import "../Sk.css"
 
 function DefaultView({getAPI}){
-  const processCB = (err, jsonData) => {
-    if (err) {alert('process CB got an error')}
-    else {alert("process CB success", jsonData['meta'])}
-  }
-
-  let APIRes = getAPI({bias: "gender", metric: "gap", snapshot: "latest", population:"gte_one_sitelink", property_obj:null},
-                      processCB)
-
   const svgRef = useRef()
   const [totalMen, setTotalMen] = useState()
   const [totalWomen, setTotalWomen] = useState()
   const [totalOthers, setTotalOthers] = useState()
+  const [isLoading, setIsLoading] = useState(true)
+  const [isErrored, setIsErrored] = useState(false)
 
-  function processFetchData(data){
-    let totalMen = data.metrics[0].values["6581097"]
-    let totalWomen = data.metrics[0].values["6581072"]
-    let totalOthers = data.metrics[0].values
-    totalOthers["6581097"] = 0
-    totalOthers["6581072"] = 0
-    totalOthers = Object.values(totalOthers).reduce((a,b) => a+b)
-    setTotalMen(totalMen)
-    setTotalWomen(totalWomen)
-    setTotalOthers(totalOthers)
+
+  function processFetchData(err, data){
+    if (err) {
+      setIsErrored(true)
+    }
+    else{
+      let totalMen = data.metrics[0].values["6581097"]
+      let totalWomen = data.metrics[0].values["6581072"]
+      let totalOthers = data.metrics[0].values
+      totalOthers["6581097"] = 0
+      totalOthers["6581072"] = 0
+      totalOthers = Object.values(totalOthers).reduce((a,b) => a+b)
+      setTotalMen(totalMen)
+      setTotalWomen(totalWomen)
+      setTotalOthers(totalOthers)
+    }
+    setIsLoading(false)
   }
 
   useEffect(() => {
+    let APIRes = getAPI({bias: "gender", metric: "gap", snapshot: "latest", population:"gte_one_sitelink", property_obj:null},
+                      processFetchData)
+
     const svg = select(svgRef.current)
     const colors = ["#BC8F00","#6200F8","#00BCA1"]
-    let baseURL = process.env.REACT_APP_API_URL
-    let url = `${baseURL}v1/gender/gap/latest/gte_one_sitelink/properties?&label_lang=en`
-    fetch(url)
-    .then(response => response.json())
-    .then(data => processFetchData(data))
 
     svg.selectAll("rect")
     .data([totalMen, totalOthers, totalWomen])
@@ -58,13 +57,14 @@ function DefaultView({getAPI}){
           in all Wikipedias.
         </h5>
       </Row>
+      {isLoading? <div>"Loading"</div> :
       <div className="default-data-container">
         <h4> Recent Distribution of Articles </h4>
         <h3> {totalMen} Male Biographies </h3>
         <h3> {totalOthers} Σ Other Biographies </h3>
         <h3> {totalWomen} Female Biographies </h3>
         <svg className="default-svg" ref={svgRef}></svg>
-      </div>
+      </div> }
       
       <Row className="About-Explainer">
         Expore further dynames of the gender gap in bibliographic content on Wikipedia

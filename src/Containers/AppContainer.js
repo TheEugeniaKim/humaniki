@@ -29,8 +29,6 @@ class HttpError extends Error {
 //}
 
 function getAPI(dataPath, processCB) {
-    let err = null
-
     function makeURLFromDataPath(dataPath) {
         let baseURL = process.env.REACT_APP_API_URL
         let urlDataPath = urljoin(dataPath.bias, dataPath.metric, dataPath.snapshot, dataPath.population)
@@ -48,35 +46,15 @@ function getAPI(dataPath, processCB) {
     }
 
 
-    function getJSONFromURL(url) {
-        fetch(url).then(response => {
-            if (response.status == 200) {
-                return response.json()
-            } else {
-                throw new HttpError(response)
-            }
-        })
-            .catch(e => {
-                handleNetworkErrors(e, processCB)
-            })
+    function handleNetworkErrors(response, props) {
+        if (response.ok){
+            console.log('Reponse was ok')
+        } else if (!response.ok) {
+            console.log('Response error is :', response)
+        }
+        return response
     }
 
-
-    const fetchURL = makeURLFromDataPath(dataPath)
-
-    getJSONFromURL(fetchURL)
-        .then(json => processCB(err, json))
-        .catch(anErr => {
-                // debugger
-                err = anErr
-                handleHTTPErrors(anErr, processCB)
-            }
-        )
-
-    function handleNetworkErrors(anErr, processCB) {
-        console.error('Network Error', anErr)
-        processCB(anErr, processCB)
-    }
 
     function handleHTTPErrors(anErr, processCB) {
         if (Object.keys(anErr).includes("response")) {
@@ -92,6 +70,30 @@ function getAPI(dataPath, processCB) {
         }
         processCB(anErr, {})
     }
+
+    function getJSONFromURL(url) {
+        console.log('getting URL,', url)
+        fetch(url).then(handleNetworkErrors)
+            .then( (response) => {
+                response.json()
+                    .then((data) =>
+                        // check if the data had errors
+                        { if( Object.keys(data).includes("error")){
+                            processCB(data['error'], {})
+                        } else {
+                            // else success
+                        }
+                           processCB(null, data)
+                        }
+                    )
+            })
+    }
+
+
+    const fetchURL = makeURLFromDataPath(dataPath)
+    getJSONFromURL(fetchURL)
+
+
 }
 
 
