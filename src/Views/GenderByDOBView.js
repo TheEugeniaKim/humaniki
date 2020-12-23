@@ -8,7 +8,7 @@ import filterFactory, { textFilter } from 'react-bootstrap-table2-filter'
 import paginationFactory from 'react-bootstrap-table2-paginator'
 
 
-function GenderByDOBView({getAPI}){
+function GenderByDOBView({API}){
   const [genderMap,setGenderMap] = useState({})
   const [lineData, setLineData] = useState([])
   const [tableMetaData, setTableMetaData] = useState({})
@@ -153,7 +153,7 @@ function GenderByDOBView({getAPI}){
   }
 
   useEffect(() => {
-    getAPI({
+    API.get({
       bias: "gender", 
       metric: "gap", 
       snapshot: "latest", 

@@ -12,7 +12,7 @@ import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
 import paginationFactory from 'react-bootstrap-table2-paginator'
 
 
-function GenderByCountryView({getAPI}){
+function GenderByCountryView({API}){
   const [selectBirthVsCitizenship, setBirthVsCitizenship] = useState("country-of-birth")
   const [selectedWikipediaHumanType, setSelectedWikipediaHumanType] = useState(populations.ALL_WIKIDATA)
   const [mapData, setMapData] = useState(null)
@@ -144,7 +144,7 @@ function GenderByCountryView({getAPI}){
   }
 
   useEffect(() => {
-    getAPI({
+    API.get({
       bias: "gender", 
       metric: "gap", 
       snapshot: snapshot, 

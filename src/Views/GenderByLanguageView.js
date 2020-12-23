@@ -8,7 +8,7 @@ import paginationFactory from 'react-bootstrap-table2-paginator'
 
 import ScatterPlot from '../Components/ScatterPlot'
 
-function GenderByLanguageView({getAPI}){
+function GenderByLanguageView({API}){
   const [tableData, setTableData] = useState([])
   const [tableMetaData, setTableMetaData] = useState({})
   const [tableColumns, setTableColumns] = useState([])
@@ -94,7 +94,7 @@ function GenderByLanguageView({getAPI}){
   }
 
   useEffect(() => {
-    getAPI({
+    API.get({
       bias: "gender",
       metric: "gap",
       snapshot: "latest",
