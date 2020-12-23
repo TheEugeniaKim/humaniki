@@ -12,14 +12,14 @@ import {BrowserRouter as Router, Route} from 'react-router-dom'
 import urljoin from 'url-join'
 
 function getSnapshots(setSnapshots){
-    // get the available snapshots ready for the application
-    let baseURL = process.env.REACT_APP_API_URL
-    let snpapshotPath = '/v1/available_snapshots'
-    let snapshotURL = urljoin(baseURL, snpapshotPath)
-    fetch(snapshotURL)
-        .then((response)=>response.json())
-        .then((json)=>setSnapshots(json))
-        .catch((error)=>console.error('Could not get snapshots because of ', error))
+  // get the available snapshots ready for the application
+  let baseURL = process.env.REACT_APP_API_URL
+  let snpapshotPath = '/v1/available_snapshots'
+  let snapshotURL = urljoin(baseURL, snpapshotPath)
+  fetch(snapshotURL)
+    .then((response)=>response.json())
+    .then((json)=>setSnapshots(json))
+    .catch((error)=>console.error('Could not get snapshots because of ', error))
 }
 // bias, metric, snapshot, population, {citizenship: "all"}, + label_lang=en
 //{bias: "gender", 
@@ -95,27 +95,27 @@ function getAPI(dataPath, processCB) {
 
 
 function AppContainer() {
-    const [navBar, setNavBar] = useState("about")
-    const [snapshots, setSnapshots] = useState(null)
-    if (!snapshots){
-        getSnapshots(setSnapshots)
-    }
-    return (
-      <div className="App">
-        <NavBarComponent setNavBar={setNavBar}/>
-        <Router>
-          <Route exact path={"/"} render={() => <DefaultView getAPI={getAPI}/>}/>
-          <Route exact path={"/about"} render={() => <AboutView/>}/>
-          <Route exact path={"/advanced-search"} render={() => <AdvancedSearchView getAPI={getAPI} snapshots={snapshots} />}/>
-          <Route exact path={"/gender-by-country"} render={() => <GenderByCountryView getAPI={getAPI} />}/>
-          <Route exact path={"/gender-by-dob"} render={() => <GenderByDOBView getAPI={getAPI} />}/>
-          <Route exact path={"/gender-by-language"} render={() => <GenderByLanguageView getAPI={getAPI} />}/>
-        </Router>
-        <Container>
-          <Footer className="fixed-bottom"/>
-        </Container>
-      </div>
-    )
+  const [navBar, setNavBar] = useState("about")
+  const [snapshots, setSnapshots] = useState(null)
+  if (!snapshots){
+    getSnapshots(setSnapshots)
+  }
+  return (
+    <div className="App">
+      <NavBarComponent setNavBar={setNavBar}/>
+      <Router>
+        <Route exact path={"/"} render={() => <DefaultView getAPI={getAPI}/>}/>
+        <Route exact path={"/about"} render={() => <AboutView/>}/>
+        <Route exact path={"/advanced-search"} render={() => <AdvancedSearchView getAPI={getAPI} snapshots={snapshots} />}/>
+        <Route exact path={"/gender-by-country"} render={() => <GenderByCountryView getAPI={getAPI} />}/>
+        <Route exact path={"/gender-by-dob"} render={() => <GenderByDOBView getAPI={getAPI} />}/>
+        <Route exact path={"/gender-by-language"} render={() => <GenderByLanguageView getAPI={getAPI} />}/>
+      </Router>
+      <Container>
+        <Footer className="fixed-bottom"/>
+      </Container>
+    </div>
+  )
 }
 
 export default AppContainer;

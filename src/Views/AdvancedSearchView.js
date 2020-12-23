@@ -8,7 +8,7 @@ import { ToggleButtonGroup, ToggleButton, Form } from 'react-bootstrap'
 import AdvacnedSearchForm from '../Components/AdvancedSearchForm'
 import SingleBarChart from '../Components/SingleBarChart'
 
-function AdvancedSearchView({getAPI}){
+function AdvancedSearchView({getAPI, snapshots}){
   const [selectedWikipediaHumanType, setSelectedWikipediaHumanType] = useState("all_wikidata")
   const baseURL = process.env.REACT_APP_API_URL
   // const [url, seturl] = useState(`${baseURL}/v1/gender/gap/latest/gte_one_sitelink/properties?&label_lang=en`)
@@ -22,25 +22,6 @@ function AdvancedSearchView({getAPI}){
   const onSubmit = (formState) => {
     setFormObj(formState)
   }
-
-  // function setFetchURL(formState){
-  //   let url = `${baseURL}v1/gender/gap/${formState.selectedSnapshot ? formState.selectedSnapshot : "latest"}/${selectedWikipediaHumanType}/properties?`
-  //   if (formState.selectedYearRange) {
-  //     url = url + `&date_of_birth=${formState.selectedYearRange}`
-  //   }
-
-  //   if (formState.selectedWikiProject) {
-  //     url = url + `&project=${formState.selectedWikiProject}`
-  //   }
-
-  //   if (formState.selectedCitizenship) {
-  //     url = url + `&citizenship=${formState.selectedCitizenship}`
-  //   }
-
-  //   url = url + `&label_lang=en`
-  //   console.log(url)
-  //   return seturl(url)
-  // }
 
   function handleHumanChange(event){
     if (event === "all") {
@@ -91,11 +72,12 @@ function AdvancedSearchView({getAPI}){
       setIsErrored(true)
     } else {
       if (!resData) return
-      if (!snapshotData) return
+      if (!snapshots) return
       console.log("resData:",resData, "snapshotData:", snapshotData)
-      snapshotData.forEach(snapshot => snapshot.date = snapshot.date.substring(0,4) + "-" + snapshot.date.substring(4,6) + "-" + snapshot.date.substring(6,8))
-      snapshotData.unshift({date: "latest", id: 0})
-      setAvailableSnapshots(snapshotData)
+      
+      // snapshotData.forEach(snapshot => snapshot.date = snapshot.date.substring(0,4) + "-" + snapshot.date.substring(4,6) + "-" + snapshot.date.substring(6,8))
+      // snapshotData.unshift({date: "latest", id: 0})
+      // setAvailableSnapshots(snapshotData)
       
       let tableArr = []
       //create columns
@@ -171,16 +153,22 @@ function AdvancedSearchView({getAPI}){
   }
 
   useEffect(() => {
-    console.log("this is FORM OBJ:", formObj)
+    if (!snapshots){
+      return
+    }
     let propertyObj = {}
+    console.log('form obj', formObj)
     if (formObj.selectedCitizenship){
       propertyObj.citizenship = formObj.selectedCitizenship
-    } else if (formObj.selectedWikiProject){
+    } 
+    if (formObj.selectedWikiProject){
       propertyObj.project = formObj.selectedWikiProject
-    } else if (formObj.selectedYearRange){
-      propertyObj.years = formObj.selectedYearRange
     }
-    
+    if (formObj.selectedYearRange){
+      propertyObj.date_of_birth = formObj.selectedYearRange
+    }
+    console.log("this is property obj:",propertyObj)
+    console.log("snapshots", snapshots)
     getAPI({
       bias: "gender",
       metric: "gap",
@@ -188,7 +176,7 @@ function AdvancedSearchView({getAPI}){
       population: "gte_one_sitelink",
       property_obj: null
     }, processFetchData)
-  }, [formObj])
+  }, [formObj, snapshots])
   return (
     <Container className="view-container">
       <h1>Advanced Search</h1>
@@ -204,7 +192,7 @@ function AdvancedSearchView({getAPI}){
       <div className="input-area">
         <AdvacnedSearchForm
           onSubmit={onSubmit}
-          snapshots={availableSnapshots}
+          snapshots={snapshots}
         />
 
       </div>
