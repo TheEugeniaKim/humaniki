@@ -109,12 +109,16 @@ function AdvacnedSearchForm({onSubmit, snapshots}){
       <Row>
         <Form.Group controlId="selectedSnapshot">
           <Form.Label>Timestamp (YYYY-DD-MM)</Form.Label>
-          <Form.Control as="select" onChange={handleSnapshotChange} value={formState.selectedSnapshot ? formatDate(formState.selectedSnapshot) : "latest"}>
-            {
+          <Form.Control 
+            as="select" 
+            onChange={handleSnapshotChange} 
+            value={formState.selectedSnapshot ? formatDate(formState.selectedSnapshot) : "latest"}
+          >
+            {/* {
               snapshots.map(snapshot =>
                 <option key={snapshot.id}>{snapshot.date}</option>  
               )
-            }
+            } */}
           </Form.Control>
         </Form.Group>
 
