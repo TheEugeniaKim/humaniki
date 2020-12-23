@@ -4,10 +4,9 @@ import React from 'react'
 export default class humanikiAPI{
     constructor() {
         this.cache = {}
-        this.snapshots = null
     }
 
-    saveSnapshots() {
+    saveSnapshots(processCB) {
         // get the available snapshots ready for the application
         let baseURL = process.env.REACT_APP_API_URL
         let snpapshotPath = '/v1/available_snapshots'
@@ -15,8 +14,7 @@ export default class humanikiAPI{
         fetch(snapshotURL)
             .then((response) => response.json())
             .then((json) => {
-                this.snapshots = json
-                console.log("IN API snapshots, ", this.snapshots)
+                processCB(json)
             })
             .catch((error) => console.error('Could not get snapshots because of ', error))
     }
