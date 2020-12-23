@@ -4,7 +4,7 @@ import { Container, Row } from 'react-bootstrap'
 import "../App.css"
 import "../Sk.css"
 
-function DefaultView({getAPI}){
+function DefaultView({API}){
   const svgRef = useRef()
   const [totalMen, setTotalMen] = useState()
   const [totalWomen, setTotalWomen] = useState()
@@ -32,7 +32,7 @@ function DefaultView({getAPI}){
   }
 
   useEffect(() => {
-    getAPI({
+    API.get({
       bias: "gender", 
       metric: "gap", 
       snapshot: "latest", 
