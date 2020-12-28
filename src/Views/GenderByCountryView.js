@@ -4,7 +4,7 @@ import WorldMapPropertySelection from '../Components/WorldMapPropertySelection'
 import data from '../Components/custom.geo.json'
 import { ToggleButtonGroup, ToggleButton, Form, InputGroup, FormControl, Container } from 'react-bootstrap'
 import { propTypes } from 'react-bootstrap/esm/Image';
-import populations from '../utils.js'
+import { populations } from '../utils.js'
 
 import BootstrapTable from 'react-bootstrap-table-next'
 import 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css';

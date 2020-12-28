@@ -1,5 +1,5 @@
 import urljoin from "url-join";
-import React from 'react'
+import { baseURL } from "./utils";
 
 export default class humanikiAPI{
     constructor() {
@@ -8,7 +8,6 @@ export default class humanikiAPI{
 
     saveSnapshots(processCB) {
         // get the available snapshots ready for the application
-        let baseURL = process.env.REACT_APP_API_URL
         let snpapshotPath = '/v1/available_snapshots'
         let snapshotURL = urljoin(baseURL, snpapshotPath)
         fetch(snapshotURL)
@@ -19,28 +18,35 @@ export default class humanikiAPI{
             .catch((error) => console.error('Could not get snapshots because of ', error))
     }
 
-    makeURLFromDataPath(dataPath) {
-        let baseURL = process.env.REACT_APP_API_URL
-        // console.log("IN DATA PATH", dataPath, baseURL)
-        let urlDataPath = urljoin(dataPath.bias, dataPath.metric, dataPath.snapshot, dataPath.population)
+    createPropertiesStrFromPropertyObj(propertyObj){
         const propertiesQueriesSubArr = []
-        if (dataPath.property_obj) {
-            Object.keys(dataPath.property_obj).map(key => {
-                let str = `${key}=${dataPath.property_obj[key]}`
-                propertiesQueriesSubArr.push(str)
-            })
+        
+        if (!propertyObj) {
+            propertyObj = {label_lang: "en"}
         }
+        if (propertyObj && !propertyObj.label_lang){
+            propertyObj.label_lang = "en"
+        }
+        
+        Object.keys(propertyObj).map(key => {
+            let str = `${key}=${propertyObj[key]}`
+            propertiesQueriesSubArr.push(str)
+        })
+        
         const propertiesQuerySubStr = propertiesQueriesSubArr.join("&")
         const propertiesURLStr = `properties?${propertiesQuerySubStr}`
+        return propertiesURLStr
+    }
+
+    makeURLFromDataPath(dataPath) {
+        let urlDataPath = urljoin(dataPath.bias, dataPath.metric, dataPath.snapshot, dataPath.population)
+        const propertiesURLStr = this.createPropertiesStrFromPropertyObj(dataPath.property_obj)
         return urljoin(baseURL, "v1", urlDataPath, propertiesURLStr)
     }
 
-
     handleNetworkErrors(response, processCB) {
         if (response.ok) {
-            // console.log('Reponse was ok')
         } else if (!response.ok) {
-            // console.log('Response error is :', response)
             processCB('NetworkError', {})
         }
         return response
@@ -48,13 +54,10 @@ export default class humanikiAPI{
 
     saveToCache(url, data) {
         this.cache[url] = data
-        console.log('saving data', data)
         return data
     }
 
-
     getJSONFromURL(url, processCB) {
-        // console.log('getting URL,', url)
         fetch(url)
             // alert the user if the network is down/unavaile
             .then((response) => this.handleNetworkErrors(response, processCB))

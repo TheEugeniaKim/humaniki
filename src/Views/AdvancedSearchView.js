@@ -8,19 +8,48 @@ import { ToggleButtonGroup, ToggleButton, Form } from 'react-bootstrap'
 import AdvacnedSearchForm from '../Components/AdvancedSearchForm'
 import SingleBarChart from '../Components/SingleBarChart'
 
-function AdvancedSearchView({getAPI, snapshots}){
+function AdvancedSearchView({API, snapshots}){
   const [selectedWikipediaHumanType, setSelectedWikipediaHumanType] = useState("all_wikidata")
   const baseURL = process.env.REACT_APP_API_URL
   // const [url, seturl] = useState(`${baseURL}/v1/gender/gap/latest/gte_one_sitelink/properties?&label_lang=en`)
+  const [fetchObj, setFetchObj] = useState({
+    bias: "gender",
+    metric: "gap",
+    snapshot: "latest",
+    population: "gte_one_sitelink",
+    property_obj: null
+  })
   const [formObj, setFormObj] = useState({})
   const [tableColumns, setTableColumns] = useState([{dataField: "index", text: "Index", sort: true}])
   const [tableData, setTableData] = useState([])
-  const [availableSnapshots, setAvailableSnapshots] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [isErrored, setIsErrored] = useState(false)
 
   const onSubmit = (formState) => {
-    setFormObj(formState)
+    let tempPropertyObj = {
+      bias: "gender",
+      metric: "gap",
+      snapshot: "latest",
+      population: "gte_one_sitelink",
+      property_obj: {}
+    }
+    if (formState.selectedSnapshot){
+      tempPropertyObj.snapshot = formState.selectedSnapshot
+    }
+    console.log("formState", formState)
+    if (formState.selectedCitizenship){
+      tempPropertyObj["property_obj"]["citizenship"] = formState.selectedCitizenship
+    } 
+    if (formState.selectedWikiProject){
+      tempPropertyObj["property_obj"]["project"] = formState.selectedWikiProject
+    }
+    if (formState.selectedYearRange){
+      tempPropertyObj["property_obj"]["date_of_birth"] = formState.selectedYearRange
+    }
+    if (Object.keys(tempPropertyObj["property_obj"]).length === 0){
+      tempPropertyObj["property_obj"] = null
+    }
+    setFetchObj(tempPropertyObj)
   }
 
   function handleHumanChange(event){
@@ -67,17 +96,13 @@ function AdvancedSearchView({getAPI, snapshots}){
     columns.splice(6,0,femalePercentObj)
   }
 
-  function processFetchData(err,resData, snapshotData){
+  function processFetchData(err,resData){
     if (err){
       setIsErrored(true)
     } else {
       if (!resData) return
       if (!snapshots) return
-      console.log("resData:",resData, "snapshotData:", snapshotData)
-      
-      // snapshotData.forEach(snapshot => snapshot.date = snapshot.date.substring(0,4) + "-" + snapshot.date.substring(4,6) + "-" + snapshot.date.substring(6,8))
-      // snapshotData.unshift({date: "latest", id: 0})
-      // setAvailableSnapshots(snapshotData)
+      console.log("resData:",resData, "snapshotData:", snapshots)
       
       let tableArr = []
       //create columns
@@ -156,27 +181,11 @@ function AdvancedSearchView({getAPI, snapshots}){
     if (!snapshots){
       return
     }
-    let propertyObj = {}
-    console.log('form obj', formObj)
-    if (formObj.selectedCitizenship){
-      propertyObj.citizenship = formObj.selectedCitizenship
-    } 
-    if (formObj.selectedWikiProject){
-      propertyObj.project = formObj.selectedWikiProject
-    }
-    if (formObj.selectedYearRange){
-      propertyObj.date_of_birth = formObj.selectedYearRange
-    }
-    console.log("this is property obj:",propertyObj)
-    console.log("snapshots", snapshots)
-    getAPI({
-      bias: "gender",
-      metric: "gap",
-      snapshot: "latest",
-      population: "gte_one_sitelink",
-      property_obj: null
-    }, processFetchData)
-  }, [formObj, snapshots])
+    console.log('fetch obj', fetchObj)
+
+    API.get(fetchObj, processFetchData)
+  }, [fetchObj, snapshots])
+
   return (
     <Container className="view-container">
       <h1>Advanced Search</h1>
@@ -199,7 +208,7 @@ function AdvancedSearchView({getAPI, snapshots}){
       <SingleBarChart />
 
       <BootstrapTable
-        keyField="index"
+        keyField="index" 
         data={ tableData }
         columns={ tableColumns }
         filter={ filterFactory({ afterFilter }) }
