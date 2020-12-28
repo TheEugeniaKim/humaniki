@@ -8,7 +8,7 @@ export default class humanikiAPI{
 
     saveSnapshots(processCB) {
         // get the available snapshots ready for the application
-        let snpapshotPath = '/v1/available_snapshots'
+        let snpapshotPath = '/v1/available_snapshots/'
         let snapshotURL = urljoin(baseURL, snpapshotPath)
         fetch(snapshotURL)
             .then((response) => response.json())
@@ -27,7 +27,7 @@ export default class humanikiAPI{
         if (propertyObj && !propertyObj.label_lang){
             propertyObj.label_lang = "en"
         }
-        
+
         Object.keys(propertyObj).map(key => {
             let str = `${key}=${propertyObj[key]}`
             propertiesQueriesSubArr.push(str)
