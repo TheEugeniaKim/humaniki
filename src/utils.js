@@ -4,3 +4,7 @@ export const populations = {
 }
 
 export const baseURL = process.env.REACT_APP_API_URL
+
+export function filterMetrics(metrics, filterFn){
+  return metrics.filter(metric => filterFn(metric));
+}
