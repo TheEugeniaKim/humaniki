@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { select} from 'd3'
 import { Container, Row } from 'react-bootstrap'
+import SingleBarChart from '../Components/SingleBarChart'
 import "../App.css"
 import "../Sk.css"
 
@@ -59,7 +60,8 @@ function DefaultView({API}){
         <h3> {totalMen} Male Biographies </h3>
         <h3> {totalOthers} Σ Other Biographies </h3>
         <h3> {totalWomen} Female Biographies </h3>
-        <svg className="default-svg" ref={svgRef}></svg>
+        <SingleBarChart genderTotals={[totalMen, totalOthers,totalWomen]} />
+        {/* <svg className="default-svg" ref={svgRef}></svg> */}
       </div>
 
   return (
