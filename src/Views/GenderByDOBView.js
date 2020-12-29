@@ -7,7 +7,7 @@ import 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.c
 import filterFactory, {textFilter} from 'react-bootstrap-table2-filter'
 import paginationFactory from 'react-bootstrap-table2-paginator'
 import {filterMetrics} from "../utils";
-
+import { toast } from 'react-toastify';
 
 function GenderByDOBView({API}) {
     const currYear = new Date().getFullYear()
@@ -57,16 +57,22 @@ function GenderByDOBView({API}) {
 
     function handleYearStart(e) {
         const year = parseInt(e.target.value)
-        // setYearFilterFn(() => makeYearFilterFn(year, yearEnd))
-        setYearStart(year)
+        if (isNaN(year)){
+          toast("Please Enter Numeric Year")
+          setYearStart(1600)
+        } else {
+          setYearStart(year)
+        }
     }
 
     function handleYearEnd(e) {
-        // const newFilterRange = {
-        //     yearStart: yearFilterFn.yearStart,
-        //     yearEnd: parseInt(e.target.value)
-        // }
-        // setYearFilterFn(newFilterRange)
+      const year = parseInt(e.target.value)
+      if (isNaN(year)){
+        toast("Please Enter Numeric Year")
+        setYearEnd(currYear)
+      } else {
+        setYearEnd(year)
+      }
     }
 
     function formatYear(num) {
