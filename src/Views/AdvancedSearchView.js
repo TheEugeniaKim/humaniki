@@ -167,6 +167,7 @@ function AdvancedSearchView({API, snapshots}){
         let genderTotalsArr = []
 
         Object.values(resData.meta.bias_labels).map(gender => gender + "Percent").map(g => genderTotalsArr.push(tableObj[g]))
+        console.log("Gender totals arr", genderTotalsArr)
         tableObj.gap = <SingleBarChart genderTotals={genderTotalsArr} />
         tableArr.push(tableObj)
       })
@@ -202,10 +203,8 @@ function AdvancedSearchView({API, snapshots}){
         <AdvacnedSearchForm
           onSubmit={onSubmit}
           snapshots={snapshots}
-        />
-
+        /> 
       </div>
-      <SingleBarChart />
 
       <BootstrapTable
         keyField="index" 

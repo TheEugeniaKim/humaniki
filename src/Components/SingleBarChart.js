@@ -21,7 +21,7 @@ function SingleBarChart(props){
     .join("rect")
     .attr("fill", function(d, i) {return colors[i]; })
     .attr("width", (value) => value.percent + "%")
-    .attr("height", "30%")
+    .attr("height", "100%")
     .attr("x", (value) => value.percentSoFar + "%")    
   }, [props.genderTotals])
 

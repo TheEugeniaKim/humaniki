@@ -135,8 +135,8 @@ function AdvacnedSearchForm({ onSubmit, snapshots }) {
         }
       >
         {
-          snapshots.map((snapshot) => (
-            <option key={snapshot.id}>{snapshot.date}</option>
+          snapshots.map((snapshot, index) => (
+            <option key={snapshot.id}>{index === 0 ?  formatDate(snapshot.date)+" (latest)" : formatDate(snapshot.date) }</option>
           ))
         }
       </Form.Control>
