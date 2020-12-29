@@ -9,17 +9,29 @@ import paginationFactory from 'react-bootstrap-table2-paginator'
 
 
 function GenderByDOBView({API}) {
+    const currYear = new Date().getFullYear()
+    let makeYearFilterFn = (yearStart, yearEnd) => (metric) => {
+        // this is a higher order function that will be predicate of each individual metric
+            // is metric.item
+            const metricYear = parseInt(metric.item.date_of_birth)
+            console.log("in make year filter fun", yearStart, metricYear, yearEnd)
+            return yearStart <= metricYear && metricYear <= yearEnd
+    }
+
+    const [allMetrics, setAllMetrics] = useState(null)
+    const [allMeta, setAllMeta] = useState(null)
     const [genderMap, setGenderMap] = useState({})
     const [lineData, setLineData] = useState([])
     const [tableMetaData, setTableMetaData] = useState({})
     const [tableColumns, setTableColumns] = useState([])
     const [tableArr, setTableArr] = useState([])
     const [graphGenders, setGraphGenders] = useState({})
-    const [yearFilterRange, setYearFilterRange] = useState({yearStart: 1600, yearEnd: new Date().getFullYear()})
+    const [yearFilterFn, setYearFilterFn] = useState(()=> makeYearFilterFn(1600, currYear))
     const [snapshot, setSnapshot] = useState("latest")
     const [population, setPopulation] = useState("all_wikidata")
     const [isLoading, setIsLoading] = useState(true)
     const [isErrored, setIsErrored] = useState(false)
+
 
     function afterFilter(newResult, newFilters) {
         console.log(newResult);
@@ -41,15 +53,19 @@ function GenderByDOBView({API}) {
     }
 
     function handleYearStart(e) {
-        const newFilterRange = {yearStart:parseInt(e.target.value),
-                                yearEnd:yearFilterRange.yearEnd}
-        setYearFilterRange(newFilterRange)
+        const newFilterRange = {
+            yearStart: parseInt(e.target.value),
+            yearEnd: yearFilterFn.yearEnd
+        }
+        setYearFilterFn(newFilterRange)
     }
 
     function handleYearEnd(e) {
-        const newFilterRange = {yearStart:yearFilterRange.yearStart,
-                                yearEnd:parseInt(e.target.value)}
-        setYearFilterRange(newFilterRange)
+        const newFilterRange = {
+            yearStart: yearFilterFn.yearStart,
+            yearEnd: parseInt(e.target.value)
+        }
+        setYearFilterFn(newFilterRange)
     }
 
     function formatYear(num) {
@@ -100,7 +116,7 @@ function GenderByDOBView({API}) {
             data.metrics.forEach(dp => {
                 if (Object.keys(dp.values).includes(genderId)) {
                     let tupleObj = {
-                        year: + dp.item_label.date_of_birth,
+                        year: +dp.item_label.date_of_birth,
                         value: dp["values"][genderId]
                     }
                     genderLine.values.push(tupleObj)
@@ -114,11 +130,11 @@ function GenderByDOBView({API}) {
     function createTableArr(data) {
         const tableArr = []
         const extrema = {
-                percentMax: Number.NEGATIVE_INFINITY,
-                percentMin: Number.POSITIVE_INFINITY,
-                totalMax: Number.NEGATIVE_INFINITY,
-                totalMin: Number.POSITIVE_INFINITY
-            }
+            percentMax: Number.NEGATIVE_INFINITY,
+            percentMin: Number.POSITIVE_INFINITY,
+            totalMax: Number.NEGATIVE_INFINITY,
+            totalMin: Number.POSITIVE_INFINITY
+        }
         data.metrics.forEach((dp, index) => {
             let tableObj = {}
             tableObj.key = index
@@ -167,16 +183,18 @@ function GenderByDOBView({API}) {
 
     useEffect(() => {
         setIsLoading(true)
-        const year_range_str = `${yearFilterRange.yearStart}~${yearFilterRange.yearEnd}`
-        console.log('year range str:', year_range_str)
         API.get({
             bias: "gender",
             metric: "gap",
             snapshot: "latest",
             population: "gte_one_sitelink",
-            property_obj: {date_of_birth: year_range_str, label_lang: "en"}
+            property_obj: {date_of_birth: 'all', label_lang: "en"}
         }, processData)
-    }, [snapshot, population, yearFilterRange])
+    }, [snapshot, population])
+
+    if (yearFilterFn){
+        console.log("year filter fn is", yearFilterFn({item:{date_of_birth:"1500"}}))
+    }
 
     const errorDiv = <div>Error</div>
     const loadingDiv = <div>Loading</div>
@@ -245,8 +263,8 @@ function GenderByDOBView({API}) {
                         <InputGroup.Prepend>
                             <InputGroup.Text>Year Range:</InputGroup.Text>
                         </InputGroup.Prepend>
-                        <FormControl type="text" placeholder={yearFilterRange.yearStart} onChange={handleYearStart}/>
-                        <FormControl type="text" placeholder={yearFilterRange.yearEnd} onChange={handleYearEnd}/>
+                        {/*<FormControl type="text" placeholder={yearFilterFn.yearStart} onChange={handleYearStart}/>*/}
+                        {/*<FormControl type="text" placeholder={yearFilterFn.yearEnd} onChange={handleYearEnd}/>*/}
                     </InputGroup>
                     <InputGroup className="mb-3" size="sm">
                         <InputGroup.Prepend>
