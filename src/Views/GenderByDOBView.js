@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import {ToggleButtonGroup, ToggleButton, InputGroup, FormControl, Form, Container, DropdownButton, Dropdown} from 'react-bootstrap'
+import PopulationToggle from '../Components/PopulationToggler'
 import LineChart from '../Components/LineChart'
-import {formatDate} from '../utils'
+import {formatDate, populations} from '../utils'
 
 import BootstrapTable from 'react-bootstrap-table-next'
 import 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css';
@@ -16,7 +17,7 @@ function GenderByDOBView({API, snapshots}) {
         // this is a higher order function that will be predicate of each individual metric
         // is metric.item
         const metricYear = parseInt(metric.item.date_of_birth)
-        console.log("in make year filter fun", yearStart, metricYear, yearEnd)
+        // console.log("in make year filter fun", yearStart, metricYear, yearEnd)
         return yearStart <= metricYear && metricYear <= yearEnd
     }  
     const [allMetrics, setAllMetrics] = useState(null)
@@ -30,7 +31,7 @@ function GenderByDOBView({API, snapshots}) {
     const [yearStart, setYearStart] = useState(1600)
     const [yearEnd, setYearEnd] = useState(currYear)
     const [snapshot, setSnapshot] = useState(null)
-    const [population, setPopulation] = useState("gte_one_sitelink")
+    const [population, setPopulation] = useState(populations.GTE_ONE_SITELINK)
     const [isLoading, setIsLoading] = useState(true)
     const [isErrored, setIsErrored] = useState(false)
 
@@ -48,6 +49,8 @@ function GenderByDOBView({API, snapshots}) {
     }
 
     function handleHumanChange(e) {
+        console.log('Handle Population Change,', e)
+        setIsLoading(true)
         setPopulation(e)
     }
 
@@ -213,7 +216,7 @@ function GenderByDOBView({API, snapshots}) {
             bias: "gender",
             metric: "gap",
             snapshot: "latest",
-            population: "gte_one_sitelink",
+            population: population,
             property_obj: {date_of_birth: 'all', label_lang: "en"}
         }, processData)
     }, [snapshot, population])
@@ -267,12 +270,7 @@ function GenderByDOBView({API, snapshots}) {
                 </div>
 
                 <h6>Different Wikipedia Categories of Humans</h6>
-                <ToggleButtonGroup type="radio" name="human-type" defaultValue={"gte_one_sitelink"} onChange={handleHumanChange}>
-                    <ToggleButton value={"all_wikiData"} name="all" size="lg" variant="outline-dark">All Humans on
-                        Wikidata</ToggleButton>
-                    <ToggleButton value={"gte_one_sitelink"} name="at-least-one" size="lg" variant="outline-dark">Humans
-                        With At Least One Wikipedia Article</ToggleButton>
-                </ToggleButtonGroup>
+                <PopulationToggle handleToggle={handleHumanChange}/>
 
                 {/* <h6>Gender Line Filter: </h6>
                 <ToggleButtonGroup type="checkbox" name="gender-selection" defaultValue={["female", "male", "other-genders"]} onChange={handleChange}>

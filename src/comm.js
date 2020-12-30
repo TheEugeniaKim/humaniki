@@ -53,8 +53,8 @@ export default class humanikiAPI{
     }
 
     saveToCache(url, data) {
-        this.cache[url] = data
-        return data
+        this.cache[url] = JSON.stringify(data)
+        // return data
     }
 
     getJSONFromURL(url, processCB) {
@@ -69,8 +69,7 @@ export default class humanikiAPI{
                             if (Object.keys(data).includes("error")) {
                                 processCB(data['error'], {})
                             } else {
-                                this.cache[url] = JSON.stringify(data)
-                                // this.cache[url] = Promise.resolve(data)
+                                this.saveToCache(url, data)
                                 processCB(null, data)
                             }
                         }
@@ -84,8 +83,10 @@ export default class humanikiAPI{
         const url = this.makeURLFromDataPath(dataPath)
         // try using cache
         if (this.cache[url]) {
+            console.log('Using cache: ', url)
             processCB(null, JSON.parse(this.cache[url]))
         } else {
+            console.log('Not using cache: ', url)
             try {
                 this.getJSONFromURL(url, processCB)
             } catch (e) {
