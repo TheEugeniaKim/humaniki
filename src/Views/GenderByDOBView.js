@@ -19,7 +19,6 @@ function GenderByDOBView({API, snapshots}) {
         console.log("in make year filter fun", yearStart, metricYear, yearEnd)
         return yearStart <= metricYear && metricYear <= yearEnd
     }
-
     const [allMetrics, setAllMetrics] = useState(null)
     const [allMeta, setAllMeta] = useState(null)
     const [genderMap, setGenderMap] = useState({})
@@ -30,9 +29,8 @@ function GenderByDOBView({API, snapshots}) {
     const [graphGenders, setGraphGenders] = useState({})
     const [yearStart, setYearStart] = useState(1600)
     const [yearEnd, setYearEnd] = useState(currYear)
-    // const [yearFilterFn, setYearFilterFn] = useState(() => makeYearFilterFn(yearStart, yearEnd))
     const [snapshot, setSnapshot] = useState(null)
-    const [population, setPopulation] = useState("all_wikidata")
+    const [population, setPopulation] = useState("gte_one_sitelink")
     const [isLoading, setIsLoading] = useState(true)
     const [isErrored, setIsErrored] = useState(false)
 
@@ -48,8 +46,6 @@ function GenderByDOBView({API, snapshots}) {
     }
 
     function handleHumanChange(e) {
-        console.log(e)
-        console.log("HANDLE HUMAN CHANGE")
         setPopulation(e)
     }
 
@@ -229,17 +225,20 @@ function GenderByDOBView({API, snapshots}) {
     const errorDiv = <div>Error</div>
     const loadingDiv = <div>Loading</div>
     const snapshotsDropdownOptions = snapshots ? (
+        <div>
+            <Form.Label>Snapshot (YYYY-DD-MM)</Form.Label>
             <Form.Control
                 as="select"
                 onChange={handleSnapshotChange}
                 value={snapshot ? snapshot :  "latest"}
-            >
+                >
                 {
                     snapshots.map((snapshot, index) => (
                         <option key={snapshot.id}>{index === 0 ?  formatDate(snapshot.date)+" (latest)" : formatDate(snapshot.date) }</option>
-                    ))
-                }
+                        ))
+                    }
             </Form.Control>
+        </div>
     ) : <div> snapshots loading </div>
 
     return (
@@ -260,57 +259,42 @@ function GenderByDOBView({API, snapshots}) {
                 </div>
 
                 <h6>Different Wikipedia Categories of Humans</h6>
-                <ToggleButtonGroup type="radio" name="human-type" defaultValue={"all"} onChange={handleHumanChange}>
+                <ToggleButtonGroup type="radio" name="human-type" defaultValue={"gte_one_sitelink"} onChange={handleHumanChange}>
                     <ToggleButton value={"all_wikiData"} name="all" size="lg" variant="outline-dark">All Humans on
                         Wikidata</ToggleButton>
                     <ToggleButton value={"gte_one_sitelink"} name="at-least-one" size="lg" variant="outline-dark">Humans
                         With At Least One Wikipedia Article</ToggleButton>
                 </ToggleButtonGroup>
 
-                <div>
-                    <ToggleButtonGroup type="radio" name="data-selection" defaultValue={"dob"} onChange={handleChange}>
-                        <Form.Check
-                            type="radio"
-                            label="Gender by Date of Birth"
-                            name="gender-by-dob"
-                            value="gender-by-dob"
-                        />
-                        <Form.Check
-                            type="radio"
-                            label="Gender by Date of Death"
-                            name="gender-by-dod"
-                            value="gender-by-dod"
-                        />
-                    </ToggleButtonGroup>
-                    <ToggleButtonGroup type="checkbox" name="gender-selection" defaultValue={["female", "male", "other-genders"]} onChange={handleChange}>
-                        <Form.Check
-                            type="checkbox"
-                            label="Male"
-                            name="male"
-                            value="male"
-                        />
-                        <Form.Check
-                            type="checkbox"
-                            label="Female"
-                            name="female"
-                            value="female"
-                        />
-                        <Form.Check
-                            type="checkbox"
-                            label="Other Genders"
-                            name="other-genders"
-                            value="other-genders"
-                        />
-                    </ToggleButtonGroup>
-                    <InputGroup className="mb-3" size="sm">
-                        <InputGroup.Prepend>
-                            <InputGroup.Text>Year Range:</InputGroup.Text>
-                        </InputGroup.Prepend>
-                        <FormControl type="text" placeholder={yearStart} onChange={handleYearStart}/>
-                        <FormControl type="text" placeholder={yearEnd} onChange={handleYearEnd}/>
-                    </InputGroup>
-                    { snapshotsDropdownOptions }
-                </div>
+                <h6>Gender Line Filter: </h6>
+                <ToggleButtonGroup type="checkbox" name="gender-selection" defaultValue={["female", "male", "other-genders"]} onChange={handleChange}>
+                    <Form.Check
+                        type="checkbox"
+                        label="Male"
+                        name="male"
+                        value="male"
+                    />
+                    <Form.Check
+                        type="checkbox"
+                        label="Female"
+                        name="female"
+                        value="female"
+                    />
+                    <Form.Check
+                        type="checkbox"
+                        label="Other Genders"
+                        name="other-genders"
+                        value="other-genders"
+                    />
+                </ToggleButtonGroup>
+                <InputGroup className="mb-3" size="sm">
+                    <InputGroup.Prepend>
+                        <InputGroup.Text>Year Range:</InputGroup.Text>
+                    </InputGroup.Prepend>
+                    <FormControl type="text" placeholder={yearStart} onChange={handleYearStart}/>
+                    <FormControl type="text" placeholder={yearEnd} onChange={handleYearEnd}/>
+                </InputGroup>
+                { snapshotsDropdownOptions }
             </Container>
             {
                 lineData.length === 0 ? null :
@@ -319,8 +303,8 @@ function GenderByDOBView({API, snapshots}) {
                         graphGenders={graphGenders}
                         extrema={tableMetaData}
                         genderMap={genderMap}
-                    />}
-
+                    />
+            }
             <div className="table-container">
                 {isLoading ? loadingDiv : null}
                 {isErrored ? errorDiv : null}
