@@ -53,7 +53,7 @@ function GenderByDOBView({API, snapshots}) {
         setPopulation(e)
     }
 
-    function handleSnapshot(e) {
+    function handleSnapshotChange(e) {
         setSnapshot(e.target.value)
     }
 
@@ -228,22 +228,10 @@ function GenderByDOBView({API, snapshots}) {
 
     const errorDiv = <div>Error</div>
     const loadingDiv = <div>Loading</div>
-    const snapshotsDropdown = snapshots ? (
-      <DropdownButton id="dropdown-basic-button" title="Snapshot YYYY-DD-MM" >
-          {
-            snapshots.map((snapshot, index) => (
-              <Dropdown.Item key={snapshot.id}>{index === 0 ?  formatDate(snapshot.date)+" (latest)" : formatDate(snapshot.date) }</Dropdown.Item>
-            ))
-          }
-      </DropdownButton> 
-    ) : <div>Snapshots Loading</div>
-
-
     const snapshotsDropdownOptions = snapshots ? (
-        // <ToggleButtonGroup type="dropdown" name="gender-selection" defaultValue={snapshot ? snapshot :  "latest"} onChange={handleSnapshot}>
             <Form.Control
                 as="select"
-                onChange={handleSnapshot}
+                onChange={handleSnapshotChange}
                 value={snapshot ? snapshot :  "latest"}
             >
                 {
@@ -252,7 +240,6 @@ function GenderByDOBView({API, snapshots}) {
                     ))
                 }
             </Form.Control>
-        // </ToggleButtonGroup>
     ) : <div> snapshots loading </div>
 
     return (
@@ -322,11 +309,7 @@ function GenderByDOBView({API, snapshots}) {
                         <FormControl type="text" placeholder={yearStart} onChange={handleYearStart}/>
                         <FormControl type="text" placeholder={yearEnd} onChange={handleYearEnd}/>
                     </InputGroup>
-
                     { snapshotsDropdownOptions }
-                    
-
-                    {/* {snapshotsDropdown} */}
                 </div>
             </Container>
             {
