@@ -21,18 +21,18 @@ const useResizeObserver = (ref) => {
   return dimensions
 }
 
-function LineChart(props){
+function LineChart({lineData, graphGenders, extrema, genderMap, graphGenderFilter}){
   const svgRef = useRef()
   const wrapperRef = useRef()
   const dimensions = useResizeObserver(wrapperRef)
   const [currentZoomState, setCurrentZoomState] = useState()
 
   useEffect(() => {
-    if ( props.lineData.length === 0 || Object.keys(props.genderMap).length === 0 || Object.keys(props.extrema).length === 0 || !dimensions ) {
+    if ( lineData.length === 0 || Object.keys(genderMap).length === 0 || Object.keys(extrema).length === 0 || !dimensions ) {
       return
     } else {
-      const genderNums = props.genderMap ? Object.keys(props.genderMap).map(str => parseInt(str)) : []
-      props.lineData.forEach(genderLine => sortGenderLine(genderLine))
+      const genderNums = genderMap ? Object.keys(genderMap).map(str => parseInt(str)) : []
+      lineData.forEach(genderLine => sortGenderLine(genderLine))
 
       function sortGenderLine(genderLine){
         genderLine.values.sort((a, b) =>
@@ -42,14 +42,14 @@ function LineChart(props){
       
       const svg = select(svgRef.current)
       const legend = select(".legend")
-      const genderLineMaximums = props.lineData.map(genderLine => 
+      const genderLineMaximums = lineData.map(genderLine => 
         Math.max(...genderLine.values.map(tuple => tuple.value))
       )
       const totalMaxYValue = Math.max(...genderLineMaximums)
-      const yearMinimums = props.lineData.map(genderLine => 
+      const yearMinimums = lineData.map(genderLine => 
         Math.min(...genderLine.values.map(tuple => tuple.year))
       )
-      const yearMaximums = props.lineData.map(genderLine => 
+      const yearMaximums = lineData.map(genderLine => 
         Math.max(...genderLine.values.map(tuple => tuple.year))
       )
       
@@ -95,7 +95,7 @@ function LineChart(props){
 
       svg
         .selectAll(".line")
-        .data(props.lineData)
+        .data(lineData)
         .join("path")
         .attr("class", "line")
         .attr("d", (genderLine) => myLine(genderLine.values))
@@ -105,7 +105,7 @@ function LineChart(props){
 
       svg
         .selectAll(".scatter-group")
-        .data(props.lineData)
+        .data(lineData)
         .join("g")
         .style("fill", (line) => colorScale(line.name))
         .attr("class", "scatter-group")
@@ -124,7 +124,7 @@ function LineChart(props){
         
       legend
         .selectAll(".legend")
-        .data(props.lineData)
+        .data(lineData)
         .join("circle")
           .attr("class","legend")
           .style("transform", "scale(1, 1)")
@@ -135,11 +135,11 @@ function LineChart(props){
 
       legend
         .selectAll(".text-legend")
-        .data(props.lineData)
+        .data(lineData)
           .join("text")
           .attr("class","text-legend")
           .style("transform", "scale(1, 1)")
-          .text((line) => props.genderMap[line.name])
+          .text((line) => genderMap[line.name])
           .attr("x", 40)
           .attr("y", (line, index) => (index+1)*20 + 19.5)
           .attr("fill", (line) => colorScale(line.name))
@@ -158,7 +158,7 @@ function LineChart(props){
       svg
         .call(zoomBehavior)
     }
-  }, [currentZoomState, props, dimensions])
+  }, [currentZoomState, lineData, graphGenders, extrema, genderMap, graphGenderFilter, dimensions])
 
   return (
     <React.Fragment>

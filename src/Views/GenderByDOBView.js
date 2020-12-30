@@ -18,7 +18,7 @@ function GenderByDOBView({API, snapshots}) {
         const metricYear = parseInt(metric.item.date_of_birth)
         console.log("in make year filter fun", yearStart, metricYear, yearEnd)
         return yearStart <= metricYear && metricYear <= yearEnd
-    }
+    }  
     const [allMetrics, setAllMetrics] = useState(null)
     const [allMeta, setAllMeta] = useState(null)
     const [genderMap, setGenderMap] = useState({})
@@ -42,7 +42,9 @@ function GenderByDOBView({API, snapshots}) {
 
     function handleChange(e) {
         console.log("Handle Change", e)
+        if (!lineData){
 
+        }
     }
 
     function handleHumanChange(e) {
@@ -175,6 +177,11 @@ function GenderByDOBView({API, snapshots}) {
         console.log("Length of prefilter input is ,", metrics.length)
         const filteredMetrics = filterMetrics(metrics, yearFilterFn)
         console.log("Length of postfilter input is ,", filteredMetrics.length)
+        // Here is genderFilter metrics 
+        // make fn in utils that will filter metrics by gender
+        // const genderFilterMetricsApplied = 
+        // const genderFilterMetrics = genderFilterMetrics()
+
         let tableArr, extrema
         [tableArr, extrema] = createTableArr(meta, filteredMetrics)
         setTableArr(tableArr)
@@ -190,6 +197,7 @@ function GenderByDOBView({API, snapshots}) {
             setIsErrored(true)
             console.error("Error is", err)
         } else {
+            console.log("DATA METRICS", data.metrics)
             setAllMetrics(data.metrics)
             setAllMeta(data.meta)
             filterAndCreateVizAndTable(data.meta, data.metrics)
@@ -266,7 +274,7 @@ function GenderByDOBView({API, snapshots}) {
                         With At Least One Wikipedia Article</ToggleButton>
                 </ToggleButtonGroup>
 
-                <h6>Gender Line Filter: </h6>
+                {/* <h6>Gender Line Filter: </h6>
                 <ToggleButtonGroup type="checkbox" name="gender-selection" defaultValue={["female", "male", "other-genders"]} onChange={handleChange}>
                     <Form.Check
                         type="checkbox"
@@ -286,7 +294,7 @@ function GenderByDOBView({API, snapshots}) {
                         name="other-genders"
                         value="other-genders"
                     />
-                </ToggleButtonGroup>
+                </ToggleButtonGroup> */}
                 <InputGroup className="mb-3" size="sm">
                     <InputGroup.Prepend>
                         <InputGroup.Text>Year Range:</InputGroup.Text>

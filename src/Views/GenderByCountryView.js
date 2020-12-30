@@ -13,8 +13,7 @@ import paginationFactory from 'react-bootstrap-table2-paginator'
 
 
 function GenderByCountryView({API}){
-  const [selectBirthVsCitizenship, setBirthVsCitizenship] = useState("country-of-birth")
-  const [selectedWikipediaHumanType, setSelectedWikipediaHumanType] = useState(populations.ALL_WIKIDATA)
+  const [population, setPopulation] = useState(populations.GTE_ONE_SITELINK)
   const [mapData, setMapData] = useState(null)
   const [tableColumns, setTableColumns] = useState([])
   const [tableArr, setTableArr] = useState([])
@@ -30,22 +29,9 @@ function GenderByCountryView({API}){
     setSnapshot(e.target.value)
   }
 
-  function handleChange(event){
-    if (event === "birth") {
-      setBirthVsCitizenship("country-of-birth")
-    } else if (event === "citizenship") {
-      setBirthVsCitizenship("country-of-citizenship")
-    }
-  }
-
   function handleHumanChange(event){
-    if (event === "all") {
-      setIsLoading(true)
-      setSelectedWikipediaHumanType(populations.ALL_WIKIDATA)
-    } else if (event === "at-least-one") {
-      setIsLoading(true)
-      setSelectedWikipediaHumanType(populations.GTE_ONE_SITELINK)
-    } 
+    setIsLoading(true) 
+    setPopulation(event)
   }
 
   function percentFormatter(cell, row){
@@ -148,10 +134,10 @@ function GenderByCountryView({API}){
       bias: "gender", 
       metric: "gap", 
       snapshot: snapshot, 
-      population: selectedWikipediaHumanType, 
+      population: population, 
       property_obj: {citizenship: "all", label_lang: "en"}
     }, processAPIData)
-  },[selectedWikipediaHumanType, selectBirthVsCitizenship, snapshot])
+  },[population, snapshot])
 
   function afterFilter(newResult, newFilters) {
     console.log(newResult);
@@ -174,22 +160,7 @@ function GenderByCountryView({API}){
         </div>
 
         <h6>Data Selection</h6>
-          {selectBirthVsCitizenship}
 
-          <ToggleButtonGroup type="radio" name="data-selection" defaultValue={"birth"} onChange={handleChange}> 
-            <Form.Check
-              type="radio"
-              label="Country of Birth"
-              name="birth"
-              value="birth"
-            />
-            <Form.Check
-              type="radio"
-              label="Country of Citizenship"
-              name="citizenship"
-              value="citizenship"
-            />
-          </ToggleButtonGroup>
           <InputGroup className="mb-3" size="sm" controlid="years">
             <InputGroup.Prepend>
               <InputGroup.Text>Snapshot:</InputGroup.Text>
@@ -200,11 +171,11 @@ function GenderByCountryView({API}){
 
           <div className="human-div">
             <h6>Different Wikipedia Categories of Humans</h6>
-            <ToggleButtonGroup type="radio" name="human-type" defaultValue={"all"} onChange={handleHumanChange}>
-              <ToggleButton value={"all"} name="all" size="lg" variant="outline-dark"> 
+            <ToggleButtonGroup type="radio" name="human-type" defaultValue={populations.GTE_ONE_SITELINK} onChange={handleHumanChange}>
+              <ToggleButton value={populations.ALL_WIKIDATA} name="all" size="lg" variant="outline-dark"> 
                 All Humans on Wikidata
               </ToggleButton>
-              <ToggleButton value={"at-least-one"} name="at-least-one" size="lg" variant="outline-dark">
+              <ToggleButton value={populations.GTE_ONE_SITELINK} name="at-least-one" size="lg" variant="outline-dark">
                 Humans With At Least One Wikipedia Article
               </ToggleButton>
             </ToggleButtonGroup>
