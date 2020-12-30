@@ -141,3 +141,8 @@ svg {
   height: 15vh;
   padding: 1rem;
 }
+
+.show>.dropdown-menu {
+  display: block;
+  position: absolute;
+}

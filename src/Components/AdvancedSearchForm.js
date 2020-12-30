@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Form, Row, Button } from "react-bootstrap";
 import allWikiProjects from "../allWikiProjects.json";
 import allWikiCountries from "../allWikiCountries.json";
+import {formatDate} from '../utils'
 
 function AdvacnedSearchForm({ onSubmit, snapshots }) {
   const [formState, setFormState] = useState({
@@ -95,16 +96,6 @@ function AdvacnedSearchForm({ onSubmit, snapshots }) {
         return arr[1];
       }
     });
-  }
-
-  function formatDate(date) {
-    return (
-      date.substring(0, 4) +
-      "-" +
-      date.substring(4, 6) +
-      "-" +
-      date.substring(6, 8)
-    );
   }
 
   function handleOnSubmit(e) {

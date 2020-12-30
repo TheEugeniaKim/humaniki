@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
-import {ToggleButtonGroup, ToggleButton, InputGroup, FormControl, Form, Container} from 'react-bootstrap'
+import {ToggleButtonGroup, ToggleButton, InputGroup, FormControl, Form, Container, DropdownButton, Dropdown} from 'react-bootstrap'
 import LineChart from '../Components/LineChart'
+import {formatDate} from '../utils'
 
 import BootstrapTable from 'react-bootstrap-table-next'
 import 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css';
@@ -9,7 +10,7 @@ import paginationFactory from 'react-bootstrap-table2-paginator'
 import {filterMetrics} from "../utils";
 import { toast } from 'react-toastify';
 
-function GenderByDOBView({API}) {
+function GenderByDOBView({API, snapshots}) {
     const currYear = new Date().getFullYear()
     let makeYearFilterFn = (yearStart, yearEnd) => (metric) => {
         // this is a higher order function that will be predicate of each individual metric
@@ -30,7 +31,7 @@ function GenderByDOBView({API}) {
     const [yearStart, setYearStart] = useState(1600)
     const [yearEnd, setYearEnd] = useState(currYear)
     // const [yearFilterFn, setYearFilterFn] = useState(() => makeYearFilterFn(yearStart, yearEnd))
-    const [snapshot, setSnapshot] = useState("latest")
+    const [snapshot, setSnapshot] = useState(null)
     const [population, setPopulation] = useState("all_wikidata")
     const [isLoading, setIsLoading] = useState(true)
     const [isErrored, setIsErrored] = useState(false)
@@ -41,8 +42,9 @@ function GenderByDOBView({API}) {
         console.log(newFilters);
     }
 
-    function handleChange() {
-        console.log("Handle Change")
+    function handleChange(e) {
+        console.log("Handle Change", e)
+
     }
 
     function handleHumanChange(e) {
@@ -214,11 +216,10 @@ function GenderByDOBView({API}) {
 
     // refilter useeffect
     useEffect(() => {
-            if (allMeta && allMetrics) {
-                filterAndCreateVizAndTable(allMeta, allMetrics)
-            }
+        if (allMeta && allMetrics) {
+            filterAndCreateVizAndTable(allMeta, allMetrics)
         }
-        , [yearStart, yearEnd])
+    }, [yearStart, yearEnd])
 
 
     // if (yearFilterFn) {
@@ -227,6 +228,33 @@ function GenderByDOBView({API}) {
 
     const errorDiv = <div>Error</div>
     const loadingDiv = <div>Loading</div>
+    const snapshotsDropdown = snapshots ? (
+      <DropdownButton id="dropdown-basic-button" title="Snapshot YYYY-DD-MM" >
+          {
+            snapshots.map((snapshot, index) => (
+              <Dropdown.Item key={snapshot.id}>{index === 0 ?  formatDate(snapshot.date)+" (latest)" : formatDate(snapshot.date) }</Dropdown.Item>
+            ))
+          }
+      </DropdownButton> 
+    ) : <div>Snapshots Loading</div>
+
+
+    const snapshotsDropdownOptions = snapshots ? (
+        // <ToggleButtonGroup type="dropdown" name="gender-selection" defaultValue={snapshot ? snapshot :  "latest"} onChange={handleSnapshot}>
+            <Form.Control
+                as="select"
+                onChange={handleSnapshot}
+                value={snapshot ? snapshot :  "latest"}
+            >
+                {
+                    snapshots.map((snapshot, index) => (
+                        <option key={snapshot.id}>{index === 0 ?  formatDate(snapshot.date)+" (latest)" : formatDate(snapshot.date) }</option>
+                    ))
+                }
+            </Form.Control>
+        // </ToggleButtonGroup>
+    ) : <div> snapshots loading </div>
+
     return (
         <Container className="view-container">
             <h1>Gender Gap By Year of Birth and Year of Death Statistics</h1>
@@ -267,8 +295,7 @@ function GenderByDOBView({API}) {
                             value="gender-by-dod"
                         />
                     </ToggleButtonGroup>
-                    <ToggleButtonGroup type="checkbox" name="gender-selection" defaultValue={"female"}
-                                       onChange={handleChange}>
+                    <ToggleButtonGroup type="checkbox" name="gender-selection" defaultValue={["female", "male", "other-genders"]} onChange={handleChange}>
                         <Form.Check
                             type="checkbox"
                             label="Male"
@@ -283,9 +310,9 @@ function GenderByDOBView({API}) {
                         />
                         <Form.Check
                             type="checkbox"
-                            label="Non Binary"
-                            name="non-binary"
-                            value="non-binary"
+                            label="Other Genders"
+                            name="other-genders"
+                            value="other-genders"
                         />
                     </ToggleButtonGroup>
                     <InputGroup className="mb-3" size="sm">
@@ -295,12 +322,11 @@ function GenderByDOBView({API}) {
                         <FormControl type="text" placeholder={yearStart} onChange={handleYearStart}/>
                         <FormControl type="text" placeholder={yearEnd} onChange={handleYearEnd}/>
                     </InputGroup>
-                    <InputGroup className="mb-3" size="sm">
-                        <InputGroup.Prepend>
-                            <InputGroup.Text>Snapshot:</InputGroup.Text>
-                        </InputGroup.Prepend>
-                        <FormControl type="text" placeholder={snapshot} onChange={handleSnapshot}/>
-                    </InputGroup>
+
+                    { snapshotsDropdownOptions }
+                    
+
+                    {/* {snapshotsDropdown} */}
                 </div>
             </Container>
             {
