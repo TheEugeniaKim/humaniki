@@ -10,6 +10,7 @@ import BootstrapTable from 'react-bootstrap-table-next'
 import 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css';
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
 import paginationFactory from 'react-bootstrap-table2-paginator'
+import PopulationToggle from "../Components/PopulationToggler";
 
 
 function GenderByCountryView({API}){
@@ -171,14 +172,7 @@ function GenderByCountryView({API}){
 
           <div className="human-div">
             <h6>Different Wikipedia Categories of Humans</h6>
-            <ToggleButtonGroup type="radio" name="human-type" defaultValue={populations.GTE_ONE_SITELINK} onChange={handleHumanChange}>
-              <ToggleButton value={populations.ALL_WIKIDATA} name="all" size="lg" variant="outline-dark"> 
-                All Humans on Wikidata
-              </ToggleButton>
-              <ToggleButton value={populations.GTE_ONE_SITELINK} name="at-least-one" size="lg" variant="outline-dark">
-                Humans With At Least One Wikipedia Article
-              </ToggleButton>
-            </ToggleButtonGroup>
+                <PopulationToggle handleToggle={handleHumanChange}/>
           </div>
       </div>      
 
