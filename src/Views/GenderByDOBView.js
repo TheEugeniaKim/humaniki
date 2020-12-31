@@ -7,7 +7,7 @@ import BootstrapTable from 'react-bootstrap-table-next'
 import 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css';
 import filterFactory, {textFilter} from 'react-bootstrap-table2-filter'
 import paginationFactory from 'react-bootstrap-table2-paginator'
-import {filterMetrics} from "../utils";
+import {filterMetrics, createColumns} from "../utils";
 import { toast } from 'react-toastify';
 
 function GenderByDOBView({API, snapshots}) {
@@ -81,36 +81,6 @@ function GenderByDOBView({API, snapshots}) {
         } else {
             return (num * (-1)).toString() + " BCE"
         }
-    }
-
-    function createColumns(meta, metrics) {
-        const columns = []
-        columns.push({
-            dataField: "year",
-            text: "Year",
-            filter: textFilter(),
-            headerStyle: {"minWidth": "200px", "width": "20%"},
-            sort: true,
-            // sortFunc: (sortValue) => {a.sortValue - b.sortValue}
-        })
-        columns.push({dataField: "total", text: "Total", sort: true})
-        // loop over genders and create formatted column array
-        for (let genderId in meta.bias_labels) {
-            let obj = {
-                dataField: meta.bias_labels[genderId],
-                text: meta.bias_labels[genderId],
-                sort: true
-            }
-            let objPercent = {
-                dataField: meta.bias_labels[genderId] + "Percent",
-                text: meta.bias_labels[genderId] + " Percent",
-                sort: true
-            }
-            obj.label = meta.bias_labels[genderId]
-            columns.push(obj)
-            columns.push(objPercent)
-        }
-        return columns
     }
 
     function createLineData(meta, metrics) {
@@ -189,7 +159,7 @@ function GenderByDOBView({API, snapshots}) {
         setGenderMap(meta.bias_labels)
         setGraphGenders(Object.values(meta.bias_labels))
         setLineData(createLineData(meta, filteredMetrics))
-        setTableColumns(createColumns(meta, filteredMetrics))
+        setTableColumns(createColumns(meta, filteredMetrics, "year"))
     }
 
     function processData(err, data) {

@@ -7,6 +7,7 @@ import paginationFactory from 'react-bootstrap-table2-paginator'
 import { ToggleButtonGroup, ToggleButton, Form } from 'react-bootstrap'
 import AdvacnedSearchForm from '../Components/AdvancedSearchForm'
 import SingleBarChart from '../Components/SingleBarChart'
+import {percentFormatter} from '../utils'
 
 function AdvancedSearchView({API, snapshots}){
   const [selectedWikipediaHumanType, setSelectedWikipediaHumanType] = useState("all_wikidata")
@@ -63,13 +64,6 @@ function AdvancedSearchView({API, snapshots}){
   function afterFilter(newResult, newFilters) {
     console.log(newResult);
     console.log(newFilters);
-  }
-
-  function percentFormatter(cell, row){
-    if (!cell){
-      return
-    }
-    return cell.toFixed(3)
   }
 
   const columns = []
