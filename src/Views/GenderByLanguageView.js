@@ -10,6 +10,7 @@ import paginationFactory from 'react-bootstrap-table2-paginator'
 import ScatterPlot from '../Components/ScatterPlot'
 import { createColumns, filterMetrics } from '../utils'
 
+import PopulationToggle from "../Components/PopulationToggler";
 
 function GenderByLanguageView({API}){
   let makeProjectFilterFn = (selectedProjects) => (metric) => {
@@ -156,10 +157,7 @@ function GenderByLanguageView({API}){
 
       <div className="input-area">
         <h6>Different Wikipedia Categories of Humans</h6>
-          <ToggleButtonGroup type="radio" name="human-type" defaultValue={"all"} onChange={handleHumanChange}>
-            <ToggleButton value={"all"} name="all" size="lg" variant="outline-dark">All Humans on Wikidata</ToggleButton>
-            <ToggleButton value={"at-least-one"} name="at-least-one" size="lg" variant="outline-dark">Humans With Atleast One Wikipedia Article</ToggleButton>
-          </ToggleButtonGroup>
+          <PopulationToggle GTE_ONLY={true} />
           <InputGroup className="mb-3" size="sm" controlId="years">
             <InputGroup.Prepend>
               <InputGroup.Text>Snapshot:</InputGroup.Text>
