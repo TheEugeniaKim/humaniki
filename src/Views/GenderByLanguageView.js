@@ -11,6 +11,7 @@ import ScatterPlot from '../Components/ScatterPlot'
 import { createColumns, filterMetrics } from '../utils'
 
 import PopulationToggle from "../Components/PopulationToggler";
+import {ValueContainer} from "../Components/LimitedMultiSelect";
 
 function GenderByLanguageView({API}){
   let makeProjectFilterFn = (selectedProjects) => (metric) => {
@@ -48,11 +49,11 @@ function GenderByLanguageView({API}){
       tableObj.total = Object.values(obj.values).reduce((a, b) => a + b)
       for (let genderId in meta.bias_labels) {
         let label = meta.bias_labels[genderId]
-        tableObj[label] = obj["values"][genderId] ? obj["values"][genderId] : 0 
+        tableObj[label] = obj["values"][genderId] ? obj["values"][genderId] : 0
         tableObj[label + "Percent"] = obj["values"][genderId] ? (obj["values"][genderId]/tableObj["total"])*100 : 0
       }
       tableArr.push(tableObj)
-    
+
       let nonMalePercent = 100 - tableObj.malePercent
       if (nonMalePercent > extrema.percentMax) {
         extrema.percentMax = nonMalePercent
@@ -66,16 +67,16 @@ function GenderByLanguageView({API}){
         extrema.totalMin = tableObj.total
       }
     })
-    
+
     setTableMetaData(extrema)
-    setTableData(tableArr) 
+    setTableData(tableArr)
   }
 
   function filterAndCreateVizAndTable(meta, metrics){
     console.log("IN FILTER AND CREATE VIZ", allProjects)
     // const projectFilterFn = makeProjectFilterFn()
-  
-    const projectFilterFn = selectedProjects ? makeProjectFilterFn(selectedProjects) : (metric) => true 
+
+    const projectFilterFn = selectedProjects ? makeProjectFilterFn(selectedProjects) : (metric) => true
     const filteredMetrics = filterMetrics(metrics, projectFilterFn)
     setTableColumns(createColumns(meta, filteredMetrics, "language"))
     createChartData(meta, filteredMetrics)
@@ -84,8 +85,8 @@ function GenderByLanguageView({API}){
   function createMultiselectData(metrics){
     const multiSelectData = metrics.map(metric => {
       return {
-        label: metric.item_label.project, 
-        value: metric.item.project, 
+        label: metric.item_label.project,
+        value: metric.item.project,
       }
     })
     return multiSelectData
@@ -124,12 +125,12 @@ function GenderByLanguageView({API}){
       filterAndCreateVizAndTable(allMeta, allMetrics)
     }
   }, [selectedProjects])
-  
+
   function afterFilter(newResult, newFilters) {
     console.log(newResult);
     console.log(newFilters);
   }
-  
+
   function handleHumanChange(){
     console.log("Handling human change")
   }
@@ -138,13 +139,13 @@ function GenderByLanguageView({API}){
   const loadingDiv = <div>Loading</div>
 
   return (
-    <Container className="view-container">
+    <Container >
       <Row className="justify-content-md-center">
         <h1>Gender Gap By Wikipedia Language Editions</h1>
         <h5>
-          This plot shows the Language each biography is written in Wikidata, 
-          by gender, non-binary gender, by last count there are 9 non-binary genders, 
-          are displayed in the tables, and accounted for in the full data set 
+          This plot shows the Language each biography is written in Wikidata,
+          by gender, non-binary gender, by last count there are 9 non-binary genders,
+          are displayed in the tables, and accounted for in the full data set
         </h5>
 
         <p style={{border: "2px solid"}}>
@@ -175,12 +176,14 @@ function GenderByLanguageView({API}){
         </Col>
         <Col xs="auto" ></Col>
         <Col  >
-          <Select 
+          <Select
             className="basic-single"
             options={allProjects}
             isClearable={true}
             isMulti
-            width="200px"
+            components={{
+              ValueContainer
+            }}
             name="filterProjects"
             onChange={setSelectedProjects}
           />
@@ -188,19 +191,21 @@ function GenderByLanguageView({API}){
       </Row>
 
       <Row className="justify-content-md-center">
-        {isLoading ? loadingDiv : null }
-        {isErrored ? errorDiv : null }
-        {
-          tableColumns.length === 0 ? null :
-          <BootstrapTable 
-            keyField='key' 
-            data={ tableData } 
-            columns={ tableColumns } 
-            filter={ filterFactory({ afterFilter }) } 
-            pagination={ paginationFactory() }
-            className='table'
-          />
-        }
+        <div className="table-container">
+          {isLoading ? loadingDiv : null }
+          {isErrored ? errorDiv : null }
+          {
+            tableColumns.length === 0 ? null :
+            <BootstrapTable
+              keyField='key'
+              data={ tableData }
+              columns={ tableColumns }
+              filter={ filterFactory({ afterFilter }) }
+              pagination={ paginationFactory() }
+              className='table'
+            />
+          }
+        </div>
       </Row>
     </Container>
   )
