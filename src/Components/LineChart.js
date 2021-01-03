@@ -163,7 +163,7 @@ function LineChart({lineData, graphGenders, extrema, genderMap, graphGenderFilte
   return (
     <React.Fragment>
       <div className="wrapper" ref={wrapperRef} >
-        <svg ref={svgRef} className="svg">
+        <svg ref={svgRef} className="svg-chart" >
           <g className="x-axis" />
           <g className="y-axis" />
           <g className="legend" />

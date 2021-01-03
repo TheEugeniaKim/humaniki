@@ -4,27 +4,32 @@ import { Container, Row } from 'react-bootstrap'
 import SingleBarChart from '../Components/SingleBarChart'
 import "../App.css"
 import "../Sk.css"
+import { colors } from '../utils'
 
 function DefaultView({API}){
   const svgRef = useRef()
   const [totalMen, setTotalMen] = useState()
   const [totalWomen, setTotalWomen] = useState()
   const [totalOthers, setTotalOthers] = useState()
+  const [total, setTotal] = useState()
   const [isLoading, setIsLoading] = useState(true)
   const [isErrored, setIsErrored] = useState(false)
 
 
   function processFetchData(err, data){
     if (err) {
+      console.log("err", err)
       setIsErrored(true)
     }
     else{
+      setTotal(Object.values(data.metrics[0].values).reduce((a,b) => a+b))
       let totalMen = data.metrics[0].values["6581097"]
       let totalWomen = data.metrics[0].values["6581072"]
       let totalOthers = data.metrics[0].values
       totalOthers["6581097"] = 0
       totalOthers["6581072"] = 0
       totalOthers = Object.values(totalOthers).reduce((a,b) => a+b)
+      console.log("LOOK HERE", total)
       setTotalMen(totalMen)
       setTotalWomen(totalWomen)
       setTotalOthers(totalOthers)
@@ -42,7 +47,6 @@ function DefaultView({API}){
     }, processFetchData)
 
     const svg = select(svgRef.current)
-    const colors = ["#BC8F00","#6200F8","#00BCA1"]
 
     svg.selectAll("rect")
     .data([totalMen, totalOthers, totalWomen])
@@ -55,14 +59,18 @@ function DefaultView({API}){
 
   const errorDiv = <div>Error</div>
   const loadingDiv = <div>Loading</div>
-  const viz = <div className="default-data-container">
-        <h4> Recent Distribution of Articles </h4>
-        <h3> {totalMen} Male Biographies </h3>
-        <h3> {totalOthers} Σ Other Biographies </h3>
-        <h3> {totalWomen} Female Biographies </h3>
-        <SingleBarChart genderTotals={[totalMen, totalOthers,totalWomen]} />
-        {/* <svg className="default-svg" ref={svgRef}></svg> */}
-      </div>
+  const viz = 
+    <div className="default-data-container">
+      <h4> Recent Distribution of Articles </h4>
+      <h3> {totalMen} Male Biographies </h3>
+      <h3> {totalOthers} Σ Other Biographies </h3>
+      <h3> {totalWomen} Female Biographies </h3>
+      <SingleBarChart genderTotals={[
+        (totalMen/total*100), 
+        (totalOthers/total*100), 
+        (totalWomen/total*100)
+      ]} />
+    </div>
 
   return (
     <Container className="default">
@@ -76,7 +84,7 @@ function DefaultView({API}){
       </Row>
       {isLoading ? loadingDiv : null }
       {isErrored ? errorDiv : null }
-      {!isLoading && !isErrored? viz: null }
+      {!isLoading && !isErrored ? viz : null }
       <Row className="About-Explainer">
         Expore further dynames of the gender gap in bibliographic content on Wikipedia
         with Humaniki and learn how you can contribute to bridge this gap. Compare gender 

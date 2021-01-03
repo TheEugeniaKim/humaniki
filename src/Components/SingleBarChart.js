@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { select } from 'd3'
+import { colors } from '../utils'
 
 function SingleBarChart(props){
   const svgRef = useRef()
@@ -7,8 +8,6 @@ function SingleBarChart(props){
   useEffect(() => {
     if (!props.genderTotals){return}
     const svg = select(svgRef.current)
-
-    const colors = ["#BC8F00","#6200F8","#00BCA1"]
 
     let percentSoFar = 0 
     let genderTotalArr = []
@@ -26,7 +25,7 @@ function SingleBarChart(props){
   }, [props.genderTotals])
 
   return (
-    <svg ref={svgRef}></svg>
+    <svg ref={svgRef} className="svg-single-bar"></svg>
   )
 }
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { ToggleButtonGroup, ToggleButton, InputGroup, FormControl, Container, Row, Form} from 'react-bootstrap'
+import { ToggleButtonGroup, ToggleButton, InputGroup, FormControl, Container, Row, Col, Form} from 'react-bootstrap'
 import Select from 'react-select'
 
 import BootstrapTable from 'react-bootstrap-table-next'
@@ -136,8 +136,6 @@ function GenderByLanguageView({API}){
 
   const errorDiv = <div>Error</div>
   const loadingDiv = <div>Loading</div>
-  console.log("project filter Arr", allProjects)
-  const options = [{label: "English Wikipedia", value: "enwiki"}, {label: "French Wikipedia", value: "frwiki"}]
 
   return (
     <Container className="view-container">
@@ -155,7 +153,7 @@ function GenderByLanguageView({API}){
         </p>
       </Row>
 
-      <div className="input-area">
+      <Row className="input-area">
         <h6>Different Wikipedia Categories of Humans</h6>
           <PopulationToggle GTE_ONLY={true} />
           <InputGroup className="mb-3" size="sm" controlId="years">
@@ -164,28 +162,34 @@ function GenderByLanguageView({API}){
             </InputGroup.Prepend>
             <FormControl type="text" placeholder={snapshot} onChange={handleSnapshot} />
           </InputGroup>
-        <Select 
-          className="basic-single"
-          options={allProjects}
-          isClearable={true}
-          isMulti
-          name="filterProjects"
-          onChange={setSelectedProjects}
-        />
+      </Row>
+      <Row className="justify-content-md-center">
+        <Col xs="auto" >
+          <div className="scatter-wrapper">
+            <ScatterPlot 
+              data={tableData}
+              extrema={tableMetaData}
+              columns={tableColumns}
+            />
+          </div>
+        </Col>
+        <Col xs="auto" ></Col>
+        <Col  >
+          <Select 
+            className="basic-single"
+            options={allProjects}
+            isClearable={true}
+            isMulti
+            width="200px"
+            name="filterProjects"
+            onChange={setSelectedProjects}
+          />
+        </Col>
+      </Row>
 
-      </div>
-      <div className="scatter-wrapper">
-        <ScatterPlot 
-          data={tableData}
-          extrema={tableMetaData}
-          columns={tableColumns}
-        />
-      </div>
-      <br />
-      <div className="table-container">
+      <Row className="justify-content-md-center">
         {isLoading ? loadingDiv : null }
         {isErrored ? errorDiv : null }
-      <Row className="justify-content-md-center">
         {
           tableColumns.length === 0 ? null :
           <BootstrapTable 
@@ -198,7 +202,6 @@ function GenderByLanguageView({API}){
           />
         }
       </Row>
-      </div>
     </Container>
   )
 }

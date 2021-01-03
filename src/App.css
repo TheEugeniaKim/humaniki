@@ -29,8 +29,13 @@ svg {
   height: 100%;
 }
 
-.svg {
+.svg-chart {
   background-color: #C4C4C4;
+}
+
+.svg-single-bar{
+  height: 25%;
+  padding: .25rem;
 }
 
 .input-wrapper {
