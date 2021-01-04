@@ -165,19 +165,18 @@ function GenderByLanguageView({API}){
           </InputGroup>
       </Row>
       <Row className="justify-content-md-center">
-        <Col xs="auto" >
-          <div className="scatter-wrapper">
-            <ScatterPlot 
-              data={tableData}
-              extrema={tableMetaData}
-              columns={tableColumns}
-            />
-          </div>
+        <Col lg={10}>
+          <ScatterPlot 
+            data={tableData}
+            extrema={tableMetaData}
+            columns={tableColumns}
+          />
         </Col>
-        <Col xs="auto" ></Col>
-        <Col  >
+        <Col sm={2}>
           <Select
+            axis="xy"
             className="basic-single"
+            maxMenuHeight={190}
             options={allProjects}
             isClearable={true}
             isMulti
@@ -206,6 +205,8 @@ function GenderByLanguageView({API}){
             />
           }
         </div>
+        <br/>
+        <br/>
       </Row>
     </Container>
   )

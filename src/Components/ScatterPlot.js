@@ -91,7 +91,7 @@ function ScatterPlot(props) {
 
   return (
     <div className="wrapper" ref={wrapperRef} >
-      <svg ref={svgRef} className="svg-chart">
+      <svg ref={svgRef} className="svg-scatter">
         <g className="x-axis" />
         <g className="y-axis" />
       </svg>

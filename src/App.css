@@ -7,14 +7,9 @@
 
 }
 
-.scatter-wrapper {
-  padding: 3rem;
-}
-
 .wrapper{
   width: 110vh;
   height: 70vh;
-  border: 1px solid;
   margin: 2rem;
 }
 
@@ -33,6 +28,13 @@ svg {
   background-color: #C4C4C4;
 }
 
+.svg-scatter {
+  background-color: #C4C4C4;
+  float: left;
+  width: 90%;
+  border: 1px solid;
+  
+}
 .svg-single-bar{
   height: 25%;
   padding: .25rem;
