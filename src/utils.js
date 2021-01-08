@@ -1,6 +1,6 @@
 import { textFilter } from 'react-bootstrap-table2-filter'
 
-//gender color map see single bar chart 
+//gender color map see single bar chart a
 export const colors = ["#BC8F00","#6200F8","#00BCA1"]
 
 export const populations = {

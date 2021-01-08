@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { select} from 'd3'
+import { select } from 'd3'
 import { Container, Row } from 'react-bootstrap'
 import SingleBarChart from '../Components/SingleBarChart'
 import "../App.css"
@@ -62,9 +62,9 @@ function DefaultView({API}){
   const viz = 
     <div className="default-data-container">
       <h4> Recent Distribution of Articles </h4>
-      <h3> {totalMen} Male Biographies </h3>
-      <h3> {totalOthers} Σ Other Biographies </h3>
-      <h3> {totalWomen} Female Biographies </h3>
+        <h3> {totalMen} Male Biographies </h3>
+        <h3> {totalOthers} Σ Other Biographies </h3>
+        <h3> {totalWomen} Female Biographies </h3>
       <SingleBarChart genderTotals={[
         (totalMen/total*100), 
         (totalOthers/total*100), 

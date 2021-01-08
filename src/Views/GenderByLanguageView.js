@@ -131,10 +131,6 @@ function GenderByLanguageView({API}){
     console.log(newFilters);
   }
 
-  function handleHumanChange(){
-    console.log("Handling human change")
-  }
-
   const errorDiv = <div>Error</div>
   const loadingDiv = <div>Loading</div>
 
