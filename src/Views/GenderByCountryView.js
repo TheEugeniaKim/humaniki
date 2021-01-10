@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Select from 'react-select'
 import WorldMap from '../Components/WorldMap'
 import WorldMapPropertySelection from '../Components/WorldMapPropertySelection'
-import data from '../Components/custom.geo.json'
+import preMapData from '../Components/custom.geo.json'
 import { Col, Row, InputGroup, FormControl, Container } from 'react-bootstrap'
 import { propTypes } from 'react-bootstrap/esm/Image';
 import { filterMetrics, populations } from '../utils.js'
@@ -90,7 +90,7 @@ function GenderByCountryView({API}){
     setTableColumns(columns)
   }
 
-  function processMapAndTableData(meta, metrics){
+  function processTableData(meta, metrics){
     let tableArr = []
     let genders = Object.values(meta.bias_labels).map(gender => {
       return {
@@ -98,7 +98,6 @@ function GenderByCountryView({API}){
         label: gender
       }
     })
-    let preMapData = data
     const extrema = {
       totalMax: Number.NEGATIVE_INFINITY,
       totalMin: Number.POSITIVE_INFINITY
@@ -119,46 +118,67 @@ function GenderByCountryView({API}){
         tableArr.push(tableObj)
       }
       
-      //Handle Formatting countryData for WorlMap
-      preMapData.features.map(country => {
-        // console.log("country", country)
-        if (country["properties"]["iso_a2"] === obj["item_label"]["iso_3166"]){
-          // console.log("editing:", country)
-          let indexPosition = preMapData.features.findIndex(element => element["properties"]["iso_a2"] === obj["item_label"]["iso_3166"])
-          preMapData.features[indexPosition]["properties"]["total"] = Object.values(obj["values"]).reduce((a,b) => a + b)
-          preMapData.features[indexPosition]["properties"]["genders"] = Object.values(meta.bias_labels)
-          preMapData.features[indexPosition]["properties"]["text"] = preMapData.features[indexPosition]["properties"]["name"]
-          for (let genderId in meta.bias_labels) {
-            let label = meta.bias_labels[genderId]
-            country["properties"][label] = obj["values"][genderId] ? obj["values"][genderId] : 0 
-            country["properties"][label + "Percent"] = obj["values"][genderId] ? (obj["values"][genderId]/country["properties"]["total"])*100 : 0
-          }
-          for (let genderId in meta.bias_labels) {
-            let label = meta.bias_labels[genderId]
-            country["properties"]["text"] = country["properties"]["text"] + `
-              ${label}: ${country["properties"][label] ? country["properties"][label] : 0} (${country["properties"][label + "Percent"].toFixed(3)})%
-            ` 
-          }
-        }
-      })
+      setTableArr(tableArr)
+      setTableMetaData(extrema)
+      setGenders(genders)
     })
+  }
 
+  
+  function processMapData(meta, metrics){
+    // todo: if properties exist don't need to re-calculate except if snapshot changes (another argument to tell us to recalculate)
+    console.log("SELECTED COUNTRIES:", selectedCountries)
+    const selectedCountryQIDs = selectedCountries ? selectedCountries.map(country => country.value) : []
+    const anySelectedCountryQIDs = selectedCountryQIDs.length > 0
+    for (let i=0; i<preMapData.features.length; i++){
+      preMapData.features[i]["properties"]["isSelected"] = false 
+      //set isSelected to false by default
+      for (let j=0; j<metrics.length; j++){
+        // check for iso code match 
+        // break out of j loop once found
+        // set isSelected to true 
+        // if found set gender totals
+        if (metrics[j]["item_label"]["iso_3166"] === preMapData.features[i]["properties"]["iso_a2"]){
+          // if there aren't any selectedCountries we're setting evertying to selected (Default all Selected)
+          if (anySelectedCountryQIDs) {
+            preMapData.features[i]["properties"]["isSelected"] = selectedCountryQIDs.includes(metrics[j]["item"]["citizenship"]) ? true : false
+          } else {
+            // there are no selectedCountries so turn all countries selected 
+            preMapData.features[i]["properties"]["isSelected"] = true 
+          }
+          preMapData.features[i]["properties"]["total"] = Object.values(metrics[j]["values"]).reduce((a,b) => a + b)
+          preMapData.features[i]["properties"]["genders"] = Object.values(meta.bias_labels)
+          preMapData.features[i]["properties"]["text"] = preMapData.features[i]["properties"]["name"]
+
+          for (let genderId in meta.bias_labels) {
+            let label = meta.bias_labels[genderId]
+            preMapData.features[i]["properties"][label] = metrics[j]["values"][genderId] ? metrics[j]["values"][genderId] : 0 
+            preMapData.features[i]["properties"][label + "Percent"] = metrics[j]["values"][genderId] ? (metrics[j]["values"][genderId]/preMapData.features[i]["properties"]["total"])*100 : 0
+            preMapData.features[i]["properties"]["text"] = preMapData.features[i]["properties"]["text"] + `
+            ${label}: ${preMapData.features[i]["properties"][label] ? preMapData.features[i]["properties"][label] : 0} (${preMapData.features[i]["properties"][label + "Percent"].toFixed(3)})%
+            `          
+          }
+          break
+        }
+      }
+    }
     setMapData(preMapData)
-    setTableArr(tableArr)
-    setTableMetaData(extrema)
-    setGenders(genders)
   }
 
   function filterAndCreateVizAndTable(meta, metrics){
     const countryFilterFn = selectedCountries ? makeCountryFilterFn(selectedCountries) : (metric) => true
     const filteredMetrics = filterMetrics(metrics, countryFilterFn)
+
     
     processColumnsData(meta, filteredMetrics)
-    processMapAndTableData(meta, filteredMetrics)
+    // we want to keep all metrics on map even if unselected
+    processMapData(meta, metrics)
+    processTableData(meta, filteredMetrics)
   }
 
   function processAPIData(err, fetchData){
     if (err){
+      console.log("ERROR:",err)
       setIsErrored(true)
     } else {
       setAllMetrics(fetchData.metrics)

@@ -10,3 +10,8 @@
 .About {
 	padding: 2px 24px 27px 24px;
 }
+
+.unSelectedCountry {
+    fill: grey; 
+    fill-opacity: 50%;
+}

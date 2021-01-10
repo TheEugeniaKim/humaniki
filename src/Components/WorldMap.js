@@ -6,12 +6,10 @@ function WorldMap({ mapData, property, extrema, genders }) {
   const svgRef = useRef();
   const wrapperRef = useRef();
   const dimensions = useResizeObserver(wrapperRef);
-  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [clickedCountry, setClickedCountry] = useState(null);
 
   // will be called initially and on every data change
   useEffect(() => {
-
-
     if (!mapData) return
     if (!property) return
     if (!extrema) return
@@ -36,17 +34,17 @@ function WorldMap({ mapData, property, extrema, genders }) {
         .selectAll(".country")
         .data(mapData.features)
         .join("path")
-        .on("click", (event,feature) => {
-          setSelectedCountry(feature)
+        .on("click", (event, feature) => {
+          setClickedCountry(feature)
         })
-        .attr("class", "country")
+        .attr("class", feature => feature.properties.isSelected ? "country selectedCountry" : "country unSelectedCountry")
         .attr("fill", feature => colorScale(feature.properties[property]))
         .attr("d", feature => pathGenerator(feature))
       
-      if(selectedCountry) {
+      if(clickedCountry) {
         l 
         .selectAll(".label")
-        .data([selectedCountry])        
+        .data([clickedCountry])        
         .join("text")
         .attr("class","label")
         .text(feature => feature.properties.text) 
@@ -60,7 +58,7 @@ function WorldMap({ mapData, property, extrema, genders }) {
       
     }
     
-  }, [mapData, dimensions, extrema, property, genders, selectedCountry]);
+  }, [mapData, dimensions, extrema, property, genders, clickedCountry]);
 
   return (
     <div ref={wrapperRef} style={{ marginBottom: "2rem" }}>
