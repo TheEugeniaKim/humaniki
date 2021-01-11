@@ -30,9 +30,9 @@ function AppContainer() {
           <Route exact path={"/"} render={() => <DefaultView API={API}/>}/>
           <Route exact path={"/about"} render={() => <AboutView API={API}/>}/>
           <Route exact path={"/advanced-search"} render={() => <AdvancedSearchView  API={API} snapshots={snapshots ? snapshots : null} />}/>
-          <Route exact path={"/gender-by-country"} render={() => <GenderByCountryView  API={API} />}/>
+          <Route exact path={"/gender-by-country"} render={() => <GenderByCountryView  API={API} snapshots={snapshots ? snapshots : null} />}/>
           <Route exact path={"/gender-by-dob"} render={() => <GenderByDOBView  API={API} snapshots={snapshots ? snapshots : null} />}/>
-          <Route exact path={"/gender-by-language"} render={() => <GenderByLanguageView API={API}/>}/>
+          <Route exact path={"/gender-by-language"} render={() => <GenderByLanguageView API={API} snapshots={snapshots ? snapshots : null} />}/>
         </Router>
         <Container>
           <Footer className="fixed-bottom"/>
