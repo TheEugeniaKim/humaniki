@@ -26,6 +26,9 @@ svg {
 
 .svg-chart {
   background-color: #C4C4C4;
+  float: left;
+  width: 90%;
+  border: 1px solid;
 }
 
 .svg-scatter {

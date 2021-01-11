@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import {ToggleButtonGroup, ToggleButton, InputGroup, FormControl, Form, Container, DropdownButton, Dropdown} from 'react-bootstrap'
+import { InputGroup, FormControl, Form, Container, Col, Row} from 'react-bootstrap'
 import PopulationToggle from '../Components/PopulationToggler'
 import LineChart from '../Components/LineChart'
 import {formatDate, populations} from '../utils'
@@ -219,14 +219,16 @@ function GenderByDOBView({API, snapshots}) {
 
     return (
         <Container className="view-container">
-            <h1>Gender Gap By Year of Birth and Year of Death Statistics</h1>
-            <h5>
-                This plot shows the Date of Birth (DoB) and Date of Death (DoD) of each biography in Wikidata,
-                by gender, non-binary gender, by last count there are 9 non-binary genders, are displayed in the tables,
-                and accounted for in the full data set
-            </h5>
+            <Row className="justify-content-md-center">
+                <h1>Gender Gap By Year of Birth and Year of Death Statistics</h1>
+                <h5>
+                    This plot shows the Date of Birth (DoB) and Date of Death (DoD) of each biography in Wikidata,
+                    by gender, non-binary gender, by last count there are 9 non-binary genders, are displayed in the tables,
+                    and accounted for in the full data set
+                </h5>
+            </Row>
 
-            <Container className="input-area">
+            <Row className="input-area">
                 <div>
                     <p style={{border: "2px solid"}}>
                         Note: As for January, 2016, only about 72% and 36% of biographies had date
@@ -258,25 +260,33 @@ function GenderByDOBView({API, snapshots}) {
                         value="other-genders"
                     />
                 </ToggleButtonGroup> */}
-                <InputGroup className="mb-3" size="sm">
-                    <InputGroup.Prepend>
-                        <InputGroup.Text>Year Range:</InputGroup.Text>
-                    </InputGroup.Prepend>
-                    <FormControl type="text" placeholder={yearStart} onChange={handleYearStart}/>
-                    <FormControl type="text" placeholder={yearEnd} onChange={handleYearEnd}/>
-                </InputGroup>
+                
                 { snapshotsDropdownOptions }
-            </Container>
-            {
-                lineData.length === 0 ? null :
-                    <LineChart
-                        lineData={lineData}
-                        graphGenders={graphGenders}
-                        extrema={tableMetaData}
-                        genderMap={genderMap}
-                    />
-            }
-            <div className="table-container">
+            </Row>
+            <Row className="justify-content-md-center">
+                <Col lg={8}>
+                    {
+                        lineData.length === 0 ? null :
+                        <LineChart
+                            lineData={lineData}
+                            graphGenders={graphGenders}
+                            extrema={tableMetaData}
+                            genderMap={genderMap}
+                        />
+                    }
+                </Col>
+                <Col sm={4}>
+                    <InputGroup className="mb-3" size="sm">
+                        <InputGroup.Prepend>
+                            <InputGroup.Text>Year Range:</InputGroup.Text>
+                        </InputGroup.Prepend>
+                        <FormControl type="text" placeholder={yearStart} onChange={handleYearStart}/>
+                        <FormControl type="text" placeholder={yearEnd} onChange={handleYearEnd}/>
+                    </InputGroup>
+                </Col>
+            </Row>
+
+            <Row className="table-container">
                 {isLoading ? loadingDiv : null}
                 {isErrored ? errorDiv : null}
                 {
@@ -290,7 +300,7 @@ function GenderByDOBView({API, snapshots}) {
                             className={".table-striped"}
                         />
                 }
-            </div>
+            </Row>
         </Container>
     )
 }
