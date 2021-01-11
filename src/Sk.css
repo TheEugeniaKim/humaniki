@@ -11,7 +11,20 @@
 	padding: 2px 24px 27px 24px;
 }
 
-.unSelectedCountry {
-    fill: grey; 
-    fill-opacity: 50%;
+/* 
+in world map component every country has .country + .unSelectedCountry and when filter selects then .country + .selectedCountry
+every country is selected by default until there are filter selections 
+*/
+.country {
+
 }
+
+.selectedCountry{
+
+}
+
+.unSelectedCountry {
+    fill: black; 
+    fill-opacity: 10%;
+}
+

@@ -5,7 +5,7 @@ import WorldMapPropertySelection from '../Components/WorldMapPropertySelection'
 import preMapData from '../Components/custom.geo.json'
 import { Col, Row, InputGroup, FormControl, Container } from 'react-bootstrap'
 import { propTypes } from 'react-bootstrap/esm/Image';
-import { filterMetrics, populations } from '../utils.js'
+import { filterMetrics, populations, createColumns } from '../utils.js'
 
 import BootstrapTable from 'react-bootstrap-table-next'
 import 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css';
@@ -65,29 +65,6 @@ function GenderByCountryView({API}){
       }
     })
     return multiSelectData
-  }
-
-  function processColumnsData(meta, metrics){
-    let columns = []
-    columns.push({dataField: "country", text: "Country", filter: textFilter()})
-    columns.push({dataField: "total",text: "Total",sort: true})
-    for (let genderId in meta.bias_labels) {
-      let obj = {
-        dataField: meta.bias_labels[genderId],
-        text: meta.bias_labels[genderId],
-        sort: true
-      }
-      let objPercent = {
-        dataField: meta.bias_labels[genderId] + "Percent",
-        text: meta.bias_labels[genderId] + " Percent",
-        sort: true,
-        formatter: percentFormatter
-      }
-      obj.label = meta.bias_labels[genderId]
-      columns.push(obj)
-      columns.push(objPercent)
-    }
-    setTableColumns(columns)
   }
 
   function processTableData(meta, metrics){
@@ -169,9 +146,7 @@ function GenderByCountryView({API}){
     const countryFilterFn = selectedCountries ? makeCountryFilterFn(selectedCountries) : (metric) => true
     const filteredMetrics = filterMetrics(metrics, countryFilterFn)
 
-    
-    processColumnsData(meta, filteredMetrics)
-    // we want to keep all metrics on map even if unselected
+    setTableColumns(createColumns(meta, filteredMetrics, "country"))
     processMapData(meta, metrics)
     processTableData(meta, filteredMetrics)
   }
