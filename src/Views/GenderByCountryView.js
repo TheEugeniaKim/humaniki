@@ -3,9 +3,9 @@ import Select from 'react-select'
 import WorldMap from '../Components/WorldMap'
 import WorldMapPropertySelection from '../Components/WorldMapPropertySelection'
 import preMapData from '../Components/custom.geo.json'
-import { Col, Row, InputGroup, FormControl, Container } from 'react-bootstrap'
+import { Col, Row, InputGroup, Form, FormControl, Container } from 'react-bootstrap'
 import { propTypes } from 'react-bootstrap/esm/Image';
-import { filterMetrics, populations, createColumns } from '../utils.js'
+import { filterMetrics, populations, createColumns, formatDate } from '../utils.js'
 
 import BootstrapTable from 'react-bootstrap-table-next'
 import 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css';
@@ -15,7 +15,7 @@ import PopulationToggle from "../Components/PopulationToggler";
 import {ValueContainer} from "../Components/LimitedMultiSelect";
 
 
-function GenderByCountryView({API}){
+function GenderByCountryView({API, snapshots}){
   let makeCountryFilterFn = (selectedCountries) => (metric) => {
     const selectedCountriesValues = selectedCountries.map(country => country.value)
     console.log("selected Countries:", selectedCountries, "metrics:", metric, "filter", selectedCountriesValues.includes(metric.item.citizenship))
@@ -37,8 +37,7 @@ function GenderByCountryView({API}){
   const [isLoading, setIsLoading] = useState(true)
   const [isErrored, setIsErrored] = useState(false)
 
-  function handleSnapshot(e){
-    console.log(e.target.value)
+  function handleSnapshotChange(e){
     setSnapshot(e.target.value)
   }
 
@@ -190,6 +189,22 @@ function GenderByCountryView({API}){
 
   const errorDiv = <div>Error</div>
   const loadingDiv = <div>Loading</div>
+  const snapshotsDropdownOptions = snapshots ? (
+    <div>
+        <Form.Label>Snapshot (YYYY-DD-MM)</Form.Label>
+        <Form.Control
+            as="select"
+            onChange={handleSnapshotChange}
+            value={snapshot ? snapshot :  "latest"}
+            >
+            {
+                snapshots.map((snapshot, index) => (
+                    <option key={snapshot.id}>{index === 0 ?  formatDate(snapshot.date)+" (latest)" : formatDate(snapshot.date) }</option>
+                ))
+            }
+        </Form.Control>
+    </div>
+  ) : <div> snapshots loading </div>
 
   return (
     <Container className="view-container">
@@ -209,13 +224,8 @@ function GenderByCountryView({API}){
       <Row className="input-area">
         <h6>Different Wikipedia Categories of Humans</h6>
         <PopulationToggle handleToggle={handleHumanChange}/>
-
-        <InputGroup className="mb-3" size="sm" controlid="years">
-          <InputGroup.Prepend>
-            <InputGroup.Text>Snapshot:</InputGroup.Text>
-          </InputGroup.Prepend>
-          <FormControl type="text" placeholder={snapshot} onChange={handleSnapshot} />
-        </InputGroup>
+        { snapshotsDropdownOptions }
+        
         <br/>
       </Row>
 

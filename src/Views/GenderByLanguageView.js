@@ -8,12 +8,12 @@ import filterFactory, { textFilter } from 'react-bootstrap-table2-filter'
 import paginationFactory from 'react-bootstrap-table2-paginator'
 
 import ScatterPlot from '../Components/ScatterPlot'
-import { createColumns, filterMetrics } from '../utils'
+import { createColumns, filterMetrics, formatDate } from '../utils'
 
 import PopulationToggle from "../Components/PopulationToggler";
 import {ValueContainer} from "../Components/LimitedMultiSelect";
 
-function GenderByLanguageView({API}){
+function GenderByLanguageView({API, snapshots}){
   let makeProjectFilterFn = (selectedProjects) => (metric) => {
     // higher order function to predicate each indiv. metric
     const selectedProjectsValues = selectedProjects.map(project => project.value)
@@ -30,7 +30,7 @@ function GenderByLanguageView({API}){
   const [isLoading, setIsLoading] = useState(true)
   const [isErrored, setIsErrored] = useState(false)
 
-  function handleSnapshot(e){
+  function handleSnapshotChange(e) {
     setSnapshot(e.target.value)
   }
 
@@ -116,7 +116,7 @@ function GenderByLanguageView({API}){
       population: "gte_one_sitelink",
       property_obj: {project: "all", label_lang: "en"}
     }, processData)
-  }, [snapshot])
+  }, [snapshots])
 
 // ReFilter useEffect: 
   useEffect(() => {
@@ -133,6 +133,22 @@ function GenderByLanguageView({API}){
 
   const errorDiv = <div>Error</div>
   const loadingDiv = <div>Loading</div>
+  const snapshotsDropdownOptions = snapshots ? (
+    <div>
+        <Form.Label>Snapshot (YYYY-DD-MM)</Form.Label>
+        <Form.Control
+            as="select"
+            onChange={handleSnapshotChange}
+            value={snapshot ? snapshot :  "latest"}
+            >
+            {
+                snapshots.map((snapshot, index) => (
+                    <option key={snapshot.id}>{index === 0 ?  formatDate(snapshot.date)+" (latest)" : formatDate(snapshot.date) }</option>
+                ))
+            }
+        </Form.Control>
+    </div>
+  ) : <div> snapshots loading </div>
 
   return (
     <Container >
@@ -153,12 +169,7 @@ function GenderByLanguageView({API}){
       <Row className="input-area">
         <h6>Different Wikipedia Categories of Humans</h6>
           <PopulationToggle GTE_ONLY={true} />
-          <InputGroup className="mb-3" size="sm" controlId="years">
-            <InputGroup.Prepend>
-              <InputGroup.Text>Snapshot:</InputGroup.Text>
-            </InputGroup.Prepend>
-            <FormControl type="text" placeholder={snapshot} onChange={handleSnapshot} />
-          </InputGroup>
+          { snapshotsDropdownOptions }
       </Row>
       <Row className="justify-content-md-center">
         <Col lg={10}>

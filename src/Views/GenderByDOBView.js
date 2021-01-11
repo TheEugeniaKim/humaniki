@@ -198,11 +198,6 @@ function GenderByDOBView({API, snapshots}) {
         }
     }, [yearStart, yearEnd])
 
-
-    // if (yearFilterFn) {
-    //     console.log("year filter fn is", yearFilterFn({item: {date_of_birth: "1500"}}))
-    // }
-
     const errorDiv = <div>Error</div>
     const loadingDiv = <div>Loading</div>
     const snapshotsDropdownOptions = snapshots ? (
@@ -216,8 +211,8 @@ function GenderByDOBView({API, snapshots}) {
                 {
                     snapshots.map((snapshot, index) => (
                         <option key={snapshot.id}>{index === 0 ?  formatDate(snapshot.date)+" (latest)" : formatDate(snapshot.date) }</option>
-                        ))
-                    }
+                    ))
+                }
             </Form.Control>
         </div>
     ) : <div> snapshots loading </div>
