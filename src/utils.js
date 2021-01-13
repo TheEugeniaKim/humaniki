@@ -1,5 +1,4 @@
 import { textFilter } from 'react-bootstrap-table2-filter'
-
 //gender color map see single bar chart a
 export const colors = ["#BC8F00","#6200F8","#00BCA1"]
 
@@ -34,7 +33,9 @@ export function percentFormatter(cell, row){
 export function createColumns(meta, metrics, indexColTitle, gapCol=null){
   const columns = []
     columns.push({dataField: indexColTitle, text: indexColTitle.toUpperCase(), filter: textFilter()})
-    columns.push({dataField: "total",text: "Total",sort: true})
+    columns.push({dataField: "total",text: "Total", sort: true})
+    columns.push({dataField: "sumOtherGenders", text: "∑ Other Genders", sort: true})
+    columns.push({dataField: "sumOtherGendersPercent", text: "∑ Other Genders Percent", sort: true, formatter: percentFormatter})
     for (let genderId in meta.bias_labels) {
       let obj = {
         dataField: meta.bias_labels[genderId],
@@ -53,3 +54,4 @@ export function createColumns(meta, metrics, indexColTitle, gapCol=null){
     }
   return columns 
 }
+

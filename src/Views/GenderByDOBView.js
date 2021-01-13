@@ -8,7 +8,7 @@ import BootstrapTable from 'react-bootstrap-table-next'
 import 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css';
 import filterFactory, {textFilter} from 'react-bootstrap-table2-filter'
 import paginationFactory from 'react-bootstrap-table2-paginator'
-import {filterMetrics, createColumns} from "../utils";
+import { filterMetrics, createColumns } from "../utils";
 import { toast } from 'react-toastify';
 
 function GenderByDOBView({API, snapshots}) {
@@ -121,11 +121,17 @@ function GenderByDOBView({API, snapshots}) {
             tableObj.sortValue = parseInt(dp.item_label.date_of_birth)
             tableObj.year = formatYear(parseInt(dp.item_label.date_of_birth))
             tableObj.total = Object.values(dp.values).reduce((a, b) => a + b)
+            tableObj.sumOtherGenders = 0
             for (let genderId in meta.bias_labels) {
                 let label = meta.bias_labels[genderId]
                 tableObj[label] = dp["values"][genderId] ? dp["values"][genderId] : 0
-                tableObj[label + "Percent"] = dp["values"][genderId] ? (dp["values"][genderId] / tableObj["total"]) * 100 : 0
+                tableObj[label + "Percent"] = dp["values"][genderId] ? (dp["values"][genderId]/tableObj["total"])*100 : 0
+                console.log("other genders arr", Object.keys(meta.bias_labels).filter(id => id!=="6581097" && id!=="6581072"))
+                if (genderId !=="6581097" && genderId !=="6581072"){
+                    tableObj.sumOtherGenders += dp["values"][genderId] ? dp["values"][genderId] : 0
+                }
             }
+            tableObj.sumOtherGendersPercent = (tableObj.sumOtherGenders/tableObj.total)*100
             tableArr.push(tableObj)
 
 

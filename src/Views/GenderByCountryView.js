@@ -3,7 +3,7 @@ import Select from 'react-select'
 import WorldMap from '../Components/WorldMap'
 import WorldMapPropertySelection from '../Components/WorldMapPropertySelection'
 import preMapData from '../Components/custom.geo.json'
-import { Col, Row, InputGroup, Form, FormControl, Container } from 'react-bootstrap'
+import { Col, Row, InputGroup, Form, Container } from 'react-bootstrap'
 import { propTypes } from 'react-bootstrap/esm/Image';
 import { filterMetrics, populations, createColumns, formatDate } from '../utils.js'
 
@@ -11,6 +11,7 @@ import BootstrapTable from 'react-bootstrap-table-next'
 import 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css';
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
 import paginationFactory from 'react-bootstrap-table2-paginator'
+import ToolkitProvider, { ColumnToggle } from 'react-bootstrap-table2-toolkit';
 import PopulationToggle from "../Components/PopulationToggler";
 import {ValueContainer} from "../Components/LimitedMultiSelect";
 
@@ -46,13 +47,6 @@ function GenderByCountryView({API, snapshots}){
     setPopulation(event)
   }
 
-  function percentFormatter(cell, row){
-    if (!cell){
-      return
-    }
-    return cell.toFixed(3)
-  }
-
   function createMultiSelectData(metrics){
     const multiSelectData = []
     metrics.forEach(country => {
@@ -85,11 +79,16 @@ function GenderByCountryView({API, snapshots}){
       tableObj.key = index 
       tableObj.country = obj.item_label.citizenship 
       tableObj.total = Object.values(obj.values).reduce((a,b) => a + b)
+      tableObj.sumOtherGenders = 0
       for (let genderId in meta.bias_labels) {
         let label = meta.bias_labels[genderId] ? meta.bias_labels[genderId] : genderId
         tableObj[label] = obj["values"][genderId] ? obj["values"][genderId] : 0 
         tableObj[label + "Percent"] = obj["values"][genderId] ? (obj["values"][genderId]/tableObj["total"])*100 : 0
+        if (genderId !=="6581097" && genderId !=="6581072"){
+          tableObj.sumOtherGenders += obj["values"][genderId] ? obj["values"][genderId] : 0
+        }
       }
+      tableObj.sumOtherGendersPercent = (tableObj.sumOtherGenders/tableObj.total)*100
       if (tableObj.country){
         tableArr.push(tableObj)
       }
@@ -193,15 +192,15 @@ function GenderByCountryView({API, snapshots}){
     <div>
         <Form.Label>Snapshot (YYYY-DD-MM)</Form.Label>
         <Form.Control
-            as="select"
-            onChange={handleSnapshotChange}
-            value={snapshot ? snapshot :  "latest"}
-            >
-            {
-                snapshots.map((snapshot, index) => (
-                    <option key={snapshot.id}>{index === 0 ?  formatDate(snapshot.date)+" (latest)" : formatDate(snapshot.date) }</option>
-                ))
-            }
+          as="select"
+          onChange={handleSnapshotChange}
+          value={snapshot ? snapshot :  "latest"}
+          >
+          {
+            snapshots.map((snapshot, index) => (
+              <option key={snapshot.id}>{index === 0 ?  formatDate(snapshot.date)+" (latest)" : formatDate(snapshot.date) }</option>
+            ))
+          }
         </Form.Control>
     </div>
   ) : <div> snapshots loading </div>
@@ -256,6 +255,13 @@ function GenderByCountryView({API, snapshots}){
       <div className="table-container">
         {isLoading? loadingDiv:null }
         {isErrored? errorDiv: null }
+        {/* <ToolkitProvider 
+          keyField="id"
+          data={ products }
+          columns={ columns }
+          columnToggle
+        
+        /> */}
         { 
           tableColumns.length === 0 ? null :
           <BootstrapTable 

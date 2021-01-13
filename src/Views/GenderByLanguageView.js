@@ -47,11 +47,16 @@ function GenderByLanguageView({API, snapshots}){
       tableObj.key = index
       tableObj.language = obj.item_label.project
       tableObj.total = Object.values(obj.values).reduce((a, b) => a + b)
+      tableObj.sumOtherGenders = 0
       for (let genderId in meta.bias_labels) {
         let label = meta.bias_labels[genderId]
         tableObj[label] = obj["values"][genderId] ? obj["values"][genderId] : 0
         tableObj[label + "Percent"] = obj["values"][genderId] ? (obj["values"][genderId]/tableObj["total"])*100 : 0
+        if (genderId !=="6581097" && genderId !=="6581072"){
+          tableObj.sumOtherGenders += obj["values"][genderId] ? obj["values"][genderId] : 0
+        }
       }
+      tableObj.sumOtherGendersPercent = (tableObj.sumOtherGenders/tableObj.total)*100
       tableArr.push(tableObj)
 
       let nonMalePercent = 100 - tableObj.malePercent
