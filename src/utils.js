@@ -48,6 +48,10 @@ export function createColumns(meta, metrics, indexColTitle, gapCol=null){
         sort: true,
         formatter: percentFormatter
       }
+      if (genderId !=="6581097" && genderId !=="6581072"){
+        obj.hidden = true
+        objPercent.hidden = true
+      }
       obj.label = meta.bias_labels[genderId]
       columns.push(obj)
       columns.push(objPercent)
