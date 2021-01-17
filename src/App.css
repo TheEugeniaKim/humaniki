@@ -1,3 +1,10 @@
+:root {
+  --table-color-female: 241, 225, 215;
+  --table-color-male: 219, 230, 245;
+  --table-color-sum-other: 241, 232, 205;
+  --percent-transparency: 0.7
+}
+
 .App {
   text-align: center;
 }
@@ -157,3 +164,14 @@ svg {
   position: absolute;
 }
 
+.gender-col-percent-male{
+  background-color: rgba(var(--table-color-male), var(--percent-transparency));
+}
+
+.gender-col-percent-female{
+  background-color: rgba(var(--table-color-female), var(--percent-transparency));
+}
+
+.gender-col-percent-sum-other {
+  background-color: rgba(var(--table-color-sum-other), var(--percent-transparency));
+}

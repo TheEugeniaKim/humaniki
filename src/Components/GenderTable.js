@@ -67,7 +67,8 @@ function GenderTable({ tableColumns, tableArr }) {
               {...props.baseProps}
               filter={filterFactory({ afterFilter })}
               pagination={paginationFactory()}
-              className={".table-striped"}
+              striped
+              condensed
             />
           </div>
         )}

@@ -34,8 +34,6 @@ export function createColumns(meta, metrics, indexColTitle, gapCol=null){
   const columns = []
     columns.push({dataField: indexColTitle, text: indexColTitle.toUpperCase(), filter: textFilter()})
     columns.push({dataField: "total",text: "Total", sort: true})
-    columns.push({dataField: "sumOtherGenders", text: "∑ Other Genders", sort: true})
-    columns.push({dataField: "sumOtherGendersPercent", text: "∑ Other Genders Percent", sort: true, formatter: percentFormatter})
     for (let genderId in meta.bias_labels) {
       let obj = {
         dataField: meta.bias_labels[genderId],
@@ -52,10 +50,20 @@ export function createColumns(meta, metrics, indexColTitle, gapCol=null){
         obj.hidden = true
         objPercent.hidden = true
       }
+      if (genderId === "6581072"){
+        obj.classes = "gender-col gender-col-female"
+        objPercent.classes = "gender-col gender-col-percent-female"
+      }
+      if (genderId === "6581097"){
+        obj.classes = "gender-col gender-col-male"
+        objPercent.classes = "gender-col gender-col-percent-male"
+      }
       obj.label = meta.bias_labels[genderId]
       columns.push(obj)
       columns.push(objPercent)
     }
+    columns.push({dataField: "sumOtherGenders", text: "∑ Other Genders", sort: true, classes: "gender-col gender-col-sum-other" })
+    columns.push({dataField: "sumOtherGendersPercent", text: "∑ Other Genders Percent", sort: true, formatter: percentFormatter, classes: "gender-col gender-col-percent-sum-other"})
   return columns 
 }
 

@@ -2,17 +2,11 @@ import React, { useState, useEffect } from 'react'
 import Select from 'react-select'
 import WorldMap from '../Components/WorldMap'
 import GenderTable from '../Components/GenderTable'
-import WorldMapPropertySelection from '../Components/WorldMapPropertySelection'
 import preMapData from '../Components/custom.geo.json'
 import { Col, Row, InputGroup, Form, Container } from 'react-bootstrap'
 import { propTypes } from 'react-bootstrap/esm/Image';
 import { filterMetrics, populations, createColumns, formatDate } from '../utils.js'
 
-import BootstrapTable from 'react-bootstrap-table-next'
-import 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css';
-import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
-import paginationFactory from 'react-bootstrap-table2-paginator'
-import ToolkitProvider, { ColumnToggle } from 'react-bootstrap-table2-toolkit';
 import PopulationToggle from "../Components/PopulationToggler";
 import {ValueContainer} from "../Components/LimitedMultiSelect";
 
