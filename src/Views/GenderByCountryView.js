@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Select from 'react-select'
 import WorldMap from '../Components/WorldMap'
+import GenderTable from '../Components/GenderTable'
 import WorldMapPropertySelection from '../Components/WorldMapPropertySelection'
 import preMapData from '../Components/custom.geo.json'
 import { Col, Row, InputGroup, Form, Container } from 'react-bootstrap'
@@ -255,24 +256,10 @@ function GenderByCountryView({API, snapshots}){
       <div className="table-container">
         {isLoading? loadingDiv:null }
         {isErrored? errorDiv: null }
-        {/* <ToolkitProvider 
-          keyField="id"
-          data={ products }
-          columns={ columns }
-          columnToggle
-        
-        /> */}
-        { 
-          tableColumns.length === 0 ? null :
-          <BootstrapTable 
-            keyField='country' 
-            data={ tableArr } 
-            columns={ tableColumns } 
-            filter={ filterFactory({ afterFilter }) } 
-            pagination={ paginationFactory(10) }
-            className='table'
-          />
-        }
+        <GenderTable 
+          tableArr={tableArr} 
+          tableColumns={tableColumns} 
+        /> 
       </div>
      
     </Container> 

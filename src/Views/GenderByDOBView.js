@@ -9,12 +9,8 @@ import {
 } from "react-bootstrap";
 import PopulationToggle from "../Components/PopulationToggler";
 import LineChart from "../Components/LineChart";
+import GenderTable from '../Components/GenderTable';
 
-import BootstrapTable from "react-bootstrap-table-next";
-import "react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css";
-import ToolkitProvider, { ColumnToggle } from "react-bootstrap-table2-toolkit";
-import filterFactory, { textFilter } from "react-bootstrap-table2-filter";
-import paginationFactory from "react-bootstrap-table2-paginator";
 import {
   filterMetrics,
   createColumns,
@@ -47,7 +43,6 @@ function GenderByDOBView({ API, snapshots }) {
   const [population, setPopulation] = useState(populations.GTE_ONE_SITELINK);
   const [isLoading, setIsLoading] = useState(true);
   const [isErrored, setIsErrored] = useState(false);
-  const { ToggleList } = ColumnToggle;
 
   function afterFilter(newResult, newFilters) {
     console.log(newResult);
@@ -296,32 +291,8 @@ function GenderByDOBView({ API, snapshots }) {
             incomplete.
           </p>
         </div>
-
         <h6>Different Wikipedia Categories of Humans</h6>
         <PopulationToggle handleToggle={handleHumanChange} />
-
-        {/* <h6>Gender Line Filter: </h6>
-                <ToggleButtonGroup type="checkbox" name="gender-selection" defaultValue={["female", "male", "other-genders"]} onChange={handleChange}>
-                    <Form.Check
-                        type="checkbox"
-                        label="Male"
-                        name="male"
-                        value="male"
-                    />
-                    <Form.Check
-                        type="checkbox"
-                        label="Female"
-                        name="female"
-                        value="female"
-                    />
-                    <Form.Check
-                        type="checkbox"
-                        label="Other Genders"
-                        name="other-genders"
-                        value="other-genders"
-                    />
-                </ToggleButtonGroup> */}
-
         {snapshotsDropdownOptions}
       </Row>
       <Row className="justify-content-md-center">
@@ -353,40 +324,14 @@ function GenderByDOBView({ API, snapshots }) {
           </InputGroup>
         </Col>
       </Row>
-
+      <hr />
       <Row className="table-container">
         {isLoading ? loadingDiv : null}
         {isErrored ? errorDiv : null}
-        {tableColumns.length === 0 ? null : (
-          // <BootstrapTable
-          //     keyField='key'
-          //     data={tableArr}
-          //     columns={tableColumns}
-          //     filter={filterFactory({afterFilter})}
-          //     pagination={paginationFactory()}
-          //     className={".table-striped"}
-          // />
-
-          <ToolkitProvider
-            keyField="year"
-            data={tableArr}
-            columns={tableColumns}
-            columnToggle
-          >
-            {(props) => (
-              <div>
-                <ToggleList {...props.columnToggleProps} />
-                <hr />
-                <BootstrapTable 
-                    {...props.baseProps} 
-                    filter={filterFactory({ afterFilter })}
-                    pagination={paginationFactory()}
-                    className={".table-striped"}        
-                />
-              </div>
-            )}
-          </ToolkitProvider>
-        )}
+        <GenderTable 
+            tableArr={tableArr} 
+            tableColumns={tableColumns} 
+        /> 
       </Row>
     </Container>
   );

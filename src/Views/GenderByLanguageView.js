@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { ToggleButtonGroup, ToggleButton, InputGroup, FormControl, Container, Row, Col, Form} from 'react-bootstrap'
+import { Container, Row, Col, Form} from 'react-bootstrap'
 import Select from 'react-select'
 
-import BootstrapTable from 'react-bootstrap-table-next'
-import 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css'
-import filterFactory, { textFilter } from 'react-bootstrap-table2-filter'
-import paginationFactory from 'react-bootstrap-table2-paginator'
-
+import GenderTable from '../Components/GenderTable'
 import ScatterPlot from '../Components/ScatterPlot'
 import { createColumns, filterMetrics, formatDate } from '../utils'
 
@@ -23,7 +19,7 @@ function GenderByLanguageView({API, snapshots}){
   const [allMeta, setAllMeta] = useState(null)
   const [allProjects, setAllProjects] = useState([])
   const [selectedProjects, setSelectedProjects] = useState(null)
-  const [tableData, setTableData] = useState([])
+  const [tableArr, setTableArr] = useState([])
   const [tableMetaData, setTableMetaData] = useState({})
   const [tableColumns, setTableColumns] = useState([])
   const [snapshot, setSnapshot] = useState("latest")
@@ -74,7 +70,7 @@ function GenderByLanguageView({API, snapshots}){
     })
 
     setTableMetaData(extrema)
-    setTableData(tableArr)
+    setTableArr(tableArr)
   }
 
   function filterAndCreateVizAndTable(meta, metrics){
@@ -179,7 +175,7 @@ function GenderByLanguageView({API, snapshots}){
       <Row className="justify-content-md-center">
         <Col lg={10}>
           <ScatterPlot 
-            data={tableData}
+            data={tableArr}
             extrema={tableMetaData}
             columns={tableColumns}
           />
@@ -205,17 +201,10 @@ function GenderByLanguageView({API, snapshots}){
         <div className="table-container">
           {isLoading ? loadingDiv : null }
           {isErrored ? errorDiv : null }
-          {
-            tableColumns.length === 0 ? null :
-            <BootstrapTable
-              keyField='key'
-              data={ tableData }
-              columns={ tableColumns }
-              filter={ filterFactory({ afterFilter }) }
-              pagination={ paginationFactory() }
-              className='table'
-            />
-          }
+          <GenderTable 
+            tableArr={tableArr} 
+            tableColumns={tableColumns} 
+        /> 
         </div>
         <br/>
         <br/>
