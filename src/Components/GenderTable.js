@@ -57,7 +57,7 @@ function GenderTable({ tableColumns, tableArr }) {
             {/* <ExportCSVButton { ...props.csvProps }> Export CSV!! </ExportCSVButton> */}
             <div className="expand-genders">
               <Button onClick={handleGenderExpandClick}>
-                {showExpandGenders ? "Hide" : "Show"} Other Gender Toggles
+                {showExpandGenders ? "Hide" : "Show"} Other Genders Breakdown
               </Button>
               {showExpandGenders ? (
                 <CustomToggleList {...props.columnToggleProps} />

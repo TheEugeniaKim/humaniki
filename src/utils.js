@@ -7,6 +7,11 @@ export const populations = {
   GTE_ONE_SITELINK: "gte_one_sitelink"
 }
 
+export const QIDs = {
+  female: "6581072",
+  male: "6581097"
+}
+
 export const baseURL = process.env.REACT_APP_API_URL
 
 export function filterMetrics(metrics, filterFn){
@@ -32,38 +37,76 @@ export function percentFormatter(cell, row){
 
 export function createColumns(meta, metrics, indexColTitle, gapCol=null){
   const columns = []
+    //column order: 
+    // 1.  index 
+    // 2. total
+    // 3. binary genders
+    // 4. sum of nonbinary genders 
+    // 5. nonbinary genders 
     columns.push({dataField: indexColTitle, text: indexColTitle.toUpperCase(), filter: textFilter()})
     columns.push({dataField: "total",text: "Total", sort: true})
-    for (let genderId in meta.bias_labels) {
-      let obj = {
-        dataField: meta.bias_labels[genderId],
-        text: meta.bias_labels[genderId],
-        sort: true
-      }
-      let objPercent = {
-        dataField: meta.bias_labels[genderId] + "Percent",
-        text: meta.bias_labels[genderId] + " Percent",
+    columns.push(
+      {
+        dataField: meta.bias_labels[QIDs.female],
+        text: meta.bias_labels[QIDs.female],
         sort: true,
-        formatter: percentFormatter
+        classes: "gender-col gender-col-female"
       }
-      if (genderId !=="6581097" && genderId !=="6581072"){
-        obj.hidden = true
-        objPercent.hidden = true
+    )
+    columns.push(
+      {
+        dataField: meta.bias_labels[QIDs.female] + "Percent",
+        text: meta.bias_labels[QIDs.female] + " Percent",
+        sort: true,
+        formatter: percentFormatter,
+        classes: "gender-col gender-col-percent-female"
       }
-      if (genderId === "6581072"){
-        obj.classes = "gender-col gender-col-female"
-        objPercent.classes = "gender-col gender-col-percent-female"
+    )
+    columns.push(
+      {
+        dataField: meta.bias_labels[QIDs.male],
+        text: meta.bias_labels[QIDs.male],
+        sort: true,
+        classes: "gender-col gender-col-male"
       }
-      if (genderId === "6581097"){
-        obj.classes = "gender-col gender-col-male"
-        objPercent.classes = "gender-col gender-col-percent-male"
+    )
+    columns.push(
+      {
+        dataField: meta.bias_labels[QIDs.male] + "Percent",
+        text: meta.bias_labels[QIDs.male] + " Percent",
+        sort: true,
+        formatter: percentFormatter,
+        classes: "gender-col gender-col-percent-male"
       }
-      obj.label = meta.bias_labels[genderId]
-      columns.push(obj)
-      columns.push(objPercent)
-    }
+    )
     columns.push({dataField: "sumOtherGenders", text: "∑ Other Genders", sort: true, classes: "gender-col gender-col-sum-other" })
     columns.push({dataField: "sumOtherGendersPercent", text: "∑ Other Genders Percent", sort: true, formatter: percentFormatter, classes: "gender-col gender-col-percent-sum-other"})
+
+    for (let genderId in meta.bias_labels) {
+      if (genderId !==QIDs.female && genderId !==QIDs.male){
+        // check if bias label exists else use QID
+        let biasLabel = meta.bias_labels[genderId] ? meta.bias_labels[genderId] : genderId
+        let obj = {
+
+          dataField: biasLabel ,
+          text: biasLabel,
+          label: biasLabel,
+          sort: true,
+          hidden: true
+        }
+        let objPercent = {
+          dataField: biasLabel + "Percent",
+          text: biasLabel + " Percent",
+          label: biasLabel + " Percent",
+          sort: true,
+          formatter: percentFormatter,
+          hidden: true
+        }
+        columns.push(obj)
+        columns.push(objPercent)
+      }
+    }
+    
   return columns 
 }
 
