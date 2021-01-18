@@ -184,7 +184,7 @@ function GenderByLanguageView({API, snapshots}){
           <Select
             axis="xy"
             className="basic-single"
-            maxMenuHeight={190}
+            // maxMenuHeight={190}
             options={allProjects}
             isClearable={true}
             isMulti

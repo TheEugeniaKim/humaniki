@@ -38,6 +38,7 @@ function DefaultView({API}){
   }
 
   useEffect(() => {
+    console.log("ABOUT TO RUN  GET")
     API.get({
       bias: "gender", 
       metric: "gap", 
@@ -55,7 +56,7 @@ function DefaultView({API}){
     .attr("width", "100%")
     .attr("height", "100%")
     .attr("x", (value) => value)    
-  }, [])
+  }, [totalMen, totalOthers, totalWomen])
 
   const errorDiv = <div>Error</div>
   const loadingDiv = <div>Loading</div>
