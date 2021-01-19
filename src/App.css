@@ -175,3 +175,11 @@ svg {
 .gender-col-percent-sum-other {
   background-color: rgba(var(--table-color-sum-other), var(--percent-transparency));
 }
+
+.inline-block{
+  display: inline;
+}
+
+.dropdown-menu { 
+  position:relative !important;
+}
