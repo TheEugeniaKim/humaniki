@@ -205,16 +205,18 @@ function GenderByCountryView({API, snapshots}){
         <h2 className="heading-left">Gender Gap By Country</h2>
         <PopulationToggle handleToggle={handleHumanChange}/>
         <h5>
-          This will be the description of the plot data that's represented below. 
-          Something like: This plot displays
+          Percentage of biographies and other content of women based on country of citizenship
         </h5>
         
-        <p style={{border: "2px solid"}}>
+        <p>
+          This plot shows the percentage of biographies and other content of women, men, and other genders based 
+          on country of citizenship determined by the citizenship property in Wikidata. We represent data only for official 
+          as of December 2020.
+
           Note: As for January, 2016, only about 30% of biographies had place
           of birth, so this data is incomplete.
         </p>
 
-        <h6>Different Wikipedia Categories of Humans</h6>
         { snapshotsDropdownOptions }
         
         <br/>
@@ -229,10 +231,16 @@ function GenderByCountryView({API, snapshots}){
           />
         </Col>
         <Col>
+          <h6>
+            Gender:
+          </h6>
           <Select 
             options={genders}
             onChange={e => setProperty(e.value)}
           />
+          <h6>
+            Countries: 
+          </h6>
           <Select 
             options={allCountries}
             isMulti
