@@ -27,17 +27,15 @@ function AppContainer() {
     <div className="App">
       {/* <ToastContainer />  */}
       <NavBarComponent setNavBar={setNavBar}/>
-      <Container>
-        <Router>
-          <Route exact path={"/"} render={() => <DefaultView API={API}/>}/>
-          <Route exact path={"/about"} render={() => <AboutView API={API}/>}/>
-          <Route exact path={"/combine-search"} render={() => <AdvancedSearchView API={API} snapshots={snapshots ? snapshots : null} />}/>
-          <Route exact path={"/gender-by-country"} render={() => <GenderByCountryView API={API} snapshots={snapshots ? snapshots : null} />}/>
-          <Route exact path={"/gender-by-dob"} render={() => <GenderByDOBView API={API} snapshots={snapshots ? snapshots : null} />}/>
-          <Route exact path={"/gender-by-language"} render={() => <GenderByLanguageView API={API} snapshots={snapshots ? snapshots : null} />}/>
-        </Router>
-        <Footer className="fixed-bottom"/>
-      </Container>
+      <Router>
+        <Route exact path={"/"} render={() => <DefaultView API={API}/>}/>
+        <Route exact path={"/about"} render={() => <AboutView API={API}/>}/>
+        <Route exact path={"/combine-search"} render={() => <AdvancedSearchView API={API} snapshots={snapshots ? snapshots : null} />}/>
+        <Route exact path={"/gender-by-country"} render={() => <GenderByCountryView API={API} snapshots={snapshots ? snapshots : null} />}/>
+        <Route exact path={"/gender-by-dob"} render={() => <GenderByDOBView API={API} snapshots={snapshots ? snapshots : null} />}/>
+        <Route exact path={"/gender-by-language"} render={() => <GenderByLanguageView API={API} snapshots={snapshots ? snapshots : null} />}/>
+      </Router>
+      <Footer />
     </div>
   )
 }
