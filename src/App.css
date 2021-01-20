@@ -182,3 +182,7 @@ svg {
 .dropdown-menu { 
   position:relative !important;
 }
+
+.info-circle{
+  width: 3%;
+}
