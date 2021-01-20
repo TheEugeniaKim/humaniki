@@ -217,10 +217,6 @@ function GenderByCountryView({API, snapshots}){
           of birth, so this data is incomplete.
         </p>
 
-        { snapshotsDropdownOptions }
-        
-        <br/>
-
       <Row className="justify-content-md-center">
         <Col>
           <WorldMap 
@@ -231,6 +227,8 @@ function GenderByCountryView({API, snapshots}){
           />
         </Col>
         <Col>
+          { snapshotsDropdownOptions }
+
           <h6>
             Gender:
           </h6>

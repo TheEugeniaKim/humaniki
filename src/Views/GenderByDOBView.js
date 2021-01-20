@@ -289,8 +289,6 @@ function GenderByDOBView({ API, snapshots }) {
             incomplete.
           </p>
         </div>
-        <h6>Different Wikipedia Categories of Humans</h6>
-        {snapshotsDropdownOptions}
 
       <Row className="justify-content-md-center">
         <Col lg={8}>
@@ -304,6 +302,7 @@ function GenderByDOBView({ API, snapshots }) {
           )}
         </Col>
         <Col sm={4}>
+          {snapshotsDropdownOptions}
           <InputGroup className="mb-3" size="sm">
             <InputGroup.Prepend>
               <InputGroup.Text>Year Range:</InputGroup.Text>

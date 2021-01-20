@@ -166,8 +166,6 @@ function GenderByLanguageView({API, snapshots}){
           of birth and date of death, respectively, so this data is incomplete.
         </p>
 
-        <h6>Different Wikipedia Categories of Humans</h6>
-          { snapshotsDropdownOptions }
 
       <Row className="justify-content-md-center">
         <Col lg={10}>
@@ -178,6 +176,7 @@ function GenderByLanguageView({API, snapshots}){
           />
         </Col>
         <Col sm={2}>
+          { snapshotsDropdownOptions }
           <Select
             axis="xy"
             className="basic-single"
