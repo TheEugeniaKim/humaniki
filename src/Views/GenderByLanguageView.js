@@ -153,8 +153,8 @@ function GenderByLanguageView({API, snapshots}){
 
   return (
     <Container >
-      <Row className="justify-content-md-center">
         <h1>Gender Gap By Wikipedia Language Editions</h1>
+        <PopulationToggle GTE_ONLY={true} />
         <h5>
           This plot shows the Language each biography is written in Wikidata,
           by gender, non-binary gender, by last count there are 9 non-binary genders,
@@ -165,13 +165,10 @@ function GenderByLanguageView({API, snapshots}){
           Note: As for January, 2016, only about 72% and 36% of biographies had date
           of birth and date of death, respectively, so this data is incomplete.
         </p>
-      </Row>
 
-      <Row className="input-area">
         <h6>Different Wikipedia Categories of Humans</h6>
-          <PopulationToggle GTE_ONLY={true} />
           { snapshotsDropdownOptions }
-      </Row>
+
       <Row className="justify-content-md-center">
         <Col lg={10}>
           <ScatterPlot 

@@ -202,8 +202,8 @@ function GenderByCountryView({API, snapshots}){
 
   return (
     <Container className="view-container">
-      <Row className="justify-content-md-center">
-        <h1>Gender Gap By Country</h1>
+        <h2 className="heading-left">Gender Gap By Country</h2>
+        <PopulationToggle handleToggle={handleHumanChange}/>
         <h5>
           This will be the description of the plot data that's represented below. 
           Something like: This plot displays
@@ -213,15 +213,11 @@ function GenderByCountryView({API, snapshots}){
           Note: As for January, 2016, only about 30% of biographies had place
           of birth, so this data is incomplete.
         </p>
-      </Row>
 
-      <Row className="input-area">
         <h6>Different Wikipedia Categories of Humans</h6>
-        <PopulationToggle handleToggle={handleHumanChange}/>
         { snapshotsDropdownOptions }
         
         <br/>
-      </Row>
 
       <Row className="justify-content-md-center">
         <Col>
@@ -244,8 +240,7 @@ function GenderByCountryView({API, snapshots}){
             onChange={setSelectedCountries}
           />
         </Col>
-      </Row>
-      
+      </Row>     
 
       <div className="table-container">
         {isLoading? loadingDiv:null }

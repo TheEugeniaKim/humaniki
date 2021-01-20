@@ -273,17 +273,15 @@ function GenderByDOBView({ API, snapshots }) {
 
   return (
     <Container className="view-container">
-      <Row className="justify-content-md-center">
         <h1>Gender Gap By Year of Birth and Year of Death Statistics</h1>
+        <PopulationToggle handleToggle={handleHumanChange} />
         <h5>
           This plot shows the Date of Birth (DoB) and Date of Death (DoD) of
           each biography in Wikidata, by gender, non-binary gender, by last
           count there are 9 non-binary genders, are displayed in the tables, and
           accounted for in the full data set
         </h5>
-      </Row>
 
-      <Row className="input-area">
         <div>
           <p style={{ border: "2px solid" }}>
             Note: As for January, 2016, only about 72% and 36% of biographies
@@ -292,9 +290,8 @@ function GenderByDOBView({ API, snapshots }) {
           </p>
         </div>
         <h6>Different Wikipedia Categories of Humans</h6>
-        <PopulationToggle handleToggle={handleHumanChange} />
         {snapshotsDropdownOptions}
-      </Row>
+
       <Row className="justify-content-md-center">
         <Col lg={8}>
           {lineData.length === 0 ? null : (
@@ -329,8 +326,8 @@ function GenderByDOBView({ API, snapshots }) {
         {isLoading ? loadingDiv : null}
         {isErrored ? errorDiv : null}
         <GenderTable 
-            tableArr={tableArr} 
-            tableColumns={tableColumns} 
+          tableArr={tableArr} 
+          tableColumns={tableColumns} 
         /> 
       </Row>
     </Container>

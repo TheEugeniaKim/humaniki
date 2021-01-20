@@ -111,6 +111,9 @@ svg {
   display: flexbox;
 }
 
+.heading-left{
+  align-items: left;
+}
 
 .table {
   overflow: auto;

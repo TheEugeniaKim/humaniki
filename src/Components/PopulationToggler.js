@@ -1,19 +1,24 @@
-import {Container, ToggleButton, ToggleButtonGroup} from "react-bootstrap";
-import {populations} from "../utils";
 import React from "react";
+import Nav from 'react-bootstrap/Nav';
+import { populations } from "../utils";
+import InfoCircle from '../Components/InfoCircle'
 
-
-function PopulationToggle({handleToggle, GTE_ONLY}) {
-    return (
-        <ToggleButtonGroup type="radio" name="human-type" defaultValue={populations.GTE_ONE_SITELINK}
-                           onChange={handleToggle}>
-            <ToggleButton value={populations.ALL_WIKIDATA} name="all" size="lg" variant="outline-dark"
-                          disabled={GTE_ONLY ? true : false}>All Humans on
-                Wikidata</ToggleButton>
-            <ToggleButton value={populations.GTE_ONE_SITELINK} name="at-least-one" size="lg" variant="outline-dark">Humans
-                With At Least One Wikipedia Article</ToggleButton>
-        </ToggleButtonGroup>
-    )
+function PopulationToggle({ handleToggle, GTE_ONLY }) {
+  return (
+    <Nav justify variant="tabs" defaultActiveKey={populations.GTE_ONE_SITELINK} onSelect={handleToggle}>
+        <Nav.Item >
+            <Nav.Link eventKey={populations.ALL_WIKIDATA} >
+                All Humans on Wikidata 
+            </Nav.Link>
+            {/* <InfoCircle /> */}
+        </Nav.Item>
+        <Nav.Item>
+            <Nav.Link eventKey={populations.GTE_ONE_SITELINK}>
+                Humans With At Least One Wikipedia Article
+            </Nav.Link>
+        </Nav.Item>
+    </Nav>
+  );
 }
 
-export default PopulationToggle
+export default PopulationToggle;
