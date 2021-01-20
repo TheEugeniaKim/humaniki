@@ -111,10 +111,6 @@ svg {
   display: flexbox;
 }
 
-.dropdown {
-  overflow-y: scroll;
-  height: 400 px;
-}
 
 .table {
   overflow: auto;
