@@ -273,25 +273,16 @@ function GenderByDOBView({ API, snapshots }) {
 
   return (
     <Container className="view-container">
-        <h1>Gender Gap By Year of Birth and Year of Death Statistics</h1>
+        <h1>Gender Gap By Year of Birth</h1>
         <PopulationToggle handleToggle={handleHumanChange} />
         <h5>
-          This plot shows the Date of Birth (DoB) and Date of Death (DoD) of
-          each biography in Wikidata, by gender, non-binary gender, by last
-          count there are 9 non-binary genders, are displayed in the tables, and
-          accounted for in the full data set
+          This plot shows the Date of Birth (DoB) of each biography and
+          other content associated with humans in Wikimedia Projects, by gender
         </h5>
-
-        <div>
-          <p style={{ border: "2px solid" }}>
-            Note: As for January, 2016, only about 72% and 36% of biographies
-            had date of birth and date of death, respectively, so this data is
-            incomplete.
-          </p>
-        </div>
-
+        
       <Row className="justify-content-md-center">
         <Col lg={8}>
+          <p>All time, as of Aug'20 </p>
           {lineData.length === 0 ? null : (
             <LineChart
               lineData={lineData}
