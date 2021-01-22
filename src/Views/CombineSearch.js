@@ -8,6 +8,7 @@ import SingleBarChart from '../Components/SingleBarChart'
 import AdvacnedSearchForm from '../Components/AdvancedSearchForm'
 import {percentFormatter, populations, QIDs } from '../utils'
 import PopulationToggle from "../Components/PopulationToggler";
+import GenderTable from '../Components/GenderTable'
 
 function CombineSearch({API, snapshots}){
   const [allMetrics, setAllMetrics] = useState(null)
@@ -228,14 +229,11 @@ function CombineSearch({API, snapshots}){
         snapshots={snapshots}
       /> 
 
-      <BootstrapTable
-        keyField="index" 
-        data={ tableArr }
-        columns={ tableColumns }
-        filter={ filterFactory({ afterFilter }) }
-        pagination={ paginationFactory(10) }
-        noDataIndication="Table is Empty"
+      <GenderTable 
+        tableArr={tableArr} 
+        tableColumns={tableColumns} 
       />
+
     </Container>
   )
 }
