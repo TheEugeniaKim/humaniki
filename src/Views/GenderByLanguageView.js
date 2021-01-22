@@ -4,7 +4,7 @@ import Select from 'react-select'
 
 import GenderTable from '../Components/GenderTable'
 import ScatterPlot from '../Components/ScatterPlot'
-import { createColumns, filterMetrics, formatDate } from '../utils'
+import { createColumns, filterMetrics, formatDate, errorDiv, loadingDiv } from '../utils'
 
 import PopulationToggle from "../Components/PopulationToggler";
 import {ValueContainer} from "../Components/LimitedMultiSelect";
@@ -132,8 +132,6 @@ function GenderByLanguageView({API, snapshots}){
     console.log(newFilters);
   }
 
-  const errorDiv = <div>Error</div>
-  const loadingDiv = <div>Loading</div>
   const snapshotsDropdownOptions = snapshots ? (
     <div>
         <Form.Label>Snapshot (YYYY-DD-MM)</Form.Label>

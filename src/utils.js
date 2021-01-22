@@ -1,3 +1,4 @@
+import React from 'react'
 import { textFilter } from 'react-bootstrap-table2-filter'
 //gender color map see single bar chart a
 export const colors = ["#BC8F00","#6200F8","#00BCA1"]
@@ -13,6 +14,10 @@ export const QIDs = {
 }
 
 export const baseURL = process.env.REACT_APP_API_URL
+
+export const errorDiv = <div>Error</div>
+export const loadingDiv = <div>Loading</div>
+
 
 export function filterMetrics(metrics, filterFn){
   return metrics.filter(metric => filterFn(metric));

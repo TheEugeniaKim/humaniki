@@ -16,7 +16,9 @@ import {
   createColumns,
   formatDate,
   populations,
-  percentFormatter
+  percentFormatter, 
+  errorDiv, 
+  loadingDiv
 } from "../utils";
 import { toast } from "react-toastify";
 
@@ -248,8 +250,6 @@ function GenderByDOBView({ API, snapshots }) {
     }
   }, [yearStart, yearEnd]);
 
-  const errorDiv = <div>Error</div>;
-  const loadingDiv = <div>Loading</div>;
   const snapshotsDropdownOptions = snapshots ? (
     <div>
       <Form.Label>Snapshot (YYYY-DD-MM)</Form.Label>

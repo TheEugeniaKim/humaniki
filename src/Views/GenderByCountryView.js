@@ -5,7 +5,7 @@ import GenderTable from '../Components/GenderTable'
 import preMapData from '../Components/custom.geo.json'
 import { Col, Row, InputGroup, Form, Container } from 'react-bootstrap'
 import { propTypes } from 'react-bootstrap/esm/Image';
-import { filterMetrics, populations, createColumns, formatDate } from '../utils.js'
+import { filterMetrics, populations, createColumns, formatDate, errorDiv, loadingDiv } from '../utils.js'
 
 import PopulationToggle from "../Components/PopulationToggler";
 import {ValueContainer} from "../Components/LimitedMultiSelect";
@@ -181,8 +181,6 @@ function GenderByCountryView({API, snapshots}){
     console.log(newFilters);
   }
 
-  const errorDiv = <div>Error</div>
-  const loadingDiv = <div>Loading</div>
   const snapshotsDropdownOptions = snapshots ? (
     <div>
         <Form.Label>Snapshot (YYYY-DD-MM)</Form.Label>
