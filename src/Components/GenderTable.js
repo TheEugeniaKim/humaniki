@@ -58,7 +58,7 @@ function GenderTable({ tableColumns, tableArr }) {
             <div className="expand-genders">
               <Button onClick={handleGenderExpandClick}>
                 {showExpandGenders ? "Hide" : "Show"} Other Genders Breakdown
-              </Button>
+              </Button> 
               {showExpandGenders ? (
                 <CustomToggleList {...props.columnToggleProps} />
               ) : null}

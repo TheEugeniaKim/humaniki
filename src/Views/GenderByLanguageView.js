@@ -153,29 +153,27 @@ function GenderByLanguageView({API, snapshots}){
 
   return (
     <Container >
-        <h1>Gender Gap By Wikipedia Language Editions</h1>
+        <h1>Gender Gap By Language Editions in Wikimedia Projects</h1>
         <PopulationToggle GTE_ONLY={true} />
         <h5>
-          This plot shows the Language each biography is written in Wikidata,
-          by gender, non-binary gender, by last count there are 9 non-binary genders,
-          are displayed in the tables, and accounted for in the full data set
+          Comparative view of gendered content in different Wikimedia Projects
         </h5>
 
-        <p style={{border: "2px solid"}}>
-          Note: As for January, 2016, only about 72% and 36% of biographies had date
-          of birth and date of death, respectively, so this data is incomplete.
+        <p>
+          This plot compares number of gendered content in different wikimedia projects
+          to women/men/other genders percentage of that content. Comparisons of language
+          editions and wikimedia project of your interest can be made using filters 
         </p>
 
-
       <Row className="justify-content-md-center">
-        <Col lg={10}>
+        <Col lg={8}>
           <ScatterPlot 
             data={tableArr}
             extrema={tableMetaData}
             columns={tableColumns}
           />
         </Col>
-        <Col sm={2}>
+        <Col sm={4}>
           { snapshotsDropdownOptions }
           <Select
             axis="xy"

@@ -186,7 +186,7 @@ function AdvacnedSearchForm({ onSubmit, snapshots }) {
           </Form.Control>
         </Form.Group>
 
-        <Form.Group controlId="selectedOccupation">
+        {/* <Form.Group controlId="selectedOccupation">
           <Form.Label>Occupation</Form.Label>
           <Form.Control
             as="select"
@@ -199,7 +199,7 @@ function AdvacnedSearchForm({ onSubmit, snapshots }) {
           >
             <option>No Filter</option>
           </Form.Control>
-        </Form.Group>
+        </Form.Group> */}
       </Row>
       <Row>
         <Button variant="primary" type="submit" onSubmit={handleOnSubmit}>

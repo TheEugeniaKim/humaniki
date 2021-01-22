@@ -218,7 +218,7 @@ function GenderByCountryView({API, snapshots}){
         </p>
 
       <Row className="justify-content-md-center">
-        <Col>
+        <Col lg={8}>
           <WorldMap 
             mapData={mapData}
             property={property}
@@ -226,21 +226,16 @@ function GenderByCountryView({API, snapshots}){
             genders={genders}
           />
         </Col>
-        <Col>
+        <Col sm={4}>
           { snapshotsDropdownOptions }
-
-          <h6>
-            Gender:
-          </h6>
+          <h6>Gender:</h6>
           <Select 
             options={genders}
             onChange={e => setProperty(e.value)}
           />
-          <h6>
-            Countries: 
-          </h6>
+          <h6>Countries: </h6>
           <Select 
-            options={allCountries}
+            options={[{label: "All", value: "*"}, ...allCountries]}
             isMulti
             isClearable={true}
             onChange={setSelectedCountries}

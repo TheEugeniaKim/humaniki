@@ -7,7 +7,7 @@ import paginationFactory from 'react-bootstrap-table2-paginator'
 import { ToggleButtonGroup, ToggleButton, Form } from 'react-bootstrap'
 import AdvacnedSearchForm from '../Components/AdvancedSearchForm'
 import SingleBarChart from '../Components/SingleBarChart'
-import {percentFormatter} from '../utils'
+import {percentFormatter, populations} from '../utils'
 
 function AdvancedSearchView({API, snapshots}){
   const [selectedWikipediaHumanType, setSelectedWikipediaHumanType] = useState("all_wikidata")
@@ -23,6 +23,7 @@ function AdvancedSearchView({API, snapshots}){
   const [formObj, setFormObj] = useState({})
   const [tableColumns, setTableColumns] = useState([{dataField: "index", text: "Index", sort: true}])
   const [tableData, setTableData] = useState([])
+  const [population, setPopulation] = useState(populations.GTE_ONE_SITELINK)
   const [isLoading, setIsLoading] = useState(true)
   const [isErrored, setIsErrored] = useState(false)
 
@@ -147,7 +148,7 @@ function AdvancedSearchView({API, snapshots}){
       // configure data
       resData.metrics.forEach((obj, index) => {
         let tableObj = {}
-        delete obj["item_label"]["iso_3166"]
+        // delete obj["item_label"]["iso_3166"]
         tableObj.key = index
           let item_labels = Object.values(obj["item_label"])
           item_labels = item_labels.length > 0 ? item_labels : ["Overall"]
@@ -181,9 +182,19 @@ function AdvancedSearchView({API, snapshots}){
     API.get(fetchObj, processFetchData)
   }, [fetchObj, snapshots])
 
+  //refetch useEffect 
+  // useEffect(() => {
+  //   API.get({
+  //     bias: "gender",
+  //     metric: "gap",
+  //     // snapshot: snapshot, 
+  //     population: population 
+  //   }, processFetchData)
+  // }, [population])
+
   return (
     <Container className="view-container">
-      <h1>Advanced Search</h1>
+      <h1>Explore multiple data categories</h1>
 
       <div className="human-div">
         <h6>Different Wikipedia Categories of Humans</h6>
