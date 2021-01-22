@@ -154,6 +154,9 @@ function CombineSearch({API, snapshots}){
       let item_labels = Object.values(obj["item_label"])
       item_labels = item_labels.length > 0 ? item_labels : ["Overall"]
       tableObj.index = item_labels.length > 1 ? item_labels.join(", ") : item_labels[0]
+      if (item_labels.includes(null)){
+        tableObj.index = null
+      }
       tableObj.total = Object.values(obj.values).reduce((a,b) => a + b)
       tableObj.sumOtherGenders = 0
       for (let genderId in meta.bias_labels) {
@@ -170,7 +173,6 @@ function CombineSearch({API, snapshots}){
       genderTotalsArr.push(tableObj.malePercent)
       genderTotalsArr.push(tableObj.sumOtherGendersPercent)
       tableObj.gap = <SingleBarChart genderTotals={genderTotalsArr} />
-      console.log("TAB ONJ", tableObj)
       if (tableObj.index){
         tableArr.push(tableObj)
       }
