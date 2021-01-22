@@ -160,7 +160,6 @@ svg {
 
 .show>.dropdown-menu {
   display: block;
-  position: absolute;
 }
 
 .gender-col-percent-male{
@@ -177,10 +176,6 @@ svg {
 
 .inline-block{
   display: inline;
-}
-
-.dropdown-menu { 
-  position:relative !important;
 }
 
 .info-circle{
