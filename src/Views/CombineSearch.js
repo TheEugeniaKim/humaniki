@@ -6,7 +6,7 @@ import filterFactory, { textFilter } from 'react-bootstrap-table2-filter'
 import paginationFactory from 'react-bootstrap-table2-paginator'
 import SingleBarChart from '../Components/SingleBarChart'
 import AdvacnedSearchForm from '../Components/AdvancedSearchForm'
-import {percentFormatter, populations, QIDs, errorDiv, loadingDiv } from '../utils'
+import { createColumns, percentFormatter, populations, QIDs, errorDiv, loadingDiv } from '../utils'
 import PopulationToggle from "../Components/PopulationToggler";
 import GenderTable from '../Components/GenderTable'
 
@@ -14,7 +14,7 @@ function CombineSearch({API, snapshots}){
   const [allMetrics, setAllMetrics] = useState(null)
   const [allMeta, setAllMeta] = useState(null)
   const [population, setPopulation] = useState(populations.GTE_ONE_SITELINK)
-  const [tableColumns, setTableColumns] = useState([{dataField: "index", text: "Index", sort: true}])
+  const [tableColumns, setTableColumns] = useState([{}])
   const [tableArr, setTableArr] = useState([])
   const [tableMetaData, setTableMetaData] = useState({})
 
@@ -62,79 +62,6 @@ function CombineSearch({API, snapshots}){
   function handleHumanChange(event){
     setIsLoading(true) 
     setPopulation(event)
-  }
-
-  function processColumnData(meta, metrics){
-    let columns = []
-    console.log("columns", meta, metrics)
-    columns.push({dataField: "index", text: "Index".toUpperCase(), filter: textFilter(), headerStyle: {"minWidth": "200px", "width": "20%"}})
-    columns.push({dataField: "total",text: "Total", sort: true})
-    columns.push({dataField: "gap", text: "Gap", sort: true, headerStyle: {
-      "overflow": 'visible',
-      "minWidth": "200px", 
-      "width": "20%"
-    }})
-    columns.push(
-      {
-        dataField: meta.bias_labels[QIDs.female],
-        text: meta.bias_labels[QIDs.female],
-        sort: true,
-        classes: "gender-col gender-col-female"
-      }
-    )
-    columns.push(
-      {
-        dataField: meta.bias_labels[QIDs.female] + "Percent",
-        text: meta.bias_labels[QIDs.female] + " Percent",
-        sort: true,
-        formatter: percentFormatter,
-        classes: "gender-col gender-col-percent-female"
-      }
-    )
-    columns.push(
-      {
-        dataField: meta.bias_labels[QIDs.male],
-        text: meta.bias_labels[QIDs.male],
-        sort: true,
-        classes: "gender-col gender-col-male"
-      }
-    )
-    columns.push(
-      {
-        dataField: meta.bias_labels[QIDs.male] + "Percent",
-        text: meta.bias_labels[QIDs.male] + " Percent",
-        sort: true,
-        formatter: percentFormatter,
-        classes: "gender-col gender-col-percent-male"
-      }
-    )
-    columns.push({dataField: "sumOtherGenders", text: "∑ Other Genders", sort: true, classes: "gender-col gender-col-sum-other" })
-    columns.push({dataField: "sumOtherGendersPercent", text: "∑ Other Genders Percent", sort: true, formatter: percentFormatter, classes: "gender-col gender-col-percent-sum-other"})
-    for (let genderId in meta.bias_labels) {
-      if (genderId !==QIDs.female && genderId !==QIDs.male){
-        // check if bias label exists else use QID
-        let biasLabel = meta.bias_labels[genderId] ? meta.bias_labels[genderId] : genderId
-        let obj = {
-
-          dataField: biasLabel ,
-          text: biasLabel,
-          label: biasLabel,
-          sort: true,
-          hidden: true
-        }
-        let objPercent = {
-          dataField: biasLabel + "Percent",
-          text: biasLabel + " Percent",
-          label: biasLabel + " Percent",
-          sort: true,
-          formatter: percentFormatter,
-          hidden: true
-        }
-        columns.push(obj)
-        columns.push(objPercent)
-      }
-    }
-    setTableColumns(columns)
   }
 
   function processTableData(meta, metrics){
@@ -190,11 +117,9 @@ function CombineSearch({API, snapshots}){
       console.log("resData:", fetchData, "snapshotData:", snapshots)
       setAllMetrics(fetchData.metrics)
       setAllMeta(fetchData.meta)
-      processColumnData(fetchData.meta, fetchData.metrics)
+      setTableColumns(createColumns(fetchData.meta, fetchData.metrics, "index", true))
+ 
       processTableData(fetchData.meta, fetchData.metrics)
-      // let multiSelectData = createMultiSelectData(fetchData.metrics)
-      // setAllCountries(multiSelectData)
-      // filterAndCreateVizAndTable(fetchData.meta, fetchData.metrics)
     }
     setIsLoading(false)
     return true 

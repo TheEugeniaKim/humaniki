@@ -23,7 +23,7 @@ function GenderByCountryView({API, snapshots}){
   const [allCountries, setAllCountries] = useState([])
   const [population, setPopulation] = useState(populations.GTE_ONE_SITELINK)
   const [mapData, setMapData] = useState(null)
-  const [tableColumns, setTableColumns] = useState([])
+  const [tableColumns, setTableColumns] = useState([{}])
   const [tableArr, setTableArr] = useState([])
   const [snapshot, setSnapshot] = useState("latest")
   const [tableMetaData, setTableMetaData] = useState({})

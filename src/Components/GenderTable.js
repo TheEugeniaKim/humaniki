@@ -1,49 +1,86 @@
-import React, { useState } from "react";
-import { Button } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 import BootstrapTable from "react-bootstrap-table-next";
 import "react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css";
-import ToolkitProvider, {
-  ColumnToggle,
-  CSVExport,
-} from "react-bootstrap-table2-toolkit";
+import ToolkitProvider from "react-bootstrap-table2-toolkit";
 import filterFactory, { afterFilter } from "react-bootstrap-table2-filter";
 import paginationFactory from "react-bootstrap-table2-paginator";
+import { toast } from 'react-toastify'
 
 function GenderTable({ tableColumns, tableArr }) {
   const [showExpandGenders, setShowExpandGenders] = useState(false);
-  const { ExportCSVButton } = CSVExport;
-  const { ToggleList } = ColumnToggle;
+  const [modalShow, setModalShow] = useState(false)
+  const [myToggles, setMyToggles] = useState({"male": true})
 
-  const CustomToggleList = ({ columns, onColumnToggle, toggles }) => (
-    <div
-      className="btn-group btn-group-toggle btn-group-vertical"
-      data-toggle="buttons"
-    >
-      {columns
-        .map((column) => ({
-          ...column,
-          toggle: toggles[column.dataField],
-        }))
-        .map((column) => (
-          <button
-            type="button"
-            key={column.dataField}
-            className={`btn btn-warning ${column.toggle ? "active" : ""}`}
-            data-toggle="button"
-            aria-pressed={column.toggle ? "true" : "false"}
-            onClick={() => onColumnToggle(column.dataField)}
-          >
-            {column.text}
-          </button>
-        ))}
-    </div>
-  );
+  useEffect(() => {
+    const visibleColumnsDefault = {}
+    for (let colObj of tableColumns){
+      visibleColumnsDefault[colObj.dataField] = !colObj.hidden
+    }
+    setMyToggles(visibleColumnsDefault)
+  }, [tableColumns])   
+
+  function handleMyColumnToggle(dataField){
+    let tempMyToggles = myToggles
+    const targetVisibility = !tempMyToggles[dataField]
+    tempMyToggles[dataField] = targetVisibility
+    setMyToggles(tempMyToggles)
+    toast(`Setting ${dataField} Column ${targetVisibility ? "Visible" : "Hidden"}`)
+  }
+
+  function MyVerticallyCenteredModal({
+    columns,
+    onColumnToggle,
+    toggles, 
+    show,
+    onHide,
+    newToggles
+  }) {
+    return (
+      <Modal
+        show={show}
+        onHide={onHide}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Columns: 
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {columns
+            .map((column) => ({
+              ...column,
+              toggle: newToggles[column.dataField],
+            }))
+            .map((column) => (
+              <button
+                type="button"
+                key={column.dataField}
+                className={`btn btn-warning ${newToggles[column.dataField] ? "active" : ""}`}
+                data-toggle="button"
+                aria-pressed={newToggles[column.dataField] ? "true" : "false"}
+                onClick={() => handleMyColumnToggle(column.dataField)}
+              >
+                {column.text}
+              </button>
+            ))}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={onHide}>Close</Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
 
   function handleGenderExpandClick(event) {
     setShowExpandGenders(!showExpandGenders);
   }
 
-  if (tableColumns.length>0){
+  if (tableColumns.length>0 ){
     return (
       <ToolkitProvider
         keyField="year"
@@ -54,22 +91,31 @@ function GenderTable({ tableColumns, tableArr }) {
       >
         {(props) => (
           <div>
-            {/* <ExportCSVButton { ...props.csvProps }> Export CSV!! </ExportCSVButton> */}
             <div className="expand-genders">
-              <Button onClick={handleGenderExpandClick}>
-                {showExpandGenders ? "Hide" : "Show"} Other Genders Breakdown
+              <Button onClick={() => setModalShow(true)} >
+                Other Genders Breakdown
               </Button> 
-              {showExpandGenders ? (
-                <CustomToggleList {...props.columnToggleProps} />
-              ) : null}
+
+              <MyVerticallyCenteredModal
+                show={modalShow}
+                onHide={() => setModalShow(false)}
+                {...props.columnToggleProps}
+                newToggles={myToggles}
+              /> 
             </div>
-            <BootstrapTable
-              {...props.baseProps}
-              filter={filterFactory({ afterFilter })}
-              pagination={paginationFactory()}
-              striped
-              condensed
-            />
+
+            {/* if myToggles is null don't pass in columnToggle props */}
+            { myToggles ? 
+              <BootstrapTable
+                {...props.baseProps}
+                columnToggle={{"toggles": myToggles}}
+                filter={filterFactory({ afterFilter })}
+                pagination={paginationFactory()}
+                striped
+                condensed
+              /> : 
+              null
+            }
           </div>
         )}
       </ToolkitProvider>

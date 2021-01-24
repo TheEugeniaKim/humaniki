@@ -21,7 +21,7 @@ function GenderByLanguageView({API, snapshots}){
   const [selectedProjects, setSelectedProjects] = useState(null)
   const [tableArr, setTableArr] = useState([])
   const [tableMetaData, setTableMetaData] = useState({})
-  const [tableColumns, setTableColumns] = useState([])
+  const [tableColumns, setTableColumns] = useState([{}])
   const [snapshot, setSnapshot] = useState("latest")
   const [isLoading, setIsLoading] = useState(true)
   const [isErrored, setIsErrored] = useState(false)

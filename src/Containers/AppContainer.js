@@ -26,7 +26,7 @@ function AppContainer() {
 
   return (
     <div className="App">
-      {/* <ToastContainer />  */}
+      <ToastContainer /> 
       <NavBarComponent setNavBar={setNavBar}/>
       <Router>
         <Route exact path={"/"} render={() => <DefaultView API={API}/>}/>
