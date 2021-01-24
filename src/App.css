@@ -84,7 +84,6 @@ svg {
 
 .footer {
   background: #F3F0F0;
-  position: -webkit-sticky;
   bottom: 0; 
   width: 100%; 
   height: 3rem;

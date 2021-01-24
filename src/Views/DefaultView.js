@@ -22,6 +22,7 @@ function DefaultView({API}){
       setIsErrored(true)
     }
     else{
+      console.log(data)
       setTotal(Object.values(data.metrics[0].values).reduce((a,b) => a+b))
       let totalMen = data.metrics[0].values["6581097"]
       let totalWomen = data.metrics[0].values["6581072"]
@@ -76,21 +77,14 @@ function DefaultView({API}){
   return (
     <Container className="default">
       <Row className="default-content">
-        <h3 className="default-title">Explore Gender Diversity on Wikipedia Biographies with humaniki </h3>
+        <h3 className="default-title">Humaniki provides statistics about the gender gap in the content of all Wikimedia projects</h3>
         <h5>
-          Humaniki is a project producing a open data set about the gender, 
-          date of birth, place of birth, occupation, and language of biography articles 
-          in all Wikipedias.
+          For example, as of August 2020, only 17% of content in all Wikimedia projects including biographies on Wikipedia are about women.
         </h5>
       </Row>
       {isLoading ? loadingDiv : null }
       {isErrored ? errorDiv : null }
       {!isLoading && !isErrored ? viz : null }
-      <Row className="About-Explainer">
-        Expore further dynames of the gender gap in bibliographic content on Wikipedia
-        with Humaniki and learn how you can contribute to bridge this gap. Compare gender 
-        diversity across Wikipedia language editions, gender by country, and date of birth. 
-      </Row>
     </Container>
   )
 }

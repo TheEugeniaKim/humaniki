@@ -9,9 +9,9 @@ function NavBarComponent ({setNavBar}){
       <Navbar collapseOnSelect bg="light" expand="lg" onSelect={setNavBar}>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav"> 
-          <Navbar.Brand href="/" >
+          <Navbar href="/" >
             <img className="nav-logo" src="./humaniki.png" alt="humaniki-logo"/>
-          </Navbar.Brand>
+          </Navbar>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Nav className="mr-auto" >
             <Nav.Link href="/about">About</Nav.Link>

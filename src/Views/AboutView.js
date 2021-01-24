@@ -1,5 +1,6 @@
 import React from 'react'
 import { Container } from 'react-bootstrap'
+import FAQ from "../Components/FAQ"
 import "../App.css"
 import "../Sk.css"
 
@@ -9,12 +10,14 @@ function AboutView(){
     <Container className="About">
       <div className="About-Content">
         <h3>We create awareness about content diversity in online knowledge spaces </h3>
-        <img 
-          className="about-img"
-          src="./politiciansGenderGap.png" 
-          alt="world leaders walking and talking from the 37th G8 summit" 
-        ></img>        
-        <h5>The World Leaders</h5>
+        <figure>
+          <img 
+            className="about-img"
+            src="./politiciansGenderGap.png" 
+            alt="world leaders walking and talking from the 37th G8 summit" 
+          />
+          <figcaption>World leaders</figcaption>
+        </figure>  
 
         <p>
           WHGI is a project producing a open data set about the gender, date of birth, place of birth, ethnicity, 
@@ -41,12 +44,8 @@ function AboutView(){
           This project started as a personal research interest, and is now funded by a Wikimedia Foundation Grant.
         </p>
 
-        <img 
-          className="about-img"
-          src="./about-view-graphic.png" 
-          alt="world leaders walking and talking from the 37th G8 summit" 
-        ></img> 
       </div>
+      <FAQ />
     </Container>
   )
 }
