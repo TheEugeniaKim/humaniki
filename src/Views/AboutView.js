@@ -1,6 +1,5 @@
 import React from 'react'
 import { Container } from 'react-bootstrap'
-import FAQ from "../Components/FAQ"
 import "../App.css"
 import "../Sk.css"
 
@@ -45,7 +44,6 @@ function AboutView(){
         </p>
 
       </div>
-      <FAQ />
     </Container>
   )
 }

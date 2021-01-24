@@ -7,7 +7,7 @@ import { useAccordionToggle } from 'react-bootstrap/AccordionToggle';
 function FAQ(){
 
   return (
-    <div>
+    <div id="faq">
     	<h2> FAQ </h2>
 		<Accordion defaultActiveKey="0">
 		  <Card>
@@ -48,7 +48,3 @@ function FAQ(){
 }
 
 export default FAQ
-
-    // <Navbar sticky="bottom" className="footer">
-    //   Powered by a grant funded by the Wikimedia Foundation 
-    // </Navbar>

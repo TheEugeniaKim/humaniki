@@ -12,23 +12,26 @@ function Footer(){
  	 			<ul> 
  	 				<li><a href="">About Humaniki</a></li>
  	 				<li><a href="">Humaniki API</a></li>
- 	 				<li><a href="">FAQ</a></li>
+ 	 				<li><a href="">Data it uses</a></li>
+ 	 				<li><a href="https://www.mediawiki.org/wiki/Humaniki/FAQ" target="_blank">FAQ</a></li>
  	 			</ul>
  	 		</section>
  	 		<section>
  	 			<h5> Contributing </h5> 
  	 			<ul> 
- 	 				<li><a href="">Phabricator</a></li>
- 	 				<li><a href="">Github</a></li>
- 	 				<li><a href="">IRC</a></li>
+ 	 				<li><a href="">Contributing guide</a></li>
+ 	 				<li><a href="">Report a bug</a></li>
+ 	 				<li><a href="">Request a Feature</a></li>
+ 	 				
  	 			</ul>
  	 		</section>
  	 		<section>
- 	 			<h5> Others </h5> 
- 	 			<ul> 
- 	 				<li><a href="">Report a bug</a></li>
- 	 				<li><a href="">Request a Feature</a></li>
- 	 				<li><a href="">Follow us on Twitter</a></li>
+ 	 			<h5> Community </h5> 
+  	 			<ul> 
+ 	 				<li><a href="https://phabricator.wikimedia.org/project/profile/4967/" target="_blank">Phabricator</a></li>
+ 	 				<li><a href="">Github</a></li>
+ 	 				<li><a href="">IRC</a></li>
+ 	 				<li><a href="https://twitter.com/humanikiData" target="_blank">Twitter</a></li>
  	 			</ul>
  	 		</section>
 		</div> 

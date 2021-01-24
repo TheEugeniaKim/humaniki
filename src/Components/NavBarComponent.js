@@ -9,9 +9,9 @@ function NavBarComponent ({setNavBar}){
       <Navbar collapseOnSelect bg="light" expand="lg" onSelect={setNavBar}>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav"> 
-          <Navbar href="/" >
+          <Navbar.Brand href="/" >
             <img className="nav-logo" src="./humaniki.png" alt="humaniki-logo"/>
-          </Navbar>
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Nav className="mr-auto" >
             <Nav.Link href="/about">About</Nav.Link>
@@ -22,7 +22,7 @@ function NavBarComponent ({setNavBar}){
               </NavDropdown>
             {/* <Nav.Link  href="/advanced-search">Advanced Search</Nav.Link> */}
             <Nav.Link  href="/combine-search">Combine Search</Nav.Link>
-            <Nav.Link  href="/faq">FAQ</Nav.Link>           
+            <Nav.Link  href="https://www.mediawiki.org/wiki/Humaniki/FAQ" target="_blank">FAQ</Nav.Link>           
           </Nav>
        </Navbar.Collapse>
      </Navbar>
