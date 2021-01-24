@@ -5,7 +5,7 @@ import GenderTable from '../Components/GenderTable'
 import preMapData from '../Components/custom.geo.json'
 import { Col, Row, InputGroup, Form, Container } from 'react-bootstrap'
 import { propTypes } from 'react-bootstrap/esm/Image';
-import { filterMetrics, populations, createColumns, formatDate, errorDiv, loadingDiv } from '../utils.js'
+import { filterMetrics, populations, createColumns, formatDate, errorDiv, loadingDiv, QIDs } from '../utils.js'
 
 import PopulationToggle from "../Components/PopulationToggler";
 import {ValueContainer} from "../Components/LimitedMultiSelect";
@@ -118,16 +118,40 @@ function GenderByCountryView({API, snapshots}){
           }
           preMapData.features[i]["properties"]["total"] = Object.values(metrics[j]["values"]).reduce((a,b) => a + b)
           preMapData.features[i]["properties"]["genders"] = Object.values(meta.bias_labels)
-          preMapData.features[i]["properties"]["text"] = preMapData.features[i]["properties"]["name"]
+          let countryName = preMapData.features[i]["properties"]["name"]
+          let femaleQuantity = 0
+          let maleQuantity = 0
+          let sumOtherQuantity = 0
+          let total = 0 
 
           for (let genderId in meta.bias_labels) {
             let label = meta.bias_labels[genderId]
+            let quant = metrics[j]["values"][genderId] ? metrics[j]["values"][genderId] : 0 
+            if (genderId === QIDs.female){
+              femaleQuantity = quant
+            } else if (genderId === QIDs.male){
+              maleQuantity = quant 
+            } else {
+              sumOtherQuantity += quant
+            }
+            total += quant
             preMapData.features[i]["properties"][label] = metrics[j]["values"][genderId] ? metrics[j]["values"][genderId] : 0 
             preMapData.features[i]["properties"][label + "Percent"] = metrics[j]["values"][genderId] ? (metrics[j]["values"][genderId]/preMapData.features[i]["properties"]["total"])*100 : 0
-            preMapData.features[i]["properties"]["text"] = preMapData.features[i]["properties"]["text"] + `
-            ${label}: ${preMapData.features[i]["properties"][label] ? preMapData.features[i]["properties"][label] : 0} (${preMapData.features[i]["properties"][label + "Percent"].toFixed(3)})%
-            `          
+            // preMapData.features[i]["properties"]["text"] = preMapData.features[i]["properties"]["text"] + `
+            // ${label}: ${preMapData.features[i]["properties"][label] ? preMapData.features[i]["properties"][label] : 0} (${preMapData.features[i]["properties"][label + "Percent"].toFixed(3)})%
+            // `          
           }
+          const textLine1 = `${countryName}\r\n`
+          const textLine2 = `Male: ${maleQuantity} ${maleQuantity/total}\r\n`
+          const textLine3 = `Female: ${femaleQuantity} ${femaleQuantity/total}\r\n`
+          const textLine4 = `∑ Other Genders: ${sumOtherQuantity} ${sumOtherQuantity/total}`
+
+          // preMapData.features[i]["properties"]["text"] = [textLine1, textLine2, textLine3, textLine4].join('')
+          preMapData.features[i]["properties"]["text"] = `${textLine1} 
+          ${textLine2}
+          ${textLine3}
+          ${textLine4}`
+
           break
         }
       }

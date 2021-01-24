@@ -1,5 +1,6 @@
 import React from 'react'
 import { textFilter } from 'react-bootstrap-table2-filter'
+import Form from 'react-bootstrap/Form'
 //gender color map see single bar chart a
 export const colors = ["#BC8F00","#6200F8","#00BCA1"]
 
@@ -122,4 +123,3 @@ export function createColumns(meta, metrics, indexColTitle, gapCol=null ){
     
   return columns 
 }
-
