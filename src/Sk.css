@@ -11,26 +11,45 @@
 	padding: 2px 24px 27px 24px;
 }
 
-.flex-container {
+footer {
+	background-color: #3B3B3B;
+  	color: #AAAAAA;
+  	border: none;
+}
+
+.footer-container {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-	justify-content: space-around;
-	background-color: #73777C;
-	color: #fff;
+	justify-content: flex-end;
 	text-align: left;
 	padding: 1.5rem;
 }
 
-.flex-container a{
-	color: #fff;
+.footer-container a{
+	color: #AAAAAA;
 }
 
-.flex-container ul{
+.footer-container ul{
 	list-style: none;
 	padding: 0;
 	margin: 0;
 }
+
+.list-container {
+	padding: 0.5rem;
+	margin-right: 3rem;
+}
+
+.footer-copyright {
+	background-color: #2F2F2F;
+	padding: 1rem;
+}
+
+.footer-copyright p {
+	margin: 0;
+}
+
 /* 
 in world map component every country has .country + .unSelectedCountry and when filter selects then .country + .selectedCountry
 every country is selected by default until there are filter selections 
@@ -48,13 +67,4 @@ every country is selected by default until there are filter selections
     fill-opacity: 10%;
 }
 
-.footer-text {
-	background-color: #5B5F63;
-	color: #fff;
-	padding: 1rem;
-}
-
-.footer-text p {
-	margin: 0;
-}
 
