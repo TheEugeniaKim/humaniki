@@ -7,7 +7,6 @@ function NavBarComponent ({setNavBar}){
   return (
     <React.Fragment>
       <Navbar collapseOnSelect bg="light" expand="lg" onSelect={setNavBar}>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav"> 
           <Navbar.Brand href="/" >
             <img className="nav-logo" src="./humaniki.png" alt="humaniki-logo"/>
@@ -20,7 +19,6 @@ function NavBarComponent ({setNavBar}){
                 <NavDropdown.Item href="/gender-by-dob" >Gender By Date of Birth</NavDropdown.Item>
                 <NavDropdown.Item href="/gender-by-language" >Gender By Language</NavDropdown.Item>
               </NavDropdown>
-            {/* <Nav.Link  href="/advanced-search">Advanced Search</Nav.Link> */}
             <Nav.Link  href="/combine-search">Combine Search</Nav.Link>
             <Nav.Link  href="/faq">FAQ</Nav.Link>           
           </Nav>
