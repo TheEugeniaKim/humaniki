@@ -147,7 +147,8 @@ function GenderByCountryView({API, snapshots}){
           const textLine4 = `∑ Other Genders: ${sumOtherQuantity} ${sumOtherQuantity/total}`
 
           // preMapData.features[i]["properties"]["text"] = [textLine1, textLine2, textLine3, textLine4].join('')
-          preMapData.features[i]["properties"]["text"] = `${textLine1} 
+          preMapData.features[i]["properties"]["text"] = `
+          ${textLine1} 
           ${textLine2}
           ${textLine3}
           ${textLine4}`
