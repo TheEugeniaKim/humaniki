@@ -136,23 +136,15 @@ function GenderByCountryView({API, snapshots}){
             }
             total += quant
             preMapData.features[i]["properties"][label] = metrics[j]["values"][genderId] ? metrics[j]["values"][genderId] : 0 
-            preMapData.features[i]["properties"][label + "Percent"] = metrics[j]["values"][genderId] ? (metrics[j]["values"][genderId]/preMapData.features[i]["properties"]["total"])*100 : 0
-            // preMapData.features[i]["properties"]["text"] = preMapData.features[i]["properties"]["text"] + `
-            // ${label}: ${preMapData.features[i]["properties"][label] ? preMapData.features[i]["properties"][label] : 0} (${preMapData.features[i]["properties"][label + "Percent"].toFixed(3)})%
-            // `          
+            preMapData.features[i]["properties"][label + "Percent"] = metrics[j]["values"][genderId] ? ((metrics[j]["values"][genderId]/preMapData.features[i]["properties"]["total"])*100).toFixed(3) : 0       
           }
-          const textLine1 = `${countryName}\r\n`
-          const textLine2 = `Male: ${maleQuantity} ${maleQuantity/total}\r\n`
-          const textLine3 = `Female: ${femaleQuantity} ${femaleQuantity/total}\r\n`
-          const textLine4 = `∑ Other Genders: ${sumOtherQuantity} ${sumOtherQuantity/total}`
-
-          // preMapData.features[i]["properties"]["text"] = [textLine1, textLine2, textLine3, textLine4].join('')
+          console.log("variables", femaleQuantity, maleQuantity, sumOtherQuantity)
           preMapData.features[i]["properties"]["text"] = `
-          ${textLine1} 
-          ${textLine2}
-          ${textLine3}
-          ${textLine4}`
-
+            ${countryName}:
+            Male: ${femaleQuantity/total*100}%
+            Female: ${maleQuantity/total*100}%
+            ∑ Other Genders: ${sumOtherQuantity/total*100}% 
+          `
           break
         }
       }

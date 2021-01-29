@@ -6,7 +6,6 @@ function WorldMap({ mapData, property, extrema, genders }) {
   const svgRef = useRef();
   const wrapperRef = useRef();
   const dimensions = useResizeObserver(wrapperRef);
-  const [clickedCountry, setClickedCountry] = useState(null);
 
   // will be called initially and on every data change
   useEffect(() => {
@@ -46,7 +45,7 @@ function WorldMap({ mapData, property, extrema, genders }) {
             `${value.properties.name}: 
             Male: ${value.properties.malePercent}%
             Female: ${value.properties.femalePercent}%
-            ∑ Other Genders: ${value.properties.sumOtherGendersPercent ? value.properties.sumOtherGendersPercent : null}%
+            ∑ Other Genders: ${value.properties.sumOtherGendersPercent ? value.properties.sumOtherGendersPercent : 0}%
             `
           : 
             value.properties.name
