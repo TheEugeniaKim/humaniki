@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { select, geoPath, geoMercator, min, max, scaleLog, zoom, scaleSequential, interpolatePurples} from "d3";
+import { select, geoPath, geoMercator, min, max, scaleLog, scaleLinear, zoom, scaleSequential, interpolatePurples} from "d3";
 import useResizeObserver from "./useResizeObserver";
 
 function WorldMap({ mapData, property, extrema, genders }) {
@@ -12,7 +12,6 @@ function WorldMap({ mapData, property, extrema, genders }) {
     if (!mapData) return
     if (!property) return
     if (!extrema) return
-    console.log("property", property)
     const svg = select(svgRef.current);
     const g = svg.select(".countries")
     // const l = svg.select(".label")  
@@ -28,10 +27,11 @@ function WorldMap({ mapData, property, extrema, genders }) {
       const minProp = min(propertyValues)
       const maxProp = max(propertyValues)
       console.log("MIN MAX", minProp, maxProp)
-      const logScale = scaleLog().domain([0.0001, maxProp]).range("grey", "purple")
-      const colorScale = scaleSequential(
-        (d) => interpolatePurples(logScale(d))
-      )   
+      // const logScale = scaleLog().domain([.001, maxProp]).range(["#C4C4C4", "#6200F8"])
+      // const colorScale = scaleSequential(
+      //   (d) => interpolatePurples(logScale(d))
+      // ) 
+      const colorScale = scaleLinear().domain([minProp, maxProp]).range(["#C4C4C4", "#6200F8"])
 
       g
         .selectAll(".country")
@@ -50,7 +50,6 @@ function WorldMap({ mapData, property, extrema, genders }) {
           : 
             value.properties.name
           )
-        .attr("fill", colorScale)
 
       svg.call(zoom().on("zoom", (event) => {
         g.attr('transform', event.transform)
