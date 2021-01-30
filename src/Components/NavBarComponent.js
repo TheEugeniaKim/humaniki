@@ -20,7 +20,6 @@ function NavBarComponent ({setNavBar}){
                 <NavDropdown.Item href="/gender-by-dob" >Gender By Date of Birth</NavDropdown.Item>
                 <NavDropdown.Item href="/gender-by-language" >Gender By Language</NavDropdown.Item>
               </NavDropdown>
-            {/* <Nav.Link  href="/advanced-search">Advanced Search</Nav.Link> */}
             <Nav.Link  href="/combine-search">Combine Search</Nav.Link>
             <Nav.Link  href="https://www.mediawiki.org/wiki/Humaniki/FAQ" target="_blank">FAQ</Nav.Link>           
           </Nav>

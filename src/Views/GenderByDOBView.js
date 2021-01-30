@@ -36,7 +36,7 @@ function GenderByDOBView({ API, snapshots }) {
   const [genderMap, setGenderMap] = useState({});
   const [lineData, setLineData] = useState([]);
   const [tableMetaData, setTableMetaData] = useState({});
-  const [tableColumns, setTableColumns] = useState([]);
+  const [tableColumns, setTableColumns] = useState([{}]);
   const [tableArr, setTableArr] = useState([]);
   const [graphGenders, setGraphGenders] = useState({});
   const [yearStart, setYearStart] = useState(1600);

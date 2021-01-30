@@ -34,20 +34,27 @@ svg {
 .svg-chart {
   background-color: #C4C4C4;
   float: left;
-  width: 90%;
-  border: 1px solid;
+  width: 100%;
+  margin-bottom: 15%;
+  overflow: visible;
+
 }
 
 .svg-scatter {
   background-color: #C4C4C4;
   float: left;
-  width: 90%;
-  border: 1px solid;
-  
+  width: 100%;
+  overflow: visible;
+  margin-bottom: 15%;
 }
+
 .svg-single-bar{
   height: 25%;
   padding: .25rem;
+}
+
+.axis-label{
+  overflow: visible;
 }
 
 .input-wrapper {
