@@ -301,7 +301,10 @@ function GenderByCountryView({ API, snapshots }) {
         <Col sm={4}>
           {snapshotsDropdownOptions}
           <h6>Gender:</h6>
-          <Select options={genders} onChange={(e) => setProperty(e.value)} />
+          <Select 
+            options={genders} onChange={(e) => setProperty(e.value)} 
+            placeholder={"female"} 
+          />
           <h6>Countries: </h6>
           <Select
             options={[{ label: "All", value: "*" }, ...allCountries]}
