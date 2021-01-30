@@ -3,7 +3,7 @@ import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 import { toast } from 'react-toastify'
 
-function MyVerticallyCenteredModal({
+function ModalComponent({
   columns,
   onColumnToggle,
   toggles, 
@@ -60,4 +60,4 @@ function MyVerticallyCenteredModal({
   );
 }
 
-export default Modal 
+export default ModalComponent
