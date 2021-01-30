@@ -7,6 +7,77 @@
     border-style: solid;
 }
 
+/* Navbar begin */
+nav.navbar {
+	border: solid #AAAAAA;
+    border-width: 0 0 1px 0;
+}
+
+.nav-logo {
+  width: 100px;
+}
+nav.navbar .mr-auto {
+    padding-left: 64%;
+    padding-bottom: 0px;
+}
+
+
+
+/* Navbar end */
+
+
+/* App.css begin */
+.default{
+  background: #808080;
+  color: white;
+  text-align: center;
+
+}
+
+.default-content{
+  display: block;
+}
+.default-title{
+  margin: 2rem;
+}
+
+.default-data-container{
+  background-color: white;
+  color: black;
+  width: 58%;
+  height: 20%;
+  margin-left: 20%;
+  margin-top: 2%;
+  justify-content: center;
+}
+
+.default-svg{
+  z-index: 3;
+  height: 15vh;
+  padding: 1rem;
+}
+
+/* App.css end */
+
+.default.container {
+	margin: 0;
+}
+
+.default-title {
+	margin: 0;
+}
+
+.default-content {
+	padding-top: 3rem;
+	text-align: center;
+}
+
+.default-content h6 {
+	padding-top: 0.7rem;
+	
+}
+
+
 .About {
 	padding: 2px 24px 27px 24px;
 }
@@ -14,7 +85,7 @@
 footer {
 	background-color: #3B3B3B;
   	color: #AAAAAA;
-  	border: none;
+  	border: none; 
 }
 
 .footer-container {
@@ -68,3 +139,14 @@ every country is selected by default until there are filter selections
 }
 
 
+@media (min-width: 1200px) {
+.container, .container-lg, .container-md, .container-sm, .container-xl {
+    max-width: 1170px;
+}
+}
+
+@media (min-width: 992px) {
+	.navbar-expand-lg .navbar-nav .nav-link {
+	    padding-bottom: 0rem;
+	}
+}

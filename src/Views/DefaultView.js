@@ -5,6 +5,7 @@ import SingleBarChart from '../Components/SingleBarChart'
 import "../App.css"
 import "../Sk.css"
 import { colors } from '../utils'
+import scatterplotLogo from "../assets/scatterplotButton.png"
 
 function DefaultView({API}){
   const svgRef = useRef()
@@ -77,14 +78,15 @@ function DefaultView({API}){
   return (
     <Container className="default">
       <Row className="default-content">
-        <h3 className="default-title">Humaniki provides statistics about the gender gap in the content of all Wikimedia projects</h3>
-        <h5>
+        <h4 className="default-title">Humaniki provides statistics about the gender gap in the content of all Wikimedia projects</h4>
+        <h6>
           For example, as of August 2020, only 17% of content in all Wikimedia projects including biographies on Wikipedia are about women.
-        </h5>
+        </h6>
       </Row>
       {isLoading ? loadingDiv : null }
       {isErrored ? errorDiv : null }
       {!isLoading && !isErrored ? viz : null }
+      <img className="nav-logo" src={scatterplotLogo} alt="humaniki-logo"/>
     </Container>
   )
 }

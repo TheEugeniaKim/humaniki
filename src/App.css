@@ -118,38 +118,6 @@ svg {
   margin-bottom: 5rem;
 }
 
-.default{
-  margin-top: 2rem;
-  margin-bottom: 5rem;  
-  background: #808080;
-  color: white;
-  text-align: center;
-
-}
-
-.default-content{
-  display: block;
-}
-.default-title{
-  margin: 2rem;
-}
-
-.default-data-container{
-  background-color: white;
-  color: black;
-  width: 58%;
-  height: 20%;
-  margin-left: 20%;
-  margin-top: 2%;
-  justify-content: center;
-}
-
-.default-svg{
-  z-index: 3;
-  height: 15vh;
-  padding: 1rem;
-}
-
 .show>.dropdown-menu {
   display: block;
 }
