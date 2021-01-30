@@ -48,7 +48,9 @@ function WorldMap({ mapData, property, extrema, genders }) {
             ∑ Other Genders: ${value.properties.sumOtherGendersPercent ? value.properties.sumOtherGendersPercent : 0}%
             `
           : 
-            value.properties.name
+            `${value.properties.name}
+            (No Data Available)
+            `
           )
 
       svg.call(zoom().on("zoom", (event) => {

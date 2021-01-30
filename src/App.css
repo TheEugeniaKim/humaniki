@@ -98,7 +98,8 @@ svg {
   stroke-width: 0.05px;
 }
 .country:hover {
-  fill: #6200F8;
+  stroke: black;
+  stroke-width: 0.5px;
 }
 
 .label {
