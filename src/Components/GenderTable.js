@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
-import Modal from '../Components/Modal';
+import ModalComponent from '../Components/ModalComponent';
 import BootstrapTable from "react-bootstrap-table-next";
 import "react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css";
 import ToolkitProvider from "react-bootstrap-table2-toolkit";
@@ -40,7 +40,7 @@ function GenderTable({ tableColumns, tableArr }) {
                 Other Genders Breakdown
               </Button> 
 
-              <Modal
+              <ModalComponent
                 show={modalShow}
                 onHide={() => setModalShow(false)}
                 {...props.columnToggleProps}
