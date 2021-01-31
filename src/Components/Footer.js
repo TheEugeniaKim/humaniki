@@ -20,7 +20,6 @@ function Footer(){
  	 				<li><a href="">Contributing guide</a></li>
  	 				<li><a href="">Report a bug</a></li>
  	 				<li><a href="">Request a Feature</a></li>
- 	 				
  	 			</ul>
  	 		</div>
  	 		<div className="list-container list-community">

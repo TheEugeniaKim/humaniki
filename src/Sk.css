@@ -20,35 +20,47 @@ nav.navbar .mr-auto {
     padding-left: 64%;
     padding-bottom: 0px;
 }
-
-
-
 /* Navbar end */
 
 
-/* App.css begin */
+/* Default-main begin */
 .default{
   background: #808080;
   color: white;
   text-align: center;
+  background: linear-gradient(180deg, #808080 60%, #FFF 40%);
+}
 
+.default.container {
+	margin: 0;
 }
 
 .default-content{
   display: block;
-}
-.default-title{
-  margin: 2rem;
+  padding-top: 3rem;
+  text-align: center;
 }
 
-.default-data-container{
-  background-color: white;
-  color: black;
-  width: 58%;
-  height: 20%;
-  margin-left: 20%;
-  margin-top: 2%;
-  justify-content: center;
+.default-content h6 {
+	padding-top: 0.7rem;	
+}
+
+.default-title{
+  margin: 0;
+}
+
+.default-data-container {
+    background-color: white;
+    color: black;
+    height: 20%;
+    margin: 2rem 10rem 0 10rem;
+    box-shadow: 5px 10px 18px #888888;
+    padding: 1.5rem;
+}
+
+.default-data-container p {
+    text-align: right;
+    margin: 0;
 }
 
 .default-svg{
@@ -57,26 +69,20 @@ nav.navbar .mr-auto {
   padding: 1rem;
 }
 
-/* App.css end */
-
-.default.container {
-	margin: 0;
+.svg-single-bar{
+  height: 3rem;
 }
 
-.default-title {
-	margin: 0;
-}
-
-.default-content {
-	padding-top: 3rem;
+.list-gender-gap {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-around;
 	text-align: center;
+	padding: 1rem 1rem 0.5rem 1rem;
 }
 
-.default-content h6 {
-	padding-top: 0.7rem;
-	
-}
-
+/* Default-main end */
 
 .About {
 	padding: 2px 24px 27px 24px;

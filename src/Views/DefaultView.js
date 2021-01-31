@@ -64,30 +64,49 @@ function DefaultView({API}){
   const loadingDiv = <div>Loading</div>
   const viz = 
     <div className="default-data-container">
-      <h4> Recent Distribution of Articles </h4>
-        <h3> {totalMen} Male Biographies </h3>
-        <h3> {totalOthers} Σ Other Biographies </h3>
-        <h3> {totalWomen} Female Biographies </h3>
+      <h5> Global Gender Gap </h5>
+      <h6> Disctrribution of content of humans in all Wikimedia Projects </h6>
+      <div className="list-gender-gap">
+        <div className = "col-male">
+          <h4> {totalMen} </h4>
+          <h6> Male Biographies </h6>
+        </div>
+        <div className = "col-gender">
+          <h4> {totalOthers} </h4>
+          <h6> Σ(sum) Other Biographies </h6>
+        </div>
+        <div className = "col-gender">
+          <h4> {totalWomen} </h4>
+          <h6> Female Biographies </h6>
+        </div>
+      </div>
       <SingleBarChart genderTotals={[
         (totalMen/total*100), 
         (totalOthers/total*100), 
         (totalWomen/total*100)
       ]} />
+      <p>All time, as of Aug'20</p>
     </div>
 
   return (
-    <Container className="default">
-      <Row className="default-content">
-        <h4 className="default-title">Humaniki provides statistics about the gender gap in the content of all Wikimedia projects</h4>
-        <h6>
-          For example, as of August 2020, only 17% of content in all Wikimedia projects including biographies on Wikipedia are about women.
-        </h6>
-      </Row>
-      {isLoading ? loadingDiv : null }
-      {isErrored ? errorDiv : null }
-      {!isLoading && !isErrored ? viz : null }
-      <img className="nav-logo" src={scatterplotLogo} alt="humaniki-logo"/>
-    </Container>
+    <div className="default-main">
+      <Container className="default">
+        <Row className="default-content">
+          <h4 className="default-title">Humaniki provides statistics about the gender gap in the content of all Wikimedia projects</h4>
+          <h6>
+            For example, as of August 2020, only 17% of content in all Wikimedia projects including biographies on Wikipedia are about women.
+          </h6>
+        </Row>
+        {isLoading ? loadingDiv : null }
+        {isErrored ? errorDiv : null }
+        {!isLoading && !isErrored ? viz : null }
+      </Container>
+      <div className="visualization-collection">
+        <img className="nav-logo" src={scatterplotLogo} alt="humaniki-logo"/>
+      </div>
+      <div className="combine-search-explore">
+      </div>
+    </div>
   )
 }
 
