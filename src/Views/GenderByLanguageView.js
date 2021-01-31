@@ -4,7 +4,7 @@ import Select from 'react-select'
 
 import GenderTable from '../Components/GenderTable'
 import ScatterPlot from '../Components/ScatterPlot'
-import { createColumns, filterMetrics, formatDate, errorDiv, loadingDiv } from '../utils'
+import { createColumns, filterMetrics, formatDate, errorDiv, loadingDiv, QIDs, keyFields } from '../utils'
 
 import PopulationToggle from "../Components/PopulationToggler";
 import {ValueContainer} from "../Components/LimitedMultiSelect";
@@ -48,7 +48,7 @@ function GenderByLanguageView({API, snapshots}){
         let label = meta.bias_labels[genderId]
         tableObj[label] = obj["values"][genderId] ? obj["values"][genderId] : 0
         tableObj[label + "Percent"] = obj["values"][genderId] ? (obj["values"][genderId]/tableObj["total"])*100 : 0
-        if (genderId !=="6581097" && genderId !=="6581072"){
+        if (genderId !==QIDs.male && genderId !==QIDs.female){
           tableObj.sumOtherGenders += obj["values"][genderId] ? obj["values"][genderId] : 0
         }
       }
@@ -74,9 +74,6 @@ function GenderByLanguageView({API, snapshots}){
   }
 
   function filterAndCreateVizAndTable(meta, metrics){
-    console.log("IN FILTER AND CREATE VIZ", allProjects)
-    // const projectFilterFn = makeProjectFilterFn()
-
     const projectFilterFn = selectedProjects ? makeProjectFilterFn(selectedProjects) : (metric) => true
     const filteredMetrics = filterMetrics(metrics, projectFilterFn)
     setTableColumns(createColumns(meta, filteredMetrics, "language"))
@@ -122,7 +119,6 @@ function GenderByLanguageView({API, snapshots}){
 // ReFilter useEffect: 
   useEffect(() => {
     if (allMeta && allMetrics){
-      console.log("IN reFilterUseEffect!! SUCCESS")
       filterAndCreateVizAndTable(allMeta, allMetrics)
     }
   }, [selectedProjects])
@@ -196,7 +192,8 @@ function GenderByLanguageView({API, snapshots}){
           <GenderTable 
             tableArr={tableArr} 
             tableColumns={tableColumns} 
-        /> 
+            keyField={keyFields.language}
+          /> 
         </div>
         <br/>
         <br/>

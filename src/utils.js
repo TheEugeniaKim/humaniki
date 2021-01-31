@@ -16,6 +16,13 @@ export const QIDs = {
   male: "6581097"
 }
 
+export const keyFields = {
+  dob: "year",
+  language: "language",
+  country: "country",
+  search: "index"
+}
+
 export const baseURL = process.env.REACT_APP_API_URL
 
 export const errorDiv = <div>Error</div>

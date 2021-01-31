@@ -7,27 +7,31 @@ import ToolkitProvider from "react-bootstrap-table2-toolkit";
 import filterFactory, { afterFilter } from "react-bootstrap-table2-filter";
 import paginationFactory from "react-bootstrap-table2-paginator";
 
-function GenderTable({ tableColumns, tableArr }) {
+function GenderTable({ tableColumns, tableArr, keyField }) {
   const [showExpandGenders, setShowExpandGenders] = useState(false);
   const [modalShow, setModalShow] = useState(false)
   const [myToggles, setMyToggles] = useState({"male": true})
 
   useEffect(() => {
-    const visibleColumnsDefault = {}
-    for (let colObj of tableColumns){
-      visibleColumnsDefault[colObj.dataField] = !colObj.hidden
+    if (!tableColumns) {
+     return 
+    } else {
+      const visibleColumnsDefault = {}
+      for (let colObj of tableColumns){
+        visibleColumnsDefault[colObj.dataField] = !colObj.hidden
+      }
+      setMyToggles(visibleColumnsDefault)
     }
-    setMyToggles(visibleColumnsDefault)
   }, [tableColumns])   
 
   function handleGenderExpandClick(event) {
     setShowExpandGenders(!showExpandGenders);
   }
 
-  if (tableColumns.length>0 ){
+  if (tableArr && tableColumns){
     return (
       <ToolkitProvider
-        keyField="year"
+        keyField={keyField}
         data={tableArr}
         columns={tableColumns}
         columnToggle

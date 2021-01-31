@@ -30,13 +30,14 @@ function LineChart({lineData, graphGenders, extrema, genderMap, graphGenderFilte
   const yAxisLabel = "Number of Biographies and Other Content"
 
   useEffect(() => {
-    if ( lineData.length === 0 || Object.keys(genderMap).length === 0 || Object.keys(extrema).length === 0 || !dimensions  ) {
+    if ( lineData.length === 0 || Object.keys(genderMap).length === 0 || Object.keys(extrema).length === 0 || !dimensions ) {
       // console.log("UNDEFINED AND RETURNING", !stateDimensions)
       return
     } 
     setStateDimensions(dimensions)
     console.log("dimensions:", dimensions)
-    console.log("Line Data", lineData)
+    console.log("stateDimensions", stateDimensions)
+    // console.log("Line Data", lineData)
     const genderNums = genderMap ? Object.keys(genderMap).map(str => parseInt(str)) : []
     lineData.forEach(genderLine => sortGenderLine(genderLine))
 
@@ -47,6 +48,10 @@ function LineChart({lineData, graphGenders, extrema, genderMap, graphGenderFilte
     }
     
     const svg = select(svgRef.current)
+
+    const width = +svg.attr('width');
+    const height = +svg.attr('height');
+    console.log("width:", width, "height", height)
     const legend = select(".legend")
     const genderLineMaximums = lineData.map(genderLine => 
       Math.max(...genderLine.values.map(tuple => tuple.value))
@@ -168,25 +173,30 @@ function LineChart({lineData, graphGenders, extrema, genderMap, graphGenderFilte
     <React.Fragment>
       <div className="wrapper" ref={wrapperRef} >
         <svg ref={svgRef} className="svg-chart" >
-          <g className="x-axis"  />
-            <text
+          <g className="x-axis" />
+          <g className="x-axis-title" />
+            <text className="x-axis-title-text"></text>
+
+            {/* <text
               className="axis-label"
-              x={stateDimensions.width / 2}
-              y={stateDimensions.height + 50}
+              x={650 / 2}
+              y={350 + 50}
               textAnchor="middle"
             >
               {xAxisLabel}
-            </text>
+            </text> */}
           <g className="y-axis" />
-            <text
+          <g className="y-axis-title" />
+            <text className="y-axis-title-text"></text>
+            {/* <text
               className="axis-label"
               textAnchor="middle"
               transform={`translate(${-50}, 
-              ${stateDimensions.height / 2}) rotate(-90)`}
+              ${350 / 2}) rotate(-90)`}
               style={{marginBottom:"20px"}}
             >
               {yAxisLabel}
-            </text>
+            </text> */}
           <g className="legend" />
         </svg>
       </div>

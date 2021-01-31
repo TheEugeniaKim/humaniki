@@ -19,7 +19,8 @@ import {
   percentFormatter, 
   errorDiv, 
   loadingDiv,
-  QIDs
+  QIDs,
+  keyFields
 } from "../utils";
 import { toast } from "react-toastify";
 
@@ -227,7 +228,7 @@ function GenderByDOBView({ API, snapshots }) {
     setGenderMap(meta.bias_labels);
     setGraphGenders(Object.values(meta.bias_labels));
     setLineData(createLineData(meta, filteredMetrics));
-    setTableColumns(createColumns(meta, filteredMetrics, "year"));
+    setTableColumns(createColumns(meta, filteredMetrics, keyFields.dob));
   }
 
   function processData(err, data) {
@@ -360,8 +361,8 @@ function GenderByDOBView({ API, snapshots }) {
         <GenderTable 
           tableArr={tableArr} 
           tableColumns={tableColumns} 
-
-        /> 
+          keyField={keyFields.dob}
+        />
       </Row>
     </div>
   );

@@ -13,6 +13,8 @@ import {
   errorDiv,
   loadingDiv,
   QIDs,
+  keyFields,
+  genderColorsMap
 } from "../utils.js";
 
 import PopulationToggle from "../Components/PopulationToggler";
@@ -318,7 +320,11 @@ function GenderByCountryView({ API, snapshots }) {
       <div className="table-container">
         {isLoading ? loadingDiv : null}
         {isErrored ? errorDiv : null}
-        <GenderTable tableArr={tableArr} tableColumns={tableColumns} />
+        <GenderTable 
+          tableArr={tableArr} 
+          tableColumns={tableColumns} 
+          keyField={keyFields.country}
+        />
       </div>
     </div>
   );
