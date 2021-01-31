@@ -2,7 +2,9 @@ import React from 'react'
 import { textFilter } from 'react-bootstrap-table2-filter'
 import Form from 'react-bootstrap/Form'
 //gender color map see single bar chart a
-export const colors = ["#BC8F00","#6200F8","#00BCA1"]
+export const colors = ["#517FC1","#FAD965","#F19359"]
+
+export const genderColorsMap = {male: "#517FC1", female: "#F19359", sumOtherGenders: "#FAD965"}
 
 export const populations = {
   ALL_WIKIDATA: "all_wikidata",
