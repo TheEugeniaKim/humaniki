@@ -7,8 +7,137 @@
     border-style: solid;
 }
 
+/* Navbar begin */
+nav.navbar {
+	border: solid #AAAAAA;
+    border-width: 0 0 1px 0;
+}
+
+.nav-logo {
+  width: 100px;
+}
+nav.navbar .mr-auto {
+    padding-left: 64%;
+    padding-bottom: 0px;
+}
+/* Navbar end */
+
+
+/* Default-main begin */
+.default{
+  background: #808080;
+  color: white;
+  text-align: center;
+  background: linear-gradient(180deg, #808080 70%, #F5F5F5 40%);
+ }
+
+.visualization-collection {
+	background-color: #F5F5F5;
+}
+
+.default.container {
+	margin: 0;
+}
+
+.default-content{
+  display: block;
+  padding: 3rem 1rem 0rem 1rem;
+  text-align: center;
+}
+
+.default-content h6 {
+	padding-top: 0.7rem;
+}
+
+.default-title{
+  margin: 0;
+}
+
+.default-data-container {
+    background-color: white;
+    color: black;
+    height: 20%;
+    margin: 2rem 10rem 0 10rem;
+    box-shadow: 5px 10px 18px #888888;
+    padding: 1.5rem;
+}
+
+.default-data-container p {
+    text-align: right;
+    margin: 0;
+}
+
+.default-svg{
+  z-index: 3;
+  height: 15vh;
+  padding: 1rem;
+}
+
+.svg-single-bar{
+  height: 3rem;
+}
+
+.list-gender-gap {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	text-align: center;
+	padding: 1rem 1rem 0.5rem 1rem;
+}
+
+/* Default-main end */
+
+
+/* Visualization-view Container begin*/
+
+.view-container {
+	padding: 2rem;
+  	margin-bottom: 5rem;
+}
+/* Visualization-view Container end*/
+
 .About {
 	padding: 2px 24px 27px 24px;
+}
+
+footer {
+	background-color: #3B3B3B;
+  	color: #AAAAAA;
+  	border: none; 
+}
+
+.footer-container {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+	text-align: left;
+	padding: 1.5rem;
+}
+
+.footer-container a{
+	color: #AAAAAA;
+}
+
+.footer-container ul{
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.list-container {
+	padding: 0.5rem;
+	margin-right: 3rem;
+}
+
+.footer-copyright {
+	background-color: #2F2F2F;
+	padding: 1rem;
+}
+
+.footer-copyright p {
+	margin: 0;
 }
 
 /* 
@@ -28,3 +157,26 @@ every country is selected by default until there are filter selections
     fill-opacity: 10%;
 }
 
+
+@media (min-width: 1200px) {
+.container, .container-lg, .container-md, .container-sm, .container-xl {
+    max-width: 1170px;
+    padding: 0px;
+}
+}
+
+@media (min-width: 992px) {
+	.navbar-expand-lg .navbar-nav .nav-link {
+	    padding-bottom: 0rem;
+	}
+}
+
+@media (max-width: 1200px) {
+	.container, .container-lg, .container-md, .container-sm, .container-xl {
+    	padding: 0px;
+	}
+	.default-data-container {
+    margin: 2rem 1rem 0 1rem;
+    padding: 1rem;
+}
+}

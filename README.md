@@ -8,3 +8,4 @@ In the project directory, you can run:
 
 ### `npm start`
 
+If on Windows, run `call env.bat` to set environment variables 

@@ -5,6 +5,7 @@ import SingleBarChart from '../Components/SingleBarChart'
 import "../App.css"
 import "../Sk.css"
 import { colors } from '../utils'
+import scatterplotLogo from "../assets/scatterplotButton.png"
 
 function DefaultView({API}){
   const svgRef = useRef()
@@ -22,6 +23,7 @@ function DefaultView({API}){
       setIsErrored(true)
     }
     else{
+      console.log(data)
       setTotal(Object.values(data.metrics[0].values).reduce((a,b) => a+b))
       let totalMen = data.metrics[0].values["6581097"]
       let totalWomen = data.metrics[0].values["6581072"]
@@ -62,36 +64,49 @@ function DefaultView({API}){
   const loadingDiv = <div>Loading</div>
   const viz = 
     <div className="default-data-container">
-      <h4> Recent Distribution of Articles </h4>
-        <h3> {totalMen} Male Biographies </h3>
-        <h3> {totalOthers} Σ Other Biographies </h3>
-        <h3> {totalWomen} Female Biographies </h3>
+      <h5> Global Gender Gap </h5>
+      <h6> Distribution of content of humans in all Wikimedia Projects </h6>
+      <div className="list-gender-gap">
+        <div className = "col-male">
+          <h4> {totalMen} </h4>
+          <h6> Male Biographies </h6>
+        </div>
+        <div className = "col-gender">
+          <h4> {totalOthers} </h4>
+          <h6> Σ Other Biographies (sum) </h6>
+        </div>
+        <div className = "col-gender">
+          <h4> {totalWomen} </h4>
+          <h6> Female Biographies </h6>
+        </div>
+      </div>
       <SingleBarChart genderTotals={[
         (totalMen/total*100), 
         (totalOthers/total*100), 
         (totalWomen/total*100)
       ]} />
+      <p>All time, as of LATEST SNAPSHOT DATE Month Year</p>
     </div>
 
   return (
-    <Container className="default">
-      <Row className="default-content">
-        <h3 className="default-title">Explore Gender Diversity on Wikipedia Biographies with humaniki </h3>
-        <h5>
-          Humaniki is a project producing a open data set about the gender, 
-          date of birth, place of birth, occupation, and language of biography articles 
-          in all Wikipedias.
-        </h5>
-      </Row>
-      {isLoading ? loadingDiv : null }
-      {isErrored ? errorDiv : null }
-      {!isLoading && !isErrored ? viz : null }
-      <Row className="About-Explainer">
-        Expore further dynames of the gender gap in bibliographic content on Wikipedia
-        with Humaniki and learn how you can contribute to bridge this gap. Compare gender 
-        diversity across Wikipedia language editions, gender by country, and date of birth. 
-      </Row>
-    </Container>
+    <div className="default-main">
+      <div className="default">
+        <Row className="default-content">
+          <h4 className="default-title">Humaniki provides statistics about the gender gap in the content of all Wikimedia projects</h4>
+          <h6>
+            For example, as of LATEST SNAPSHOT Month Year, only LATEST TOTAL COVERAGE % of content in all Wikimedia projects including biographies on Wikipedia are about women.
+          </h6>
+        </Row>
+        {isLoading ? loadingDiv : null }
+        {isErrored ? errorDiv : null }
+        {!isLoading && !isErrored ? viz : null }
+      </div>
+      <div className="visualization-collection">
+        <img className="nav-logo" src={scatterplotLogo} alt="humaniki-logo"/>
+      </div>
+      <div className="combine-search-explore">
+      </div>
+    </div>
   )
 }
 

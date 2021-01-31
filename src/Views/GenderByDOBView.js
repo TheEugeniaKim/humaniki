@@ -312,7 +312,7 @@ function GenderByDOBView({ API, snapshots }) {
   );
 
   return (
-    <Container className="view-container">
+    <div className="view-container">
         <h1>Gender Gap By Year of Birth</h1>
         <PopulationToggle handleToggle={handleHumanChange} />
         <h5>
@@ -363,7 +363,7 @@ function GenderByDOBView({ API, snapshots }) {
 
         /> 
       </Row>
-    </Container>
+    </div>
   );
 }
 

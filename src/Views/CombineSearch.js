@@ -140,7 +140,7 @@ function CombineSearch({API, snapshots}){
 
   console.log("pop", population)
   return(
-    <Container className="view-container">
+    <div className="view-container">
       <h2>Explore multiple data categories</h2>
       <PopulationToggle handleToggle={handleHumanChange}/>
       <h4>Explore Search</h4>
@@ -165,7 +165,7 @@ function CombineSearch({API, snapshots}){
         />
       </div>
 
-    </Container>
+    </div>
   )
 }
 

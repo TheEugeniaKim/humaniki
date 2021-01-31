@@ -273,7 +273,7 @@ function GenderByCountryView({ API, snapshots }) {
   );
 
   return (
-    <Container className="view-container">
+    <div className="view-container">
       <h2 className="heading-left">Gender Gap By Country</h2>
       <PopulationToggle handleToggle={handleHumanChange} />
       <h5>
@@ -320,7 +320,7 @@ function GenderByCountryView({ API, snapshots }) {
         {isErrored ? errorDiv : null}
         <GenderTable tableArr={tableArr} tableColumns={tableColumns} />
       </div>
-    </Container>
+    </div>
   );
 }
 

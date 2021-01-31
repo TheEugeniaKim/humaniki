@@ -9,11 +9,6 @@
   text-align: center;
 }
 
-.nav-logo {
-  width: 20%;
-
-}
-
 .wrapper{
   width: 110vh;
   height: 70vh;
@@ -46,11 +41,6 @@ svg {
   width: 100%;
   overflow: visible;
   margin-bottom: 15%;
-}
-
-.svg-single-bar{
-  height: 25%;
-  padding: .25rem;
 }
 
 .axis-label{
@@ -89,14 +79,6 @@ svg {
   table-layout: auto;
 }
 
-.footer {
-  background: #F3F0F0;
-  position: -webkit-sticky;
-  bottom: 0; 
-  width: 100%; 
-  height: 3rem;
-}
-
 .world-map {
   width: 100%;
   height: 50vh
@@ -128,42 +110,6 @@ svg {
   display: block;
   table-layout: auto;
 
-}
-
-.view-container {
-  margin-bottom: 5rem;
-}
-
-.default{
-  margin-top: 2rem;
-  margin-bottom: 5rem;  
-  background: #808080;
-  color: white;
-  text-align: center;
-
-}
-
-.default-content{
-  display: block;
-}
-.default-title{
-  margin: 2rem;
-}
-
-.default-data-container{
-  background-color: white;
-  color: black;
-  width: 58%;
-  height: 20%;
-  margin-left: 20%;
-  margin-top: 2%;
-  justify-content: center;
-}
-
-.default-svg{
-  z-index: 3;
-  height: 15vh;
-  padding: 1rem;
 }
 
 .show>.dropdown-menu {
