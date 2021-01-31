@@ -121,7 +121,6 @@ function GenderByDOBView({ API, snapshots }) {
 
   function createLineData(meta, metrics){
     const lineData = [{name: "female", values: []}, {name: "male", values: []}, {name: "sumOtherGenders", values: []}]
-    console.log(meta, metrics)
     metrics.forEach(date => {
       let sumOtherGendersTotal = 0
       Object.keys(date.values).forEach(gender => {
@@ -240,7 +239,6 @@ function GenderByDOBView({ API, snapshots }) {
       setAllMeta(data.meta);
       filterAndCreateVizAndTable(data.meta, data.metrics);
     }
-    console.log("lineD", lineData)
     setIsLoading(false);
     return true;
   }
@@ -362,6 +360,7 @@ function GenderByDOBView({ API, snapshots }) {
         <GenderTable 
           tableArr={tableArr} 
           tableColumns={tableColumns} 
+
         /> 
       </Row>
     </Container>

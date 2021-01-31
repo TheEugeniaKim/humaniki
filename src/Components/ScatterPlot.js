@@ -33,13 +33,11 @@ function ScatterPlot(props) {
   const dimensions = useResizeObserver(wrapperRef);
   const yAxisLabel = "Total Human Content"
   const xAxisLabel = "Percentage Women Content"
-  const [stateDimensions, setStateDimensions] = useState({})
 
   useEffect(() => {
     const svg = select(svgRef.current);
     if (!dimensions) return;
 
-    setStateDimensions(dimensions)
     const colorScale = scaleLinear()
       .domain([props.extrema.totalMin, props.extrema.totalMax])
       .range(["white", "#6200F8"])
@@ -47,26 +45,36 @@ function ScatterPlot(props) {
 
     const xScale = scaleLinear()
       .domain([0, 100])
-      .range([0, stateDimensions.width]);
+      .range([0, dimensions.width]);
 
     const yScale = scaleLog()
       .domain([props.extrema.totalMin, props.extrema.totalMax])
-      .range([stateDimensions.height, 0]) 
+      .range([dimensions.height, 0]) 
       
     const xAxis = axisBottom(xScale);
     svg
       .select(".x-axis")
-      // .attr("transform", `translate(${-stateDimensions.height}px)`)
+      .attr("transform", `translate(${0}, ${dimensions.bottom})`)
       .call(xAxis)
       
+    svg
+      .select(".x-axis-title-text")
+      .text(xAxisLabel)
+        .attr("x", `${dimensions.width / 2}`)
+        .attr("y", `${dimensions.height + 50}`)
+        .attr("text-anchor", "middle")
+
     const yAxis = axisLeft(yScale);
     svg
       .select(".y-axis")
-      .attr("transform", `translateX(${stateDimensions.width}px)`)
       .call(yAxis)
-      .append("title")
-      .text("Total Human Content");
 
+    svg.select(".y-axis-title-text")
+      .text(yAxisLabel)
+        .attr("transform", `translate(${-50}, 
+          ${dimensions.height / 2}) rotate(-90)`)
+        .attr("text-anchor", "middle")      
+  
     svg
       .selectAll(".circle")
       .data(props.data)
@@ -89,31 +97,20 @@ function ScatterPlot(props) {
       )
       .transition()
       .attr("fill", colorScale())
-      .attr("height", (value) => stateDimensions.height - yScale(value));
+      .attr("height", (value) => dimensions.height - yScale(value));
+
+    
   }, [props, dimensions]);
 
   return (
     <div className="wrapper" ref={wrapperRef} >
       <svg ref={svgRef} className="svg-scatter">
-        <g className="y-axis" />
-          <text
-            className="axis-label"
-            textAnchor="middle"
-            transform={`translate(${-50}, 
-            ${stateDimensions.height / 2}) rotate(-90)`}
-            style={{marginBottom:"20px"}}
-          >
-            {yAxisLabel}
-          </text>
-        <g className="x-axis" transform={`translate(${0},${stateDimensions.bottom})`} />
-          <text
-            className="axis-label"
-            x={stateDimensions.width / 2}
-            y={stateDimensions.height + 50}
-            textAnchor="middle"
-          >
-            {xAxisLabel}
-          </text>
+        <g className="y-axis" ></g>
+        <g className="y-axis-title" />
+          <text className="y-axis-title-text"></text>
+        <g className="x-axis" />
+        <g className="x-axis-title"/>
+          <text className="x-axis-title-text"></text>
       </svg>
     </div>
   );
