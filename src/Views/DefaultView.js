@@ -90,7 +90,7 @@ function DefaultView({API}){
 
   return (
     <div className="default-main">
-      <Container className="default">
+      <div className="default">
         <Row className="default-content">
           <h4 className="default-title">Humaniki provides statistics about the gender gap in the content of all Wikimedia projects</h4>
           <h6>
@@ -100,7 +100,7 @@ function DefaultView({API}){
         {isLoading ? loadingDiv : null }
         {isErrored ? errorDiv : null }
         {!isLoading && !isErrored ? viz : null }
-      </Container>
+      </div>
       <div className="visualization-collection">
         <img className="nav-logo" src={scatterplotLogo} alt="humaniki-logo"/>
       </div>

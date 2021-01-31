@@ -1,6 +1,5 @@
 import React from 'react'
 import  {Navbar}  from 'react-bootstrap'
-
 function Footer(){
   return (
     <footer>

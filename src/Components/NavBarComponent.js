@@ -23,8 +23,8 @@ function NavBarComponent ({setNavBar}){
             <Nav.Link  href="/combine-search">Combine Search</Nav.Link>
             <Nav.Link  href="https://www.mediawiki.org/wiki/Humaniki/FAQ" target="_blank">FAQ</Nav.Link>           
           </Nav>
-       </Navbar.Collapse>
-     </Navbar>
+        </Navbar.Collapse>
+      </Navbar>
     </React.Fragment>
   )
 }

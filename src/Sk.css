@@ -28,7 +28,11 @@ nav.navbar .mr-auto {
   background: #808080;
   color: white;
   text-align: center;
-  background: linear-gradient(180deg, #808080 60%, #FFF 40%);
+  background: linear-gradient(180deg, #808080 70%, #F5F5F5 40%);
+ }
+
+.visualization-collection {
+	background-color: #F5F5F5;
 }
 
 .default.container {
@@ -37,12 +41,12 @@ nav.navbar .mr-auto {
 
 .default-content{
   display: block;
-  padding-top: 3rem;
+  padding: 3rem 1rem 0rem 1rem;
   text-align: center;
 }
 
 .default-content h6 {
-	padding-top: 0.7rem;	
+	padding-top: 0.7rem;
 }
 
 .default-title{
@@ -148,6 +152,7 @@ every country is selected by default until there are filter selections
 @media (min-width: 1200px) {
 .container, .container-lg, .container-md, .container-sm, .container-xl {
     max-width: 1170px;
+    padding: 0px;
 }
 }
 
@@ -155,4 +160,14 @@ every country is selected by default until there are filter selections
 	.navbar-expand-lg .navbar-nav .nav-link {
 	    padding-bottom: 0rem;
 	}
+}
+
+@media (max-width: 1200px) {
+	.container, .container-lg, .container-md, .container-sm, .container-xl {
+    	padding: 0px;
+	}
+	.default-data-container {
+    margin: 2rem 1rem 0 1rem;
+    padding: 1rem;
+}
 }

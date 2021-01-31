@@ -11,6 +11,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import humanikiAPI from '../comm'
+import { Container } from 'react-bootstrap'
 
 const API = new humanikiAPI()
 
@@ -23,19 +24,21 @@ function AppContainer() {
   }, [])
 
   return (
-    <div className="App">
-      <ToastContainer /> 
-      <NavBarComponent setNavBar={setNavBar}/>
-      <Router>
-        <Route exact path={"/"} render={() => <DefaultView API={API}/>}/>
-        <Route exact path={"/about"} render={() => <AboutView API={API}/>}/>
-        <Route exact path={"/combine-search"} render={() => <CombineSearch API={API} snapshots={snapshots ? snapshots : null} />} />
-        <Route exact path={"/gender-by-country"} render={() => <GenderByCountryView API={API} snapshots={snapshots ? snapshots : null} />}/>
-        <Route exact path={"/gender-by-dob"} render={() => <GenderByDOBView API={API} snapshots={snapshots ? snapshots : null} />}/>
-        <Route exact path={"/gender-by-language"} render={() => <GenderByLanguageView API={API} snapshots={snapshots ? snapshots : null} />}/>
-      </Router>
-      <Footer />
-    </div>
+    <Container>
+      <div className="App">
+        <ToastContainer /> 
+        <NavBarComponent setNavBar={setNavBar}/>
+        <Router>
+          <Route exact path={"/"} render={() => <DefaultView API={API}/>}/>
+          <Route exact path={"/about"} render={() => <AboutView API={API}/>}/>
+          <Route exact path={"/combine-search"} render={() => <CombineSearch API={API} snapshots={snapshots ? snapshots : null} />} />
+          <Route exact path={"/gender-by-country"} render={() => <GenderByCountryView API={API} snapshots={snapshots ? snapshots : null} />}/>
+          <Route exact path={"/gender-by-dob"} render={() => <GenderByDOBView API={API} snapshots={snapshots ? snapshots : null} />}/>
+          <Route exact path={"/gender-by-language"} render={() => <GenderByLanguageView API={API} snapshots={snapshots ? snapshots : null} />}/>
+        </Router>
+        <Footer />
+      </div>
+    </Container>
   )
 }
 
