@@ -24,12 +24,19 @@ function LineChart({lineData, graphGenders, extrema, genderMap, graphGenderFilte
   const svgRef = useRef()
   const wrapperRef = useRef()
   const dimensions = useResizeObserver(wrapperRef)
-  const [currentZoomState, setCurrentZoomState] = useState()
+  // const [currentZoomState, setCurrentZoomState] = useState()
+  const [stateDimensions, setStateDimensions] = useState(null)
+  const xAxisLabel = "Years"
+  const yAxisLabel = "Number of Biographies and Other Content"
 
   useEffect(() => {
-    if ( lineData.length === 0 || Object.keys(genderMap).length === 0 || Object.keys(extrema).length === 0 || !dimensions ) {
+    if ( lineData.length === 0 || Object.keys(genderMap).length === 0 || Object.keys(extrema).length === 0 || !dimensions  ) {
+      // console.log("UNDEFINED AND RETURNING", !stateDimensions)
       return
     } else {
+      setStateDimensions(dimensions)
+      console.log("dimensions:", dimensions)
+      console.log("Line Data", lineData)
       const genderNums = genderMap ? Object.keys(genderMap).map(str => parseInt(str)) : []
       lineData.forEach(genderLine => sortGenderLine(genderLine))
 
@@ -59,10 +66,10 @@ function LineChart({lineData, graphGenders, extrema, genderMap, graphGenderFilte
         .domain([totalMinXValue, totalMaxXValue+9])
         .range([0, dimensions.width])
         .nice()
-        if (currentZoomState) {
-          const newXScale = currentZoomState.rescaleX(xScale)
-          xScale.domain(newXScale.domain())
-        }
+        // if (currentZoomState) {
+        //   const newXScale = currentZoomState.rescaleX(xScale)
+        //   xScale.domain(newXScale.domain())
+        // }
 
       const yScale = scaleLinear()
         .domain([0, totalMaxYValue])
@@ -73,9 +80,8 @@ function LineChart({lineData, graphGenders, extrema, genderMap, graphGenderFilte
         .ticks(parseInt(10))
         .tickFormat(index => index + 1)
 
-      const colorScale = scaleLinear()
-        .domain(genderNums)
-        .range(schemeSet3)
+      const colorScale = scaleOrdinal(["#517FC1", "#F19359", "#FAD965"])
+        .domain(["male", "female", "sumOtherGenders"])
 
       svg
         .select(".x-axis")
@@ -128,8 +134,8 @@ function LineChart({lineData, graphGenders, extrema, genderMap, graphGenderFilte
           .attr("class","legend")
           .style("transform", "scale(1, 1)")
           .attr("r", 6)
-          .attr("cx", 32)
-          .attr("cy", (line, index) => (index+1)*20 + 19)
+          .attr("cx", 50)
+          .attr("cy", (line, index) => (index+1)*20 + 25)
           .attr("fill", (line) => colorScale(line.name))
 
       legend
@@ -138,33 +144,49 @@ function LineChart({lineData, graphGenders, extrema, genderMap, graphGenderFilte
           .join("text")
           .attr("class","text-legend")
           .style("transform", "scale(1, 1)")
-          .text((line) => genderMap[line.name])
-          .attr("x", 40)
-          .attr("y", (line, index) => (index+1)*20 + 19.5)
+          .text((line) => line.name)
+          .attr("x", 60)
+          .attr("y", (line, index) => (index+1)*20 + 30)
           .attr("fill", (line) => colorScale(line.name))
 
-      const zoomBehavior = zoom()
-        .scaleExtent([0.5, 5])
-        .translateExtent([
-          [0, 0],
-          [dimensions.width, dimensions.height]
-        ])
-        .on("zoom", () => {
-          const zoomState = zoomTransform(svg.node())
-          setCurrentZoomState(zoomState)
-        })
+      // const zoomBehavior = zoom()
+      //   .scaleExtent([0.5, 5])
+      //   .translateExtent([
+      //     [0, 0],
+      //     [dimensions.width, dimensions.height]
+      //   ])
+      //   .on("zoom", () => {
+      //     const zoomState = zoomTransform(svg.node())
+      //     setCurrentZoomState(zoomState)
+      //   })
       
-      svg
-        .call(zoomBehavior)
+      // svg
+      //   .call(zoomBehavior)
     }
-  }, [currentZoomState, lineData, graphGenders, extrema, genderMap, graphGenderFilter, dimensions])
-
+  }, [lineData, graphGenders, extrema, genderMap, graphGenderFilter, dimensions, stateDimensions])
   return (
     <React.Fragment>
       <div className="wrapper" ref={wrapperRef} >
         <svg ref={svgRef} className="svg-chart" >
-          <g className="x-axis" />
+          <g className="x-axis"  />
+            <text
+              className="axis-label"
+              x={650 / 2}
+              y={450 + 50}
+              textAnchor="middle"
+            >
+              {xAxisLabel}
+            </text>
           <g className="y-axis" />
+            <text
+              className="axis-label"
+              textAnchor="middle"
+              transform={`translate(${-50}, 
+              ${350 / 2}) rotate(-90)`}
+              style={{marginBottom:"20px"}}
+            >
+              {yAxisLabel}
+            </text>
           <g className="legend" />
         </svg>
       </div>
