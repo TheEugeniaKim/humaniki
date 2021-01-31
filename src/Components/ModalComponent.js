@@ -40,10 +40,10 @@ function ModalComponent({
             ...column,
             toggle: newToggles[column.dataField],
           }))
-          .map((column) => (
+          .map((column, index) => (
             <button
               type="button"
-              key={column.dataField}
+              key={index}
               className={`btn btn-warning ${newToggles[column.dataField] ? "active" : ""}`}
               data-toggle="button"
               aria-pressed={newToggles[column.dataField] ? "true" : "false"}

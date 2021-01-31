@@ -18,7 +18,8 @@ import {
   populations,
   percentFormatter, 
   errorDiv, 
-  loadingDiv
+  loadingDiv,
+  QIDs
 } from "../utils";
 import { toast } from "react-toastify";
 
@@ -50,15 +51,8 @@ function GenderByDOBView({ API, snapshots }) {
     console.log(newResult);
     console.log(newFilters);
   }
-
-  function handleChange(e) {
-    console.log("Handle Change", e);
-    if (!lineData) {
-    }
-  }
-
+  
   function handleHumanChange(e) {
-    console.log("Handle Population Change,", e);
     setIsLoading(true);
     setPopulation(e);
   }
@@ -95,25 +89,79 @@ function GenderByDOBView({ API, snapshots }) {
     }
   }
 
-  function createLineData(meta, metrics) {
-    const lineData = [];
-    //line data loop
-    for (let genderId in meta.bias_labels) {
-      let genderLine = {};
-      genderLine.name = genderId;
-      genderLine.values = [];
-      metrics.forEach((dp) => {
-        if (Object.keys(dp.values).includes(genderId)) {
+  // full lineData shows all genders (before)
+  // function createLineData(meta, metrics) {
+  //   const lineData = [];
+  //   let sumOtherGendersLine = {}
+  //   sumOtherGendersLine.name = "sumOtherGenders"
+  //   sumOtherGendersLine.values = []
+  //   //line data loop
+  //   for (let genderId in meta.bias_labels) {
+  //     let genderLine = {};
+  //     genderLine.name = genderId;
+  //     genderLine.values = [];
+  //     metrics.forEach((dp) => {
+  //       if (Object.keys(dp.values).includes(genderId)) {
+  //         let tupleObj = {
+  //           year: +dp.item_label.date_of_birth,
+  //           value: dp["values"][genderId],
+  //         };
+  //         genderLine.values.push(tupleObj);
+  //       }
+  //       // if (Object.keys(dp.values))
+  //     });
+  //     lineData.push(genderLine);
+  //   }
+  //   console.log("DOB LINE DATA", lineData)
+  //   if (lineData.name !== QIDs.female || lineData.name !== QIDs.male){
+  //     console.log("hi")
+  //   }
+  //   setLineData(lineData)
+  // }
+
+  function createLineData(meta, metrics){
+    const lineData = [{name: "female", values: []}, {name: "male", values: []}, {name: "sumOtherGenders", values: []}]
+    console.log(meta, metrics)
+    metrics.forEach(date => {
+      let sumOtherGendersTotal = 0
+      Object.keys(date.values).forEach(gender => {
+        if (gender === QIDs.female){
           let tupleObj = {
-            year: +dp.item_label.date_of_birth,
-            value: dp["values"][genderId],
-          };
-          genderLine.values.push(tupleObj);
+            year: +date.item_label.date_of_birth,
+            value: date["values"][QIDs.female]
+          }
+          lineData[0].values.push(tupleObj)
+        } else if (date["values"][QIDs.male]){
+          let tupleObj = {
+            year: +date.item_label.date_of_birth,
+            value: date["values"][QIDs.male]
+          }
+          lineData[1].values.push(tupleObj)
+        } else {
+          sumOtherGendersTotal += date["values"][gender]
         }
-      });
-      lineData.push(genderLine);
-    }
-    return lineData;
+      })
+      let tupleObj = {
+        year: +date.item_label.date_of_birth, 
+        value: sumOtherGendersTotal
+      }
+      lineData[2].values.push(tupleObj)
+      // if (date["values"][QIDs.female]){
+      //   let tupleObj = {
+      //     year: +date.item_label.date_of_birth,
+      //     value: date["values"][QIDs.female]
+      //   }
+      //   lineData[0].values.push(tupleObj)
+      // } else if (date["values"][QIDs.male]){
+      //   let tupleObj = {
+      //     year: +date.item_label.date_of_birth,
+      //     value: date["values"][QIDs.male]
+      //   }
+      //   lineData[1].values.push(tupleObj)
+      // } 
+
+    })
+    return lineData
   }
 
   function createTableArr(meta, metrics) {
@@ -137,13 +185,8 @@ function GenderByDOBView({ API, snapshots }) {
         tableObj[label + "Percent"] = dp["values"][genderId]
           ? (dp["values"][genderId] / tableObj["total"]) * 100
           : 0;
-        console.log(
-          "other genders arr",
-          Object.keys(meta.bias_labels).filter(
-            (id) => id !== "6581097" && id !== "6581072"
-          )
-        );
-        if (genderId !== "6581097" && genderId !== "6581072") {
+          // check if gender is male or female 
+        if (genderId !==QIDs.male && genderId !==QIDs.female) {
           tableObj.sumOtherGenders += dp["values"][genderId]
             ? dp["values"][genderId]
             : 0;
@@ -173,7 +216,6 @@ function GenderByDOBView({ API, snapshots }) {
     // const filteredMetrics = metrics // TODO: actually filter metrics
     console.log("Length of prefilter input is ,", metrics.length);
     const filteredMetrics = filterMetrics(metrics, yearFilterFn);
-    console.log("Length of postfilter input is ,", filteredMetrics.length);
     // Here is genderFilter metrics
     // make fn in utils that will filter metrics by gender
     // const genderFilterMetricsApplied =
@@ -194,11 +236,11 @@ function GenderByDOBView({ API, snapshots }) {
       setIsErrored(true);
       console.error("Error is", err);
     } else {
-      console.log("DATA METRICS", data.metrics);
       setAllMetrics(data.metrics);
       setAllMeta(data.meta);
       filterAndCreateVizAndTable(data.meta, data.metrics);
     }
+    console.log("lineD", lineData)
     setIsLoading(false);
     return true;
   }
@@ -206,7 +248,7 @@ function GenderByDOBView({ API, snapshots }) {
   const columnFilters = (meta) => {
     let columnFilters = []
     for (let genderId in meta.bias_labels) {
-        if (genderId !=="6581097" && genderId !=="6581072"){
+        if (genderId !==QIDs.male && genderId !==QIDs.female){
 
             let obj = {
                 dataField: meta.bias_labels[genderId],
@@ -284,6 +326,8 @@ function GenderByDOBView({ API, snapshots }) {
         <Col lg={8}>
           <p>All time, as of Aug'20 </p>
           {lineData.length === 0 ? null : (
+            // {!lineData ? null : (
+
             <LineChart
               lineData={lineData}
               graphGenders={graphGenders}
