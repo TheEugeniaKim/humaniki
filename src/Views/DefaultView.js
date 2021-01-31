@@ -65,7 +65,7 @@ function DefaultView({API}){
   const viz = 
     <div className="default-data-container">
       <h5> Global Gender Gap </h5>
-      <h6> Disctrribution of content of humans in all Wikimedia Projects </h6>
+      <h6> Distribution of content of humans in all Wikimedia Projects </h6>
       <div className="list-gender-gap">
         <div className = "col-male">
           <h4> {totalMen} </h4>
@@ -73,7 +73,7 @@ function DefaultView({API}){
         </div>
         <div className = "col-gender">
           <h4> {totalOthers} </h4>
-          <h6> Σ(sum) Other Biographies </h6>
+          <h6> Σ Other Biographies (sum) </h6>
         </div>
         <div className = "col-gender">
           <h4> {totalWomen} </h4>
@@ -85,7 +85,7 @@ function DefaultView({API}){
         (totalOthers/total*100), 
         (totalWomen/total*100)
       ]} />
-      <p>All time, as of Aug'20</p>
+      <p>All time, as of LATEST SNAPSHOT DATE Month Year</p>
     </div>
 
   return (
@@ -94,7 +94,7 @@ function DefaultView({API}){
         <Row className="default-content">
           <h4 className="default-title">Humaniki provides statistics about the gender gap in the content of all Wikimedia projects</h4>
           <h6>
-            For example, as of August 2020, only 17% of content in all Wikimedia projects including biographies on Wikipedia are about women.
+            For example, as of LATEST SNAPSHOT Month Year, only LATEST TOTAL COVERAGE % of content in all Wikimedia projects including biographies on Wikipedia are about women.
           </h6>
         </Row>
         {isLoading ? loadingDiv : null }

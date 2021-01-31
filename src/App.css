@@ -43,11 +43,6 @@ svg {
   margin-bottom: 15%;
 }
 
-.svg-single-bar{
-  height: 25%;
-  padding: .25rem;
-}
-
 .axis-label{
   overflow: visible;
 }
@@ -115,10 +110,6 @@ svg {
   display: block;
   table-layout: auto;
 
-}
-
-.view-container {
-  margin-bottom: 5rem;
 }
 
 .show>.dropdown-menu {

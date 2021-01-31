@@ -150,7 +150,7 @@ function GenderByLanguageView({API, snapshots}){
   ) : <div> snapshots loading </div>
 
   return (
-    <Container >
+    <div className="view-container">
         <h1>Gender Gap By Language Editions in Wikimedia Projects</h1>
         <PopulationToggle GTE_ONLY={true} />
         <h5>
@@ -201,7 +201,7 @@ function GenderByLanguageView({API, snapshots}){
         <br/>
         <br/>
       </Row>
-    </Container>
+    </div>
   )
 }
 

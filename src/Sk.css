@@ -88,6 +88,15 @@ nav.navbar .mr-auto {
 
 /* Default-main end */
 
+
+/* Visualization-view Container begin*/
+
+.view-container {
+	padding: 2rem;
+  	margin-bottom: 5rem;
+}
+/* Visualization-view Container end*/
+
 .About {
 	padding: 2px 24px 27px 24px;
 }

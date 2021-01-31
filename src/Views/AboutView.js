@@ -6,7 +6,7 @@ import "../Sk.css"
 function AboutView(){
 
   return (
-    <Container className="About">
+    <div className="About">
       <div className="About-Content">
         <h3>We create awareness about content diversity in online knowledge spaces </h3>
         <figure>
@@ -42,9 +42,8 @@ function AboutView(){
         <p>
           This project started as a personal research interest, and is now funded by a Wikimedia Foundation Grant.
         </p>
-
       </div>
-    </Container>
+    </div>
   )
 }
 
