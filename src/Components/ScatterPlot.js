@@ -68,7 +68,6 @@ function ScatterPlot(props) {
 
     svg
       .select(".x-axis-title-text")
-        .append('g')
       .text(xAxisLabel)
         .attr("x", `${dimensions.width / 2}`)
         .attr("y", `${dimensions.height + 50}`)
@@ -80,7 +79,8 @@ function ScatterPlot(props) {
       .select(".y-axis")
       .call(yAxis)
 
-    svg.select(".y-axis-title-text")
+    svg
+      .select(".y-axis-title-text")
       .text(yAxisLabel)
         .attr("transform", `translate(${-50}, 
           ${dimensions.height / 2}) rotate(-90)`)

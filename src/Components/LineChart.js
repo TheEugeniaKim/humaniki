@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react'
 import '../App.css'
-import { select, line, scaleOrdinal, scaleLinear, axisBottom, axisRight, ascending } from 'd3'
+import { select, line, scaleOrdinal, scaleLinear, axisBottom, axisLeft, ascending } from 'd3'
 import ResizeObserver from "resize-observer-polyfill"
 
 const useResizeObserver = (ref) => {
@@ -66,6 +66,9 @@ function LineChart({lineData, graphGenders, extrema, genderMap, graphGenderFilte
     
     const totalMinXValue = Math.min(...yearMinimums)
     const totalMaxXValue = Math.max(...yearMaximums)
+    
+    const colorScale = scaleOrdinal(["#517FC1", "#F19359", "#FAD965"])
+    .domain(["male", "female", "sumOtherGenders"])
 
     const xScale = scaleLinear()
       .domain([totalMinXValue, totalMaxXValue+9])
@@ -75,29 +78,35 @@ function LineChart({lineData, graphGenders, extrema, genderMap, graphGenderFilte
       //   const newXScale = currentZoomState.rescaleX(xScale)
       //   xScale.domain(newXScale.domain())
       // }
+    const xAxis = axisBottom(xScale)
+      .ticks(parseInt(10))
+      .tickFormat(index => index + 1)
+    svg
+      .select(".x-axis")
+      .attr("transform", `translate(${0}, ${dimensions.bottom})`)
+      .call(xAxis)
+    svg
+      .select(".x-axis-title-text")
+      .text(xAxisLabel)
+        .attr("x", `${dimensions.width / 2}`)
+        .attr("y", `${dimensions.height + 50}`)
+        .attr("text-anchor", "middle")
+        .attr('class', 'x-axis-title-text')
 
     const yScale = scaleLinear()
       .domain([0, totalMaxYValue])
       .range([dimensions.height, 0])
       .nice()
-    
-    const xAxis = axisBottom(xScale)
-      .ticks(parseInt(10))
-      .tickFormat(index => index + 1)
-
-    const colorScale = scaleOrdinal(["#517FC1", "#F19359", "#FAD965"])
-      .domain(["male", "female", "sumOtherGenders"])
-
-    svg
-      .select(".x-axis")
-      .style("transform", `translateY(${dimensions.height})px`)
-      .call(xAxis)
-    
-    const yAxis = axisRight(yScale)
+    const yAxis = axisLeft(yScale)
     svg
       .select(".y-axis")
-      .style("transform", `translateX(${dimensions.width})px`)
       .call(yAxis)
+    svg
+      .select(".y-axis-title-text")
+      .text(yAxisLabel)
+      .attr("transform", `translate(${-50}, 
+        ${dimensions.height / 2}) rotate(-90)`)
+      .attr("text-anchor", "middle")
 
     const myLine = line()
       .x((dp) => xScale(+dp.year))
