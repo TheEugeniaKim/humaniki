@@ -41,6 +41,7 @@ function GenderByLanguageView({API, snapshots}){
     metrics.forEach((obj, index) => {
       let tableObj = {}
       tableObj.key = index
+      tableObj.project = obj.item.project
       tableObj.language = obj.item_label.project
       tableObj.total = Object.values(obj.values).reduce((a, b) => a + b)
       tableObj.sumOtherGenders = 0
