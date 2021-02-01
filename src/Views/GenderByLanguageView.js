@@ -66,7 +66,7 @@ function GenderByLanguageView({API, snapshots}) {
 
             if (tableObj.total > extrema.totalMax) {
                 extrema.totalMax = tableObj.total
-            } else if (tableObj.total < extrema.totalMin) {
+            } if (tableObj.total < extrema.totalMin) {
                 extrema.totalMin = tableObj.total
             }
         })
