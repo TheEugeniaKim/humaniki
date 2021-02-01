@@ -6,6 +6,8 @@ import "../App.css"
 import "../Sk.css"
 import { colors } from '../utils'
 import scatterplotLogo from "../assets/scatterplotButton.png"
+import timeseriesLogo from "../assets/timeseriesButton.png"
+import worldmapLogo from "../assets/worldmapButton.png"
 
 function DefaultView({API}){
   const svgRef = useRef()
@@ -102,9 +104,34 @@ function DefaultView({API}){
         {!isLoading && !isErrored ? viz : null }
       </div>
       <div className="visualization-collection">
-        <img className="nav-logo" src={scatterplotLogo} alt="humaniki-logo"/>
+        <h5> Visualization Collection </h5>
+        <h6> Humaniki allows you to explore the gender gap by several dimensions: </h6>
+        <div className="row-viz-button">
+          <div className="col-button col-worldmap">
+            <h6> Gender by Country </h6>
+            <h7> What is the spatial distribution of gender data? </h7>
+          </div>
+          <div className="col-button col-scatterplot">
+            <h6> Gender by Wikimedia Project </h6>
+            <h7> How do different language Wikimedia projects compare in terms of gender diversity?</h7>
+          </div>
+          <div className="col-button col-timeseries">
+            <h6> Gender by Date of Birth and Death </h6>
+            <h7> What is the temporal distribution of gender data? </h7>
+          </div>
+        </div>
       </div>
-      <div className="combine-search-explore">
+      <div className="combine-search">
+        <h5> Combine Search </h5>
+        <h6> How to view cumulative gender metrics for different data dimensions at a time? </h6>
+        <div className="row-combinesearch">
+          <div className="col-combinesearch combinesearch-text">
+            <p>You can mix these three dimensions, for example to gather data about the biographies in the German Wikipedia about French people born in the 19th century.</p>
+          </div>
+          <div className="col-combinesearch combinesearch-button">
+            <button type="button" onclick="location.href = '';">Combine Search</button>
+          </div>
+        </div>
       </div>
     </div>
   )

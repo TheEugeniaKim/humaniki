@@ -16,10 +16,15 @@ nav.navbar {
 .nav-logo {
   width: 100px;
 }
+
 nav.navbar .mr-auto {
-    padding-left: 64%;
+    padding-left: 60%;
     padding-bottom: 0px;
 }
+
+/*nav.navbar .nav-link {
+	width: 9rem;
+}*/
 /* Navbar end */
 
 
@@ -86,6 +91,73 @@ nav.navbar .mr-auto {
 	padding: 1rem 1rem 0.5rem 1rem;
 }
 
+.visualization-collection {
+	padding-top: 3rem;
+}
+
+.combine-search  {
+	padding-top: 3rem;
+}
+
+.row-viz-button {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	text-align: center;
+	padding: 1rem 1rem 0.5rem 1rem;
+	height: 16rem;
+}
+
+.col-button {
+	width:33%;
+	height:100%;
+	color: white;
+	display: flex;
+	flex-flow: column;
+  	justify-content: center;
+  	align-items: center;
+}
+
+.col-scatterplot {
+	background-image: url(assets/scatterplotButton.png);
+	background-size: 375px 232px;
+	background-repeat: no-repeat;
+}
+
+.col-worldmap {
+	background-image: url(assets/worldmapButton.png);
+	background-size: 375px 232px;
+	background-repeat: no-repeat;
+}
+
+.col-timeseries {
+	background-image: url(assets/timeseriesButton.png);
+	background-size: 375px 232px;
+	background-repeat: no-repeat;
+}
+
+.row-combinesearch{
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+	text-align: center;
+	padding: 1rem 1rem 0.5rem 1rem;	
+}
+
+.col-combinesearch {
+	text-align: left;
+}
+
+.combinesearch-text {
+	width: 40%;
+	padding-right: 1rem;
+}
+
+.combinesearch-button {
+	justify-content: center;
+}
 /* Default-main end */
 
 
@@ -139,6 +211,7 @@ footer {
 .footer-copyright p {
 	margin: 0;
 }
+
 
 /* 
 in world map component every country has .country + .unSelectedCountry and when filter selects then .country + .selectedCountry
