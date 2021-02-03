@@ -5,26 +5,33 @@
     border-color: #808080;
     border-width: 0 0.1px;
     border-style: solid;
+    text-align: center;
 }
 
-/* Navbar begin */
-nav.navbar {
-	border: solid #AAAAAA;
-    border-width: 0 0 1px 0;
+.wrapper {
+  width: 110vh;
+  height: 70vh;
+  margin: 2rem;
 }
+
+
+/* Navbar begin */
 
 .nav-logo {
   width: 100px;
 }
 
-nav.navbar .mr-auto {
-    padding-left: 60%;
-    padding-bottom: 0px;
+nav.navbar {
+	border: solid #AAAAAA;
+    border-width: 0 0 1px 0;
 }
 
-/*nav.navbar .nav-link {
-	width: 9rem;
-}*/
+nav.navbar .mr-auto {
+    padding-bottom: 0px;
+    flex: auto;
+    justify-content: flex-end;
+}
+
 /* Navbar end */
 
 
@@ -169,9 +176,28 @@ nav.navbar .mr-auto {
 }
 /* Visualization-view Container end*/
 
+/* About begin*/
 .About {
 	padding: 2px 24px 27px 24px;
+	background: white;
+  	text-align: center;
 }
+
+.About-Content{
+  margin-bottom: 3rem;
+}
+
+.About-DataContainer{
+  background: white;
+  width: 70%;
+}
+.about-img{
+  height: 60%;
+  width: 70%;
+  position: relative;
+  margin: 2rem;
+}
+/* About end*/
 
 footer {
 	background-color: #3B3B3B;
@@ -241,6 +267,8 @@ every country is selected by default until there are filter selections
 @media (min-width: 992px) {
 	.navbar-expand-lg .navbar-nav .nav-link {
 	    padding-bottom: 0rem;
+	    padding-right: 1.5rem;
+    	padding-left: 1.5rem;
 	}
 }
 
@@ -249,7 +277,7 @@ every country is selected by default until there are filter selections
     	padding: 0px;
 	}
 	.default-data-container {
-    margin: 2rem 1rem 0 1rem;
-    padding: 1rem;
-}
+	    margin: 2rem 1rem 0 1rem;
+	    padding: 1rem;
+	}
 }

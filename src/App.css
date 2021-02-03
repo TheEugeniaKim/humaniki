@@ -5,21 +5,12 @@
   --percent-transparency: 0.7
 }
 
-.App {
-  text-align: center;
-}
-
-.wrapper{
-  width: 110vh;
-  height: 70vh;
-  margin: 2rem;
-}
-
-.button-svg {
+/* used in RadioButtonChart Component which is outdated*/
+/*.button-svg {
   width: 15vh;
   height: 15vh;
   margin: 5%
-}
+}*/
 
 svg {
   width: 100%;
@@ -51,26 +42,6 @@ svg {
   height: 70vh; 
   width: auto;
   overflow: auto;
-}
-
-.About { 
-  background: white;
-  text-align: center;
-}
-
-.About-Content{
-  margin-bottom: 3rem;
-}
-
-.About-DataContainer{
-  background: white;
-  width: 70%;
-}
-.about-img{
-  height: 60%;
-  width: 70%;
-  position: relative;
-  margin: 2rem;
 }
 
 .table-container {
