@@ -27,8 +27,11 @@ function GenderByLanguageView({API, snapshots}){
   const [isErrored, setIsErrored] = useState(false)
 
   function handleSnapshotChange(e) {
-    console.log(e.target.value.replace(/-+/g, ''))
-    setSnapshot(e.target.value.replace(/-+/g, ''))
+    let date = e.target.value
+    if (date.slice(11,20) === "(latest)"){
+      date = date.slice(0, 10)
+    }
+    setSnapshot(date.replace(/-+/g, ''))
   }
 
   function createChartData(meta, metrics){
@@ -108,7 +111,6 @@ function GenderByLanguageView({API, snapshots}){
   }
 // ReFetch useEffect:
   useEffect(() => {
-    console.log("REFETCHING")
     API.get({
       bias: "gender",
       metric: "gap",

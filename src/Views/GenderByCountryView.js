@@ -52,7 +52,11 @@ function GenderByCountryView({ API, snapshots }) {
   const [isErrored, setIsErrored] = useState(false);
 
   function handleSnapshotChange(e) {
-    setSnapshot(e.target.value);
+    let date = e.target.value
+    if (date.slice(11,20) === "(latest)"){
+      date = date.slice(0, 10)
+    }
+    setSnapshot(date.replace(/-+/g, ''))
   }
 
   function handleHumanChange(event) {
@@ -259,7 +263,7 @@ function GenderByCountryView({ API, snapshots }) {
       <Form.Control
         as="select"
         onChange={handleSnapshotChange}
-        value={snapshot ? snapshot : "latest"}
+        value={formatDate(snapshot)}
       >
         {snapshots.map((snapshot, index) => (
           <option key={snapshot.id}>
