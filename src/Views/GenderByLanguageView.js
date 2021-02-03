@@ -27,7 +27,8 @@ function GenderByLanguageView({API, snapshots}){
   const [isErrored, setIsErrored] = useState(false)
 
   function handleSnapshotChange(e) {
-    setSnapshot(e.target.value)
+    console.log(e.target.value.replace(/-+/g, ''))
+    setSnapshot(e.target.value.replace(/-+/g, ''))
   }
 
   function createChartData(meta, metrics){
@@ -94,12 +95,11 @@ function GenderByLanguageView({API, snapshots}){
   function processData(err, data){
     if (err) {
       console.log("error is", err)
-      setIsErrored(true)
+      return setIsErrored(true)
     } else {
       setAllMetrics(data.metrics)
       setAllMeta(data.meta)
       let multiSelectData = createMultiselectData(data.metrics)
-      console.log("multiSelectData", multiSelectData)
       setAllProjects(multiSelectData)
       filterAndCreateVizAndTable(data.meta,data.metrics)
     }
@@ -108,14 +108,15 @@ function GenderByLanguageView({API, snapshots}){
   }
 // ReFetch useEffect:
   useEffect(() => {
+    console.log("REFETCHING")
     API.get({
       bias: "gender",
       metric: "gap",
-      snapshot: "latest",
+      snapshot: snapshot,
       population: "gte_one_sitelink",
       property_obj: {project: "all", label_lang: "en"}
     }, processData)
-  }, [snapshots])
+  }, [snapshots, snapshot])
 
 // ReFilter useEffect: 
   useEffect(() => {
@@ -135,7 +136,7 @@ function GenderByLanguageView({API, snapshots}){
         <Form.Control
             as="select"
             onChange={handleSnapshotChange}
-            value={snapshot ? snapshot :  "latest"}
+            value={formatDate(snapshot)}
             >
             {
                 snapshots.map((snapshot, index) => (
