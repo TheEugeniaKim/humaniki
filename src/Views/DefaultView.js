@@ -4,7 +4,7 @@ import { Container, Row } from 'react-bootstrap'
 import SingleBarChart from '../Components/SingleBarChart'
 import "../App.css"
 import "../Sk.css"
-import { colors, baseURL } from '../utils'
+import { colors } from '../utils'
 import scatterplotLogo from "../assets/scatterplotButton.png"
 import timeseriesLogo from "../assets/timeseriesButton.png"
 import worldmapLogo from "../assets/worldmapButton.png"
@@ -19,10 +19,6 @@ function DefaultView({API}){
   const [total, setTotal] = useState()
   const [isLoading, setIsLoading] = useState(true)
   const [isErrored, setIsErrored] = useState(false)
-
-  function handleClick(e) {
-    // () => history("/combine-search")
-  }
 
   function processFetchData(err, data){
     if (err) {
@@ -140,7 +136,7 @@ function DefaultView({API}){
             <p>You can mix these three dimensions, for example to gather data about the biographies in the German Wikipedia about French people born in the 19th century.</p>
           </div>
           <div className="col-combinesearch combinesearch-button">
-            <Button onClick = {handleClick}>
+            <Button>
               <Link to = {`/combine-search`}> Combine Search </Link>
             </Button>
           </div>

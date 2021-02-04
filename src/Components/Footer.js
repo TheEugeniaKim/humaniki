@@ -1,5 +1,7 @@
 import React from 'react'
 import  {Navbar}  from 'react-bootstrap'
+import { Link } from "react-router-dom";
+
 function Footer(){
   return (
     <footer>
@@ -7,7 +9,7 @@ function Footer(){
  	 		<div className="list-container list-documentation">
  	 			<h6> Documentation </h6> 
  	 			<ul> 
- 	 				<li><a href="">About Humaniki</a></li>
+          <li><a href="">About Humaniki</a></li>
  	 				<li><a href="">Humaniki API</a></li>
  	 				<li><a href="">Data it uses</a></li>
  	 				<li><a href="https://www.mediawiki.org/wiki/Humaniki/FAQ" target="_blank">FAQ</a></li>
