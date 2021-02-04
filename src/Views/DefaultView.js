@@ -6,6 +6,10 @@ import "../App.css"
 import "../Sk.css"
 import { colors } from '../utils'
 import scatterplotLogo from "../assets/scatterplotButton.png"
+import timeseriesLogo from "../assets/timeseriesButton.png"
+import worldmapLogo from "../assets/worldmapButton.png"
+import Button from "react-bootstrap/Button";
+import { Link } from "react-router-dom";
 
 function DefaultView({API}){
   const svgRef = useRef()
@@ -15,7 +19,6 @@ function DefaultView({API}){
   const [total, setTotal] = useState()
   const [isLoading, setIsLoading] = useState(true)
   const [isErrored, setIsErrored] = useState(false)
-
 
   function processFetchData(err, data){
     if (err) {
@@ -102,9 +105,42 @@ function DefaultView({API}){
         {!isLoading && !isErrored ? viz : null }
       </div>
       <div className="visualization-collection">
-        <img className="nav-logo" src={scatterplotLogo} alt="humaniki-logo"/>
+        <h4> Visualization Collection </h4>
+        <h6> Humaniki allows you to explore the gender gap by several dimensions: </h6>
+        <div className="row-viz-button">
+          <Link to = {`/gender-by-country`} className ="col-button-container">  
+            <div className="col-button col-worldmap">
+              <h5> Gender by Country </h5>
+              <h7> What is the spatial distribution of gender data? </h7>
+            </div>
+          </Link>
+          <Link to = {`/gender-by-language`} className ="col-button-container"> 
+            <div className="col-button col-scatterplot">
+              <h5> Gender by Wikimedia Project </h5>
+              <h7> How do different language Wikimedia projects compare in terms of gender diversity?</h7>
+            </div>
+          </Link>
+          <Link to = {`/gender-by-dob`} className ="col-button-container"> 
+            <div className="col-button col-timeseries">
+              <h5> Gender by Date of Birth and Death </h5>
+              <h7> What is the temporal distribution of gender data? </h7>
+            </div>
+          </Link>
+        </div>
       </div>
-      <div className="combine-search-explore">
+      <div className="combine-search">
+        <h4> Combine Search </h4>
+        <h6> How to view cumulative gender metrics for different data dimensions at a time? </h6>
+        <div className="row-combinesearch">
+          <div className="col-combinesearch combinesearch-text">
+            <p>You can mix these three dimensions, for example to gather data about the biographies in the German Wikipedia about French people born in the 19th century.</p>
+          </div>
+          <div className="col-combinesearch combinesearch-button">
+            <Button>
+              <Link to = {`/combine-search`}> Combine Search </Link>
+            </Button>
+          </div>
+        </div>
       </div>
     </div>
   )
