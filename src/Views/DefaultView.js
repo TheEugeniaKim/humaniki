@@ -10,6 +10,8 @@ import timeseriesLogo from "../assets/timeseriesButton.png"
 import worldmapLogo from "../assets/worldmapButton.png"
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
+import NumericLabel from 'react-pretty-numbers';
+
 
 function DefaultView({API}){
   const svgRef = useRef()
@@ -19,6 +21,10 @@ function DefaultView({API}){
   const [total, setTotal] = useState()
   const [isLoading, setIsLoading] = useState(true)
   const [isErrored, setIsErrored] = useState(false)
+
+  const prettyNumParams = {
+    'shortFormat':true
+  }
 
   function processFetchData(err, data){
     if (err) {
@@ -71,15 +77,27 @@ function DefaultView({API}){
       <h6> Distribution of content of humans in all Wikimedia Projects </h6>
       <div className="list-gender-gap">
         <div className = "col-male">
-          <h4> {totalMen} </h4>
+          <h4>
+            <NumericLabel params={prettyNumParams}>
+              {totalMen} 
+            </NumericLabel>
+          </h4>
           <h6> Male Biographies </h6>
         </div>
         <div className = "col-gender">
-          <h4> {totalOthers} </h4>
+          <h4> 
+            <NumericLabel params={prettyNumParams}>  
+              {totalOthers} 
+            </NumericLabel>
+          </h4>
           <h6> Σ Other Biographies (sum) </h6>
         </div>
         <div className = "col-gender">
-          <h4> {totalWomen} </h4>
+          <h4> 
+            <NumericLabel params={prettyNumParams}>
+              {totalWomen} 
+            </NumericLabel>
+          </h4>
           <h6> Female Biographies </h6>
         </div>
       </div>
