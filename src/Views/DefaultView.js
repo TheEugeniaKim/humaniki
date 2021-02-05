@@ -23,7 +23,9 @@ function DefaultView({API}){
   const [isErrored, setIsErrored] = useState(false)
 
   const prettyNumParams = {
-    'shortFormat':true
+    'shortFormat':true,
+    'shortFormatPrecision': 1,
+    justification: 'C',
   }
 
   function processFetchData(err, data){
@@ -79,7 +81,8 @@ function DefaultView({API}){
         <div className = "col-male">
           <h4>
             <NumericLabel params={prettyNumParams}>
-              {totalMen} 
+              {/* {totalMen}  */}
+              12342353113
             </NumericLabel>
           </h4>
           <h6> Male Biographies </h6>
