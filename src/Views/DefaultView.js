@@ -23,9 +23,10 @@ function DefaultView({API}){
   const [isErrored, setIsErrored] = useState(false)
 
   const prettyNumParams = {
-    'shortFormat':true,
-    'shortFormatPrecision': 1,
-    justification: 'C',
+    shortFormat: true,
+    shortFormatMinValue: 1000,
+    shortFormatPrecision: 1,
+    justification: 'C'
   }
 
   function processFetchData(err, data){
@@ -81,27 +82,26 @@ function DefaultView({API}){
         <div className = "col-male">
           <h4>
             <NumericLabel params={prettyNumParams}>
-              {/* {totalMen}  */}
-              12342353113
+              {totalMen}
             </NumericLabel>
           </h4>
-          <h6> Male Biographies </h6>
+          <h6> Male Content </h6>
         </div>
         <div className = "col-gender">
           <h4> 
             <NumericLabel params={prettyNumParams}>  
-              {totalOthers} 
+              {totalOthers}
             </NumericLabel>
           </h4>
-          <h6> Σ Other Biographies (sum) </h6>
+          <h6> Σ Other Genders Content (sum) </h6>
         </div>
         <div className = "col-gender">
           <h4> 
             <NumericLabel params={prettyNumParams}>
-              {totalWomen} 
+              {totalWomen}
             </NumericLabel>
           </h4>
-          <h6> Female Biographies </h6>
+          <h6> Female Content </h6>
         </div>
       </div>
       <SingleBarChart genderTotals={[
