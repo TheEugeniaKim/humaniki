@@ -125,7 +125,7 @@ function DefaultView({API}){
         {isErrored ? errorDiv : null }
         {!isLoading && !isErrored ? viz : null }
       </div>
-      <div className="visualization-collection">
+      <div className="visualization-collection sub-container">
         <h4> Visualization Collection </h4>
         <h6> Humaniki allows you to explore the gender gap by several dimensions: </h6>
         <div className="row-viz-button">
@@ -149,7 +149,7 @@ function DefaultView({API}){
           </Link>
         </div>
       </div>
-      <div className="combine-search">
+      <div className="combine-search sub-container">
         <h4> Combine Search </h4>
         <h6> How to view cumulative gender metrics for different data dimensions at a time? </h6>
         <div className="row-combinesearch">
