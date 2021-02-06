@@ -14,7 +14,7 @@
   margin: 2rem;
 }
 
-
+/* Button begin */
 .btn-primary {
 	color: white;
 	background-color: #414166;
@@ -40,6 +40,7 @@
 	border-color: #414166;
 	box-shadow: 0 0 0 .2rem rgba(38,143,255,.5);
 }
+/* Button end */
 
 /* Navbar begin */
 
@@ -224,13 +225,13 @@ nav.navbar .mr-auto {
 
 /* About begin*/
 .About {
-	padding: 2px 24px 27px 24px;
+	padding: 0 24px 0 24px;
 	background: white;
   	text-align: center;
 }
 
 .About-Content{
-  margin-bottom: 3rem;
+  padding-top: 3rem;
 }
 
 .About-DataContainer{
@@ -241,7 +242,7 @@ nav.navbar .mr-auto {
   height: 60%;
   width: 70%;
   position: relative;
-  margin: 2rem;
+  margin-top: 1rem;
 }
 /* About end*/
 

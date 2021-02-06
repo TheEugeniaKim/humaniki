@@ -8,7 +8,7 @@ function AboutView(){
   return (
     <div className="About">
       <div className="About-Content">
-        <h3>We create awareness about content diversity in online knowledge spaces </h3>
+        <h4>We create awareness about content diversity in online knowledge spaces </h4>
         <figure>
           <img 
             className="about-img"
