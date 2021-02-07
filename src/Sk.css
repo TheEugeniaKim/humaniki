@@ -5,21 +5,65 @@
     border-color: #808080;
     border-width: 0 0.1px;
     border-style: solid;
+    text-align: center;
 }
 
+.wrapper {
+  width: 110vh;
+  height: 70vh;
+  margin: 2rem;
+}
+
+a {
+	text-decoration: none;
+	color: #000;
+}
+
+/* Button begin */
+.btn-primary {
+	color: white;
+	background-color: #414166;
+	border-color: #414166;
+}
+
+.btn-primary a {
+	color: white;
+	text-decoration: none;
+}
+
+.btn-primary:hover {
+	background-color: #1C1C2D;
+}
+
+.btn-primary:active {
+	background-color: #1C1C2D !important;
+}
+
+
+.btn-primary:focus {
+	background-color: #414166;
+	border-color: #414166;
+	box-shadow: 0 0 0 .2rem rgba(38,143,255,.5);
+}
+/* Button end */
+
 /* Navbar begin */
+
+.nav-logo {
+  width: 100px;
+}
+
 nav.navbar {
 	border: solid #AAAAAA;
     border-width: 0 0 1px 0;
 }
 
-.nav-logo {
-  width: 100px;
-}
 nav.navbar .mr-auto {
-    padding-left: 64%;
     padding-bottom: 0px;
+    flex: auto;
+    justify-content: flex-end;
 }
+
 /* Navbar end */
 
 
@@ -28,7 +72,7 @@ nav.navbar .mr-auto {
   background: #808080;
   color: white;
   text-align: center;
-  background: linear-gradient(180deg, #808080 70%, #F5F5F5 40%);
+  background: linear-gradient(180deg, #1C1C2D 70%, #F5F5F5 40%);
  }
 
 .visualization-collection {
@@ -46,7 +90,7 @@ nav.navbar .mr-auto {
 }
 
 .default-content h6 {
-	padding-top: 0.7rem;
+	padding: 0.7rem 0.5rem 0 0.5rem;
 }
 
 .default-title{
@@ -58,8 +102,10 @@ nav.navbar .mr-auto {
     color: black;
     height: 20%;
     margin: 2rem 10rem 0 10rem;
-    box-shadow: 5px 10px 18px #888888;
-    padding: 1.5rem;
+	box-shadow: 0 0 0.1rem rgba(136,136,136,.2);
+    padding: 2rem;
+    border: lightgray 0.1px solid;
+    border-radius: 10px;
 }
 
 .default-data-container p {
@@ -86,6 +132,83 @@ nav.navbar .mr-auto {
 	padding: 1rem 1rem 0.5rem 1rem;
 }
 
+.row-viz-button {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	text-align: center;
+	padding: 1rem 1rem 0.5rem 1rem;
+	color: white;
+}
+
+.row-viz-button a {
+	background-color: #414166;
+}
+
+.row-viz-button a:hover {
+	background-color: #1C1C2D;
+	text-decoration: none;
+}
+
+.col-button-container {
+	width:33%;
+	height: 16rem;
+}
+
+.col-button {
+	display: flex;
+	flex-flow: column;
+	height:100%;
+	color: #fff;
+	justify-content: center;
+	align-items: center;
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-position: center;
+}
+
+.col-scatterplot {
+	background-image: url(assets/scatterplotButton.png);
+}
+
+.col-worldmap {
+	background-image: url(assets/worldmapButton.png);
+}
+
+.col-timeseries {
+	background-image: url(assets/timeseriesButton.png);
+}
+
+.row-combinesearch{
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+	text-align: center;
+	padding: 1rem 1rem 0.5rem 1rem;	
+	width: 60%;
+	margin: auto;
+}
+
+.col-combinesearch {
+	text-align: left;
+}
+
+.col-combinesearch .btn-primary {
+	width: 100%;
+}
+
+.combinesearch-text {
+/*	width: 40%;*/
+	padding-right: 1rem;
+	width: 70%;
+}
+
+.combinesearch-button {
+	justify-content: center;
+	width: 30%;
+}
 /* Default-main end */
 
 
@@ -97,14 +220,120 @@ nav.navbar .mr-auto {
 }
 /* Visualization-view Container end*/
 
-.About {
-	padding: 2px 24px 27px 24px;
+/* About begin*/
+.about-main {
+	padding: 0 10rem 0 10rem;
+	background: white;
+  	text-align: left;
 }
+
+.about-header {
+	text-align: center;
+}
+
+.About-DataContainer{
+  background: white;
+  width: 70%;
+}
+
+.about-img{
+  height: 60%;
+  width: 70%;
+  position: relative;
+  margin-top: 1rem;
+}
+
+.sub-container {
+	padding-top: 3rem;
+}
+
+.row-team {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	text-align: center;
+	padding: 1rem 0 0.5rem 0;
+	color: white;
+}
+
+.row-team a {
+	background-color: #fff;
+	color: #000;
+}
+
+.row-team a:hover {
+	text-decoration: none;
+	background-color: #fffff1;
+}
+
+.col-team {
+	width:24%;
+	height: 6rem;
+}
+
+.col-team {
+	display: flex;
+	flex-flow: column;
+	height:100%;
+	color: #000;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
+
+.col-team-img {
+  width: 40%;
+  position: relative;
+  border-radius: 100%;
+
+}
+
+figcaption {
+    padding-top: 0.2rem;
+    font-variant: all-small-caps;
+}
+
+p.team-name {
+	margin: 0;
+	padding-top: 0.5rem;
+	font-weight: bold;
+}
+
+p.team-title {
+    margin: 0;
+    font-size: 0.8rem;
+    font-weight: 400;
+ }
+
+p.team-founder {
+    color: cornflowerblue;
+    margin: 0;
+    font-size: 0.8rem;
+    font-style: italic;
+    font-weight: 500;
+    padding-top: 0.3rem;
+    padding-bottom: 1rem;
+}
+
+.about-team-more a {
+    text-underline-position: under;
+    text-decoration: underline;
+    text-decoration-color: cornflowerblue;
+}
+
+.about-team-more a:hover {
+    text-decoration: underline;
+    text-decoration-color: cornflowerblue;
+  }
+
+/* About end*/
 
 footer {
 	background-color: #3B3B3B;
   	color: #AAAAAA;
   	border: none; 
+  	margin-top: 3rem;
 }
 
 .footer-container {
@@ -114,9 +343,10 @@ footer {
 	justify-content: flex-end;
 	text-align: left;
 	padding: 1.5rem;
+	font-size: 0.8rem;
 }
 
-.footer-container a{
+.footer-container a {
 	color: #AAAAAA;
 }
 
@@ -134,11 +364,13 @@ footer {
 .footer-copyright {
 	background-color: #2F2F2F;
 	padding: 1rem;
+	font-size: 0.8rem;
 }
 
 .footer-copyright p {
 	margin: 0;
 }
+
 
 /* 
 in world map component every country has .country + .unSelectedCountry and when filter selects then .country + .selectedCountry
@@ -168,6 +400,8 @@ every country is selected by default until there are filter selections
 @media (min-width: 992px) {
 	.navbar-expand-lg .navbar-nav .nav-link {
 	    padding-bottom: 0rem;
+	    padding-right: 1.5rem;
+    	padding-left: 1.5rem;
 	}
 }
 
@@ -176,7 +410,27 @@ every country is selected by default until there are filter selections
     	padding: 0px;
 	}
 	.default-data-container {
-    margin: 2rem 1rem 0 1rem;
-    padding: 1rem;
-}
+	    margin: 2rem 1rem 0 1rem;
+	    padding: 1rem;
+	}
+
+	.row-combinesearch {
+		width: 100%;
+	}
+
+	.col-button-container {
+		width: 100%;
+		padding: 1rem;
+		margin: 1rem;
+	}
+	.col-button {
+		align-items: left !important;
+	}
+
+	.about-main {
+			padding: 0 2rem 0 2rem;
+	}
+	.col-team {
+		width: 50%; 
+	}
 }

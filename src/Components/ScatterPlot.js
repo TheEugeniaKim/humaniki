@@ -53,9 +53,9 @@ function ScatterPlot(props) {
       .domain([props.extrema.totalMin, props.extrema.totalMax])
       .range([dimensions.height, 0])
 
-      console.log('Yscale extrema',props.extrema.totalMin, props.extrema.totalMax)
-      console.log('Yscale dim',dimensions.height)
-      console.log('Yscale of 0, 1, 10, 100, 1500000',yScale(0), yScale(1), yScale(10), yScale(100), yScale(1500000),)
+      // console.log('Yscale extrema',props.extrema.totalMin, props.extrema.totalMax)
+      // console.log('Yscale dim',dimensions.height)
+      // console.log('Yscale of 0, 1, 10, 100, 1500000',yScale(0), yScale(1), yScale(10), yScale(100), yScale(1500000),)
 
 
     const xAxis = axisBottom(xScale);
@@ -68,7 +68,6 @@ function ScatterPlot(props) {
 
     svg
       .select(".x-axis-title-text")
-        .append('g')
       .text(xAxisLabel)
         .attr("x", `${dimensions.width / 2}`)
         .attr("y", `${dimensions.height + 50}`)
@@ -80,13 +79,16 @@ function ScatterPlot(props) {
       .select(".y-axis")
       .call(yAxis)
 
-    svg.select(".y-axis-title-text")
+    svg
+      .select(".y-axis-title-text")
       .text(yAxisLabel)
         .attr("transform", `translate(${-50}, 
           ${dimensions.height / 2}) rotate(-90)`)
         .attr("text-anchor", "middle")
 
-    svg.selectAll(".node").remove()
+    svg
+      .selectAll(".node")
+      .remove()
 
     const nodes =  svg
       .selectAll(".node")
@@ -101,7 +103,7 @@ function ScatterPlot(props) {
       .attr("cy", (obj, dataIndex) => obj.total ? yScale(obj.total) : yScale(0))
       .attr("fill", (obj, dataIndex) => obj.female ? colorScale(obj.female) : colorScale(0))
       .attr("stroke", "black")
-        .attr("class", "circle")
+      .attr("class", "circle")
 
     nodes.append("title")
       .text(
@@ -113,12 +115,11 @@ function ScatterPlot(props) {
         `
       )
       nodes.append('text')
-      .attr("dx", (obj, dataIndex) => obj.femalePercent ? xScale(obj.femalePercent) : xScale(0))
-      .attr("dy", (obj, dataIndex) => obj.total ? yScale(obj.total) : yScale(0))
+      .attr("dx", (obj, dataIndex) => obj.femalePercent ? xScale(obj.femalePercent) + 10 : xScale(0))
+      .attr("dy", (obj, dataIndex) => obj.total ? yScale(obj.total) + 3 : yScale(0))
         .attr("fill", "black")
         .text(function(obj){return obj.project})
     }
-
     
   }, [props, dimensions]);
 

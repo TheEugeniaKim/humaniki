@@ -43,7 +43,7 @@ function GenderByDOBView({ API, snapshots }) {
   const [graphGenders, setGraphGenders] = useState({});
   const [yearStart, setYearStart] = useState(1600);
   const [yearEnd, setYearEnd] = useState(currYear);
-  const [snapshot, setSnapshot] = useState(null);
+  const [snapshot, setSnapshot] = useState("latest");
   const [population, setPopulation] = useState(populations.GTE_ONE_SITELINK);
   const [isLoading, setIsLoading] = useState(true);
   const [isErrored, setIsErrored] = useState(false);
@@ -59,7 +59,11 @@ function GenderByDOBView({ API, snapshots }) {
   }
 
   function handleSnapshotChange(e) {
-    setSnapshot(e.target.value);
+    let date = e.target.value
+    if (date.slice(11,20) === "(latest)"){
+      date = date.slice(0, 10)
+    }
+    setSnapshot(date.replace(/-+/g, ''))
   }
 
   function handleYearStart(e) {
@@ -212,9 +216,10 @@ function GenderByDOBView({ API, snapshots }) {
   }
 
   function filterAndCreateVizAndTable(meta, metrics) {
+    console.log("meta, metrics", meta, metrics, yearStart, yearEnd)
     const yearFilterFn = makeYearFilterFn(yearStart, yearEnd);
     // const filteredMetrics = metrics // TODO: actually filter metrics
-    console.log("Length of prefilter input is ,", metrics.length);
+    // console.log("Length of prefilter input is ,", metrics.length);
     const filteredMetrics = filterMetrics(metrics, yearFilterFn);
     // Here is genderFilter metrics
     // make fn in utils that will filter metrics by gender
@@ -272,11 +277,12 @@ function GenderByDOBView({ API, snapshots }) {
   // refetch useeffect
   useEffect(() => {
     setIsLoading(true);
+    console.log("REFETCHING", snapshot)
     API.get(
       {
         bias: "gender",
         metric: "gap",
-        snapshot: "latest",
+        snapshot: snapshot,
         population: population,
         property_obj: { date_of_birth: "all", label_lang: "en" },
       },
@@ -297,7 +303,7 @@ function GenderByDOBView({ API, snapshots }) {
       <Form.Control
         as="select"
         onChange={handleSnapshotChange}
-        value={snapshot ? snapshot : "latest"}
+        value={formatDate(snapshot)}
       >
         {snapshots.map((snapshot, index) => (
           <option key={snapshot.id}>
