@@ -33,6 +33,7 @@ function GenderByLanguageView({API, snapshots}) {
       date = date.slice(0, 10)
     }
     setSnapshot(date.replace(/-+/g, ''))
+    setTopProjects(null)
   }
 
     function createChartData(meta, metrics) {
@@ -78,17 +79,22 @@ function GenderByLanguageView({API, snapshots}) {
 
         setTableMetaData(extrema)
         setTableArr(tableArr)
+        if (!topProjects){
+          createTopProjects(tableArr)
+        }
+    }
 
-        const numTopProjects = 25
-        const sortedTableArrByTotal = tableArr.sort((a, b) => b.total - a.total)
-        const topTableArrByTotal = sortedTableArrByTotal.slice(0, numTopProjects)
-        const topProjects = topTableArrByTotal.map(tao => {
-            return {
-                label: tao.language,
-                value: tao.project,
-            }
-        })
-        setTopProjects(topProjects)
+    function createTopProjects(tableArr){
+      const numTopProjects = 25
+      const sortedTableArrByTotal = tableArr.sort((a, b) => b.total - a.total)
+      const topTableArrByTotal = sortedTableArrByTotal.slice(0, numTopProjects)
+      const topProjects = topTableArrByTotal.map(tao => {
+          return {
+              label: tao.language,
+              value: tao.project,
+          }
+      })
+      setTopProjects(topProjects)
     }
 
     function filterAndCreateVizAndTable(meta, metrics) {
@@ -131,8 +137,10 @@ function GenderByLanguageView({API, snapshots}) {
         return true
     }
 
-// ReFetch useEffect:
+// ReFetch useEffect changing snapshot view:
   useEffect(() => {
+    // set topProjects to null so that it will rerender to create top 25
+    // setTopProjects(null)
     API.get({
       bias: "gender",
       metric: "gap",
@@ -140,14 +148,14 @@ function GenderByLanguageView({API, snapshots}) {
       population: "gte_one_sitelink",
       property_obj: {project: "all", label_lang: "en"}
     }, processData)
-  }, [snapshots, snapshot])
+  }, [snapshot])
 
 // ReFilter useEffect: 
     useEffect(() => {
         if (allMeta && allMetrics) {
             filterAndCreateVizAndTable(allMeta, allMetrics)
         }
-    }, [selectedProjects])
+    }, [selectedProjects, topProjects])
 
     function afterFilter(newResult, newFilters) {
         console.log(newResult);
