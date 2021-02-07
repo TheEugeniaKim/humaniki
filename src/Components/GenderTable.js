@@ -7,7 +7,7 @@ import ToolkitProvider from "react-bootstrap-table2-toolkit";
 import filterFactory, {afterFilter} from "react-bootstrap-table2-filter";
 import paginationFactory from "react-bootstrap-table2-paginator";
 
-function GenderTable({tableColumns, tableArr, keyField}) {
+function GenderTable({tableColumns, tableArr, keyField, defaultSorted}) {
     const [showExpandGenders, setShowExpandGenders] = useState(false);
     const [modalShow, setModalShow] = useState(false)
     const [myToggles, setMyToggles] = useState({"male": true})
@@ -67,6 +67,7 @@ function GenderTable({tableColumns, tableArr, keyField}) {
                                 pagination={paginationFactory()}
                                 striped
                                 condensed
+                                defaultSorted={defaultSorted}
                             /> :
                             null
                         }

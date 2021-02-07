@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Container from 'react-bootstrap/Container'
+import Button from 'react-bootstrap/Button'
 import BootstrapTable from 'react-bootstrap-table-next'
 import 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css'
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter'
@@ -17,9 +18,9 @@ function CombineSearch({API, snapshots}){
   const [tableColumns, setTableColumns] = useState([{}])
   const [tableArr, setTableArr] = useState([])
   const [tableMetaData, setTableMetaData] = useState({})
-
   const [snapshot, setSnapshot] = useState("latest")
   const [selectedCountries, setSelectedCountries] = useState(null)
+  const [url, setURL] = useState(null)
   const [fetchObj, setFetchObj] = useState({
     bias: "gender",
     metric: "gap",
@@ -57,6 +58,7 @@ function CombineSearch({API, snapshots}){
       tempPropertyObj["property_obj"] = null
     }
     setFetchObj(tempPropertyObj)
+    setURL(API.makeURLFromDataPath(tempPropertyObj))
   }
 
   function handleHumanChange(event){
@@ -80,7 +82,18 @@ function CombineSearch({API, snapshots}){
       tableObj.key = index 
       let item_labels = Object.values(obj["item_label"])
       item_labels = item_labels.length > 0 ? item_labels : ["Overall"]
-      tableObj.index = item_labels.length > 1 ? item_labels.join(", ") : item_labels[0]
+      // in multi-dimensions search join the different titles in one index column
+      if (item_labels.length > 1){
+        tableObj.index = item_labels.join(", ")
+      } else {
+        // we know it's a single dimensional search
+        // isNan(parseInt(value)) ? value : parseInt(value) 
+        const value = item_labels[0]
+        const valueAsNum = parseInt(value)
+        tableObj.index = isNaN(valueAsNum) ? value : valueAsNum
+      }
+      // sometimes there is data but null values in item label. 
+      //The table is looking for dataField=index so we need to set index null for items with no item labels
       if (item_labels.includes(null)){
         tableObj.index = null
       }
@@ -138,6 +151,11 @@ function CombineSearch({API, snapshots}){
     API.get(fetchObj, processAPIData)
   }, [population, snapshots, snapshot, fetchObj])
 
+  const defaultSorted = [{
+    dataField: 'index',
+    order: 'asc'
+  }];
+
   console.log("pop", population)
   return(
     <div className="view-container">
@@ -155,6 +173,7 @@ function CombineSearch({API, snapshots}){
         onSubmit={onSubmit}
         snapshots={snapshots}
       /> 
+      {url ? <Button href={url} className="api-data-btn">API Link</Button> : null}
       <div className="table-container">
         {isLoading ? loadingDiv : null }
         {isErrored ? errorDiv : null }
@@ -163,6 +182,7 @@ function CombineSearch({API, snapshots}){
           tableArr={tableArr} 
           tableColumns={tableColumns} 
           keyField={keyFields.search}
+          defaultSorted={defaultSorted}
         />
       </div>
 
