@@ -14,7 +14,12 @@
   margin: 2rem;
 }
 
+a {
+	text-decoration: none;
+	color: #000;
+}
 
+/* Button begin */
 .btn-primary {
 	color: white;
 	background-color: #414166;
@@ -40,6 +45,7 @@
 	border-color: #414166;
 	box-shadow: 0 0 0 .2rem rgba(38,143,255,.5);
 }
+/* Button end */
 
 /* Navbar begin */
 
@@ -84,7 +90,7 @@ nav.navbar .mr-auto {
 }
 
 .default-content h6 {
-	padding-top: 0.7rem;
+	padding: 0.7rem 0.5rem 0 0.5rem;
 }
 
 .default-title{
@@ -124,14 +130,6 @@ nav.navbar .mr-auto {
 	justify-content: space-around;
 	text-align: center;
 	padding: 1rem 1rem 0.5rem 1rem;
-}
-
-.visualization-collection {
-	padding-top: 3rem;
-}
-
-.combine-search  {
-	padding-top: 3rem;
 }
 
 .row-viz-button {
@@ -223,26 +221,112 @@ nav.navbar .mr-auto {
 /* Visualization-view Container end*/
 
 /* About begin*/
-.About {
-	padding: 2px 24px 27px 24px;
+.about-main {
+	padding: 0 10rem 0 10rem;
 	background: white;
-  	text-align: center;
+  	text-align: left;
 }
 
-.About-Content{
-  margin-bottom: 3rem;
+.about-header {
+	text-align: center;
 }
 
 .About-DataContainer{
   background: white;
   width: 70%;
 }
+
 .about-img{
   height: 60%;
   width: 70%;
   position: relative;
-  margin: 2rem;
+  margin-top: 1rem;
 }
+
+.sub-container {
+	padding-top: 3rem;
+}
+
+.row-team {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	text-align: center;
+	padding: 1rem 0 0.5rem 0;
+	color: white;
+}
+
+.row-team a {
+	background-color: #fff;
+	color: #000;
+}
+
+.row-team a:hover {
+	text-decoration: none;
+	background-color: #fffff1;
+}
+
+.col-team {
+	width:24%;
+	height: 6rem;
+}
+
+.col-team {
+	display: flex;
+	flex-flow: column;
+	height:100%;
+	color: #000;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
+
+.col-team-img {
+  width: 40%;
+  position: relative;
+  border-radius: 100%;
+
+}
+
+figcaption {
+    padding-top: 0.2rem;
+    font-variant: all-small-caps;
+}
+
+p.team-name {
+	margin: 0;
+	padding-top: 0.5rem;
+	font-weight: bold;
+}
+
+p.team-title {
+    margin: 0;
+    font-size: 0.8rem;
+    font-weight: 400;
+ }
+
+p.team-founder {
+    color: cornflowerblue;
+    margin: 0;
+    font-size: 0.8rem;
+    font-style: italic;
+    font-weight: 500;
+    padding-top: 0.3rem;
+    padding-bottom: 1rem;
+}
+
+.about-team-more a {
+    text-underline-position: under;
+    text-decoration: underline;
+    text-decoration-color: cornflowerblue;
+}
+
+.about-team-more a:hover {
+    text-decoration: underline;
+    text-decoration-color: cornflowerblue;
+  }
+
 /* About end*/
 
 footer {
@@ -341,5 +425,12 @@ every country is selected by default until there are filter selections
 	}
 	.col-button {
 		align-items: left !important;
+	}
+
+	.about-main {
+			padding: 0 2rem 0 2rem;
+	}
+	.col-team {
+		width: 50%; 
 	}
 }

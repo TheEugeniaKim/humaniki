@@ -23,9 +23,10 @@ function DefaultView({API}){
   const [isErrored, setIsErrored] = useState(false)
 
   const prettyNumParams = {
-    'shortFormat':true,
-    'shortFormatPrecision': 1,
-    justification: 'C',
+    shortFormat: true,
+    shortFormatMinValue: 1000,
+    shortFormatPrecision: 1,
+    justification: 'C'
   }
 
   function processFetchData(err, data){
@@ -81,27 +82,26 @@ function DefaultView({API}){
         <div className = "col-male">
           <h4>
             <NumericLabel params={prettyNumParams}>
-              {/* {totalMen}  */}
-              12342353113
+              {totalMen}
             </NumericLabel>
           </h4>
-          <h6> Male Biographies </h6>
+          <h6> Male Content </h6>
         </div>
         <div className = "col-gender">
           <h4> 
             <NumericLabel params={prettyNumParams}>  
-              {totalOthers} 
+              {totalOthers}
             </NumericLabel>
           </h4>
-          <h6> Σ Other Biographies (sum) </h6>
+          <h6> Σ Other Genders Content (sum) </h6>
         </div>
         <div className = "col-gender">
           <h4> 
             <NumericLabel params={prettyNumParams}>
-              {totalWomen} 
+              {totalWomen}
             </NumericLabel>
           </h4>
-          <h6> Female Biographies </h6>
+          <h6> Female Content </h6>
         </div>
       </div>
       <SingleBarChart genderTotals={[
@@ -125,7 +125,7 @@ function DefaultView({API}){
         {isErrored ? errorDiv : null }
         {!isLoading && !isErrored ? viz : null }
       </div>
-      <div className="visualization-collection">
+      <div className="visualization-collection sub-container">
         <h4> Visualization Collection </h4>
         <h6> Humaniki allows you to explore the gender gap by several dimensions: </h6>
         <div className="row-viz-button">
@@ -149,7 +149,7 @@ function DefaultView({API}){
           </Link>
         </div>
       </div>
-      <div className="combine-search">
+      <div className="combine-search sub-container">
         <h4> Combine Search </h4>
         <h6> How to view cumulative gender metrics for different data dimensions at a time? </h6>
         <div className="row-combinesearch">
