@@ -88,7 +88,8 @@ function GenderByLanguageView({API, snapshots}) {
     }
 
     function filterAndCreateVizAndTable(meta, metrics) {
-        // if there are selected projects use those, else use topprojects
+        // if there are selected projects use those, else use top projects
+        // the default otherwise is to show all points
         let projectFilterFn = (metric) => true
         if (selectedProjects){
             projectFilterFn = makeProjectFilterFn(selectedProjects)
