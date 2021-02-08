@@ -105,7 +105,7 @@ function GenderByCountryView({ API, snapshots }) {
         tableObj[label + "Percent"] = obj["values"][genderId]
           ? (obj["values"][genderId] / tableObj["total"]) * 100
           : 0;
-        if (genderId !== "6581097" && genderId !== "6581072") {
+        if (genderId !== QIDs.male && genderId !== QIDs.female) {
           tableObj.sumOtherGenders += obj["values"][genderId]
             ? obj["values"][genderId]
             : 0;

@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import { select, geoPath, geoMercator, min, max, scaleLog, scaleLinear, zoom, scaleSequential, interpolatePurples} from "d3";
 import useResizeObserver from "./useResizeObserver";
+import { genderColorsMap } from "../utils"
 
 function WorldMap({ mapData, property, extrema, genders }) {
   const svgRef = useRef();
@@ -26,12 +27,8 @@ function WorldMap({ mapData, property, extrema, genders }) {
       const propertyValues = mapData.features.map(country => country.properties[property])
       const minProp = min(propertyValues)
       const maxProp = max(propertyValues)
-      console.log("MIN MAX", minProp, maxProp, property)
-      // const logScale = scaleLog().domain([.001, maxProp]).range(["#C4C4C4", "#6200F8"])
-      // const colorScale = scaleSequential(
-      //   (d) => interpolatePurples(logScale(d))
-      // ) 
-      const colorScale = scaleLinear().domain([minProp, maxProp]).range(["#C4C4C4", "#6200F8"])
+      const color = genderColorsMap[property] ? genderColorsMap[property] : genderColorsMap["sumOtherGenders"]
+      const colorScale = scaleLinear().domain([minProp, maxProp]).range(["#C4C4C4", color])
 
       g
         .selectAll(".country")
