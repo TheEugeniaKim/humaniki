@@ -51,6 +51,7 @@ export default class humanikiAPI {
       dataPath.property_obj
     )
     return urljoin(baseURL, "v1", urlDataPath, propertiesURLStr);
+    
   }
 
   handleNetworkErrors(response, processCB) {

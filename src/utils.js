@@ -58,7 +58,7 @@ export function createColumns(meta, metrics, indexColTitle, gapCol=null ){
     // 3. binary genders
     // 4. sum of nonbinary genders 
     // 5. nonbinary genders 
-    columns.push({dataField: indexColTitle, text: indexColTitle.toUpperCase(), filter: textFilter()})
+    columns.push({dataField: indexColTitle, text: indexColTitle.toUpperCase(), filter: textFilter(), sort: true})
     columns.push({dataField: "total",text: "Total", sort: true})
     columns.push(
       {
