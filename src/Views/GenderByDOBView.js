@@ -328,11 +328,9 @@ function GenderByDOBView({ API, snapshots }) {
         </h5>
         
       <Row className="justify-content-md-center">
-        <Col lg={8}>
+        <Col lg={7}>
           <p>All time, as of Aug'20 </p>
           {lineData.length === 0 ? null : (
-            // {!lineData ? null : (
-
             <LineChart
               lineData={lineData}
               graphGenders={graphGenders}
@@ -341,7 +339,7 @@ function GenderByDOBView({ API, snapshots }) {
             />
           )}
         </Col>
-        <Col sm={4}>
+        <Col sm={3}>
           {snapshotsDropdownOptions}
           <InputGroup className="mb-3" size="sm">
             <InputGroup.Prepend>

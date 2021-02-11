@@ -297,7 +297,7 @@ function GenderByCountryView({ API, snapshots }) {
       </p>
 
       <Row className="justify-content-md-center">
-        <Col lg={8}>
+        <Col lg={7}>
           <WorldMap
             mapData={mapData}
             property={property}
@@ -305,7 +305,7 @@ function GenderByCountryView({ API, snapshots }) {
             genders={genders}
           />
         </Col>
-        <Col sm={4}>
+        <Col sm={3}>
           {snapshotsDropdownOptions}
           <h6>Gender:</h6>
           <SelectDropdown 

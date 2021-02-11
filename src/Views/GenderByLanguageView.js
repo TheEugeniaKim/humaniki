@@ -220,14 +220,14 @@ function GenderByLanguageView({ API, snapshots }) {
       </p>
 
       <Row className="justify-content-md-center">
-        <Col lg={8}>
+        <Col lg={7}>
           <ScatterPlot
             data={tableArr}
             extrema={tableMetaData}
             columns={tableColumns}
           />
         </Col>
-        <Col sm={4}>
+        <Col sm={3}>
           {snapshotsDropdownOptions}
           <SelectDropdown 
             options={allProjects}
