@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Row, Col, Form, Tooltip } from "react-bootstrap";
-import { components } from "react-select";
-import makeAnimated from "react-select/animated";
 
 import GenderTable from "../Components/GenderTable";
 import ScatterPlot from "../Components/ScatterPlot";
@@ -13,10 +11,14 @@ import {
   loadingDiv,
   QIDs,
   keyFields,
+  MultiValue,
+  Option,
+  ValueContainer,
+  animatedComponents
 } from "../utils";
 
 import PopulationToggle from "../Components/PopulationToggler";
-import MultiSelectDropdown from '../Components/MultiSelectDropdown'
+import SelectDropdown from '../Components/SelectDropdown'
 
 function GenderByLanguageView({ API, snapshots }) {
   let makeProjectFilterFn = (selectedProjects) => (metric) => {
@@ -45,15 +47,6 @@ function GenderByLanguageView({ API, snapshots }) {
     }
     setSnapshot(date.replace(/-+/g, ""));
     setTopProjects(null);
-  }
-
-  function handleSetSelectedProjects(e){
-    console.log(e)
-    if (e==="*"){
-        setSelectedProjects(allProjects)
-    } else {
-        setSelectedProjects(e)
-    }
   }
 
   function createChartData(meta, metrics) {
@@ -210,30 +203,7 @@ function GenderByLanguageView({ API, snapshots }) {
   ) : (
     <div> snapshots loading </div>
   );
-
-  const Option = props => {
-    return (
-      <div>
-        <components.Option {...props}>
-          <input
-            type="checkbox"
-            checked={props.isSelected}
-            onChange={() => null}
-          />{" "}
-          <label>{props.label}</label>
-        </components.Option>
-      </div>
-    );
-  };
   
-  const MultiValue = props => (
-    <components.MultiValue {...props}>
-      <span>{props.data.label}</span>
-    </components.MultiValue>
-  );
-  
-  const animatedComponents = makeAnimated();
-
   return (
     <div className="view-container">
       <h1>Gender Gap By Language Editions in Wikimedia Projects</h1>
@@ -259,15 +229,14 @@ function GenderByLanguageView({ API, snapshots }) {
         </Col>
         <Col sm={4}>
           {snapshotsDropdownOptions}
-          <MultiSelectDropdown 
+          <SelectDropdown 
             options={allProjects}
             isMulti
-            closeMenuOnSelect={false}
-            hideSelectedOptions={false}
+            hideSelectedOptions={true}
             isClearable={true}
-            components={{Option, MultiValue, animatedComponents}}
+            components={{Option, MultiValue, ValueContainer, animatedComponents}}
             allowSelectAll={true}
-            onChange={handleSetSelectedProjects}
+            onChange={setSelectedProjects}
             placeholder={`Add data points from ${allProjects.length} wikimedia projects`}
             value={selectedProjects}
           />

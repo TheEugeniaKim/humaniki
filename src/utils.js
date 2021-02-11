@@ -1,7 +1,9 @@
 import React from 'react'
 import { textFilter } from 'react-bootstrap-table2-filter'
-import Form from 'react-bootstrap/Form'
-//gender color map see single bar chart a
+import { components } from "react-select";
+import makeAnimated from "react-select/animated";
+
+//gender color map see single bar chart component
 export const colors = ["#517FC1","#FAD965","#F19359"]
 
 export const genderColorsMap = {male: "#517FC1", female: "#F19359", sumOtherGenders: "#FAD965"}
@@ -27,7 +29,6 @@ export const baseURL = process.env.REACT_APP_API_URL
 
 export const errorDiv = <div>Error</div>
 export const loadingDiv = <div>Loading</div>
-
 
 export function filterMetrics(metrics, filterFn){
   return metrics.filter(metric => filterFn(metric));
@@ -131,4 +132,57 @@ export function createColumns(meta, metrics, indexColTitle, gapCol=null ){
     }
     
   return columns 
+}
+
+// Helper to MultiSelectDropdown Component
+export const Option = (props) => {
+  return (
+    <div>
+      <components.Option {...props}>
+        <input
+          type="checkbox"
+          checked={props.isSelected}
+          onChange={() => null}
+        />{" "}
+        <label>{props.label}</label>
+      </components.Option>
+    </div>
+  )
+}
+
+// Helper to MultiSelectDropdown Component
+export const MultiValue = (props) => {
+  let labelToBeDisplayed = `${props.data.label}, `
+  if (props.data.value === selectAllOption.value){
+    labelToBeDisplayed = "All Selected"
+  }
+  return (
+    <components.MultiValue {...props}>
+      <span>{labelToBeDisplayed}</span>
+    </components.MultiValue>
+  )
+}
+
+// Helper to MultiSelectDropdown Component
+export const ValueContainer = ({children, ...props}) => {
+  const currentValues = props.getValue()
+  let labelToBeRendered = children
+  if (currentValues.some(v => v.value === selectAllOption.value)){
+    labelToBeRendered = [[children[0][0]], children[1]]
+  }
+
+  return (
+    <components.ValueContainer {...props}>
+      {labelToBeRendered}
+    </components.ValueContainer>
+  )
+}
+
+// Helper to MultiSelectDropdown Component
+export const animatedComponents = makeAnimated();
+
+// Helper to MultiSelectDropdown Component
+export const selectAllOption = {
+  label: "Select All",
+  value: "*"
 }

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Select from "react-select";
 import WorldMap from "../Components/WorldMap";
 import GenderTable from "../Components/GenderTable";
+import PopulationToggle from "../Components/PopulationToggler";
+import SelectDropdown from '../Components/SelectDropdown';
 import preMapData from "../Components/custom.geo.json";
 import { Col, Row, InputGroup, Form, Container } from "react-bootstrap";
 import { propTypes } from "react-bootstrap/esm/Image";
@@ -14,11 +15,11 @@ import {
   loadingDiv,
   QIDs,
   keyFields,
-  genderColorsMap
+  MultiValue,
+  ValueContainer,
+  Option,
+  animatedComponents
 } from "../utils.js";
-
-import PopulationToggle from "../Components/PopulationToggler";
-import { ValueContainer } from "../Components/LimitedMultiSelect";
 
 function GenderByCountryView({ API, snapshots }) {
   let makeCountryFilterFn = (selectedCountries) => (metric) => {
@@ -307,16 +308,21 @@ function GenderByCountryView({ API, snapshots }) {
         <Col sm={4}>
           {snapshotsDropdownOptions}
           <h6>Gender:</h6>
-          <Select 
-            options={genders} onChange={(e) => setProperty(e.value)} 
-            placeholder={"female"} 
+          <SelectDropdown 
+            options={genders}
+            onChange={(e) => setProperty(e.value)}
+            placeholder={"female"}
+            allowSelectAll={false}
           />
           <h6>Countries: </h6>
-          <Select
-            options={[{ label: "All", value: "*" }, ...allCountries]}
+          <SelectDropdown 
+            options={allCountries}
             isMulti
+            hideSelectedOptions={true}
             isClearable={true}
+            components={{Option, MultiValue, ValueContainer, animatedComponents}}
             onChange={setSelectedCountries}
+            allowSelectAll={true}
           />
         </Col>
       </Row>
