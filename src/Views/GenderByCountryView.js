@@ -322,7 +322,7 @@ function GenderByCountryView({ API, snapshots }) {
             isClearable={true}
             components={{Option, MultiValue, ValueContainer, animatedComponents}}
             onChange={setSelectedCountries}
-            allowSelectAll={true}
+            allowSelectAll={false}
           />
         </Col>
       </Row>
