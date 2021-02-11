@@ -79,7 +79,7 @@ function AboutView(){
             </a>
           </div>
           <div className ="col-team">
-            <a href="https://www.sejalkhatri.com/" target="_blank">
+            <a href="https://www.linkedin.com/in/theeugeniakim/" target="_blank">
               <img 
                 className="col-team-img"
                 src={ekImage}
