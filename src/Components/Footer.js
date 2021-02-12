@@ -18,7 +18,7 @@ function Footer(){
  	 		<div className="list-container list-contributing">
  	 			<h6> Contributing </h6> 
  	 			<ul> 
- 	 				<li><a href="">Contributing guide</a></li>
+ 	 				<li><a href="https://github.com/TheEugeniaKim/humaniki/blob/master/docs/CONTRIBUTION_GUIDE.md" target="_blank">Contributing guide</a></li>
  	 				<li><a href="https://phabricator.wikimedia.org/maniphest/task/edit/form/59/?title=Humaniki%20Bug&projectPHIDs=Humaniki" target="_blank">Report a bug</a></li>
  	 				<li><a href="https://phabricator.wikimedia.org/maniphest/task/edit/form/56/?title=Humaniki%20New%20Feature&projectPHIDs=Humaniki" target="_blank">Request a Feature</a></li>
  	 			</ul>
@@ -27,7 +27,7 @@ function Footer(){
  	 			<h6> Community </h6> 
   	 			<ul> 
  	 				<li><a href="https://phabricator.wikimedia.org/project/board/4967/" target="_blank">Phabricator</a></li>
- 	 				<li><a href="">Github</a></li>
+ 	 				<li><a href="https://github.com/TheEugeniaKim/humaniki/blob/master/docs/CONTRIBUTION_GUIDE.md" target="_blank">Github</a></li>
  	 				<li><a href="">IRC</a></li>
  	 				<li><a href="https://twitter.com/humanikiData" target="_blank">Twitter</a></li>
  	 			</ul>
