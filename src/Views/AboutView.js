@@ -29,11 +29,11 @@ function AboutView(){
         </p>
 
         <p>
-          Humaniki  is a merger of two previous data diversity tools, Wikidata Human Gender Indicators a.k.a WHGI and Denelezh, created by Maximillian Klein and Envel Le Hir respectively. Both of those previous sites were useful to the community, but as proof of concepts needed extra architectural work. It was decided that instead of improving each one, we would work together in the Wikimedian spirit of cooperation. 
+          Humaniki  is a merger of two previous data diversity tools, <a href="https://whgi.wmflabs.org/" target="_blank">Wikidata Human Gender Indicators a.k.a WHGI</a> and <a href="https://denelezh.wmcloud.org/" target="_blank">Denelezh</a>, created by Maximillian Klein and Envel Le Hir respectively. Both of those previous sites were useful to the community, but as proof of concepts needed extra architectural work. It was decided that instead of improving each one, we would work together in the Wikimedian spirit of cooperation. 
         </p>
 
         <p>
-          We have also conducted research about the significance of what Wikipedia's biography gap represents. That is, gender disparities in biographies mirror “traditional” gender-disparity indices (GDI, GEI, GGGI and SIGI), and occupational gender, although are most correlated to economic measurements.  Read our  paper 'Gender gap through time and space: A journey through Wikipedia biographies via the Wikidata Human Gender Indicator' for more.
+          We have also conducted research about the significance of what Wikipedia's biography gap represents. That is, gender disparities in biographies mirror “traditional” gender-disparity indices (GDI, GEI, GGGI and SIGI), and occupational gender, although are most correlated to economic measurements.  Read our paper <a href="https://journals.sagepub.com/eprint/FCqs2m9JJxeN66dsTde9/full" target="_blank">'Gender gap through time and space: A journey through Wikipedia biographies via the Wikidata Human Gender Indicator'</a> for more.
         </p>
 
         <p>
@@ -55,7 +55,7 @@ function AboutView(){
         <h5> Meet our Team </h5>
         <div className="row-team">
           <div className ="col-team">
-            <a href="https://www.sejalkhatri.com/" target="_blank">
+            <a href="https://notconfusing.com/" target="_blank">
               <img 
                 className="col-team-img"
                 src={mkImage}
@@ -67,7 +67,7 @@ function AboutView(){
             </a>
           </div>
           <div className ="col-team">
-            <a href="https://www.sejalkhatri.com/" target="_blank">
+            <a href="https://www.lehir.net/about/" target="_blank">
               <img 
                 className="col-team-img"
                 src={ehImage}

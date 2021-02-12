@@ -9,9 +9,9 @@ function Footer(){
  	 		<div className="list-container list-documentation">
  	 			<h6> Documentation </h6> 
  	 			<ul> 
-          <li><a href="">About Humaniki</a></li>
- 	 				<li><a href="">Humaniki API</a></li>
- 	 				<li><a href="">Data it uses</a></li>
+          <li><a href="https://www.mediawiki.org/wiki/Humaniki" target="_blank">About Humaniki</a></li>
+ 	 				<li><a href="https://www.mediawiki.org/wiki/Humaniki/FAQ#What_is_the_roadmap?" target="_blank">Humaniki Roadmap</a></li>
+ 	 				<li><a href="https://www.mediawiki.org/wiki/Humaniki/FAQ#What_data_it_uses?" target="_blank">Data it uses</a></li>
  	 				<li><a href="https://www.mediawiki.org/wiki/Humaniki/FAQ" target="_blank">FAQ</a></li>
  	 			</ul>
  	 		</div>
@@ -19,14 +19,14 @@ function Footer(){
  	 			<h6> Contributing </h6> 
  	 			<ul> 
  	 				<li><a href="">Contributing guide</a></li>
- 	 				<li><a href="">Report a bug</a></li>
- 	 				<li><a href="">Request a Feature</a></li>
+ 	 				<li><a href="https://phabricator.wikimedia.org/maniphest/task/edit/form/59/?title=Humaniki%20Bug&projectPHIDs=Humaniki" target="_blank">Report a bug</a></li>
+ 	 				<li><a href="https://phabricator.wikimedia.org/maniphest/task/edit/form/56/?title=Humaniki%20New%20Feature&projectPHIDs=Humaniki" target="_blank">Request a Feature</a></li>
  	 			</ul>
  	 		</div>
  	 		<div className="list-container list-community">
  	 			<h6> Community </h6> 
   	 			<ul> 
- 	 				<li><a href="https://phabricator.wikimedia.org/project/profile/4967/" target="_blank">Phabricator</a></li>
+ 	 				<li><a href="https://phabricator.wikimedia.org/project/board/4967/" target="_blank">Phabricator</a></li>
  	 				<li><a href="">Github</a></li>
  	 				<li><a href="">IRC</a></li>
  	 				<li><a href="https://twitter.com/humanikiData" target="_blank">Twitter</a></li>
