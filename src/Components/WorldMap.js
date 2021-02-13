@@ -28,10 +28,8 @@ function WorldMap({mapData, property, extrema, genders}) {
         const svg = select(svgRef.current);
         const g = svg.select(".countries")
         const key = svg.select('.key')
-        // const l = svg.select(".label")
         const {width, height} = dimensions || wrapperRef.current.getBoundingClientRect();
         const projection = geoMercator().fitSize([width, height], mapData);
-
         //takes geojson data and transforms that into the d attribute of path element
         const pathGenerator = geoPath().projection(projection);
         if (mapData === null) {
@@ -40,16 +38,23 @@ function WorldMap({mapData, property, extrema, genders}) {
             const propertyValues = mapData.features.map(country => country.properties[property])
             const minProp = min(propertyValues)
             const maxProp = max(propertyValues)
+            const propertyPercent = property + "Percent"
+            const propertyValuesPercents = mapData.features.map(country => country.properties[propertyPercent])
+            const minPropPercent = min(propertyValuesPercents)
+            const maxPropPercent = max(propertyValuesPercents)
             const color = genderColorsMap[property] ? genderColorsMap[property] : genderColorsMap["sumOtherGenders"]
             const colorScale = scaleLinear().domain([minProp, maxProp]).range(["#C4C4C4", color])
+            const colorScalePercent = scaleLinear().domain([minPropPercent, maxPropPercent]).range(["#C4C4C4", color])
 
             g
                 .selectAll(".country")
                 .data(mapData.features)
                 .join("path")
                 .attr("class", feature => feature.properties.isSelected ? "country selectedCountry" : "country unSelectedCountry")
-                .attr("fill", feature => colorScale(feature.properties[property]))
-                .attr("d", feature => pathGenerator(feature))
+                .attr("fill", feature => colorScalePercent(feature.properties[propertyPercent]))
+                // .attr("stroke", feature => colorScale(feature.properties[property]))
+                // .attr("stroke-width", "0.1em")
+                .attr("d", feature =>pathGenerator(feature))
                 .append("title")
                 .text((value) => value.properties.text ?
                     `${value.properties.name}: 
@@ -85,13 +90,13 @@ function WorldMap({mapData, property, extrema, genders}) {
 
             legend.select("#zero")
                 .attr("offset", "0%")
-                .attr("stop-color", colorScale(minProp))
+                .attr("stop-color", colorScalePercent(minPropPercent))
                 .attr("stop-opacity", 1);
 
 
             legend.select("#hundred")
                 .attr("offset", "100%")
-                .attr("stop-color", colorScale(maxProp))
+                .attr("stop-color", colorScalePercent(maxPropPercent))
                 .attr("stop-opacity", 1);
 
             key.select(".legendRect")
@@ -140,7 +145,7 @@ function WorldMap({mapData, property, extrema, genders}) {
                     <g className="legendG">
                         <text></text>
                     </g>
-                </g>
+                </g>   
             </svg>
         </div>
     )
