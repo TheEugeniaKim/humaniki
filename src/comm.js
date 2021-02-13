@@ -6,6 +6,10 @@ export default class humanikiAPI {
     this.cache = {};
   }
 
+  networkErrorTest(processCB){
+
+  }
+
   saveSnapshots(processCB) {
     // get the available snapshots ready for the application
     let snpapshotPath = "/v1/available_snapshots/";
@@ -76,8 +80,8 @@ export default class humanikiAPI {
           .then((data) =>
             // check if the data had explicit errors
             {
-              if (Object.keys(data).includes("error")) {
-                processCB(data["error"], {});
+              if (Object.keys(data).includes("errors")) {
+                processCB(data["errors"], {});
               } else {
                 this.saveToCache(url, data);
                 processCB(null, data);
