@@ -280,13 +280,13 @@ function GenderByCountryView({ API, snapshots }) {
   );
 
   return (
-    <div className="view-container">
-      <h2 className="heading-left">Gender Gap By Country</h2>
+    <div className="view-container country-view sub-container">
+      <h4 className="heading-left">Gender Gap By Country</h4>
       <PopulationToggle handleToggle={handleHumanChange} />
-      <h5>
+      <p className="viz-description">
         Percentage of biographies and other content of women based on country of
         citizenship
-      </h5>
+      </p>
 
       <p>
         This plot shows the percentage of biographies and other content of
@@ -295,7 +295,7 @@ function GenderByCountryView({ API, snapshots }) {
         official as of December 2020. Note: As for January, 2016, only about 30%
         of biographies had place of birth, so this data is incomplete.
       </p>
-
+      <p className="viz-timestamp">All time, as of Aug'20 </p>
       <Row className="justify-content-md-center">
         <Col lg={7}>
           <WorldMap
