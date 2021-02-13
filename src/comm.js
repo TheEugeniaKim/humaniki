@@ -7,7 +7,7 @@ export default class humanikiAPI {
   }
 
   networkErrorTest(processCB){
-
+    
   }
 
   saveSnapshots(processCB) {
@@ -61,7 +61,7 @@ export default class humanikiAPI {
   handleNetworkErrors(response, processCB) {
     if (response.ok) {
     } else if (!response.ok) {
-      processCB("NetworkError", {});
+      processCB({NetworkError:"Was not able to communicate with backend"}, {});
     }
     return response;
   }

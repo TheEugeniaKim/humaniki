@@ -4,7 +4,7 @@ import { Container, Row } from 'react-bootstrap'
 import SingleBarChart from '../Components/SingleBarChart'
 import "../App.css"
 import "../Sk.css"
-import { colors } from '../utils'
+import { colors, errorDiv, loadingDiv } from '../utils'
 import scatterplotLogo from "../assets/scatterplotButton.png"
 import timeseriesLogo from "../assets/timeseriesButton.png"
 import worldmapLogo from "../assets/worldmapButton.png"
@@ -72,8 +72,6 @@ function DefaultView({API}){
     .attr("x", (value) => value)    
   }, [totalMen, totalOthers, totalWomen])
 
-  const errorDiv = <div>Error</div>
-  const loadingDiv = <div>Loading</div>
   const viz = 
     <div className="default-data-container">
       <h5> Global Gender Gap </h5>
