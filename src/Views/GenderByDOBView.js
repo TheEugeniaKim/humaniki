@@ -319,17 +319,19 @@ function GenderByDOBView({ API, snapshots }) {
   );
 
   return (
-    <div className="view-container">
-        <h1>Gender Gap By Year of Birth</h1>
-        <PopulationToggle handleToggle={handleHumanChange} />
-        <h5>
-          This plot shows the Date of Birth (DoB) of each biography and
-          other content associated with humans in Wikimedia Projects, by gender
-        </h5>
-        
+    <div className="view-container dob-view sub-container">
+      <h4>Gender by Year of Birth Statistics</h4>
+      <PopulationToggle handleToggle={handleHumanChange}/>
+      <div className="viz-description">
+        <h5>Gender Gap By Year of Birth</h5>
+        <p>
+          This plot shows the Date of Birth (DoB) of content about humans 
+          in all Wikimedia projects, typically Wikipedia biography articles, by gender.
+        </p>
+      </div>
+      <p className="viz-timestamp">All time, as of Aug'20</p>
       <Row className="justify-content-md-center">
-        <Col lg={7}>
-          <p>All time, as of Aug'20 </p>
+        <Col lg={7}>  
           {lineData.length === 0 ? null : (
             <LineChart
               lineData={lineData}

@@ -211,15 +211,6 @@ nav.navbar .mr-auto {
 }
 /* Default-main end */
 
-
-/* Visualization-view Container begin*/
-
-.view-container {
-	padding: 2rem;
-  	margin-bottom: 5rem;
-}
-/* Visualization-view Container end*/
-
 /* About begin*/
 .about-main {
 	padding: 0 10rem 0 10rem;
@@ -341,6 +332,45 @@ p.team-founder {
 
 /* About end*/
 
+/*Visualizations Container begin*/
+
+.view-container {
+	text-align: left;
+	margin-bottom: 5rem;
+	padding: 2rem;
+}
+
+.view-container .nav-tabs {
+	padding-top: 1rem;
+}
+
+.viz-description {
+	padding-top: 2rem;
+}
+.viz-description p {
+	font-weight: 500;
+	padding-top: 0.5rem;
+}
+.viz-timestamp {
+	font-style: italic;
+}
+.dob-view .col-lg-7 {
+	margin-bottom: 2rem;
+	margin-left: 1rem;
+}
+.dob-view .col-lg-7 .wrapper {
+	width: 90%;
+	height: 20rem;
+}
+
+.expand-genders {
+	text-align: right;
+}
+
+/*Visualizations Container end*/
+
+
+/*Footer begin*/
 footer {
 	background-color: #3B3B3B;
   	color: #AAAAAA;
@@ -382,7 +412,7 @@ footer {
 .footer-copyright p {
 	margin: 0;
 }
-
+/*Footer end*/
 
 /* 
 in world map component every country has .country + .unSelectedCountry and when filter selects then .country + .selectedCountry
