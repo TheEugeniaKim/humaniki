@@ -77,7 +77,10 @@ function WorldMap({mapData, property, extrema, genders}) {
             key
                 .select(".legendSvg")
                 .attr("width", width)
-                .attr("height", legendHeight);
+                .attr("height", legendHeight)
+
+            key
+                .attr("style", "transform: translate(5%, 0) scale(0.9)")
 
             const legend = key.select(".legendDefs")
                 .select("linearGradient")
@@ -93,7 +96,6 @@ function WorldMap({mapData, property, extrema, genders}) {
                 .attr("stop-color", colorScalePercent(minPropPercent))
                 .attr("stop-opacity", 1);
 
-
             legend.select("#hundred")
                 .attr("offset", "100%")
                 .attr("stop-color", colorScalePercent(maxPropPercent))
@@ -103,7 +105,6 @@ function WorldMap({mapData, property, extrema, genders}) {
                 .attr("width", width)
                 .attr("height", legendHeight)
                 .style("fill", "url(#gradient)")
-            // .attr("transform", "translate(0,10)");
 
             const y = scaleLinear()
                 .domain([0, 100])
