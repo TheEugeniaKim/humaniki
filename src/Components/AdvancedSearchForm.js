@@ -8,6 +8,9 @@ function AdvacnedSearchForm({ onSubmit, snapshots }) {
   const [formState, setFormState] = useState({
     selectedSnapshot: null,
     selectedYearRange: null,
+    // year range will be null or "all" for full year or string "startEnd" which means to construct a start~end string
+    selectedYearRangeStart: null, 
+    selectedYearRangeEnd: null,
     selectedWikiProject: null,
     selectedCitizenship: null,
     selectedOccupation: null,
@@ -19,11 +22,33 @@ function AdvacnedSearchForm({ onSubmit, snapshots }) {
       [e.target.id]: e.target.value.replace(/-/g, ""),
     });
 
-  const handleInputChange = (e) =>
-    setFormState({
-      ...formState,
-      [e.target.id]: e.target.value,
-    });
+  const handleSelectedYearRange = (e) => { 
+    if (e.target.value === "all"){
+      setFormState({
+        ...formState, 
+        selectedYearRange: "all"
+      })
+    } else if (e.target.value === "startEnd"){
+      setFormState({
+        ...formState, 
+        selectedYearRange: "startEnd"
+      }) 
+    } 
+  }
+
+  const handleSelectedYearRangeTextInput = (e) => {
+    if (e.target.id === "yearStart"){
+      setFormState({
+        ...formState, 
+        selectedYearRangeStart: e.target.value
+      })
+    } else if (e.target.id === "yearEnd"){
+      setFormState({
+        ...formState,
+        selectedYearRangeEnd: e.target.value
+      })
+    }
+  }
 
   function handleWikiInputChange(e) {
     if (e.target.value === "All") {
@@ -139,16 +164,48 @@ function AdvacnedSearchForm({ onSubmit, snapshots }) {
     <Form onSubmit={handleOnSubmit}>
       <Row>
         {snapshotFormGroup}
-        <Form.Group controlId="selectedYearRange">
+        <Form.Group>
           <Form.Label>Year of Birth '[YEAR]~[YEAR]'</Form.Label>
+          <Form.Check 
+            type="radio"
+            value="No Filter"
+            label="No Filter"
+            id="noFilter"
+            name="selectedYearRangeType"
+            onChange={handleSelectedYearRange}
+          />
+          <Form.Check 
+            type="radio"
+            value="all"
+            label="All (1600 to present)"
+            id="all"
+            name="selectedYearRangeType"
+            onChange={handleSelectedYearRange}
+          />
+          <Form.Check 
+            type="radio"
+            value="startEnd"
+            label="From:"
+            id="range"
+            name="selectedYearRangeType"
+            onChange={handleSelectedYearRange}
+          />
           <Form.Control
             type="text"
-            onChange={handleInputChange}
-            value={
-              formState.selectedYearRange === null
-                ? "YYYY~YYYY"
-                : formState.selectedYearRange
-            }
+            onChange={handleSelectedYearRangeTextInput}
+            value={formState.selectedYearRangeStart}
+            placeholder="YYYY"
+            id="yearStart"
+            disabled={formState.selectedYearRange === "startEnd" ? undefined : true}
+          />
+          <Form.Label>To: </Form.Label>
+          <Form.Control
+            type="text"
+            onChange={handleSelectedYearRangeTextInput}
+            value={formState.selectedYearRangeEnd}
+            placeholder="YYYY"
+            id="yearEnd"
+            disabled={formState.selectedYearRange === "startEnd" ? undefined : true}
           />
         </Form.Group>
 
@@ -186,20 +243,6 @@ function AdvacnedSearchForm({ onSubmit, snapshots }) {
           </Form.Control>
         </Form.Group>
 
-        {/* <Form.Group controlId="selectedOccupation">
-          <Form.Label>Occupation</Form.Label>
-          <Form.Control
-            as="select"
-            onChange={handleInputChange}
-            value={
-              formState.selectedOccupation
-                ? formState.selectedOccupation
-                : "Occupation"
-            }
-          >
-            <option>No Filter</option>
-          </Form.Control>
-        </Form.Group> */}
       </Row>
       <Row>
         <Button variant="primary" type="submit" onSubmit={handleOnSubmit}>

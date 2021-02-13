@@ -44,7 +44,6 @@ function CombineSearch({API, snapshots}){
     if (formState.selectedSnapshot){
       tempPropertyObj.snapshot = formState.selectedSnapshot
     }
-    console.log("formState", formState)
     if (formState.selectedCitizenship){
       tempPropertyObj["property_obj"]["citizenship"] = formState.selectedCitizenship
     } 
@@ -52,7 +51,11 @@ function CombineSearch({API, snapshots}){
       tempPropertyObj["property_obj"]["project"] = formState.selectedWikiProject
     }
     if (formState.selectedYearRange){
-      tempPropertyObj["property_obj"]["date_of_birth"] = formState.selectedYearRange
+      if (formState.selectedYearRange === "all"){
+        tempPropertyObj["property_obj"]["date_of_birth"] = formState.selectedYearRange
+      } else if (formState.selectedYearRange === "startEnd") {
+        tempPropertyObj["property_obj"]["date_of_birth"] = `${formState.selectedYearRangeStart}~${formState.selectedYearRangeEnd}`
+      }
     }
     if (Object.keys(tempPropertyObj["property_obj"]).length === 0){
       tempPropertyObj["property_obj"] = null
@@ -67,7 +70,6 @@ function CombineSearch({API, snapshots}){
   }
 
   function processTableData(meta, metrics){
-    console.log("INSIDE PROCESS TABLE DATA")
     let tableArr = []
     let genders = Object.values(meta.bias_labels).map(gender => {
       return {
@@ -127,7 +129,6 @@ function CombineSearch({API, snapshots}){
     } else {
       if (!fetchData) return
       if (!snapshots) return
-      console.log("resData:", fetchData, "snapshotData:", snapshots)
       setAllMetrics(fetchData.metrics)
       setAllMeta(fetchData.meta)
       setTableColumns(createColumns(fetchData.meta, fetchData.metrics, keyFields.search, true))
@@ -145,7 +146,6 @@ function CombineSearch({API, snapshots}){
 
   useEffect(() => {
     if (!snapshots){
-      console.log("INUSEEFFECT ERR")
       return
     }
     API.get(fetchObj, processAPIData)
@@ -156,7 +156,6 @@ function CombineSearch({API, snapshots}){
     order: 'asc'
   }];
 
-  console.log("pop", population)
   return(
     <div className="view-container">
       <h2>Explore multiple data categories</h2>
