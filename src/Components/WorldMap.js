@@ -1,71 +1,149 @@
-import React, { useRef, useEffect, useState } from "react";
-import { select, geoPath, geoMercator, min, max, scaleLog, scaleLinear, zoom, scaleSequential, interpolatePurples} from "d3";
+import React, {useRef, useEffect, useState} from "react";
+import {
+    select,
+    geoPath,
+    geoMercator,
+    min,
+    max,
+    scaleLog,
+    scaleLinear,
+    zoom,
+    scaleSequential,
+    interpolatePurples,
+    axisBottom
+} from "d3";
 import useResizeObserver from "./useResizeObserver";
-import { genderColorsMap } from "../utils"
+import {genderColorsMap} from "../utils"
 
-function WorldMap({ mapData, property, extrema, genders }) {
-  const svgRef = useRef();
-  const wrapperRef = useRef();
-  const dimensions = useResizeObserver(wrapperRef);
+function WorldMap({mapData, property, extrema, genders}) {
+    const svgRef = useRef();
+    const wrapperRef = useRef();
+    const dimensions = useResizeObserver(wrapperRef);
 
-  // will be called initially and on every data change
-  useEffect(() => {
-    if (!mapData) return
-    if (!property) return
-    if (!extrema) return
-    const svg = select(svgRef.current);
-    const g = svg.select(".countries")
-    // const l = svg.select(".label")  
-    const {width, height} = dimensions || wrapperRef.current.getBoundingClientRect() ;
-    const projection = geoMercator().fitSize([width,height], mapData);
-      
-      //takes geojson data and transforms that into the d attribute of path element
-      const pathGenerator = geoPath().projection(projection);
-    if (mapData === null) {
-      
-    } else {
-      const propertyValues = mapData.features.map(country => country.properties[property])
-      const minProp = min(propertyValues)
-      const maxProp = max(propertyValues)
-      const color = genderColorsMap[property] ? genderColorsMap[property] : genderColorsMap["sumOtherGenders"]
-      const colorScale = scaleLinear().domain([minProp, maxProp]).range(["#C4C4C4", color])
+    // will be called initially and on every data change
+    useEffect(() => {
+        if (!mapData) return
+        if (!property) return
+        if (!extrema) return
+        const svg = select(svgRef.current);
+        const g = svg.select(".countries")
+        const key = svg.select('.key')
+        // const l = svg.select(".label")
+        const {width, height} = dimensions || wrapperRef.current.getBoundingClientRect();
+        const projection = geoMercator().fitSize([width, height], mapData);
 
-      g
-        .selectAll(".country")
-        .data(mapData.features)
-        .join("path")
-        .attr("class", feature => feature.properties.isSelected ? "country selectedCountry" : "country unSelectedCountry")
-        .attr("fill", feature => colorScale(feature.properties[property]))
-        .attr("d", feature => pathGenerator(feature))
-        .append("title")
-          .text((value) => value.properties.text ? 
-            `${value.properties.name}: 
+        //takes geojson data and transforms that into the d attribute of path element
+        const pathGenerator = geoPath().projection(projection);
+        if (mapData === null) {
+
+        } else {
+            const propertyValues = mapData.features.map(country => country.properties[property])
+            const minProp = min(propertyValues)
+            const maxProp = max(propertyValues)
+            const color = genderColorsMap[property] ? genderColorsMap[property] : genderColorsMap["sumOtherGenders"]
+            const colorScale = scaleLinear().domain([minProp, maxProp]).range(["#C4C4C4", color])
+
+            g
+                .selectAll(".country")
+                .data(mapData.features)
+                .join("path")
+                .attr("class", feature => feature.properties.isSelected ? "country selectedCountry" : "country unSelectedCountry")
+                .attr("fill", feature => colorScale(feature.properties[property]))
+                .attr("d", feature => pathGenerator(feature))
+                .append("title")
+                .text((value) => value.properties.text ?
+                    `${value.properties.name}: 
             Male: ${value.properties.malePercent}%
             Female: ${value.properties.femalePercent}%
             ∑ Other Genders: ${value.properties.sumOtherGendersPercent ? value.properties.sumOtherGendersPercent : 0}%
             `
-          : 
-            `${value.properties.name}
+                    :
+                    `${value.properties.name}
             (No Data Available)
             `
-          )
+                )
 
-      svg.call(zoom().on("zoom", (event) => {
-        g.attr('transform', event.transform)
-      }))
-      
-    }
-    
-  }, [mapData, dimensions, extrema, property, genders]);
+            svg.call(zoom().on("zoom", (event) => {
+                g.attr('transform', event.transform)
+            }))
 
-  return (
-    <div ref={wrapperRef} style={{ marginBottom: "2rem" }}>
-      <svg className="world-map"ref={svgRef}>
-        <g className="label"></g>
-        <g className="countries"></g>
-      </svg>
-    </div>
-  )
+            const legendHeight = height / 20
+
+            key
+                .select(".legendSvg")
+                .attr("width", width)
+                .attr("height", legendHeight);
+
+            const legend = key.select(".legendDefs")
+                .select("linearGradient")
+                .attr("id", "gradient")
+                .attr("x1", "0%")
+                .attr("y1", "100%")
+                .attr("x2", "100%")
+                .attr("y2", "100%")
+                .attr("spreadMethod", "pad");
+
+            legend.select("#zero")
+                .attr("offset", "0%")
+                .attr("stop-color", colorScale(minProp))
+                .attr("stop-opacity", 1);
+
+
+            legend.select("#hundred")
+                .attr("offset", "100%")
+                .attr("stop-color", colorScale(maxProp))
+                .attr("stop-opacity", 1);
+
+            key.select(".legendRect")
+                .attr("width", width)
+                .attr("height", legendHeight)
+                .style("fill", "url(#gradient)")
+            // .attr("transform", "translate(0,10)");
+
+            const y = scaleLinear()
+                .domain([0, 100])
+                .range([0, width])
+
+            const yAxis = axisBottom()
+                .scale(y)
+                .ticks(5).tickFormat(d => d + "%")
+
+            key.select(".legendG")
+                .attr("transform", `translate(0,${legendHeight})`)
+                .call(yAxis)
+                .select("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", 0)
+                .attr("dy", ".71em")
+                .style("text-anchor", "end")
+                .text("axis title");
+
+        }
+
+    }, [mapData, dimensions, extrema, property, genders]);
+
+    return (
+        <div ref={wrapperRef} style={{marginBottom: "2rem"}}>
+            <svg className="world-map" ref={svgRef}>
+                <g className="label"></g>
+                <g className="countries"></g>
+                <g className="key">
+                    <svg className="legendSvg">
+                    </svg>
+                    <defs className="legendDefs">
+                        <linearGradient className="legendLinearGradient">
+                            <stop id="zero"></stop>
+                            <stop id="hundred"></stop>
+                        </linearGradient>
+                    </defs>
+                    <rect className="legendRect"></rect>
+                    <g className="legendG">
+                        <text></text>
+                    </g>
+                </g>
+            </svg>
+        </div>
+    )
 }
 
 export default WorldMap;
