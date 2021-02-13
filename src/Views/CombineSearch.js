@@ -54,7 +54,9 @@ function CombineSearch({API, snapshots}){
       if (formState.selectedYearRange === "all"){
         tempPropertyObj["property_obj"]["date_of_birth"] = formState.selectedYearRange
       } else if (formState.selectedYearRange === "startEnd") {
-        tempPropertyObj["property_obj"]["date_of_birth"] = `${formState.selectedYearRangeStart}~${formState.selectedYearRangeEnd}`
+        let startDate = formState.selectedYearRangeStart ? formState.selectedYearRangeStart : ""
+        let endDate = formState.selectedYearRangeEnd ? formState.selectedYearRangeEnd : ""
+        tempPropertyObj["property_obj"]["date_of_birth"] = `${startDate}~${endDate}`
       }
     }
     if (Object.keys(tempPropertyObj["property_obj"]).length === 0){

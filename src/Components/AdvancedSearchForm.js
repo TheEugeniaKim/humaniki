@@ -33,7 +33,12 @@ function AdvacnedSearchForm({ onSubmit, snapshots }) {
         ...formState, 
         selectedYearRange: "startEnd"
       }) 
-    } 
+    } else if (e.target.value === "No Filter"){
+      setFormState({
+        ...formState,
+        selectedYearRange: null
+      })
+    }
   }
 
   const handleSelectedYearRangeTextInput = (e) => {
@@ -172,6 +177,7 @@ function AdvacnedSearchForm({ onSubmit, snapshots }) {
             label="No Filter"
             id="noFilter"
             name="selectedYearRangeType"
+            defaultChecked
             onChange={handleSelectedYearRange}
           />
           <Form.Check 
