@@ -61,7 +61,6 @@ function ScatterPlot(props) {
     const xAxis = axisBottom(xScale);
     svg
       .select(".x-axis")
-        .append('g')
         .attr('class', 'x-axis')
       .attr("transform", `translate(${0}, ${dimensions.bottom})`)
       .call(xAxis)

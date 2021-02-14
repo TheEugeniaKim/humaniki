@@ -81,9 +81,9 @@ export default class humanikiAPI {
         }
     }
 
-    handleUnreachable(unreachableError, processCB) {
+    handleUnreachable(unreachableError, processCB, url) {
         console.log('Unreachable URL', unreachableError)
-        processCB({"Generic Fetch Error": unreachableError}, {})
+        processCB({"Unreachable": url}, {})
     }
 
     getJSONFromURL(url, processCB) {
@@ -92,7 +92,7 @@ export default class humanikiAPI {
             .then((response) => this.handleHTTPErrors(response, processCB, url))
             .then((response) => this.handleDataError(response, processCB, url))
             .then((data) => this.cacheAndReturn(data, processCB, url))
-            .catch((unreachableError) => this.handleUnreachable(unreachableError, processCB))
+            .catch((unreachableError) => this.handleUnreachable(unreachableError, processCB, url))
     }
 
     get(dataPath, processCB) {

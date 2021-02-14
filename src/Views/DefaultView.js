@@ -4,13 +4,14 @@ import { Container, Row } from 'react-bootstrap'
 import SingleBarChart from '../Components/SingleBarChart'
 import "../App.css"
 import "../Sk.css"
-import { colors, errorDiv, loadingDiv } from '../utils'
+import { colors, loadingDiv } from '../utils'
 import scatterplotLogo from "../assets/scatterplotButton.png"
 import timeseriesLogo from "../assets/timeseriesButton.png"
 import worldmapLogo from "../assets/worldmapButton.png"
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 import NumericLabel from 'react-pretty-numbers';
+import ErrorDiv from "../Components/ErrorDiv";
 
 
 function DefaultView({API}){
@@ -29,10 +30,9 @@ function DefaultView({API}){
     justification: 'C'
   }
 
-  function processFetchData(err, data){
-    if (err) {
-      console.log("err", err)
-      setIsErrored(true)
+  function processFetchData(errors, data){
+    if (errors) {
+      setIsErrored(errors)
     }
     else{
       console.log(data)
@@ -120,7 +120,7 @@ function DefaultView({API}){
           </h6>
         </Row>
         {isLoading ? loadingDiv : null }
-        {isErrored ? errorDiv : null }
+        {isErrored ? <ErrorDiv errors={isErrored} /> : null }
         {!isLoading && !isErrored ? viz : null }
       </div>
       <div className="visualization-collection sub-container">

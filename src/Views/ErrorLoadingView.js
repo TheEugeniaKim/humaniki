@@ -22,13 +22,10 @@ function ErrorLoadingView({API}){
   }, [])
 
   function processCB(errors, data){
-    console.log("processCB", errors, data)
-    
     if (errors){
-      console.log("in IF")
+      console.log("in IF", errors, data)
       setIsErrored(errors)
     }
-    console.log("isErrored", isErrored)
   }
 
   console.log("BEFORE RETURN", isErrored)

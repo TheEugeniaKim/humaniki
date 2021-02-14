@@ -40,11 +40,14 @@ function WorldMap({mapData, property, extrema, genders}) {
             const maxProp = max(propertyValues)
             const propertyPercent = property + "Percent"
             const propertyValuesPercents = mapData.features.map(country => country.properties[propertyPercent])
-            const minPropPercent = min(propertyValuesPercents)
-            const maxPropPercent = max(propertyValuesPercents)
+            const propertyValuesPercentsNums = propertyValuesPercents.map(s=>parseFloat(s))
+            const minPropPercent = min(propertyValuesPercentsNums)
+            const maxPropPercent = max(propertyValuesPercentsNums)
+            console.log("max and min property percents", minPropPercent, maxPropPercent, propertyValuesPercents)
             const color = genderColorsMap[property] ? genderColorsMap[property] : genderColorsMap["sumOtherGenders"]
             const colorScale = scaleLinear().domain([minProp, maxProp]).range(["#C4C4C4", color])
             const colorScalePercent = scaleLinear().domain([minPropPercent, maxPropPercent]).range(["#C4C4C4", color])
+            // const colorScalePercent = scaleLinear().domain([0, 100]).range(["#C4C4C4", color])
 
             g
                 .selectAll(".country")
@@ -107,7 +110,7 @@ function WorldMap({mapData, property, extrema, genders}) {
                 .style("fill", "url(#gradient)")
 
             const y = scaleLinear()
-                .domain([0, 100])
+                .domain([minPropPercent, maxPropPercent])
                 .range([0, width])
 
             const yAxis = axisBottom()
