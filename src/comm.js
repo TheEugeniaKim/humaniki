@@ -58,24 +58,26 @@ export default class humanikiAPI {
         // return data
     }
 
+    cacheAndReturn(data, processCB, url){
+        this.saveToCache(url, data);
+        return processCB(null, data);
+    }
 
     handleDataError(response, processCB, url) {
         const data = response.json()
         if (Object.keys(data).includes("error")) {
             processCB(data["error"], {});
         } else {
-            this.saveToCache(url, data);
-            return processCB(null, data);
-            //  processCB(null, data);
+            return data
         }
     }
 
-
     handleHTTPErrors(response, processCB, url) {
         if (response.ok) {
-            this.handleDataError(response, processCB, url)
+            return response
         } else if (!response.ok) {
-            processCB({"HTTPError": response}, {});
+            processCB({"HTTPError": response,
+                         "url": url}, {});
         }
     }
 
@@ -87,7 +89,9 @@ export default class humanikiAPI {
     getJSONFromURL(url, processCB) {
         fetch(url)
             // alert the user if the network is down/unavaile
-            .then((response) => this.handleHTTPErrors(response, processCB, url).bind(this))
+            .then((response) => this.handleHTTPErrors(response, processCB, url))
+            .then((response) => this.handleDataError(response, processCB, url))
+            .then((data) => this.cacheAndReturn(data, processCB, url))
             .catch((unreachableError) => this.handleUnreachable(unreachableError, processCB))
     }
 
