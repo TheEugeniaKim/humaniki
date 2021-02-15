@@ -1,15 +1,12 @@
-import React, {useRef, useEffect, useState} from "react";
+import React, {useRef, useEffect} from "react";
 import {
     select,
     geoPath,
     geoMercator,
     min,
     max,
-    scaleLog,
     scaleLinear,
     zoom,
-    scaleSequential,
-    interpolatePurples,
     axisBottom
 } from "d3";
 import useResizeObserver from "./useResizeObserver";
@@ -36,18 +33,13 @@ function WorldMap({mapData, property, extrema, genders}) {
 
         } else {
             const propertyValues = mapData.features.map(country => country.properties[property])
-            const minProp = min(propertyValues)
-            const maxProp = max(propertyValues)
             const propertyPercent = property + "Percent"
             const propertyValuesPercents = mapData.features.map(country => country.properties[propertyPercent])
             const propertyValuesPercentsNums = propertyValuesPercents.map(s=>parseFloat(s))
             const minPropPercent = min(propertyValuesPercentsNums)
             const maxPropPercent = max(propertyValuesPercentsNums)
-            console.log("max and min property percents", minPropPercent, maxPropPercent, propertyValuesPercents)
             const color = genderColorsMap[property] ? genderColorsMap[property] : genderColorsMap["sumOtherGenders"]
-            const colorScale = scaleLinear().domain([minProp, maxProp]).range(["#C4C4C4", color])
             const colorScalePercent = scaleLinear().domain([minPropPercent, maxPropPercent]).range(["#C4C4C4", color])
-            // const colorScalePercent = scaleLinear().domain([0, 100]).range(["#C4C4C4", color])
 
             g
                 .selectAll(".country")
@@ -61,14 +53,14 @@ function WorldMap({mapData, property, extrema, genders}) {
                 .append("title")
                 .text((value) => value.properties.text ?
                     `${value.properties.name}: 
-            Male: ${value.properties.malePercent}%
-            Female: ${value.properties.femalePercent}%
-            ∑ Other Genders: ${value.properties.sumOtherGendersPercent ? value.properties.sumOtherGendersPercent : 0}%
-            `
+                    Male: ${value.properties.malePercent}%
+                    Female: ${value.properties.femalePercent}%
+                    ∑ Other Genders: ${value.properties.sumOtherGendersPercent ? value.properties.sumOtherGendersPercent : 0}%
+                    `
                     :
                     `${value.properties.name}
-            (No Data Available)
-            `
+                    (No Data Available)
+                    `
                 )
 
             svg.call(zoom().on("zoom", (event) => {

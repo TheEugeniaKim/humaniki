@@ -32,11 +32,11 @@ function Footer(){
  	 				<li><a href="https://twitter.com/humanikiData" target="_blank">Twitter</a></li>
  	 			</ul>
  	 		</div>
-		</div> 
-		<div className="footer-copyright">
-      		<p>All data, charts, and other content is available under the <b> Creative Commons Attribution-ShareAlike 4.0 </b> International License.</p>
-      	</div>
-	</footer>
+			</div> 
+			<div className="footer-copyright">
+				<p>All data, charts, and other content is available under the <b> Creative Commons Attribution-ShareAlike 4.0 </b> International License.</p>
+			</div>
+		</footer>
   )
 }
 

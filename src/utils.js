@@ -2,6 +2,7 @@ import React from 'react'
 import { textFilter } from 'react-bootstrap-table2-filter'
 import { components } from "react-select";
 import makeAnimated from "react-select/animated";
+import { Alert } from 'react-bootstrap'
 
 //gender color map see single bar chart component
 export const colors = ["#517FC1","#FAD965","#F19359"]
@@ -27,8 +28,8 @@ export const keyFields = {
 
 export const baseURL = process.env.REACT_APP_API_URL
 
-export const errorDiv = <div>Error</div>
-export const loadingDiv = <div>Loading</div>
+export const errorDiv = <Alert variant="danger">Error</Alert>
+export const loadingDiv = <Alert variant="warning">Loading</Alert>
 
 export function filterMetrics(metrics, filterFn){
   return metrics.filter(metric => filterFn(metric));
