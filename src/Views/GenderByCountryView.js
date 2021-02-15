@@ -4,7 +4,8 @@ import GenderTable from "../Components/GenderTable";
 import PopulationToggle from "../Components/PopulationToggler";
 import SelectDropdown from '../Components/SelectDropdown';
 import preMapData from "../Components/custom.geo.json";
-import { Col, Row, InputGroup, Form, Container } from "react-bootstrap";
+import ZoomInIcon from '../Components/ZoomInIcon';
+import { Col, Row, Form, Container } from "react-bootstrap";
 import { propTypes } from "react-bootstrap/esm/Image";
 import {
   filterMetrics,
@@ -295,7 +296,12 @@ function GenderByCountryView({ API, snapshots }) {
         official as of December 2020. Note: As for January, 2016, only about 30%
         of biographies had place of birth, so this data is incomplete.
       </p>
-      <p className="viz-timestamp">All time, as of Aug'20 </p>
+      <div className="viz-heading">
+        <p className="viz-timestamp">
+          All time, as of Aug'20 
+        </p>
+        <ZoomInIcon />
+      </div>
       <Row className="justify-content-md-center">
         <Col lg={7}>
           <WorldMap

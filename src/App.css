@@ -107,3 +107,12 @@ svg {
   width: 3%;
 }
 
+.viz-heading{
+  display: flex;
+  justify-content: space-between;
+}
+
+.bi-zoom-in{
+  width: 4%;
+  height: 4%;
+}
