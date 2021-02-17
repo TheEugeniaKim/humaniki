@@ -206,17 +206,18 @@ function GenderByLanguageView({ API, snapshots }) {
   
   return (
     <div className="view-container language-view sub-container">
-      <h4>Gender Gap By Language Editions in Wikimedia Projects</h4>
+      <h4>Gender by language editions in Wikimedia Projects</h4>
       <PopulationToggle GTE_ONLY={true} />
       <p className="viz-description">
         Comparative view of gendered content in different Wikimedia Projects
       </p>
 
       <p>
-        This plot compares number of gendered content in different wikimedia
-        projects to women/men/other genders percentage of that content.
-        Comparisons of language editions and wikimedia project of your interest
-        can be made using filters
+      This plot compares number of gendered content in different 
+      Wikimedia projects to women/men/othergenders percentage of that content. 
+      Comparisons of language editions and wikimedia project of your interest 
+      can be made using filters 
+      (top 25 wikimedia projects (by number of humans) are shown by default)
       </p>
       <p className="viz-timestamp">All time, as of Aug'20 </p>
       <Row className="justify-content-md-center">
