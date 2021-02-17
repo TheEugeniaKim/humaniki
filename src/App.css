@@ -112,7 +112,4 @@ svg {
   justify-content: space-between;
 }
 
-.bi-zoom-in{
-  width: 4%;
-  height: 4%;
-}
+.zoom-icon {}

@@ -4,7 +4,7 @@ import GenderTable from "../Components/GenderTable";
 import PopulationToggle from "../Components/PopulationToggler";
 import SelectDropdown from '../Components/SelectDropdown';
 import preMapData from "../Components/custom.geo.json";
-import ZoomInIcon from '../Components/ZoomInIcon';
+import ZoomHover from '../Components/ZoomHover';
 import { Col, Row, Form, Container } from "react-bootstrap";
 import { propTypes } from "react-bootstrap/esm/Image";
 import {
@@ -296,14 +296,16 @@ function GenderByCountryView({ API, snapshots }) {
         official as of December 2020. Note: As for January, 2016, only about 30%
         of biographies had place of birth, so this data is incomplete.
       </p>
-      <div className="viz-heading">
-        <p className="viz-timestamp">
-          All time, as of Aug'20 
-        </p>
-        <ZoomInIcon />
-      </div>
+
       <Row className="justify-content-md-center">
         <Col lg={7}>
+          <div className="viz-heading">
+            <p className="viz-timestamp">
+              All time, as of Aug'20 
+            </p>
+            <ZoomHover />
+          </div>
+
           <WorldMap
             mapData={mapData}
             property={property}
