@@ -284,19 +284,20 @@ function GenderByCountryView({ API, snapshots }) {
     <div className="view-container country-view sub-container">
       <h4 className="heading-left">Gender Gap By Country</h4>
       <PopulationToggle handleToggle={handleHumanChange} />
-      <p className="viz-description">
-        Percentage of biographies and other content of women based on country of
-        citizenship
-      </p>
-
-      <p>
-        This plot shows the percentage of biographies and other content of
-        women, men, and other genders based on country of citizenship determined
-        by the citizenship property in Wikidata. We represent data only for
-        official as of December 2020. Note: As for January, 2016, only about 30%
-        of biographies had place of birth, so this data is incomplete.
-      </p>
-
+      <div className="viz-description">
+        <h5>
+          Percentage of biographies and other content of women based on country of
+          citizenship
+        </h5>
+        <p>
+          This plot shows the percentage of biographies and other content of
+          women, men, and other genders based on country of citizenship determined
+          by the citizenship property in Wikidata. We represent data only for
+          official as of December 2020. Note: As for January, 2016, only about 30%
+          of biographies had place of birth, so this data is incomplete.
+        </p>
+      </div>
+      <p className="viz-timestamp">All time, as of Aug'20 </p>
       <Row className="justify-content-md-center">
         <Col lg={7}>
           <div className="viz-heading">
