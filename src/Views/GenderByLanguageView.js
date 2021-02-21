@@ -209,7 +209,7 @@ function GenderByLanguageView({ API, snapshots }) {
       <h4>Gender by language editions in Wikimedia Projects</h4>
       <PopulationToggle GTE_ONLY={true} />
       <div className="viz-description">
-        <h5 className="viz-description">
+        <h5>
           Comparative view of gendered content in different Wikimedia Projects
         </h5>
         <p>

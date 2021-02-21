@@ -285,7 +285,7 @@ function GenderByCountryView({ API, snapshots }) {
       <h4 className="heading-left">Gender Gap By Country</h4>
       <PopulationToggle handleToggle={handleHumanChange} />
       <div className="viz-description">
-        <h5 className="viz-description">
+        <h5>
           Percentage of biographies and other content of women based on country of
           citizenship
         </h5>
