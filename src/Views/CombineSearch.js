@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import Container from 'react-bootstrap/Container'
 import Button from 'react-bootstrap/Button'
 import BootstrapTable from 'react-bootstrap-table-next'
 import 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css'
@@ -73,12 +72,6 @@ function CombineSearch({API, snapshots}){
 
   function processTableData(meta, metrics){
     let tableArr = []
-    let genders = Object.values(meta.bias_labels).map(gender => {
-      return {
-        value: gender, 
-        label: gender
-      }
-    })
 
     metrics.forEach((obj, index) => {
       // Handle Formatting Table Data 
@@ -113,9 +106,9 @@ function CombineSearch({API, snapshots}){
       }
       tableObj.sumOtherGendersPercent = (tableObj.sumOtherGenders/tableObj.total)*100
       let genderTotalsArr = []
-      genderTotalsArr.push(tableObj.femalePercent)
       genderTotalsArr.push(tableObj.malePercent)
       genderTotalsArr.push(tableObj.sumOtherGendersPercent)
+      genderTotalsArr.push(tableObj.femalePercent)
       tableObj.gap = <SingleBarChart genderTotals={genderTotalsArr} />
       if (tableObj.index){
         tableArr.push(tableObj)
