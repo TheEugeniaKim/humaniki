@@ -6,9 +6,10 @@ import filterFactory, { textFilter } from 'react-bootstrap-table2-filter'
 import paginationFactory from 'react-bootstrap-table2-paginator'
 import SingleBarChart from '../Components/SingleBarChart'
 import AdvacnedSearchForm from '../Components/AdvancedSearchForm'
-import { createColumns, percentFormatter, populations, QIDs, errorDiv, loadingDiv, keyFields } from '../utils'
+import { createColumns, percentFormatter, populations, QIDs, loadingDiv, keyFields } from '../utils'
 import PopulationToggle from "../Components/PopulationToggler";
 import GenderTable from '../Components/GenderTable'
+import ErrorDiv from '../Components/ErrorDiv'
 
 function CombineSearch({API, snapshots}){
   const [allMetrics, setAllMetrics] = useState(null)
@@ -120,7 +121,7 @@ function CombineSearch({API, snapshots}){
   function processAPIData(err, fetchData){
     if (err){
       console.log("ERROR:",err)
-      setIsErrored(true)
+      setIsErrored(err)
     } else {
       if (!fetchData) return
       if (!snapshots) return
@@ -170,7 +171,7 @@ function CombineSearch({API, snapshots}){
       {url ? <Button href={url} className="api-data-btn">API Link</Button> : null}
       <div className="table-container">
         {isLoading ? loadingDiv : null }
-        {isErrored ? errorDiv : null }
+        {isErrored ? <ErrorDiv errors={isErrored} /> : null }
 
         <GenderTable 
           tableArr={tableArr} 
