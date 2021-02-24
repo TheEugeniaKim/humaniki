@@ -3,8 +3,9 @@ import WorldMap from "../Components/WorldMap";
 import GenderTable from "../Components/GenderTable";
 import PopulationToggle from "../Components/PopulationToggler";
 import SelectDropdown from '../Components/SelectDropdown';
-import preMapData from "../Components/custom.geo.json";
+import ErrorDiv from '../Components/ErrorDiv';
 import ZoomHover from '../Components/ZoomHover';
+import preMapData from "../Components/custom.geo.json";
 import { Col, Row, Form, Container } from "react-bootstrap";
 import { propTypes } from "react-bootstrap/esm/Image";
 import {
@@ -12,7 +13,6 @@ import {
   populations,
   createColumns,
   formatDate,
-  errorDiv,
   loadingDiv,
   QIDs,
   keyFields,
@@ -222,7 +222,7 @@ function GenderByCountryView({ API, snapshots }) {
   function processAPIData(err, fetchData) {
     if (err) {
       console.log("ERROR:", err);
-      setIsErrored(true);
+      setIsErrored(err);
     } else {
       setAllMetrics(fetchData.metrics);
       setAllMeta(fetchData.meta);
@@ -338,7 +338,7 @@ function GenderByCountryView({ API, snapshots }) {
 
       <div className="table-container">
         {isLoading ? loadingDiv : null}
-        {isErrored ? errorDiv : null}
+        {isErrored ? <ErrorDiv errors={isErrored} /> : null }
         <GenderTable 
           tableArr={tableArr} 
           tableColumns={tableColumns} 

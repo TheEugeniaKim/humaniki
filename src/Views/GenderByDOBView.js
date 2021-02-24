@@ -10,14 +10,13 @@ import {
 import PopulationToggle from "../Components/PopulationToggler";
 import LineChart from "../Components/LineChart";
 import GenderTable from '../Components/GenderTable';
-
+import ErrorDiv from '../Components/ErrorDiv';
 import {
   filterMetrics,
   createColumns,
   formatDate,
   populations,
   percentFormatter, 
-  errorDiv, 
   loadingDiv,
   QIDs,
   keyFields
@@ -238,8 +237,7 @@ function GenderByDOBView({ API, snapshots }) {
 
   function processData(err, data) {
     if (err) {
-      setIsErrored(true);
-      console.error("Error is", err);
+      setIsErrored(err);
     } else {
       setAllMetrics(data.metrics);
       setAllMeta(data.meta);
@@ -363,7 +361,7 @@ function GenderByDOBView({ API, snapshots }) {
       <hr />
       <Row className="table-container">
         {isLoading ? loadingDiv : null}
-        {isErrored ? errorDiv : null}
+        {isErrored ? <ErrorDiv errors={isErrored} /> : null}
         <GenderTable 
           tableArr={tableArr} 
           tableColumns={tableColumns} 

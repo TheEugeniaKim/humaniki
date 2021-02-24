@@ -3,11 +3,11 @@ import { Row, Col, Form, Tooltip } from "react-bootstrap";
 
 import GenderTable from "../Components/GenderTable";
 import ScatterPlot from "../Components/ScatterPlot";
+import ErrorDiv from '../Components/ErrorDiv'
 import {
   createColumns,
   filterMetrics,
   formatDate,
-  errorDiv,
   loadingDiv,
   QIDs,
   keyFields,
@@ -142,7 +142,7 @@ function GenderByLanguageView({ API, snapshots }) {
   function processData(err, data) {
     if (err) {
       console.log("error is", err);
-      setIsErrored(true);
+      setIsErrored(err);
     } else {
       setAllMetrics(data.metrics);
       setAllMeta(data.meta);
@@ -248,7 +248,7 @@ function GenderByLanguageView({ API, snapshots }) {
       <Row className="justify-content-md-center">
         <div className="table-container">
           {isLoading ? loadingDiv : null}
-          {isErrored ? errorDiv : null}
+          {isErrored ? <ErrorDiv errors={isErrored} /> : null}
           <GenderTable
             tableArr={tableArr}
             tableColumns={tableColumns}
