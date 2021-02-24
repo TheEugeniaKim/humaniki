@@ -199,7 +199,7 @@ function AdvacnedSearchForm({ onSubmit, snapshots }) {
           <Form.Control
             type="text"
             onChange={handleSelectedYearRangeTextInput}
-            value={formState.selectedYearRangeStart}
+            value={formState.selectedYearRangeStart ? formState.selectedYearRangeStart : "YYYY"}
             placeholder="YYYY"
             id="yearStart"
             disabled={formState.selectedYearRange === "startEnd" ? undefined : true}
@@ -208,7 +208,7 @@ function AdvacnedSearchForm({ onSubmit, snapshots }) {
           <Form.Control
             type="text"
             onChange={handleSelectedYearRangeTextInput}
-            value={formState.selectedYearRangeEnd}
+            value={formState.selectedYearRangeEnd ? formState.selectedYearRangeEnd : "YYYY"}
             placeholder="YYYY"
             id="yearEnd"
             disabled={formState.selectedYearRange === "startEnd" ? undefined : true}

@@ -28,7 +28,6 @@ export const keyFields = {
 
 export const baseURL = process.env.REACT_APP_API_URL
 
-export const errorDiv = <Alert variant="danger">Error</Alert>
 export const loadingDiv = <Alert variant="warning">Loading</Alert>
 
 export function filterMetrics(metrics, filterFn){

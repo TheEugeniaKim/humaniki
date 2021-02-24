@@ -297,7 +297,6 @@ function GenderByCountryView({ API, snapshots }) {
           of biographies had place of birth, so this data is incomplete.
         </p>
       </div>
-      <p className="viz-timestamp">All time, as of Aug'20 </p>
       <Row className="justify-content-md-center">
         <Col lg={7}>
           <div className="viz-heading">
