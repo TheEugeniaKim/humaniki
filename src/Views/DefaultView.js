@@ -62,7 +62,7 @@ function DefaultView({API}){
     const svg = select(svgRef.current)
 
     svg.selectAll("rect")
-    .data([totalMen, totalOthers, totalWomen])
+    .data([totalWomen, totalMen, totalOthers])
     .join("rect")
     .attr("fill", function(d, i) {return colors[i]; })
     .attr("width", "100%")
@@ -102,9 +102,9 @@ function DefaultView({API}){
         </div>
       </div>
       <SingleBarChart genderTotals={[
+        (totalWomen/total*100),
         (totalMen/total*100), 
-        (totalOthers/total*100), 
-        (totalWomen/total*100)
+        (totalOthers/total*100)
       ]} />
       <p>All time, as of {snapshot}</p>
     </div>

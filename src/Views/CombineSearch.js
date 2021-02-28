@@ -107,9 +107,9 @@ function CombineSearch({API, snapshots}){
       }
       tableObj.sumOtherGendersPercent = (tableObj.sumOtherGenders/tableObj.total)*100
       let genderTotalsArr = []
+      genderTotalsArr.push(tableObj.femalePercent)
       genderTotalsArr.push(tableObj.malePercent)
       genderTotalsArr.push(tableObj.sumOtherGendersPercent)
-      genderTotalsArr.push(tableObj.femalePercent)
       tableObj.gap = <SingleBarChart genderTotals={genderTotalsArr} />
       if (tableObj.index){
         tableArr.push(tableObj)

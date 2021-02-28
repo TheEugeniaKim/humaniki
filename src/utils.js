@@ -5,7 +5,7 @@ import makeAnimated from "react-select/animated";
 import { Alert } from 'react-bootstrap'
 
 //gender color map see single bar chart component
-export const colors = ["#517FC1","#FAD965","#F19359"]
+export const colors = ["#F19359","#517FC1","#FAD965"]
 
 export const genderColorsMap = {male: "#517FC1", female: "#F19359", sumOtherGenders: "#FAD965"}
 
