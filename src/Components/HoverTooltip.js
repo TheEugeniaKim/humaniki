@@ -40,7 +40,7 @@ function HoverTooltip({view}){
       placement="right"
       overlay={renderTooltip}
     >
-      <div className="zoom-icon">
+      <div>
         {icon}
       </div>
     </OverlayTrigger>

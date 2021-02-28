@@ -1,5 +1,4 @@
 import React from 'react'
-import { Container } from 'react-bootstrap'
 import "../App.css"
 import "../Sk.css"
 import mkImage from "../assets/team/mk.png"
