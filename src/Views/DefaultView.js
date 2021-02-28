@@ -1,13 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { select } from 'd3'
-import { Container, Row } from 'react-bootstrap'
+import { Row } from 'react-bootstrap'
 import SingleBarChart from '../Components/SingleBarChart'
 import "../App.css"
 import "../Sk.css"
-import { colors, loadingDiv } from '../utils'
-import scatterplotLogo from "../assets/scatterplotButton.png"
-import timeseriesLogo from "../assets/timeseriesButton.png"
-import worldmapLogo from "../assets/worldmapButton.png"
+import { colors, loadingDiv, QIDs } from '../utils'
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 import NumericLabel from 'react-pretty-numbers';
@@ -22,6 +19,7 @@ function DefaultView({API}){
   const [total, setTotal] = useState()
   const [isLoading, setIsLoading] = useState(true)
   const [isErrored, setIsErrored] = useState(false)
+  const [snapshot, setSnapshot] = useState()
 
   const prettyNumParams = {
     shortFormat: true,
@@ -37,13 +35,13 @@ function DefaultView({API}){
     else{
       console.log(data)
       setTotal(Object.values(data.metrics[0].values).reduce((a,b) => a+b))
-      let totalMen = data.metrics[0].values["6581097"]
-      let totalWomen = data.metrics[0].values["6581072"]
+      let totalMen = data.metrics[0].values[QIDs.male]
+      let totalWomen = data.metrics[0].values[QIDs.female]
       let totalOthers = data.metrics[0].values
-      totalOthers["6581097"] = 0
-      totalOthers["6581072"] = 0
+      totalOthers[QIDs.male] = 0
+      totalOthers[QIDs.female] = 0
       totalOthers = Object.values(totalOthers).reduce((a,b) => a+b)
-      console.log("LOOK HERE", total)
+      setSnapshot(data.meta.snapshot.slice(0,7))
       setTotalMen(totalMen)
       setTotalWomen(totalWomen)
       setTotalOthers(totalOthers)
@@ -69,7 +67,8 @@ function DefaultView({API}){
     .attr("fill", function(d, i) {return colors[i]; })
     .attr("width", "100%")
     .attr("height", "100%")
-    .attr("x", (value) => value)    
+    .attr("x", (value) => value)   
+
   }, [totalMen, totalOthers, totalWomen])
 
   const viz = 
@@ -107,7 +106,7 @@ function DefaultView({API}){
         (totalOthers/total*100), 
         (totalWomen/total*100)
       ]} />
-      <p>All time, as of LATEST SNAPSHOT DATE Month Year</p>
+      <p>All time, as of {snapshot}</p>
     </div>
 
   return (
