@@ -183,7 +183,7 @@ function AdvacnedSearchForm({ onSubmit, snapshots }) {
           <Form.Check 
             type="radio"
             value="all"
-            label="All (1600 to present)"
+            label="All"
             id="all"
             name="selectedYearRangeType"
             onChange={handleSelectedYearRange}

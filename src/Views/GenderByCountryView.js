@@ -4,7 +4,7 @@ import GenderTable from "../Components/GenderTable";
 import PopulationToggle from "../Components/PopulationToggler";
 import SelectDropdown from '../Components/SelectDropdown';
 import ErrorDiv from '../Components/ErrorDiv';
-import ZoomHover from '../Components/ZoomHover';
+import HoverTooltip from '../Components/HoverTooltip';
 import Licensing from '../Components/Licensing';
 import preMapData from "../Components/custom.geo.json";
 import { Col, Row, Form, Container } from "react-bootstrap";
@@ -304,7 +304,7 @@ function GenderByCountryView({ API, snapshots }) {
             <p className="viz-timestamp">
               All time, as of Aug'20 
             </p>
-            <ZoomHover />
+            <HoverTooltip view={"country"} />
           </div>
 
           <WorldMap

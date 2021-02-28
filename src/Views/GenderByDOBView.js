@@ -8,6 +8,7 @@ import {
   Row,
 } from "react-bootstrap";
 import PopulationToggle from "../Components/PopulationToggler";
+import HoverTooltip from '../Components/HoverTooltip';
 import LineChart from "../Components/LineChart";
 import GenderTable from '../Components/GenderTable';
 import ErrorDiv from '../Components/ErrorDiv';
@@ -328,9 +329,15 @@ function GenderByDOBView({ API, snapshots }) {
           in all Wikimedia projects, typically Wikipedia biography articles, by gender.
         </p>
       </div>
-      <p className="viz-timestamp">All time, as of Aug'20</p>
       <Row className="justify-content-md-center">
         <Col lg={7}>  
+          <div className="viz-heading">
+            <p className="viz-timestamp">
+              All time, as of Aug'20
+            </p>
+            <HoverTooltip view={"dob"} />
+          </div>
+
           {lineData.length === 0 ? null : (
             <LineChart
               lineData={lineData}

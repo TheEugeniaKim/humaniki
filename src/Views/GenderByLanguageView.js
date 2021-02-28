@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Row, Col, Form, Tooltip } from "react-bootstrap";
-
+import HoverTooltip from '../Components/HoverTooltip';
 import GenderTable from "../Components/GenderTable";
 import ScatterPlot from "../Components/ScatterPlot";
 import ErrorDiv from '../Components/ErrorDiv'
@@ -224,6 +224,12 @@ function GenderByLanguageView({ API, snapshots }) {
       <p className="viz-timestamp">All time, as of Aug'20 </p>
       <Row className="justify-content-md-center">
         <Col lg={7}>
+          <div className="viz-heading">
+            <p className="viz-timestamp">
+              All time, as of Aug'20 
+            </p>
+            <HoverTooltip view={"language"} />
+          </div>
           <ScatterPlot
             data={tableArr}
             extrema={tableMetaData}
