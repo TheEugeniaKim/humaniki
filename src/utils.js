@@ -23,7 +23,7 @@ export const keyFields = {
   dob: "year",
   language: "language",
   country: "country",
-  search: "index"
+  search: "data fields"
 }
 
 export const baseURL = process.env.REACT_APP_API_URL
@@ -52,15 +52,20 @@ export function percentFormatter(cell, row){
 }
 
 export function createColumns(meta, metrics, indexColTitle, gapCol=null ){
+  
   const columns = []
     //column order: 
-    // 1.  index 
+    // 1. index 
     // 2. total
     // 3. binary genders
     // 4. sum of nonbinary genders 
     // 5. nonbinary genders 
-    columns.push({dataField: indexColTitle, text: indexColTitle.toUpperCase(), filter: textFilter(), sort: true})
-    columns.push({dataField: "total",text: "Total", sort: true})
+    if (gapCol) {
+      columns.push({dataField: indexColTitle, text: indexColTitle.toUpperCase(), filter: textFilter({placeholder: "Search"}), sort: true})
+    } else {
+      columns.push({dataField: indexColTitle, text: indexColTitle.toUpperCase(), filter: textFilter(), sort: true})
+    }
+      columns.push({dataField: "total",text: "Total", sort: true})
     columns.push(
       {
         dataField: meta.bias_labels[QIDs.female],
