@@ -4,6 +4,7 @@ import { Row, Col, Form, Tooltip } from "react-bootstrap";
 import GenderTable from "../Components/GenderTable";
 import ScatterPlot from "../Components/ScatterPlot";
 import ErrorDiv from '../Components/ErrorDiv'
+import Licensing from '../Components/Licensing';
 import {
   createColumns,
   filterMetrics,
@@ -243,6 +244,7 @@ function GenderByLanguageView({ API, snapshots }) {
             value={selectedProjects}
           />
         </Col>
+        <Licensing />
       </Row>
 
       <Row className="justify-content-md-center">

@@ -5,6 +5,7 @@ import PopulationToggle from "../Components/PopulationToggler";
 import SelectDropdown from '../Components/SelectDropdown';
 import ErrorDiv from '../Components/ErrorDiv';
 import ZoomHover from '../Components/ZoomHover';
+import Licensing from '../Components/Licensing';
 import preMapData from "../Components/custom.geo.json";
 import { Col, Row, Form, Container } from "react-bootstrap";
 import { propTypes } from "react-bootstrap/esm/Image";
@@ -333,6 +334,7 @@ function GenderByCountryView({ API, snapshots }) {
             allowSelectAll={false}
           />
         </Col>
+        <Licensing />
       </Row>
 
       <div className="table-container">

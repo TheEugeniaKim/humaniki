@@ -11,6 +11,7 @@ import PopulationToggle from "../Components/PopulationToggler";
 import LineChart from "../Components/LineChart";
 import GenderTable from '../Components/GenderTable';
 import ErrorDiv from '../Components/ErrorDiv';
+import Licensing from '../Components/Licensing';
 import {
   filterMetrics,
   createColumns,
@@ -357,6 +358,7 @@ function GenderByDOBView({ API, snapshots }) {
             />
           </InputGroup>
         </Col>
+        <Licensing />
       </Row>
       <hr />
       <Row className="table-container">
