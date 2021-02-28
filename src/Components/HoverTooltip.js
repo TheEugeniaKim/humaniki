@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import DateFilterIcon from './DateFilterIcon';
-import QuestionIcon from './QuesionIcon';
+import QuestionIcon from './QuestionIcon';
 import ZoomInIcon from './ZoomInIcon'
 
 function HoverTooltip({view}){
