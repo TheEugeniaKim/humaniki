@@ -220,7 +220,7 @@ function GenderByLanguageView({ API, snapshots }) {
         Wikimedia projects to women/men/othergenders percentage of that content. 
         Comparisons of language editions and wikimedia project of your interest 
         can be made using filters 
-        (top 25 wikimedia projects (by number of humans) are shown by default)
+        (top 25 wikimedia projects by number of humans are shown by default)
         </p>
       </div>
       <Row className="justify-content-md-center">
@@ -251,9 +251,8 @@ function GenderByLanguageView({ API, snapshots }) {
             value={selectedProjects}
           />
         </Col>
-        <Licensing />
       </Row>
-
+      <Licensing />
       <Row className="justify-content-md-center">
         <div className="table-container">
           {isLoading ? loadingDiv : null}

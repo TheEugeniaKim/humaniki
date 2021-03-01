@@ -366,8 +366,8 @@ function GenderByDOBView({ API, snapshots }) {
             />
           </InputGroup>
         </Col>
-        <Licensing />
       </Row>
+      <Licensing />
       <hr />
       <Row className="table-container">
         {isLoading ? loadingDiv : null}

@@ -108,8 +108,8 @@ function AboutView(){
       </div>
       <div className="about-contact sub-container">
         <h5> Contact Us </h5>
-        <p>
-          <a href="mailto:info@humanikidata.org" target="_blank"> info@humanikidata.org </a>  |  <a href="https://twitter.com/humanikiData" target="_blank"> Twitter: @humanikiData </a>
+        <p> Email us: <a href="mailto:info@humanikidata.org" target="_blank"> info@humanikidata.org </a> </p> 
+        <p> Check us out on Twitter: <a href="https://twitter.com/humanikiData" target="_blank"> @humanikiData </a>
         </p>
       </div>
     </div>

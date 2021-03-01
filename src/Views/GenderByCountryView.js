@@ -336,9 +336,8 @@ function GenderByCountryView({ API, snapshots }) {
             allowSelectAll={false}
           />
         </Col>
-        <Licensing />
       </Row>
-
+      <Licensing />
       <div className="table-container">
         {isLoading ? loadingDiv : null}
         {isErrored ? <ErrorDiv errors={isErrored} /> : null }

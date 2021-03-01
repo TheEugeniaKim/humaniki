@@ -28,6 +28,7 @@ function PopulationToggle({ handleToggle, GTE_ONLY }) {
 					>
 						<Nav.Link eventKey={populations.ALL_WIKIDATA} >
 							All Humans on Wikidata  
+							<span> </span>
 							<InfoCircle />
 						</Nav.Link>
 					</OverlayTrigger>
@@ -40,7 +41,7 @@ function PopulationToggle({ handleToggle, GTE_ONLY }) {
 					>
             <Nav.Link eventKey={populations.GTE_ONE_SITELINK}>
                 Humans With At Least One Wikipedia Article
-                <InfoCircle />
+                <span> </span> <InfoCircle />
             </Nav.Link>
 					</OverlayTrigger>
         </Nav.Item>
