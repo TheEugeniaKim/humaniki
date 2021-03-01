@@ -78,13 +78,6 @@ export function createColumns(meta, metrics, indexColTitle, gapCol=null ){
         classes: "gender-col gender-col-female"
       }
     )
-    if (gapCol){
-      columns.push({dataField: "gap", text: "Gap", sort: true, headerStyle: {
-        "overflow": 'visible',
-        "minWidth": "200px", 
-        "width": "20%"
-      }})
-    }
     columns.push(
       {
         dataField: meta.bias_labels[QIDs.female] + "Percent",
@@ -94,6 +87,13 @@ export function createColumns(meta, metrics, indexColTitle, gapCol=null ){
         classes: "gender-col gender-col-percent-female"
       }
     )
+    if (gapCol){
+      columns.push({dataField: "gap", text: "Gap", sort: true, headerStyle: {
+        "overflow": 'visible',
+        "minWidth": "200px", 
+        "width": "20%"
+      }})
+    }
     columns.push(
       {
         dataField: meta.bias_labels[QIDs.male],
