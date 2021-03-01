@@ -3,7 +3,6 @@ import {
   InputGroup,
   FormControl,
   Form,
-  Container,
   Col,
   Row,
 } from "react-bootstrap";
@@ -45,6 +44,7 @@ function GenderByDOBView({ API, snapshots }) {
   const [yearStart, setYearStart] = useState(1600);
   const [yearEnd, setYearEnd] = useState(currYear);
   const [snapshot, setSnapshot] = useState("latest");
+  const [snapshotDisplay, setSnapshotDisplay] = useState()
   const [population, setPopulation] = useState(populations.GTE_ONE_SITELINK);
   const [isLoading, setIsLoading] = useState(true);
   const [isErrored, setIsErrored] = useState(false);
@@ -232,6 +232,7 @@ function GenderByDOBView({ API, snapshots }) {
     setTableArr(tableArr);
     setTableMetaData(extrema);
     setGenderMap(meta.bias_labels);
+    setSnapshotDisplay(meta.snapshot)
     setGraphGenders(Object.values(meta.bias_labels));
     setLineData(createLineData(meta, filteredMetrics));
     setTableColumns(createColumns(meta, filteredMetrics, keyFields.dob));
@@ -333,7 +334,7 @@ function GenderByDOBView({ API, snapshots }) {
         <Col lg={7}>  
           <div className="viz-heading">
             <p className="viz-timestamp">
-              All time, as of Aug'20
+              All time, as of {snapshotDisplay}
             </p>
             <HoverTooltip view={"dob"} />
           </div>

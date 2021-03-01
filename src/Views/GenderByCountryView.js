@@ -47,6 +47,7 @@ function GenderByCountryView({ API, snapshots }) {
   const [tableColumns, setTableColumns] = useState([{}]);
   const [tableArr, setTableArr] = useState([]);
   const [snapshot, setSnapshot] = useState("latest");
+  const [snapshotDisplay, setSnapshotDisplay] = useState()
   const [tableMetaData, setTableMetaData] = useState({});
   const [property, setProperty] = useState("female");
   const [genders, setGenders] = useState([]);
@@ -227,6 +228,7 @@ function GenderByCountryView({ API, snapshots }) {
     } else {
       setAllMetrics(fetchData.metrics);
       setAllMeta(fetchData.meta);
+      setSnapshotDisplay(fetchData.meta.snapshot)
       let multiSelectData = createMultiSelectData(fetchData.metrics);
       setAllCountries(multiSelectData);
       filterAndCreateVizAndTable(fetchData.meta, fetchData.metrics);
@@ -302,7 +304,7 @@ function GenderByCountryView({ API, snapshots }) {
         <Col lg={7}>
           <div className="viz-heading">
             <p className="viz-timestamp">
-              All time, as of Aug'20 
+              All time, as of {snapshotDisplay}
             </p>
             <HoverTooltip view={"country"} />
           </div>

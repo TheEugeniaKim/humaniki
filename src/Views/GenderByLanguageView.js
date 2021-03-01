@@ -38,6 +38,7 @@ function GenderByLanguageView({ API, snapshots }) {
   const [tableMetaData, setTableMetaData] = useState({});
   const [tableColumns, setTableColumns] = useState([{}]);
   const [snapshot, setSnapshot] = useState("latest");
+  const [snapshotDisplay, setSnapshotDisplay] = useState()
   const [isLoading, setIsLoading] = useState(true);
   const [isErrored, setIsErrored] = useState(false);
 
@@ -147,6 +148,7 @@ function GenderByLanguageView({ API, snapshots }) {
     } else {
       setAllMetrics(data.metrics);
       setAllMeta(data.meta);
+      setSnapshotDisplay(data.meta.snapshot)
       let multiSelectData = createMultiselectData(data.metrics);
       console.log("multiSelectData", multiSelectData);
       setAllProjects(multiSelectData);
@@ -221,12 +223,11 @@ function GenderByLanguageView({ API, snapshots }) {
         (top 25 wikimedia projects (by number of humans) are shown by default)
         </p>
       </div>
-      <p className="viz-timestamp">All time, as of Aug'20 </p>
       <Row className="justify-content-md-center">
         <Col lg={7}>
           <div className="viz-heading">
             <p className="viz-timestamp">
-              All time, as of Aug'20 
+              All time, as of {snapshotDisplay} 
             </p>
             <HoverTooltip view={"language"} />
           </div>
