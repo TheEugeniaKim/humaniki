@@ -48,11 +48,14 @@ export function percentFormatter(cell, row){
   if (!cell){
     return
   }
-  return cell.toFixed(3)
+  return cell.toFixed(3)+"%"
+}
+
+function thousandSeparator(cell){
+  return Number(cell).toLocaleString()
 }
 
 export function createColumns(meta, metrics, indexColTitle, gapCol=null ){
-  
   const columns = []
     //column order: 
     // 1. index 
@@ -65,17 +68,17 @@ export function createColumns(meta, metrics, indexColTitle, gapCol=null ){
     } else {
       columns.push({dataField: indexColTitle, text: indexColTitle.toUpperCase(), filter: textFilter(), sort: true})
     }
-      columns.push({dataField: "total",text: "Total", sort: true})
+    columns.push({dataField: "total",text: "Total", formatter: thousandSeparator, sort: true})
     columns.push(
       {
         dataField: meta.bias_labels[QIDs.female],
         text: meta.bias_labels[QIDs.female],
+        formatter: thousandSeparator,
         sort: true,
         classes: "gender-col gender-col-female"
       }
     )
     if (gapCol){
-      console.log("gapCOl true")
       columns.push({dataField: "gap", text: "Gap", sort: true, headerStyle: {
         "overflow": 'visible',
         "minWidth": "200px", 
@@ -86,8 +89,8 @@ export function createColumns(meta, metrics, indexColTitle, gapCol=null ){
       {
         dataField: meta.bias_labels[QIDs.female] + "Percent",
         text: meta.bias_labels[QIDs.female] + " Percent",
-        sort: true,
         formatter: percentFormatter,
+        sort: true,
         classes: "gender-col gender-col-percent-female"
       }
     )
@@ -95,6 +98,7 @@ export function createColumns(meta, metrics, indexColTitle, gapCol=null ){
       {
         dataField: meta.bias_labels[QIDs.male],
         text: meta.bias_labels[QIDs.male],
+        formatter: thousandSeparator,
         sort: true,
         classes: "gender-col gender-col-male"
       }
@@ -108,7 +112,7 @@ export function createColumns(meta, metrics, indexColTitle, gapCol=null ){
         classes: "gender-col gender-col-percent-male"
       }
     )
-    columns.push({dataField: "sumOtherGenders", text: "∑ Other Genders", sort: true, classes: "gender-col gender-col-sum-other" })
+    columns.push({dataField: "sumOtherGenders", text: "∑ Other Genders", formatter: thousandSeparator, sort: true, classes: "gender-col gender-col-sum-other" })
     columns.push({dataField: "sumOtherGendersPercent", text: "∑ Other Genders Percent", sort: true, formatter: percentFormatter, classes: "gender-col gender-col-percent-sum-other"})
 
     for (let genderId in meta.bias_labels) {
