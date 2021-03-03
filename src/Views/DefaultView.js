@@ -4,7 +4,7 @@ import { Row } from 'react-bootstrap'
 import SingleBarChart from '../Components/SingleBarChart'
 import "../App.css"
 import "../Sk.css"
-import { colors, loadingDiv, QIDs } from '../utils'
+import { colors, loadingDiv, QIDs, months } from '../utils'
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 import NumericLabel from 'react-pretty-numbers';
@@ -35,7 +35,6 @@ function DefaultView({API}){
       setIsErrored(errors)
     }
     else{
-      console.log(data)
       setTotal(Object.values(data.metrics[0].values).reduce((a,b) => a+b))
       let totalMen = data.metrics[0].values[QIDs.male]
       let totalWomen = data.metrics[0].values[QIDs.female]
@@ -43,8 +42,8 @@ function DefaultView({API}){
       totalOthers[QIDs.male] = 0
       totalOthers[QIDs.female] = 0
       totalOthers = Object.values(totalOthers).reduce((a,b) => a+b)
-      setSnapshot(data.meta.snapshot.slice(0,7))
-      setSnapshotYear(data.meta.snapshot.slice(3,7))
+      setSnapshotMonth(months[data.meta.snapshot.slice(8,10)])
+      setSnapshotYear(data.meta.snapshot.slice(0,4))
       setTotalMen(totalMen)
       setTotalWomen(totalWomen)
       setTotalOthers(totalOthers)
@@ -108,7 +107,7 @@ function DefaultView({API}){
         (totalMen/total*100), 
         (totalOthers/total*100)
       ]} />
-      <p>All time, as of {snapshot}</p>
+      <p>All time, as of {snapshotMonth} {snapshotYear}</p>
     </div>
 
   return (
@@ -117,7 +116,8 @@ function DefaultView({API}){
         <Row className="default-content">
           <h4 className="default-title">Humaniki provides statistics about the gender gap in the content of all Wikimedia projects</h4>
           <h6>
-            For example, as of {snapshotMonth ? snapshotMonth : null} {snapshotYear ? snapshotYear : null}, only LATEST TOTAL COVERAGE % of content in all Wikimedia projects including biographies on Wikipedia are about women.
+            For example, as of {snapshotMonth ? snapshotMonth : null}  {snapshotYear ? snapshotYear : null}, 
+            only LATEST TOTAL COVERAGE % of content in all Wikimedia projects including biographies on Wikipedia are about women.
           </h6>
         </Row>
         {isLoading ? loadingDiv : null }
