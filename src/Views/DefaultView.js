@@ -20,6 +20,8 @@ function DefaultView({API}){
   const [isLoading, setIsLoading] = useState(true)
   const [isErrored, setIsErrored] = useState(false)
   const [snapshot, setSnapshot] = useState()
+  const [snapshotMonth, setSnapshotMonth] = useState()
+  const [snapshotYear, setSnapshotYear] = useState()
 
   const prettyNumParams = {
     shortFormat: true,
@@ -42,6 +44,7 @@ function DefaultView({API}){
       totalOthers[QIDs.female] = 0
       totalOthers = Object.values(totalOthers).reduce((a,b) => a+b)
       setSnapshot(data.meta.snapshot.slice(0,7))
+      setSnapshotYear(data.meta.snapshot.slice(3,7))
       setTotalMen(totalMen)
       setTotalWomen(totalWomen)
       setTotalOthers(totalOthers)
@@ -50,7 +53,6 @@ function DefaultView({API}){
   }
 
   useEffect(() => {
-    console.log("ABOUT TO RUN  GET")
     API.get({
       bias: "gender", 
       metric: "gap", 
@@ -76,6 +78,14 @@ function DefaultView({API}){
       <h5> Global Gender Gap </h5>
       <h6> Distribution of content of humans in all Wikimedia Projects </h6>
       <div className="list-gender-gap">
+        <div className = "col-gender">
+          <h4> 
+            <NumericLabel params={prettyNumParams}>
+              {totalWomen}
+            </NumericLabel>
+          </h4>
+          <h6> Female Content </h6>
+        </div>
         <div className = "col-male">
           <h4>
             <NumericLabel params={prettyNumParams}>
@@ -92,14 +102,6 @@ function DefaultView({API}){
           </h4>
           <h6> Σ Other Genders Content (sum) </h6>
         </div>
-        <div className = "col-gender">
-          <h4> 
-            <NumericLabel params={prettyNumParams}>
-              {totalWomen}
-            </NumericLabel>
-          </h4>
-          <h6> Female Content </h6>
-        </div>
       </div>
       <SingleBarChart genderTotals={[
         (totalWomen/total*100),
@@ -115,7 +117,7 @@ function DefaultView({API}){
         <Row className="default-content">
           <h4 className="default-title">Humaniki provides statistics about the gender gap in the content of all Wikimedia projects</h4>
           <h6>
-            For example, as of LATEST SNAPSHOT Month Year, only LATEST TOTAL COVERAGE % of content in all Wikimedia projects including biographies on Wikipedia are about women.
+            For example, as of {snapshotMonth ? snapshotMonth : null} {snapshotYear ? snapshotYear : null}, only LATEST TOTAL COVERAGE % of content in all Wikimedia projects including biographies on Wikipedia are about women.
           </h6>
         </Row>
         {isLoading ? loadingDiv : null }
@@ -141,7 +143,7 @@ function DefaultView({API}){
           <Link to = {`/gender-by-dob`} className ="col-button-container"> 
             <div className="col-button col-timeseries">
               <h5> Gender by Date of Birth and Death </h5>
-              <h7> What is the temporal distribution of gender data? </h7>
+              <h6> What is the temporal distribution of gender data? </h6>
             </div>
           </Link>
         </div>
