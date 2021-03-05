@@ -76,6 +76,7 @@ svg {
 
 .first-col{
   text-align: center;
+  width: 25%;
 }
 
 thead {
@@ -107,7 +108,7 @@ tbody {
 }
 
 .info-div{
-  width: 5%;
+  width: 3%;
 }
 
 .flex{
@@ -132,7 +133,7 @@ tbody {
 }
 
 .column-icon{
-  width: 10%;
+  width: 20%;
 }
 
 .other-gender-col-heading{
