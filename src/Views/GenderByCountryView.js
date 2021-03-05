@@ -307,7 +307,6 @@ function GenderByCountryView({ API, snapshots }) {
               All time, as of {snapshotDisplay}
             </p>
             <div>
-
               <HoverTooltip view={"country"} className="above-graph-icon" />
             </div>
           </div>
