@@ -106,11 +106,36 @@ tbody {
   display: inline;
 }
 
-.info-circle{
-  width: 3%;
+.info-div{
+  width: 5%;
+}
+
+.flex{
+  display: flex;
 }
 
 .viz-heading{
   display: flex;
   justify-content: space-between;
+}
+
+#column-info-icon{
+  width: 10%;
+}
+
+.icon{
+  width: 100%;
+}
+
+.above-graph-icon{
+  width: 40%;
+}
+
+.column-icon{
+  width: 10%;
+}
+
+.other-gender-col-heading{
+  justify-content: center;
+  display: flex;
 }

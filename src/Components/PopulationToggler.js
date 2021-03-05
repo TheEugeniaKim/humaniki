@@ -27,8 +27,12 @@ function PopulationToggle({ handleToggle, GTE_ONLY }) {
 						overlay={renderTooltip}
 					>
 						<Nav.Link eventKey={populations.ALL_WIKIDATA} >
-							All Humans on Wikidata  
-							<InfoCircle />
+							<div className="flex">
+								All Humans on Wikidata   
+								<div className="info-div">
+									<InfoCircle />
+								</div>
+							</div>
 						</Nav.Link>
 					</OverlayTrigger>
         </Nav.Item>
@@ -39,8 +43,12 @@ function PopulationToggle({ handleToggle, GTE_ONLY }) {
 						overlay={renderAtLeastTooltip}
 					>
             <Nav.Link eventKey={populations.GTE_ONE_SITELINK}>
-                Humans With At Least One Wikipedia Article
-                <InfoCircle />
+							<div className="flex">
+                Humans With At Least One Wikipedia Article 
+								<div className="info-div">
+                	<InfoCircle/>
+								</div>
+							</div>
             </Nav.Link>
 					</OverlayTrigger>
         </Nav.Item>

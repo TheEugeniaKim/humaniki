@@ -12,6 +12,7 @@ function GenderTable({tableColumns, tableArr, keyField, defaultSorted}) {
     const [modalShow, setModalShow] = useState(false)
     const [myToggles, setMyToggles] = useState({"male": true})
 
+
     useEffect(() => {
         if (!tableColumns) {
             return
@@ -66,6 +67,7 @@ function GenderTable({tableColumns, tableArr, keyField, defaultSorted}) {
                                 filter={filterFactory({afterFilter})}
                                 pagination={paginationFactory()}
                                 striped
+                                hover
                                 condensed
                                 defaultSorted={defaultSorted}
                             /> :
