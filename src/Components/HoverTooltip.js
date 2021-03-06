@@ -20,7 +20,7 @@ function HoverTooltip({view}){
     } else if (view === "gender-female-male"){
       makeMessage("Gender label is representative of gender data labelling on Wikidata")
     } else if (view === "gender-sum-others"){
-      makeMessage("All genders that do not identify with male or female identity")
+      makeMessage("Sum of all genders that are not set as male or female in Wikidata (use Other Genders Breakdown to inspect)")
     }
 
     if (view === "country"){

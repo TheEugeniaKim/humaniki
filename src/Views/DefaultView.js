@@ -16,6 +16,7 @@ function DefaultView({API}){
   const [totalMen, setTotalMen] = useState()
   const [totalWomen, setTotalWomen] = useState()
   const [totalOthers, setTotalOthers] = useState()
+  const [womenPercent, setWomenPercent] = useState()
   const [total, setTotal] = useState()
   const [isLoading, setIsLoading] = useState(true)
   const [isErrored, setIsErrored] = useState(false)
@@ -35,7 +36,8 @@ function DefaultView({API}){
       setIsErrored(errors)
     }
     else{
-      setTotal(Object.values(data.metrics[0].values).reduce((a,b) => a+b))
+      const total = Object.values(data.metrics[0].values).reduce((a,b) => a+b)
+      setTotal(total)
       let totalMen = data.metrics[0].values[QIDs.male]
       let totalWomen = data.metrics[0].values[QIDs.female]
       let totalOthers = data.metrics[0].values
@@ -47,6 +49,7 @@ function DefaultView({API}){
       setTotalMen(totalMen)
       setTotalWomen(totalWomen)
       setTotalOthers(totalOthers)
+      setWomenPercent(totalWomen/total*100)
     }
     setIsLoading(false)
   }
@@ -117,7 +120,7 @@ function DefaultView({API}){
           <h4 className="default-title">Humaniki provides statistics about the gender gap in the content of all Wikimedia projects</h4>
           <h6>
             For example, as of {snapshotMonth ? snapshotMonth : null}  {snapshotYear ? snapshotYear : null}, 
-            only LATEST TOTAL COVERAGE % of content in all Wikimedia projects including biographies on Wikipedia are about female.
+            only <NumericLabel>{womenPercent}</NumericLabel>% of content in all Wikimedia projects including biographies on Wikipedia are about women.
           </h6>
         </Row>
         {isLoading ? loadingDiv : null }

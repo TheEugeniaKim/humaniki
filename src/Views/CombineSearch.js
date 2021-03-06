@@ -34,6 +34,8 @@ function CombineSearch({API, snapshots}){
   const [isErrored, setIsErrored] = useState(false)
 
   const onSubmit = (formState) => {
+    setIsLoading(true)
+    setIsErrored(false)
     let tempPropertyObj = {
       bias: "gender",
       metric: "gap",
@@ -78,6 +80,8 @@ function CombineSearch({API, snapshots}){
       // Handle Formatting Table Data 
       let tableObj = {}
       tableObj.key = index 
+      // delete citizenship abreviation 
+      delete obj["item_label"]["iso_3166"]
       let item_labels = Object.values(obj["item_label"])
       item_labels = item_labels.length > 0 ? item_labels : ["Overall"]
       // in multi-dimensions search join the different titles in one index column
@@ -127,9 +131,14 @@ function CombineSearch({API, snapshots}){
       if (!snapshots) return
       setAllMetrics(fetchData.metrics)
       setAllMeta(fetchData.meta)
-      setTableColumns(createColumns(fetchData.meta, fetchData.metrics, keyFields.search, true))
- 
-      processTableData(fetchData.meta, fetchData.metrics)
+      // check if we get data (metrics) back
+      // in the case where we query for metric but get 0 results 
+      if (fetchData.metrics.length > 0){
+        setTableColumns(createColumns(fetchData.meta, fetchData.metrics, keyFields.search, true))
+        processTableData(fetchData.meta, fetchData.metrics)
+      } else {
+        setIsErrored({"API reachable but" : ["Query returned 0 results"]})
+      }
     }
     setIsLoading(false)
     return true 
@@ -173,12 +182,17 @@ function CombineSearch({API, snapshots}){
         {isLoading ? loadingDiv : null }
         {isErrored ? <ErrorDiv errors={isErrored} /> : null }
 
-        <GenderTable 
-          tableArr={tableArr} 
-          tableColumns={tableColumns} 
-          keyField={keyFields.search}
-          defaultSorted={defaultSorted}
-        />
+        {
+          // render the GenderTable when either isLoading or isErrored is false
+          (isLoading || isErrored) ? 
+            null :
+            <GenderTable 
+              tableArr={tableArr} 
+              tableColumns={tableColumns} 
+              keyField={keyFields.search}
+              defaultSorted={defaultSorted}
+            />
+        }
       </div>
 
     </div>

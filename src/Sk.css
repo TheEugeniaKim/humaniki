@@ -375,15 +375,11 @@ p.team-founder {
 	text-align: right;
 	color: #808080;
 	margin-bottom: 2rem;
+	opacity: 0.7;
 }
 
 .licensing a {
 	color: #9b870c;
-	opacity: 75%;
-}
-
-.licensing img {
-	opacity: 70%;
 }
 
 
@@ -391,12 +387,6 @@ p.team-founder {
 	width: 1.2rem;
 	height: 1.2rem;
 }
-
-/*delete this after adding a header to 2nd filter input on language view page begin*/
-.language-view .css-2b097c-container {
-    padding-top: 1rem;
-}
-/*delete this end*/
 
 .col-sm-3 h6 {
 	padding-top: 1rem;
