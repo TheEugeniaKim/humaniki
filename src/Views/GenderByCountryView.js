@@ -306,7 +306,9 @@ function GenderByCountryView({ API, snapshots }) {
             <p className="viz-timestamp">
               All time, as of {snapshotDisplay}
             </p>
-            <HoverTooltip view={"country"} />
+            <div>
+              <HoverTooltip view={"country"} className="above-graph-icon" />
+            </div>
           </div>
 
           <WorldMap

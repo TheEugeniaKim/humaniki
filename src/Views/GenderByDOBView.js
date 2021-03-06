@@ -336,7 +336,9 @@ function GenderByDOBView({ API, snapshots }) {
             <p className="viz-timestamp">
               All time, as of {snapshotDisplay}
             </p>
-            <HoverTooltip view={"dob"} />
+            <div>
+              <HoverTooltip view={"dob"} />
+            </div>
           </div>
 
           {lineData.length === 0 ? null : (

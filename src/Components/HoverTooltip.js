@@ -3,7 +3,9 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import DateFilterIcon from './DateFilterIcon';
 import QuestionIcon from './QuestionIcon';
-import ZoomInIcon from './ZoomInIcon'
+import ZoomInIcon from './ZoomInIcon';
+import InfoCircle from './InfoCircle';
+
 
 function HoverTooltip({view}){
   const [message, makeMessage] = useState(null) 
@@ -15,6 +17,10 @@ function HoverTooltip({view}){
       makeMessage("Enter Year Range filters (Format YYYY) to get detailed graph")
     } else if (view === "language"){
       makeMessage("Hover over data points to get more information")
+    } else if (view === "gender-female-male"){
+      makeMessage("Gender label is representative of gender data labelling on Wikidata")
+    } else if (view === "gender-sum-others"){
+      makeMessage("All genders that do not identify with male or female identity")
     }
 
     if (view === "country"){
@@ -23,6 +29,10 @@ function HoverTooltip({view}){
       makeIcon(<DateFilterIcon />)
     } else if (view === "language"){
       makeIcon(<QuestionIcon />)
+    } else if (view === "gender-female-male"){
+      makeIcon(<InfoCircle id="column-info-icon" />)
+    } else if (view === "gender-sum-others"){
+      makeIcon(<InfoCircle id="column-info-icon" />)
     }
     
   },[view])
@@ -40,7 +50,7 @@ function HoverTooltip({view}){
       placement="right"
       overlay={renderTooltip}
     >
-      <div>
+      <div className="icon">
         {icon}
       </div>
     </OverlayTrigger>

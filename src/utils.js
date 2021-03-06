@@ -3,6 +3,7 @@ import { textFilter } from 'react-bootstrap-table2-filter'
 import { components } from "react-select";
 import makeAnimated from "react-select/animated";
 import { Alert } from 'react-bootstrap'
+import HoverTooltip from './Components/HoverTooltip'
 
 //gender color map see single bar chart component
 export const colors = ["#F19359","#517FC1","#FAD965"]
@@ -44,6 +45,8 @@ export function formatDate(date) {
   );
 }
 
+export const months = {'01': 'Jan', '02': 'Feb', '03': 'Mar','04': 'Apr', '05': 'May','06': 'Jun', '07': 'Jul', '08': 'Aug','09': 'Sept','10': 'Oct','11':'Nov','12': 'Dec'}
+
 export function percentFormatter(cell, row){
   if (!cell){
     return
@@ -53,6 +56,42 @@ export function percentFormatter(cell, row){
 
 function thousandSeparator(cell){
   return Number(cell).toLocaleString()
+}
+
+function headerFormatFemale(column){
+  return (
+    <div className="other-gender-col-heading" >
+      female
+      <span> </span>
+      <div className="column-icon">
+        <HoverTooltip view={"gender-female-male"} />
+      </div>
+    </div>
+  )
+}
+
+function headerFormatMale(column){
+  return (
+    <div className="other-gender-col-heading">
+      male 
+      <span> </span>
+      <div className="column-icon">
+        <HoverTooltip view={"gender-female-male"} />
+      </div>
+    </div>
+  )
+}
+
+function headerFormatOthers(column){
+  return (
+    <div className="other-gender-col-heading">
+      ∑ Other Genders
+      <span> </span>
+      <div className="column-icon">
+        <HoverTooltip view={"gender-sum-others"} />
+      </div>
+    </div>
+  )
 }
 
 export function createColumns(meta, metrics, indexColTitle, gapCol=null ){
@@ -88,7 +127,7 @@ export function createColumns(meta, metrics, indexColTitle, gapCol=null ){
     columns.push(
       {
         dataField: meta.bias_labels[QIDs.female],
-        text: meta.bias_labels[QIDs.female],
+        headerFormatter: headerFormatFemale,
         formatter: thousandSeparator,
         sort: true,
         classes: "gender-col gender-col-female"
@@ -113,7 +152,7 @@ export function createColumns(meta, metrics, indexColTitle, gapCol=null ){
     columns.push(
       {
         dataField: meta.bias_labels[QIDs.male],
-        text: meta.bias_labels[QIDs.male],
+        headerFormatter: headerFormatMale,
         formatter: thousandSeparator,
         sort: true,
         classes: "gender-col gender-col-male"
@@ -122,13 +161,13 @@ export function createColumns(meta, metrics, indexColTitle, gapCol=null ){
     columns.push(
       {
         dataField: meta.bias_labels[QIDs.male] + "Percent",
-        text: meta.bias_labels[QIDs.male] + " Percent",
+        text: meta.bias_labels[QIDs.male] + " Percent" ,
         sort: true,
         formatter: percentFormatter,
         classes: "gender-col gender-col-percent-male"
       }
     )
-    columns.push({dataField: "sumOtherGenders", text: "∑ Other Genders", formatter: thousandSeparator, sort: true, classes: "gender-col gender-col-sum-other" })
+    columns.push({dataField: "sumOtherGenders", headerFormatter: headerFormatOthers, headerStyle: {"minWidth": "100px"}, formatter: thousandSeparator, sort: true, classes: "gender-col gender-col-sum-other" })
     columns.push({dataField: "sumOtherGendersPercent", text: "∑ Other Genders Percent", sort: true, formatter: percentFormatter, classes: "gender-col gender-col-percent-sum-other"})
 
     for (let genderId in meta.bias_labels) {
@@ -136,7 +175,6 @@ export function createColumns(meta, metrics, indexColTitle, gapCol=null ){
         // check if bias label exists else use QID
         let biasLabel = meta.bias_labels[genderId] ? meta.bias_labels[genderId] : genderId
         let obj = {
-
           dataField: biasLabel ,
           text: biasLabel,
           label: biasLabel,

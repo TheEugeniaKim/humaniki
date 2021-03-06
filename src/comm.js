@@ -76,8 +76,10 @@ export default class humanikiAPI {
         if (response.ok) {
             return response
         } else if (!response.ok) {
-            processCB({"HTTPError": response,
-                         "url": url}, {});
+            processCB({
+                "HTTPError": response,
+                "url": url
+            }, {});
         }
     }
 

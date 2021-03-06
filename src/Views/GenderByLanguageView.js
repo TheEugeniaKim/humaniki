@@ -229,7 +229,9 @@ function GenderByLanguageView({ API, snapshots }) {
             <p className="viz-timestamp">
               All time, as of {snapshotDisplay} 
             </p>
-            <HoverTooltip view={"language"} />
+            <div>
+              <HoverTooltip view={"language"} />
+            </div>
           </div>
           <ScatterPlot
             data={tableArr}
