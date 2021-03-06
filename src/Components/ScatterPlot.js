@@ -32,7 +32,7 @@ function ScatterPlot(props) {
   const wrapperRef = useRef();
   const dimensions = useResizeObserver(wrapperRef);
   const yAxisLabel = "Total Human Content"
-  const xAxisLabel = "Percentage Women Content"
+  const xAxisLabel = "Percentage Female Content"
 
   useEffect(() => {
     const svg = select(svgRef.current);
