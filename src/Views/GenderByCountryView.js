@@ -292,12 +292,12 @@ function GenderByCountryView({ API, snapshots }) {
       <PopulationToggle handleToggle={handleHumanChange} />
       <div className="viz-description">
         <h5>
-          Percentage of biographies and other content of women based on country of
+          Percentage of biographies and other content of female based on country of
           citizenship
         </h5>
         <p>
           This plot shows the percentage of biographies and other content of
-          women, men, and other genders based on country of citizenship determined
+          female, male, and other genders based on country of citizenship determined
           by the citizenship property in Wikidata. We represent data only for
           official as of December 2020. Note: As for January, 2016, only about 30%
           of biographies had place of birth, so this data is incomplete.
