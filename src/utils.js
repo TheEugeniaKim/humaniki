@@ -95,6 +95,7 @@ function headerFormatOthers(column){
 }
 
 export function createColumns(meta, metrics, indexColTitle, gapCol=null ){
+  console.log("IndexColTitle", indexColTitle)
   const columns = []
     //column order: 
     // 1. index 
@@ -105,7 +106,7 @@ export function createColumns(meta, metrics, indexColTitle, gapCol=null ){
     if (gapCol) {
       columns.push(
         {
-          dataField: indexColTitle, 
+          dataField: "index", 
           text: indexColTitle.toUpperCase(), 
           filter: textFilter({placeholder: "Search"}), 
           sort: true, 

@@ -140,6 +140,13 @@ function AdvacnedSearchForm({ onSubmit, snapshots }) {
       );
     } else {
       onSubmit(formState);
+      setFormState({
+        selectedSnapshot: null,
+        selectedYearRange: null,
+        selectedWikiProject: null,
+        selectedCitizenship: null,
+        selectedOccupation: null,
+      });
     }
   }
 
