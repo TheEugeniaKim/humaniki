@@ -15,8 +15,12 @@
 }
 
 a {
-	text-decoration: none;
-	color: #000;
+	color: #9b870c;
+}
+
+a:hover {
+	color: #9b870c;
+	text-decoration: underline;
 }
 
 /* Button begin */
@@ -239,7 +243,8 @@ nav.navbar .mr-auto {
 }
 
 .about-content a {
-	text-decoration: underline;
+	color: #9b870c;
+
 }
 .note-text {
 	font-size: small;
@@ -322,25 +327,28 @@ p.team-founder {
 .about-team-more a {
     text-underline-position: under;
     text-decoration: underline;
-    text-decoration-color: cornflowerblue;
+    text-decoration-color: #9b870c;
 }
-
+ 
 .about-team-more a:hover {
     text-decoration: underline;
-    text-decoration-color: cornflowerblue;
+    text-decoration-color: #9b870c;
   }
 
+.about-contact p {
+	margin-bottom: 0.1rem;
+}
 /* About end*/
 
 /*Visualizations Container begin*/
 
-.view-container {
+.viz-container {
 	text-align: left;
 	margin-bottom: 5rem;
 	padding: 2rem;
 }
 
-.view-container .nav-tabs {
+.viz-container .nav-tabs {
 	padding-top: 1rem;
 }
 
@@ -354,28 +362,60 @@ p.team-founder {
 .viz-timestamp {
 	font-style: italic;
 }
-.dob-view .col-lg-7 {
-	margin-bottom: 2rem;
+.viz-container .col-lg-7 {
+	margin-bottom: 0.5rem;
 	margin-left: 1rem;
 }
-.dob-view .col-lg-7 .wrapper {
+.viz-container .col-lg-7 .wrapper {
 	width: 90%;
 	height: 20rem;
 }
-.language-view .col-lg-7 {
-	margin-bottom: 2rem;
-	margin-left: 1rem;
-}
-.language-view .col-lg-7 .wrapper {
-	width: 90%;
-	height: 20rem;
-}
-.expand-genders {
+
+.licensing{
 	text-align: right;
+	color: #808080;
+	margin-bottom: 2rem;
+}
+
+.licensing a {
+	color: #9b870c;
+	opacity: 75%;
+}
+
+.licensing img {
+	opacity: 70%;
+}
+
+
+.cc-logo{
+	width: 1.2rem;
+	height: 1.2rem;
+}
+
+/*delete this after adding a header to 2nd filter input on language view page begin*/
+.language-view .css-2b097c-container {
+    padding-top: 1rem;
+}
+/*delete this end*/
+
+.col-sm-3 h6 {
+	padding-top: 1rem;
 }
 
 /*Visualizations Container end*/
 
+/*Data Table begin*/
+
+.expand-genders {
+	text-align: right;
+	padding-bottom: 0.5rem;
+}
+
+.api-data-btn{
+	
+}
+
+/*Data Table end*/
 
 /*Footer begin*/
 footer {
@@ -452,8 +492,17 @@ every country is selected by default until there are filter selections
 	    padding-right: 1.5rem;
     	padding-left: 1.5rem;
 	}
-}
+	.justify-content-md-center {
+		justify-content: left !important;
+	}
 
+	.col-sm-3 {
+	    flex: 0 0 30%;
+	    max-width: 100%;
+	    padding-left: 2rem;
+	    border-left: lightgray solid 0.1rem;
+	}
+}
 @media (max-width: 1200px) {
 	.container, .container-lg, .container-md, .container-sm, .container-xl {
     	padding: 0px;
@@ -482,17 +531,4 @@ every country is selected by default until there are filter selections
 	.col-team {
 		width: 50%; 
 	}
-}
-
-.licensing{
-	
-}
-
-.cc-logo{
-	width: 20px;
-	height: 20px;
-}
-
-.api-data-btn{
-	
 }

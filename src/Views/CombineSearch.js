@@ -162,7 +162,7 @@ function CombineSearch({API, snapshots}){
   }];
 
   return(
-    <div className="view-container">
+    <div className="viz-container">
       <h2>Explore multiple data categories</h2>
       <PopulationToggle handleToggle={handleHumanChange}/>
       <h4>Explore Search</h4>

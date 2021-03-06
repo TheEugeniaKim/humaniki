@@ -320,7 +320,7 @@ function GenderByDOBView({ API, snapshots }) {
   );
 
   return (
-    <div className="view-container dob-view sub-container">
+    <div className="viz-container dob-view sub-container">
       <h4>Gender by Year of Birth Statistics</h4>
       <PopulationToggle handleToggle={handleHumanChange}/>
       <div className="viz-description">
@@ -368,8 +368,8 @@ function GenderByDOBView({ API, snapshots }) {
             />
           </InputGroup>
         </Col>
-        <Licensing />
       </Row>
+      <Licensing />
       <hr />
       <Row className="table-container">
         {isLoading ? loadingDiv : null}
