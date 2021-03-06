@@ -133,7 +133,10 @@ tbody {
 }
 
 .column-icon{
-  width: 20%;
+  width: 15%;
+}
+.column-icon-other-genders{
+  width: 200%;
 }
 
 .other-gender-col-heading{

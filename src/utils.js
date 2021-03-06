@@ -62,6 +62,7 @@ function headerFormatFemale(column){
   return (
     <div className="other-gender-col-heading" >
       female
+      <span> </span>
       <div className="column-icon">
         <HoverTooltip view={"gender-female-male"} />
       </div>
@@ -73,6 +74,7 @@ function headerFormatMale(column){
   return (
     <div className="other-gender-col-heading">
       male 
+      <span> </span>
       <div className="column-icon">
         <HoverTooltip view={"gender-female-male"} />
       </div>
@@ -84,6 +86,7 @@ function headerFormatOthers(column){
   return (
     <div className="other-gender-col-heading">
       ∑ Other Genders
+      <span> </span>
       <div className="column-icon">
         <HoverTooltip view={"gender-sum-others"} />
       </div>
@@ -164,7 +167,7 @@ export function createColumns(meta, metrics, indexColTitle, gapCol=null ){
         classes: "gender-col gender-col-percent-male"
       }
     )
-    columns.push({dataField: "sumOtherGenders", headerFormatter: headerFormatOthers, formatter: thousandSeparator, sort: true, classes: "gender-col gender-col-sum-other" })
+    columns.push({dataField: "sumOtherGenders", headerFormatter: headerFormatOthers, headerStyle: {"minWidth": "100px"}, formatter: thousandSeparator, sort: true, classes: "gender-col gender-col-sum-other" })
     columns.push({dataField: "sumOtherGendersPercent", text: "∑ Other Genders Percent", sort: true, formatter: percentFormatter, classes: "gender-col gender-col-percent-sum-other"})
 
     for (let genderId in meta.bias_labels) {
