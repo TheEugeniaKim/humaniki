@@ -362,19 +362,11 @@ p.team-founder {
 .viz-timestamp {
 	font-style: italic;
 }
-.dob-view .col-lg-7 {
+.view-container .col-lg-7 {
 	margin-bottom: 0.5rem;
 	margin-left: 1rem;
 }
-.dob-view .col-lg-7 .wrapper {
-	width: 90%;
-	height: 20rem;
-}
-.language-view .col-lg-7 {
-	margin-bottom: 0.5rem;
-	margin-left: 1rem;
-}
-.language-view .col-lg-7 .wrapper {
+.view-container .col-lg-7 .wrapper {
 	width: 90%;
 	height: 20rem;
 }
@@ -396,8 +388,8 @@ p.team-founder {
 
 
 .cc-logo{
-	width: 20px;
-	height: 20px;
+	width: 1.2rem;
+	height: 1.2rem;
 }
 
 /*delete this after adding a header to 2nd filter input on language view page begin*/
