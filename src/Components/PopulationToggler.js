@@ -29,8 +29,8 @@ function PopulationToggle({ handleToggle, GTE_ONLY }) {
 						<Nav.Link eventKey={populations.ALL_WIKIDATA} >
 
 							<div className="flex">
-								All Humans on Wikidata   
-								<div className="info-div">
+								All Humans on Wikidata  
+								<div className="info-div-toggler">
 									<InfoCircle />
 								</div>
 							</div>
@@ -45,12 +45,12 @@ function PopulationToggle({ handleToggle, GTE_ONLY }) {
 					>
             <Nav.Link eventKey={populations.GTE_ONE_SITELINK}>
 
-							<div className="flex">
-                Humans With At Least One Wikipedia Article 
-								<div className="info-div">
+				<div className="flex">
+                Humans With At Least One Wikipedia Article
+				<div className="info-div-toggler">
                 	<InfoCircle/>
-								</div>
-							</div>
+				</div>
+				</div>
             </Nav.Link>
 					</OverlayTrigger>
         </Nav.Item>

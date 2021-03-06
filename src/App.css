@@ -107,8 +107,9 @@ tbody {
   display: inline;
 }
 
-.info-div{
-  width: 3%;
+.info-div-toggler {
+  width: 1.1rem;
+ padding-left: 0.3rem;
 }
 
 .flex{
