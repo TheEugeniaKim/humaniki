@@ -241,6 +241,8 @@ function GenderByLanguageView({ API, snapshots }) {
         </Col>
         <Col sm={3}>
           {snapshotsDropdownOptions}
+
+          <h6>Filter WikiProjects</h6>
           <SelectDropdown 
             options={allProjects}
             isMulti
