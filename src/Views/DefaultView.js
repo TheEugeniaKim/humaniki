@@ -117,7 +117,7 @@ function DefaultView({API}){
           <h4 className="default-title">Humaniki provides statistics about the gender gap in the content of all Wikimedia projects</h4>
           <h6>
             For example, as of {snapshotMonth ? snapshotMonth : null}  {snapshotYear ? snapshotYear : null}, 
-            only LATEST TOTAL COVERAGE % of content in all Wikimedia projects including biographies on Wikipedia are about women.
+            only LATEST TOTAL COVERAGE % of content in all Wikimedia projects including biographies on Wikipedia are about female.
           </h6>
         </Row>
         {isLoading ? loadingDiv : null }

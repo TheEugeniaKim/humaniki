@@ -217,7 +217,7 @@ function GenderByLanguageView({ API, snapshots }) {
         </h5>
         <p>
         This plot compares number of gendered content in different 
-        Wikimedia projects to women/men/othergenders percentage of that content. 
+        Wikimedia projects to female/male/othergenders percentage of that content. 
         Comparisons of language editions and wikimedia project of your interest 
         can be made using filters 
         (top 25 wikimedia projects by number of humans are shown by default)
