@@ -262,7 +262,7 @@ function AdvacnedSearchForm({ onSubmit, snapshots }) {
           Submit
         </Button>
 
-        <Button variant="primary" onClick={onClickReset}>
+        <Button variant="secondary" onClick={onClickReset}>
           Reset
         </Button>
       </Row>

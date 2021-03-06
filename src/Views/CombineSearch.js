@@ -162,22 +162,27 @@ function CombineSearch({API, snapshots}){
   }];
 
   return(
-    <div className="viz-container">
+    <div className="viz-container combine-view">
       <h2>Explore multiple data categories</h2>
       <PopulationToggle handleToggle={handleHumanChange}/>
-      <h4>Explore Search</h4>
-      <p>
-        The explore search shows cumulative gender metrics for different
-        data categories at a time. 
-
-        Note: Select 2 filter dimensions at a time.
-      </p>
-
-      <AdvacnedSearchForm
-        onSubmit={onSubmit}
-        snapshots={snapshots}
-      /> 
-      {url ? <Button href={url} className="api-data-btn">API Link</Button> : null}
+      <div className="viz-description">
+        <h4>Explore Search</h4>
+        <p>
+          The explore search shows cumulative gender metrics for different
+          data categories at a time. </p>
+        <div className="combine-search-note">
+          Note: Select 2 filter dimensions at a time.
+        </div>
+      </div>
+      <div className="explore-filter">
+        <AdvacnedSearchForm
+          onSubmit={onSubmit}
+          snapshots={snapshots}
+        />
+      </div>
+      <div className ="api-data-btn">
+        {url ? <Button variant="secondary" href={url} target="_blank">API Link</Button> : null}
+      </div>
       <div className="table-container">
         {isLoading ? loadingDiv : null }
         {isErrored ? <ErrorDiv errors={isErrored} /> : null }
