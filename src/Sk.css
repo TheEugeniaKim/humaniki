@@ -392,6 +392,34 @@ p.team-founder {
 	padding-top: 1rem;
 }
 
+.combine-view .viz-description p {
+	margin-bottom: 0;
+}
+
+.combine-search-note {
+	font-style: italic;
+}
+
+.explore-filter {
+	margin-top: 1rem;
+}
+
+.form-group {
+	padding-left: 1.4rem;
+}
+.form-label {
+	font-weight: 510;
+	font-size: 0.9rem;
+}
+
+#yearStart,#yearEnd{
+	width: 40%;
+}
+
+.explore-filter .btn {
+	margin-left: 0.5rem;
+}
+
 /*Visualizations Container end*/
 
 /*Data Table begin*/
@@ -402,7 +430,8 @@ p.team-founder {
 }
 
 .api-data-btn{
-	
+	text-align: right;
+	margin-bottom: 0.5rem;
 }
 
 /*Data Table end*/
