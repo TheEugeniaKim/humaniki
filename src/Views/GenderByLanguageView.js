@@ -208,7 +208,7 @@ function GenderByLanguageView({ API, snapshots }) {
   );
   
   return (
-    <div className="view-container language-view sub-container">
+    <div className="viz-container language-view sub-container">
       <h4>Gender by language editions in Wikimedia Projects</h4>
       <PopulationToggle GTE_ONLY={true} />
       <div className="viz-description">

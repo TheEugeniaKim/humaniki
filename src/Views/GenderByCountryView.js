@@ -284,7 +284,7 @@ function GenderByCountryView({ API, snapshots }) {
   );
 
   return (
-    <div className="view-container country-view sub-container">
+    <div className="viz-container country-view sub-container">
       <h4 className="heading-left">Gender Gap By Country</h4>
       <PopulationToggle handleToggle={handleHumanChange} />
       <div className="viz-description">

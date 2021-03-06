@@ -342,13 +342,13 @@ p.team-founder {
 
 /*Visualizations Container begin*/
 
-.view-container {
+.viz-container {
 	text-align: left;
 	margin-bottom: 5rem;
 	padding: 2rem;
 }
 
-.view-container .nav-tabs {
+.viz-container .nav-tabs {
 	padding-top: 1rem;
 }
 
@@ -362,11 +362,11 @@ p.team-founder {
 .viz-timestamp {
 	font-style: italic;
 }
-.view-container .col-lg-7 {
+.viz-container .col-lg-7 {
 	margin-bottom: 0.5rem;
 	margin-left: 1rem;
 }
-.view-container .col-lg-7 .wrapper {
+.viz-container .col-lg-7 .wrapper {
 	width: 90%;
 	height: 20rem;
 }
