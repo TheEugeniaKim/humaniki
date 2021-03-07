@@ -5,6 +5,9 @@ import GenderTable from "../Components/GenderTable";
 import ScatterPlot from "../Components/ScatterPlot";
 import ErrorDiv from '../Components/ErrorDiv'
 import Licensing from '../Components/Licensing';
+import RadialBarChart from '../Components/RadialBarChart';
+import PopulationToggle from "../Components/PopulationToggler";
+import SelectDropdown from '../Components/SelectDropdown'
 import {
   createColumns,
   filterMetrics,
@@ -17,9 +20,6 @@ import {
   ValueContainer,
   animatedComponents
 } from "../utils";
-
-import PopulationToggle from "../Components/PopulationToggler";
-import SelectDropdown from '../Components/SelectDropdown'
 
 function GenderByLanguageView({ API, snapshots }) {
   let makeProjectFilterFn = (selectedProjects) => (metric) => {
@@ -39,6 +39,7 @@ function GenderByLanguageView({ API, snapshots }) {
   const [tableColumns, setTableColumns] = useState([{}]);
   const [snapshot, setSnapshot] = useState("latest");
   const [snapshotDisplay, setSnapshotDisplay] = useState()
+  const [completeness, setCompleteness] = useState()
   const [isLoading, setIsLoading] = useState(true);
   const [isErrored, setIsErrored] = useState(false);
 
@@ -148,9 +149,9 @@ function GenderByLanguageView({ API, snapshots }) {
     } else {
       setAllMetrics(data.metrics);
       setAllMeta(data.meta);
+      setCompleteness(data.meta.coverage);
       setSnapshotDisplay(data.meta.snapshot)
       let multiSelectData = createMultiselectData(data.metrics);
-      console.log("multiSelectData", multiSelectData);
       setAllProjects(multiSelectData);
       filterAndCreateVizAndTable(data.meta, data.metrics);
     }
@@ -240,6 +241,17 @@ function GenderByLanguageView({ API, snapshots }) {
           />
         </Col>
         <Col sm={3}>
+        <Row className="completeness">
+              <div className="completeness-child">
+                <h6>Data</h6>
+                <h6>Gender By Language</h6>
+                % of humans that have language data avaialble on Wikidata
+              </div>
+              <div className="completeness-child">
+                {completeness ? <RadialBarChart data={[completeness, 1-completeness]} /> : null }
+              </div>
+          </Row>
+
           {snapshotsDropdownOptions}
 
           <h6>Filter WikiProjects</h6>

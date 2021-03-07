@@ -10,6 +10,7 @@ import PopulationToggle from "../Components/PopulationToggler";
 import HoverTooltip from '../Components/HoverTooltip';
 import LineChart from "../Components/LineChart";
 import GenderTable from '../Components/GenderTable';
+import RadialBarChart from '../Components/RadialBarChart';
 import ErrorDiv from '../Components/ErrorDiv';
 import Licensing from '../Components/Licensing';
 import {
@@ -45,6 +46,7 @@ function GenderByDOBView({ API, snapshots }) {
   const [yearEnd, setYearEnd] = useState(currYear);
   const [snapshot, setSnapshot] = useState("latest");
   const [snapshotDisplay, setSnapshotDisplay] = useState()
+  const [completeness, setCompleteness] = useState()
   const [population, setPopulation] = useState(populations.GTE_ONE_SITELINK);
   const [isLoading, setIsLoading] = useState(true);
   const [isErrored, setIsErrored] = useState(false);
@@ -232,7 +234,8 @@ function GenderByDOBView({ API, snapshots }) {
     setTableArr(tableArr);
     setTableMetaData(extrema);
     setGenderMap(meta.bias_labels);
-    setSnapshotDisplay(meta.snapshot)
+    setSnapshotDisplay(meta.snapshot);
+    setCompleteness(meta.coverage);
     setGraphGenders(Object.values(meta.bias_labels));
     setLineData(createLineData(meta, filteredMetrics));
     setTableColumns(createColumns(meta, filteredMetrics, keyFields.dob));
@@ -351,6 +354,17 @@ function GenderByDOBView({ API, snapshots }) {
           )}
         </Col>
         <Col sm={3}>
+        <Row className="completeness">
+              <div className="completeness-child">
+                <h6>Data</h6>
+                <h6>Gender By DOB</h6>
+                % of humans that have DOB data avaialble on Wikidata
+              </div>
+              <div className="completeness-child">
+                {completeness ? <RadialBarChart data={[completeness, 1-completeness]} /> : null }
+              </div>
+          </Row>
+
           {snapshotsDropdownOptions}
           <InputGroup className="mb-3" size="sm">
             <InputGroup.Prepend>
