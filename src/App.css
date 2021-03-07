@@ -144,3 +144,18 @@ tbody {
   justify-content: center;
   display: flex;
 }
+
+.completeness{
+  display: flex;
+  font-size: small;
+}
+
+.completeness-child{
+  flex: 1;
+}
+
+.radial-chart-div{
+  height: 100%;
+  width: 100%;
+}
+

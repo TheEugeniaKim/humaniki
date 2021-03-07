@@ -9,8 +9,8 @@ function AdvacnedSearchForm({ onSubmit, snapshots }) {
     selectedSnapshot: null,
     selectedYearRange: null,
     // year range will be null or "all" for full year or string "startEnd" which means to construct a start~end string
-    selectedYearRangeStart: null, 
-    selectedYearRangeEnd: null,
+    selectedYearRangeStart: "", 
+    selectedYearRangeEnd: "",
     selectedWikiProject: null,
     selectedCitizenship: null,
     selectedOccupation: null,
@@ -95,6 +95,8 @@ function AdvacnedSearchForm({ onSubmit, snapshots }) {
     setFormState({
       selectedSnapshot: null,
       selectedYearRange: null,
+      selectedYearRangeStart: "",
+      selectedYearRangeEnd: "",
       selectedWikiProject: null,
       selectedCitizenship: null,
       selectedOccupation: null,
@@ -143,6 +145,8 @@ function AdvacnedSearchForm({ onSubmit, snapshots }) {
       setFormState({
         selectedSnapshot: null,
         selectedYearRange: null,
+        selectedYearRangeStart: null,
+        selectedYearRangeEnd: null,
         selectedWikiProject: null,
         selectedCitizenship: null,
         selectedOccupation: null,
@@ -185,6 +189,7 @@ function AdvacnedSearchForm({ onSubmit, snapshots }) {
             id="noFilter"
             name="selectedYearRangeType"
             defaultChecked
+            checked={formState.selectedYearRange===null}
             onChange={handleSelectedYearRange}
           />
           <Form.Check 
@@ -193,6 +198,7 @@ function AdvacnedSearchForm({ onSubmit, snapshots }) {
             label="All"
             id="all"
             name="selectedYearRangeType"
+            checked={formState.selectedYearRange === "all"}
             onChange={handleSelectedYearRange}
           />
           <Form.Check 
@@ -201,24 +207,25 @@ function AdvacnedSearchForm({ onSubmit, snapshots }) {
             label="From:"
             id="range"
             name="selectedYearRangeType"
+            checked={formState.selectedYearRange === "startEnd"}
             onChange={handleSelectedYearRange}
           />
           <Form.Control
             type="text"
             onChange={handleSelectedYearRangeTextInput}
-            value={formState.selectedYearRangeStart ? formState.selectedYearRangeStart : "YYYY"}
+            value={formState.selectedYearRangeStart}
             placeholder="YYYY"
             id="yearStart"
-            disabled={formState.selectedYearRange === "startEnd" ? undefined : true}
+            disabled={formState.selectedYearRange === "startEnd" ? false : true}
           />
           <Form.Label>To: </Form.Label>
           <Form.Control
             type="text"
             onChange={handleSelectedYearRangeTextInput}
-            value={formState.selectedYearRangeEnd ? formState.selectedYearRangeEnd : "YYYY"}
+            value={formState.selectedYearRangeEnd}
             placeholder="YYYY"
             id="yearEnd"
-            disabled={formState.selectedYearRange === "startEnd" ? undefined : true}
+            disabled={formState.selectedYearRange === "startEnd" ? false : true}
           />
         </Form.Group>
 

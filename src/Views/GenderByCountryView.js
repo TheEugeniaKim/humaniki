@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import WorldMap from "../Components/WorldMap";
 import GenderTable from "../Components/GenderTable";
 import PopulationToggle from "../Components/PopulationToggler";
+import RadialBarChart from '../Components/RadialBarChartButton';
 import SelectDropdown from '../Components/SelectDropdown';
 import ErrorDiv from '../Components/ErrorDiv';
 import HoverTooltip from '../Components/HoverTooltip';
@@ -48,6 +49,7 @@ function GenderByCountryView({ API, snapshots }) {
   const [tableArr, setTableArr] = useState([]);
   const [snapshot, setSnapshot] = useState("latest");
   const [snapshotDisplay, setSnapshotDisplay] = useState()
+  const [completeness, setCompleteness] = useState()
   const [tableMetaData, setTableMetaData] = useState({});
   const [property, setProperty] = useState("female");
   const [genders, setGenders] = useState([]);
@@ -228,6 +230,7 @@ function GenderByCountryView({ API, snapshots }) {
     } else {
       setAllMetrics(fetchData.metrics);
       setAllMeta(fetchData.meta);
+      setCompleteness(fetchData.meta.coverage);
       setSnapshotDisplay(fetchData.meta.snapshot)
       let multiSelectData = createMultiSelectData(fetchData.metrics);
       setAllCountries(multiSelectData);
@@ -319,6 +322,17 @@ function GenderByCountryView({ API, snapshots }) {
           />
         </Col>
         <Col sm={3}>
+          <Row className="completeness">
+              <div className="completeness-child">
+                <h6>Data</h6>
+                <h6>Gender By Country</h6>
+                {completeness ? completeness*100 : null}% of humans have citizenship data available on Wikidata
+              </div>
+              <div className="completeness-child">
+                {completeness ? <RadialBarChart data={[completeness, 1-completeness]} /> : null }
+              </div>
+          </Row>
+
           {snapshotsDropdownOptions}
           <h6>Gender:</h6>
           <SelectDropdown 
