@@ -28,7 +28,6 @@ function Footer(){
   	 			<ul> 
  	 				<li><a href="https://phabricator.wikimedia.org/project/board/4967/" target="_blank">Phabricator</a></li>
  	 				<li><a href="https://github.com/TheEugeniaKim/humaniki/blob/master/docs/CONTRIBUTION_GUIDE.md" target="_blank">Github</a></li>
- 	 				<li><a href="">IRC</a></li>
  	 				<li><a href="https://twitter.com/humanikiData" target="_blank">Twitter</a></li>
  	 			</ul>
  	 		</div>
