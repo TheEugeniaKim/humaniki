@@ -47,7 +47,7 @@ function AboutView(){
       <div className="about-api sub-container">
         <h5> Get started with data exploration with Humaniki API </h5>
         <p>
-          <a href="https://github.com/notconfusing/humaniki-backend/blob/master/API%20documentation.md" target = "_Blank"> Please view examples documented at our GitHub Repository </a>
+          Humaniki provides a full open API that you may query. Please see <a href="https://github.com/notconfusing/humaniki-backend/blob/master/API%20documentation.md" target = "_Blank">github for more details</a>
         </p>
       </div>
       <div className="about-team sub-container">
