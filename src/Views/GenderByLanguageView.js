@@ -245,7 +245,7 @@ function GenderByLanguageView({ API, snapshots }) {
               <div className="completeness-child">
                 <h6>Data</h6>
                 <h6>Gender By Language</h6>
-                % of humans that have language data avaialble on Wikidata
+                % of humans that have content in at least one Wikimedia Project
               </div>
               <div className="completeness-child">
                 {completeness ? <RadialBarChart data={[completeness, 1-completeness]} /> : null }

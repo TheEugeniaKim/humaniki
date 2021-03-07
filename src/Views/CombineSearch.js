@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Button from 'react-bootstrap/Button'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 import BootstrapTable from 'react-bootstrap-table-next'
 import 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css'
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter'
@@ -7,9 +9,10 @@ import paginationFactory from 'react-bootstrap-table2-paginator'
 import SingleBarChart from '../Components/SingleBarChart'
 import AdvacnedSearchForm from '../Components/AdvancedSearchForm'
 import { createColumns, percentFormatter, populations, QIDs, loadingDiv, keyFields } from '../utils'
-import PopulationToggle from "../Components/PopulationToggler";
+import PopulationToggle from "../Components/PopulationToggler"
 import GenderTable from '../Components/GenderTable'
 import ErrorDiv from '../Components/ErrorDiv'
+import RadialBarChart from '../Components/RadialBarChart'
 
 function CombineSearch({API, snapshots}){
   const [allMetrics, setAllMetrics] = useState(null)
@@ -19,6 +22,7 @@ function CombineSearch({API, snapshots}){
   const [tableArr, setTableArr] = useState([])
   const [tableMetaData, setTableMetaData] = useState({})
   const [snapshot, setSnapshot] = useState("latest")
+  const [completeness, setCompleteness] = useState()
   const [selectedCountries, setSelectedCountries] = useState(null)
   const [url, setURL] = useState(null)
   const [fetchObj, setFetchObj] = useState({
@@ -136,6 +140,7 @@ function CombineSearch({API, snapshots}){
       if (fetchData.metrics.length > 0){
         setTableColumns(createColumns(fetchData.meta, fetchData.metrics, keyFields.search, true))
         processTableData(fetchData.meta, fetchData.metrics)
+        setCompleteness(fetchData.meta.coverage)
       } else {
         setIsErrored({"API reachable but" : ["Query returned 0 results"]})
       }
@@ -174,12 +179,25 @@ function CombineSearch({API, snapshots}){
           Note: Select 2 filter dimensions at a time.
         </div>
       </div>
-      <div className="explore-filter">
-        <AdvacnedSearchForm
-          onSubmit={onSubmit}
-          snapshots={snapshots}
-        />
-      </div>
+      <Row>
+        <Col lg={7} className="explore-filter">
+          <AdvacnedSearchForm
+            onSubmit={onSubmit}
+            snapshots={snapshots}
+          />
+        </Col>
+        <Col sm={3}>
+          <div className="completeness">
+            <div className="completeness-child">
+              <h6>Data</h6>
+              % of humans that have metric data avaialble on Wikidata
+            </div>
+            <div className="completeness-child">
+              {completeness ? <RadialBarChart data={[completeness, 1-completeness]} /> : null }
+            </div>
+          </div>
+        </Col>
+      </Row>
       <div className ="api-data-btn">
         {url ? <Button variant="secondary" href={url} target="_blank">API Link</Button> : null}
       </div>

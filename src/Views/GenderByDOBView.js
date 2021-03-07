@@ -358,7 +358,7 @@ function GenderByDOBView({ API, snapshots }) {
               <div className="completeness-child">
                 <h6>Data</h6>
                 <h6>Gender By DOB</h6>
-                % of humans that have DOB data avaialble on Wikidata
+                % of humans that have year of birth data avaialble on Wikidata
               </div>
               <div className="completeness-child">
                 {completeness ? <RadialBarChart data={[completeness, 1-completeness]} /> : null }
