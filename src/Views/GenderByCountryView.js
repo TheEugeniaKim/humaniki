@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import WorldMap from "../Components/WorldMap";
 import GenderTable from "../Components/GenderTable";
 import PopulationToggle from "../Components/PopulationToggler";
-import RadialBarChart from '../Components/RadialBarChartButton';
+import RadialBarChart from '../Components/RadialBarChart';
 import SelectDropdown from '../Components/SelectDropdown';
 import ErrorDiv from '../Components/ErrorDiv';
 import HoverTooltip from '../Components/HoverTooltip';
