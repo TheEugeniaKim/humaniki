@@ -38,7 +38,7 @@ function RadialBarChart({data}){
         .attr("alignment-baseline", "middle")
         .style("fill", "black")
         .style("font-size", 8)
-        .text(`% data Complete`)
+        .text(`${completePercentDisplay}% data Complete`)
 
     }, [data,dimensions])
   
