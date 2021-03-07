@@ -326,7 +326,7 @@ function GenderByCountryView({ API, snapshots }) {
               <div className="completeness-child">
                 <h6>Data</h6>
                 <h6>Gender By Country</h6>
-                {completeness ? completeness*100 : null}% of humans have citizenship data available on Wikidata
+                % of humans that have citizenship data avaialble on Wikidata
               </div>
               <div className="completeness-child">
                 {completeness ? <RadialBarChart data={[completeness, 1-completeness]} /> : null }

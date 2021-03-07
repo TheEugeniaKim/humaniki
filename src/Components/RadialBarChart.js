@@ -30,16 +30,16 @@ function RadialBarChart({data}){
       .attr("fill", (instruction, index) => (index === 0 ? "#414166" : "#eee"))
       .style("transform", `translate(${dimensions.width/2}px, ${dimensions.height-75}px)`)
       .attr("d", instruction => arcGenerator(instruction))
-
+      console.log("DIMENSIONS", dimensions.height, dimensions.width, dimensions)
       svg
         .append("text")
         .attr("text-anchor", "middle")
+        .attr("class", "completeness-svg-text")
         .attr("alignment-baseline", "middle")
         .style("fill", "black")
         .style("font-size", 8)
-        .style("transform", `translate(-20px)`)
-        .style("transform", `translateY(60px)`)
-        .text(`${completePercentDisplay}% Complete`)
+        .style("transform", `translateX(${dimensions.width/2}px) translateY(${dimensions.height/2}px) `)
+        .text(`${completePercentDisplay}% humans`)
 
     }, [data,dimensions])
   
