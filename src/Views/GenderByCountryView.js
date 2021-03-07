@@ -267,7 +267,7 @@ function GenderByCountryView({ API, snapshots }) {
 
   const snapshotsDropdownOptions = snapshots ? (
     <div>
-      <Form.Label>Snapshot (YYYY-DD-MM)</Form.Label>
+      <Form.Label>Snapshot (YYYY-MM-DD)</Form.Label>
       <Form.Control
         as="select"
         onChange={handleSnapshotChange}

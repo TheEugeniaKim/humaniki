@@ -44,7 +44,7 @@ function DefaultView({API}){
       totalOthers[QIDs.male] = 0
       totalOthers[QIDs.female] = 0
       totalOthers = Object.values(totalOthers).reduce((a,b) => a+b)
-      setSnapshotMonth(months[data.meta.snapshot.slice(8,10)])
+      setSnapshotMonth(months[data.meta.snapshot.slice(5,7)])
       setSnapshotYear(data.meta.snapshot.slice(0,4))
       setTotalMen(totalMen)
       setTotalWomen(totalWomen)
