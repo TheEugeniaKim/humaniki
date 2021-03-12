@@ -1,9 +1,8 @@
 # Humaniki Contributing Guide
 Humaniki is a completely open-source and open-data project that will always welcome your help!
-
+![Architecture Illustration](https://commons.wikimedia.org/wiki/File:Humaniki_Architecture.png#/media/File:Humaniki_Architecture.png)
 ## Finding the right repo
 There are four components to the Humaniki stack.
-![Architeture](https://commons.wikimedia.org/wiki/File:Humaniki_Architecture.png#/media/File:Humaniki_Architecture.png)
 1. Wikidata dump processing.
     - https://github.com/notconfusing/denelezh-import
     - This is a [Wikdata-Toolkit](https://github.com/Wikidata/Wikidata-Toolkit) Java program that processes huge the wikidata
