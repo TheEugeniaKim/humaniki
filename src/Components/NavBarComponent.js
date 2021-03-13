@@ -14,14 +14,14 @@ function NavBarComponent ({setNavBar}){
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav"> 
           <Nav className="mr-auto" >
-            <Nav.Link href="/about">About</Nav.Link>
-              <NavDropdown title="Visualizations" id="collasible-nav-dropdown" >
-                <NavDropdown.Item href="/gender-by-country">Gender By Country</NavDropdown.Item>
-                <NavDropdown.Item href="/gender-by-dob" >Gender By Date of Birth</NavDropdown.Item>
-                <NavDropdown.Item href="/gender-by-language" >Gender By Language</NavDropdown.Item>
-              </NavDropdown>
             <Nav.Link  href="/search">Search</Nav.Link>
-            <Nav.Link  href="https://www.mediawiki.org/wiki/Humaniki/FAQ" target="_blank">FAQ</Nav.Link>           
+            <NavDropdown title="Visualizations" id="collasible-nav-dropdown" >
+              <NavDropdown.Item href="/gender-by-country">Gender By Country</NavDropdown.Item>
+              <NavDropdown.Item href="/gender-by-dob" >Gender By Date of Birth</NavDropdown.Item>
+              <NavDropdown.Item href="/gender-by-language" >Gender By Language</NavDropdown.Item>
+            </NavDropdown>
+            <Nav.Link  href="https://www.mediawiki.org/wiki/Humaniki/FAQ" target="_blank">FAQ</Nav.Link>
+            <Nav.Link href="/about">About</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
