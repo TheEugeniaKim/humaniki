@@ -324,9 +324,9 @@ function GenderByCountryView({ API, snapshots }) {
         <Col sm={3}>
           <Row className="completeness">
               <div className="completeness-child">
-                <h6>Data</h6>
-                <h6>Gender By Country</h6>
-                % of humans that have citizenship data avaialble on Wikidata
+                <div className="form-label">Data</div>
+                <div className="form-label-subfield">Gender By Country</div>
+                <p>% of humans that have citizenship data avaialble on Wikidata</p>
               </div>
               <div className="completeness-child">
                 {completeness ? <RadialBarChart data={[completeness, 1-completeness]} /> : null }
@@ -334,14 +334,14 @@ function GenderByCountryView({ API, snapshots }) {
           </Row>
 
           {snapshotsDropdownOptions}
-          <h6>Gender:</h6>
+          <div className="form-label"> Gender:</div>
           <SelectDropdown 
             options={genders}
             onChange={(e) => setProperty(e.value)}
             placeholder={"female"}
             allowSelectAll={false}
           />
-          <h6>Countries: </h6>
+          <div className="form-label"> Countries: </div>
           <SelectDropdown 
             options={allCountries}
             isMulti

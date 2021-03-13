@@ -243,9 +243,9 @@ function GenderByLanguageView({ API, snapshots }) {
         <Col sm={3}>
         <Row className="completeness">
               <div className="completeness-child">
-                <h6>Data</h6>
-                <h6>Gender By Language</h6>
-                % of humans that have content in at least one Wikimedia Project
+                <div className="form-label">Data</div>
+                <div className="form-label-subfield">Gender By Language</div>
+                <p>% of humans that have content in at least one Wikimedia Project</p>
               </div>
               <div className="completeness-child">
                 {completeness ? <RadialBarChart data={[completeness, 1-completeness]} /> : null }
@@ -254,7 +254,7 @@ function GenderByLanguageView({ API, snapshots }) {
 
           {snapshotsDropdownOptions}
 
-          <h6>Filter WikiProjects</h6>
+          <div className="form-label">Filter WikiProjects</div>
           <SelectDropdown 
             options={allProjects}
             isMulti
