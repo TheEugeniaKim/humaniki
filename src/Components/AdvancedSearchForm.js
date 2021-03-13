@@ -5,7 +5,6 @@ import allWikiCountries from "../allWikiCountries.json";
 import {formatDate} from '../utils'
 
 function AdvacnedSearchForm({ onSubmit, snapshots }) {
-  console.log("snapshots obj", snapshots)
   const [formState, setFormState] = useState({
     selectedSnapshot: null,
     selectedYearRange: null,
@@ -146,21 +145,12 @@ function AdvacnedSearchForm({ onSubmit, snapshots }) {
       );
     } else {
       onSubmit(formState);
-      setFormState({
-        selectedSnapshot: null,
-        selectedYearRange: null,
-        selectedYearRangeStart: null,
-        selectedYearRangeEnd: null,
-        selectedWikiProject: null,
-        selectedCitizenship: null,
-        selectedOccupation: null,
-      });
     }
   }
 
   const snapshotFormGroup = snapshots ? (
     <Form.Group controlId="selectedSnapshot">
-      <Form.Label>Timestamp (YYYY-DD-MM)</Form.Label>
+      <Form.Label>Snapshot</Form.Label>
       <Form.Control
         as="select"
         onChange={handleSnapshotChange}
@@ -185,7 +175,7 @@ function AdvacnedSearchForm({ onSubmit, snapshots }) {
       <Row>
         {snapshotFormGroup}
         <Form.Group>
-          <Form.Label>Year of Birth '[YEAR]~[YEAR]'</Form.Label>
+          <Form.Label>Year of Birth</Form.Label>
           <Form.Check 
             type="radio"
             value="No Filter"

@@ -2,13 +2,10 @@ import React, { useState, useEffect } from 'react'
 import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import BootstrapTable from 'react-bootstrap-table-next'
 import 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css'
-import filterFactory, { textFilter } from 'react-bootstrap-table2-filter'
-import paginationFactory from 'react-bootstrap-table2-paginator'
 import SingleBarChart from '../Components/SingleBarChart'
 import AdvacnedSearchForm from '../Components/AdvancedSearchForm'
-import { createColumns, percentFormatter, populations, QIDs, loadingDiv, keyFields } from '../utils'
+import { createColumns, populations, loadingDiv, keyFields, commaAndAnd, populationsExplanation } from '../utils'
 import PopulationToggle from "../Components/PopulationToggler"
 import GenderTable from '../Components/GenderTable'
 import ErrorDiv from '../Components/ErrorDiv'
@@ -22,7 +19,9 @@ function CombineSearch({API, snapshots}){
   const [tableArr, setTableArr] = useState([])
   const [tableMetaData, setTableMetaData] = useState({})
   const [snapshot, setSnapshot] = useState("latest")
-  const [completeness, setCompleteness] = useState()
+  const [completeness, setCompleteness] = useState(null)
+  const [completenessExplanation, setCompletenessExplanation] = useState("")
+  const [snapshotDisplay, setSnapshotDisplay] = useState(null)
   const [selectedCountries, setSelectedCountries] = useState(null)
   const [url, setURL] = useState(null)
   const [fetchObj, setFetchObj] = useState({
@@ -126,6 +125,19 @@ function CombineSearch({API, snapshots}){
     setTableArr(tableArr)
   }
 
+  function makeCompletenessStrings(meta){
+    let aggProperties = meta.aggregation_properties
+    aggProperties = aggProperties.map(str => str.toLowerCase())
+    let aggPropertiesStr = commaAndAnd(aggProperties)
+    let populationsStr = `${populationsExplanation[meta.population.toLowerCase()]}`
+    if (aggProperties.length === 0) {
+      setCompletenessExplanation(`results aren't subsets of any properties on ${populationsStr}`)      
+    } else {
+      setCompletenessExplanation(`% of humans that have ${aggPropertiesStr} data avaialble on ${populationsStr}`)
+    }
+  }
+        
+
   function processAPIData(err, fetchData){
     if (err){
       console.log("ERROR:",err)
@@ -141,6 +153,8 @@ function CombineSearch({API, snapshots}){
         setTableColumns(createColumns(fetchData.meta, fetchData.metrics, keyFields.search, true))
         processTableData(fetchData.meta, fetchData.metrics)
         setCompleteness(fetchData.meta.coverage)
+        setSnapshotDisplay(fetchData.meta.snapshot)
+        makeCompletenessStrings(fetchData.meta)
       } else {
         setIsErrored({"API reachable but" : ["Query returned 0 results"]})
       }
@@ -190,7 +204,7 @@ function CombineSearch({API, snapshots}){
           <div className="completeness">
             <div className="completeness-child">
               <h6>Data</h6>
-              % of humans that have metric data avaialble on Wikidata
+              {completenessExplanation}
             </div>
             <div className="completeness-child">
               {completeness ? <RadialBarChart data={[completeness, 1-completeness]} /> : null }
@@ -200,6 +214,11 @@ function CombineSearch({API, snapshots}){
       </Row>
       <div className ="api-data-btn">
         {url ? <Button variant="secondary" href={url} target="_blank">API Link</Button> : null}
+      </div>
+      <div className="viz-heading">
+        <p className="viz-timestamp">
+          All time, as of {snapshotDisplay}
+        </p>              
       </div>
       <div className="table-container">
         {isLoading ? loadingDiv : null }

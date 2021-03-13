@@ -15,6 +15,11 @@ export const populations = {
   GTE_ONE_SITELINK: "gte_one_sitelink"
 }
 
+export const populationsExplanation = {
+  "all_wikidata": "all humans on WikiData",
+  "gte_one_sitelink": "humans with one sitelink on WikiData"
+}
+
 export const QIDs = {
   female: "6581072",
   male: "6581097"
@@ -24,7 +29,7 @@ export const keyFields = {
   dob: "year",
   language: "language",
   country: "country",
-  search: "data fields"
+  search: "Aggregation"
 }
 
 export const baseURL = process.env.REACT_APP_API_URL
@@ -249,4 +254,11 @@ export const animatedComponents = makeAnimated();
 export const selectAllOption = {
   label: "Select All",
   value: "*"
+}
+
+export const commaAndAnd = (arr) => {
+  if (arr.length === 1) return arr[0];
+  const firsts = arr.slice(0, arr.length - 1);
+  const last = arr[arr.length - 1];
+  return firsts.join(', ') + ' and ' + last;
 }
