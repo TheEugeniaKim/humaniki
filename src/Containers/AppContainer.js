@@ -6,7 +6,7 @@ import AboutView from '../Views/AboutView'
 import GenderByCountryView from '../Views/GenderByCountryView'
 import GenderByDOBView from '../Views/GenderByDOBView'
 import GenderByLanguageView from '../Views/GenderByLanguageView'
-import CombineSearch from '../Views/CombineSearch'
+import Search from '../Views/Search'
 import ErrorLoadingView from '../Views/ErrorLoadingView'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify';
@@ -39,8 +39,8 @@ function AppContainer() {
             API={API} 
           /> 
         }/>
-        <Route exact path={"/combine-search"} render={() => 
-          <CombineSearch 
+        <Route exact path={"/search"} render={() =>
+          <Search
             API={API} 
             snapshots={snapshots ? snapshots : null} 
           />

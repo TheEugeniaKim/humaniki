@@ -184,7 +184,7 @@ nav.navbar .mr-auto {
 	background-image: url(assets/timeseriesButton.png);
 }
 
-.row-combinesearch{
+.row-search{
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
@@ -195,21 +195,21 @@ nav.navbar .mr-auto {
 	margin: auto;
 }
 
-.col-combinesearch {
+.col-search {
 	text-align: left;
 }
 
-.col-combinesearch .btn-primary {
+.col-search .btn-primary {
 	width: 100%;
 }
 
-.combinesearch-text {
+.search-text {
 /*	width: 40%;*/
 	padding-right: 1rem;
 	width: 70%;
 }
 
-.combinesearch-button {
+.search-button {
 	justify-content: center;
 	width: 30%;
 }
@@ -397,7 +397,7 @@ p.team-founder {
 	margin-bottom: 0;
 }
 
-.combine-search-note {
+.search-note {
 	font-style: italic;
 }
 
@@ -558,7 +558,7 @@ every country is selected by default until there are filter selections
 	    padding: 1rem;
 	}
 
-	.row-combinesearch {
+	.row-search {
 		width: 100%;
 	}
 

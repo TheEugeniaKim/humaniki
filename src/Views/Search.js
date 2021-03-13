@@ -11,7 +11,7 @@ import GenderTable from '../Components/GenderTable'
 import ErrorDiv from '../Components/ErrorDiv'
 import RadialBarChart from '../Components/RadialBarChart'
 
-function CombineSearch({API, snapshots}){
+function Search({API, snapshots}){
   const [allMetrics, setAllMetrics] = useState(null)
   const [allMeta, setAllMeta] = useState(null)
   const [population, setPopulation] = useState(populations.GTE_ONE_SITELINK)
@@ -182,14 +182,12 @@ function CombineSearch({API, snapshots}){
 
   return(
     <div className="viz-container combine-view">
-      <h2>Explore multiple data categories</h2>
+      <h2>Search multiple data categories</h2>
       <PopulationToggle handleToggle={handleHumanChange}/>
       <div className="viz-description">
-        <h4>Explore Search</h4>
-        <p>
-          The explore search shows cumulative gender metrics for different
+        <p>The explore search shows cumulative gender metrics for different
           data categories at a time. </p>
-        <div className="combine-search-note">
+        <div className="search-note">
           Note: Select 2 filter dimensions at a time.
         </div>
       </div>
@@ -237,4 +235,4 @@ function CombineSearch({API, snapshots}){
   )
 }
 
-export default CombineSearch
+export default Search

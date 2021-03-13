@@ -151,16 +151,16 @@ function DefaultView({API}){
           </Link>
         </div>
       </div>
-      <div className="combine-search sub-container">
-        <h4> Combine Search </h4>
+      <div className="search sub-container">
+        <h4> Search </h4>
         <h6> How to view cumulative gender metrics for different data dimensions at a time? </h6>
-        <div className="row-combinesearch">
-          <div className="col-combinesearch combinesearch-text">
+        <div className="row-search">
+          <div className="col-search search-text">
             <p>You can mix these three dimensions, for example to gather data about the biographies in the German Wikipedia about French people born in the 19th century.</p>
           </div>
-          <div className="col-combinesearch combinesearch-button">
+          <div className="col-search search-button">
             <Button>
-              <Link to = {`/combine-search`}> Combine Search </Link>
+              <Link to = {`/search`}> search </Link>
             </Button>
           </div>
         </div>
