@@ -356,7 +356,7 @@ function GenderByDOBView({ API, snapshots }) {
         <Col sm={3}>
         <Row className="completeness">
               <div className="completeness-child">
-                <div className="form-label">Data</div>
+                <div className="form-label">Data Completeness</div>
                 <div className="form-label-subfield">Gender By DOB</div>
                 <p>% of humans that have year of birth data avaialble on Wikidata</p>
               </div>

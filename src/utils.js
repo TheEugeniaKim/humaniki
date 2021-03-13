@@ -16,8 +16,8 @@ export const populations = {
 }
 
 export const populationsExplanation = {
-  "all_wikidata": "all humans on WikiData",
-  "gte_one_sitelink": "humans with one sitelink on WikiData"
+  "all_wikidata": "all humans on Wikidata",
+  "gte_one_sitelink": "humans with one sitelink on Wikidata"
 }
 
 export const QIDs = {

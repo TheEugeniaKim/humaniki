@@ -198,15 +198,6 @@ function CombineSearch({API, snapshots}){
           onSubmit={onSubmit}
           snapshots={snapshots}
         />
-        <div className="completeness">
-          <div className="completeness-child">
-            <h6>Data</h6>
-            {completenessExplanation}
-          </div>
-          <div className="completeness-child">
-            {completeness ? <RadialBarChart data={[completeness, 1-completeness]} /> : null }
-          </div>
-        </div>
       </Row>
       <div className ="api-data-btn">
         {url ? <Button variant="secondary" href={url} target="_blank">API Link</Button> : null}
@@ -231,6 +222,15 @@ function CombineSearch({API, snapshots}){
               defaultSorted={defaultSorted}
             />
         }
+        <Row className="completeness-search">
+          <Col sm={2} md={2} lg={2} className="completeness-child-search">
+            {completeness ? <RadialBarChart data={[completeness, 1-completeness]} /> : null }
+          </Col>
+          <Col className="completeness-child-search-explanation">
+            <h6>Data Completeness</h6>
+            {completenessExplanation}
+          </Col>
+        </Row>
       </div>
 
     </div>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Row, Button } from "react-bootstrap";
+import { Form, Row, Button, Col } from "react-bootstrap";
 import allWikiProjects from "../allWikiProjects.json";
 import allWikiCountries from "../allWikiCountries.json";
 import {formatDate} from '../utils'
@@ -172,92 +172,101 @@ function AdvacnedSearchForm({ onSubmit, snapshots }) {
 
   return (
     <Form onSubmit={handleOnSubmit}>
-      <Row>
-        {snapshotFormGroup}
-        <Form.Group>
-          <Form.Label>Year of Birth</Form.Label>
-          <Form.Check 
-            type="radio"
-            value="No Filter"
-            label="No Filter"
-            id="noFilter"
-            name="selectedYearRangeType"
-            defaultChecked
-            checked={formState.selectedYearRange===null}
-            onChange={handleSelectedYearRange}
-          />
-          <Form.Check 
-            type="radio"
-            value="all"
-            label="All"
-            id="all"
-            name="selectedYearRangeType"
-            checked={formState.selectedYearRange === "all"}
-            onChange={handleSelectedYearRange}
-          />
-          <div className="form-date-inputs">
+      <Row id="form-row">
+        <Col lg={3} md={6} xs={12}>
+          {snapshotFormGroup}
+        </Col>
+
+        <Col lg={3} md={6} xs={12}>
+          <Form.Group>
+            <Form.Label>Year of Birth</Form.Label>
             <Form.Check 
               type="radio"
-              value="startEnd"
-              label="From:"
-              id="range"
+              value="No Filter"
+              label="No Filter"
+              id="noFilter"
               name="selectedYearRangeType"
-              checked={formState.selectedYearRange === "startEnd"}
+              defaultChecked
+              checked={formState.selectedYearRange===null}
               onChange={handleSelectedYearRange}
             />
-            <Form.Control
-              type="text"
-              onChange={handleSelectedYearRangeTextInput}
-              value={formState.selectedYearRangeStart}
-              placeholder="YYYY"
-              id="yearStart"
-              disabled={formState.selectedYearRange === "startEnd" ? false : true}
+            <Form.Check 
+              type="radio"
+              value="all"
+              label="All"
+              id="all"
+              name="selectedYearRangeType"
+              checked={formState.selectedYearRange === "all"}
+              onChange={handleSelectedYearRange}
             />
-            <Form.Label>To: </Form.Label>
+            <div className="form-date-inputs">
+              <Form.Check 
+                type="radio"
+                value="startEnd"
+                label="From:"
+                id="range"
+                name="selectedYearRangeType"
+                checked={formState.selectedYearRange === "startEnd"}
+                onChange={handleSelectedYearRange}
+              />
+              <Form.Control
+                type="text"
+                onChange={handleSelectedYearRangeTextInput}
+                value={formState.selectedYearRangeStart}
+                placeholder="YYYY"
+                id="yearStart"
+                disabled={formState.selectedYearRange === "startEnd" ? false : true}
+              />
+              <Form.Label>To: </Form.Label>
+              <Form.Control
+                type="text"
+                onChange={handleSelectedYearRangeTextInput}
+                value={formState.selectedYearRangeEnd}
+                placeholder="YYYY"
+                id="yearEnd"
+                disabled={formState.selectedYearRange === "startEnd" ? false : true}
+              />
+            </div>
+          </Form.Group>
+        </Col>
+
+        <Col lg={3} md={6} xs={12}>
+          <Form.Group controlId="selectedWikiProject">
+            <Form.Label>Wiki Project</Form.Label>
             <Form.Control
-              type="text"
-              onChange={handleSelectedYearRangeTextInput}
-              value={formState.selectedYearRangeEnd}
-              placeholder="YYYY"
-              id="yearEnd"
-              disabled={formState.selectedYearRange === "startEnd" ? false : true}
-            />
-          </div>
-        </Form.Group>
+              as="select"
+              onChange={handleWikiInputChange}
+              value={
+                formState.selectedWikiProject
+                  ? lookupWikiProject(formState.selectedWikiProject)
+                  : "No Filter"
+              }
+            >
+              {allWikiProjectsTuples.map((projectArr) => (
+                <option key={projectArr[0]}>{projectArr[1]}</option>
+              ))}
+            </Form.Control>
+          </Form.Group>
+        </Col>
 
-        <Form.Group controlId="selectedWikiProject">
-          <Form.Label>Wiki Project</Form.Label>
-          <Form.Control
-            as="select"
-            onChange={handleWikiInputChange}
-            value={
-              formState.selectedWikiProject
-                ? lookupWikiProject(formState.selectedWikiProject)
-                : "No Filter"
-            }
-          >
-            {allWikiProjectsTuples.map((projectArr) => (
-              <option key={projectArr[0]}>{projectArr[1]}</option>
-            ))}
-          </Form.Control>
-        </Form.Group>
-
-        <Form.Group controlId="selectedCitizenship">
-          <Form.Label>Citizenship</Form.Label>
-          <Form.Control
-            as="select"
-            onChange={handleCitizenshipInputChange}
-            value={
-              formState.selectedCitizenship
-                ? lookupCitizenship(formState.selectedCitizenship)
-                : "No Filter"
-            }
-          >
-            {allWikiCountriesTuples.map((projectArr) => (
-              <option key={projectArr[0]}>{projectArr[1]}</option>
-            ))}
-          </Form.Control>
-        </Form.Group>
+        <Col lg={3} md={6} xs={12}>
+          <Form.Group controlId="selectedCitizenship">
+            <Form.Label>Citizenship</Form.Label>
+            <Form.Control
+              as="select"
+              onChange={handleCitizenshipInputChange}
+              value={
+                formState.selectedCitizenship
+                  ? lookupCitizenship(formState.selectedCitizenship)
+                  : "No Filter"
+              }
+            >
+              {allWikiCountriesTuples.map((projectArr) => (
+                <option key={projectArr[0]}>{projectArr[1]}</option>
+              ))}
+            </Form.Control>
+          </Form.Group>
+        </Col>
 
       </Row>
       <Row>
