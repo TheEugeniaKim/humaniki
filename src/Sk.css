@@ -392,6 +392,7 @@ p.team-founder {
 	padding-top: 1rem;
 }
 
+
 .combine-view .viz-description p {
 	margin-bottom: 0;
 }
@@ -410,8 +411,18 @@ p.team-founder {
 .form-label {
 	font-weight: 510;
 	font-size: 0.9rem;
+	padding-top: 1rem;
 }
 
+.form-label-subfield {
+	font-size: 0.8rem;
+	font-weight: 510;
+	padding-top: 0.5rem;
+}
+
+.row {
+	margin: 0rem;
+}
 #yearStart,#yearEnd{
 	width: 40%;
 }
@@ -516,12 +527,20 @@ every country is selected by default until there are filter selections
 	}
 
 	.col-sm-3 {
-	    flex: 0 0 30%;
+	    flex: 0 0 40%;
 	    max-width: 100%;
 	    padding-left: 2rem;
 	    border-left: lightgray solid 0.1rem;
 	}
 }
+
+@media (max-width: 992px) {
+	.col-sm-3 {
+	    flex: 0 0 100%;
+	    max-width: 100%;
+	}
+}
+
 @media (max-width: 1200px) {
 	.container, .container-lg, .container-md, .container-sm, .container-xl {
     	padding: 0px;

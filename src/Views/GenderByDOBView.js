@@ -356,9 +356,9 @@ function GenderByDOBView({ API, snapshots }) {
         <Col sm={3}>
         <Row className="completeness">
               <div className="completeness-child">
-                <h6>Data</h6>
-                <h6>Gender By DOB</h6>
-                % of humans that have year of birth data avaialble on Wikidata
+                <div className="form-label">Data</div>
+                <div className="form-label-subfield">Gender By DOB</div>
+                <p>% of humans that have year of birth data avaialble on Wikidata</p>
               </div>
               <div className="completeness-child">
                 {completeness ? <RadialBarChart data={[completeness, 1-completeness]} /> : null }
@@ -366,10 +366,8 @@ function GenderByDOBView({ API, snapshots }) {
           </Row>
 
           {snapshotsDropdownOptions}
+          <div className="form-label"> Year Range: </div>
           <InputGroup className="mb-3" size="sm">
-            <InputGroup.Prepend>
-              <InputGroup.Text>Year Range:</InputGroup.Text>
-            </InputGroup.Prepend>
             <FormControl
               type="text"
               placeholder={yearStart}

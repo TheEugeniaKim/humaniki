@@ -148,10 +148,20 @@ tbody {
 .completeness{
   display: flex;
   font-size: small;
+  padding: 0.5rem;
+  border: lightgray solid 0.1rem;
 }
 
 .completeness-child{
   flex: 1;
+}
+
+.completeness-child .form-label {
+  padding-top: 0rem;
+}
+
+.completeness-child .p {
+  font-size: 0.8rem;
 }
 
 .radial-chart-div{
