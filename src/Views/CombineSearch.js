@@ -193,24 +193,20 @@ function CombineSearch({API, snapshots}){
           Note: Select 2 filter dimensions at a time.
         </div>
       </div>
-      <Row>
-        <Col lg={7} className="explore-filter">
-          <AdvacnedSearchForm
-            onSubmit={onSubmit}
-            snapshots={snapshots}
-          />
-        </Col>
-        <Col sm={3}>
-          <div className="completeness">
-            <div className="completeness-child">
-              <h6>Data</h6>
-              {completenessExplanation}
-            </div>
-            <div className="completeness-child">
-              {completeness ? <RadialBarChart data={[completeness, 1-completeness]} /> : null }
-            </div>
+      <Row className="explore-filter">
+        <AdvacnedSearchForm
+          onSubmit={onSubmit}
+          snapshots={snapshots}
+        />
+        <div className="completeness">
+          <div className="completeness-child">
+            <h6>Data</h6>
+            {completenessExplanation}
           </div>
-        </Col>
+          <div className="completeness-child">
+            {completeness ? <RadialBarChart data={[completeness, 1-completeness]} /> : null }
+          </div>
+        </div>
       </Row>
       <div className ="api-data-btn">
         {url ? <Button variant="secondary" href={url} target="_blank">API Link</Button> : null}

@@ -195,32 +195,34 @@ function AdvacnedSearchForm({ onSubmit, snapshots }) {
             checked={formState.selectedYearRange === "all"}
             onChange={handleSelectedYearRange}
           />
-          <Form.Check 
-            type="radio"
-            value="startEnd"
-            label="From:"
-            id="range"
-            name="selectedYearRangeType"
-            checked={formState.selectedYearRange === "startEnd"}
-            onChange={handleSelectedYearRange}
-          />
-          <Form.Control
-            type="text"
-            onChange={handleSelectedYearRangeTextInput}
-            value={formState.selectedYearRangeStart}
-            placeholder="YYYY"
-            id="yearStart"
-            disabled={formState.selectedYearRange === "startEnd" ? false : true}
-          />
-          <Form.Label>To: </Form.Label>
-          <Form.Control
-            type="text"
-            onChange={handleSelectedYearRangeTextInput}
-            value={formState.selectedYearRangeEnd}
-            placeholder="YYYY"
-            id="yearEnd"
-            disabled={formState.selectedYearRange === "startEnd" ? false : true}
-          />
+          <div className="form-date-inputs">
+            <Form.Check 
+              type="radio"
+              value="startEnd"
+              label="From:"
+              id="range"
+              name="selectedYearRangeType"
+              checked={formState.selectedYearRange === "startEnd"}
+              onChange={handleSelectedYearRange}
+            />
+            <Form.Control
+              type="text"
+              onChange={handleSelectedYearRangeTextInput}
+              value={formState.selectedYearRangeStart}
+              placeholder="YYYY"
+              id="yearStart"
+              disabled={formState.selectedYearRange === "startEnd" ? false : true}
+            />
+            <Form.Label>To: </Form.Label>
+            <Form.Control
+              type="text"
+              onChange={handleSelectedYearRangeTextInput}
+              value={formState.selectedYearRangeEnd}
+              placeholder="YYYY"
+              id="yearEnd"
+              disabled={formState.selectedYearRange === "startEnd" ? false : true}
+            />
+          </div>
         </Form.Group>
 
         <Form.Group controlId="selectedWikiProject">
