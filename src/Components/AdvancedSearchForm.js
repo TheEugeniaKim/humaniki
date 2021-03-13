@@ -5,6 +5,7 @@ import allWikiCountries from "../allWikiCountries.json";
 import {formatDate} from '../utils'
 
 function AdvacnedSearchForm({ onSubmit, snapshots }) {
+  console.log("snapshots obj", snapshots)
   const [formState, setFormState] = useState({
     selectedSnapshot: null,
     selectedYearRange: null,
@@ -16,11 +17,14 @@ function AdvacnedSearchForm({ onSubmit, snapshots }) {
     selectedOccupation: null,
   });
 
-  const handleSnapshotChange = (e) =>
+  const handleSnapshotChange = (e) => {
+    const selectedIndex = e.target.options.selectedIndex;
+    const selectedValue = e.target.options[selectedIndex].getAttribute('data-key')
     setFormState({
       ...formState,
-      [e.target.id]: e.target.value.replace(/-/g, ""),
+      selectedSnapshot: selectedValue
     });
+  }
 
   const handleSelectedYearRange = (e) => { 
     if (e.target.value === "all"){
@@ -168,7 +172,7 @@ function AdvacnedSearchForm({ onSubmit, snapshots }) {
       >
         {
           snapshots.map((snapshot, index) => (
-            <option key={snapshot.id}>{index === 0 ?  formatDate(snapshot.date)+" (latest)" : formatDate(snapshot.date) }</option>
+            <option key={snapshot.id} data-key={snapshot.date} >{formatDate(snapshot.date)}</option>
           ))
         }
       </Form.Control>
