@@ -21,8 +21,12 @@ function HoverTooltip({view}){
       makeMessage("Gender label is representative of gender data labelling on Wikidata.")
     } else if (view === "gender-sum-others"){
       makeMessage("Sum of all genders that are not set as male or female in Wikidata (use Other Genders Breakdown to inspect).")
+    } else if (view === "alpha"){
+      makeMessage("This is an incomplete alpha-release. Please see FAQ in footer to view roadmap and report bugs.")
+      makeIcon('α')
     }
 
+    //TODO inline this switch with above switch
     if (view === "country"){
       makeIcon(<ZoomInIcon />)
     } else if (view === "dob"){
@@ -33,6 +37,8 @@ function HoverTooltip({view}){
       makeIcon(<InfoCircle id="column-info-icon" />)
     } else if (view === "gender-sum-others"){
       makeIcon(<InfoCircle id="column-info-icon" />)
+    } else if (view === "alpha"){
+      makeMessage("This is an incomplete alpha-release. Please see FAQ in footer to view roadmap and report bugs.")
     }
     
   },[view])

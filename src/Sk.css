@@ -592,3 +592,11 @@ every country is selected by default until there are filter selections
 }
 
 /* .population-toggler */
+.navbar-brand-group {
+	display: flex;
+	justify-content: flex-start;
+}
+
+.navbar-brand {
+	margin-right: 0.1rem;
+}
