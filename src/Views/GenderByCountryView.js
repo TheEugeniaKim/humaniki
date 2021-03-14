@@ -9,7 +9,6 @@ import HoverTooltip from "../Components/HoverTooltip";
 import Licensing from "../Components/Licensing";
 import preMapData from "../Components/custom.geo.json";
 import { Col, Row, Form } from "react-bootstrap";
-import { propTypes } from "react-bootstrap/esm/Image";
 import {
   filterMetrics,
   populations,

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Row, Col, Form, Tooltip } from "react-bootstrap";
+import { Row, Col, Form } from "react-bootstrap";
 import HoverTooltip from "../Components/HoverTooltip";
 import GenderTable from "../Components/GenderTable";
 import ScatterPlot from "../Components/ScatterPlot";

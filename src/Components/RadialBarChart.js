@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import "../App.css";
 import "../Sk.css";
-import { select, arc, pie, interpolate } from "d3";
+import { select, arc, pie } from "d3";
 import useResizeObserver from "./useResizeObserver";
 
 function RadialBarChart({ data }) {

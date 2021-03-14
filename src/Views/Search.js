@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 import "react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css";
 import SingleBarChart from "../Components/SingleBarChart";
 import AdvacnedSearchForm from "../Components/AdvancedSearchForm";
@@ -24,12 +23,10 @@ function Search({ API, snapshots }) {
   const [population, setPopulation] = useState(populations.GTE_ONE_SITELINK);
   const [tableColumns, setTableColumns] = useState([{}]);
   const [tableArr, setTableArr] = useState([]);
-  const [tableMetaData, setTableMetaData] = useState({});
   const [snapshot, setSnapshot] = useState("latest");
   const [completeness, setCompleteness] = useState(null);
   const [completenessExplanation, setCompletenessExplanation] = useState("");
   const [snapshotDisplay, setSnapshotDisplay] = useState(null);
-  const [selectedCountries, setSelectedCountries] = useState(null);
   const [url, setURL] = useState(null);
   const [fetchObj, setFetchObj] = useState({
     bias: "gender",

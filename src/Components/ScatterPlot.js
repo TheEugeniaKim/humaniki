@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import "../App.css";
-import { select, scaleLinear, scaleLog, axisBottom, axisLeft } from "d3";
+import { select, scaleLinear, axisBottom, axisLeft } from "d3";
 import ResizeObserver from "resize-observer-polyfill";
 
 const useResizeObserver = (ref) => {
