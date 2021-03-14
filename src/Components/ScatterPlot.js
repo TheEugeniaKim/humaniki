@@ -37,17 +37,16 @@ function ScatterPlot(props) {
         .range(["white", "#6200F8"])
         .clamp(true);
 
-      // TODO: what's this snake case doing here?
-      const max_perc_plus_a_bit = props.extrema.percentMax * 1.15;
-      const min_perc_minus_a_bit = props.extrema.percentMin * 0.85;
+      const maxPercPlusABit = props.extrema.percentMax * 1.15;
+      const minPercMinusABit = props.extrema.percentMin * 0.85;
       const xScale = scaleLinear()
-        .domain([min_perc_minus_a_bit, max_perc_plus_a_bit])
+        .domain([minPercMinusABit, maxPercPlusABit])
         .range([0, dimensions.width]);
 
-      const max_plus_a_bit = props.extrema.totalMax * 1.15;
-      const min_minus_a_bit = props.extrema.totalMin * 0.85;
+      const maxPlusABit = props.extrema.totalMax * 1.15;
+      const minMinusABit = props.extrema.totalMin * 0.85;
       const yScale = scaleLinear()
-        .domain([min_minus_a_bit, max_plus_a_bit])
+        .domain([minMinusABit, maxPlusABit])
         .range([dimensions.height, 0]);
 
       const xAxis = axisBottom(xScale);
