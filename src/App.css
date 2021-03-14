@@ -109,7 +109,11 @@ tbody {
 
 .info-div-toggler {
   width: 1.2rem;
- padding-left: 0.3rem;
+  padding-left: 0.3rem;
+}
+
+.one-article{
+  width: 90%;
 }
 
 .flex{
@@ -172,3 +176,4 @@ tbody {
 .completeness-svg-text{
   font-weight: bold;
 }
+
