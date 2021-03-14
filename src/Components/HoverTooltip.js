@@ -14,13 +14,13 @@ function HoverTooltip({view}){
     if (view === "country"){
       makeMessage("Use mouse scroll to zoom in and out")
     } else if (view === "dob"){
-      makeMessage("Enter Year Range filters (Format YYYY) to get detailed graph")
+      makeMessage("Enter Year Range filters (Format YYYY) to adjust scope.")
     } else if (view === "language"){
-      makeMessage(" Top 10 wikimedia projects by number of humans are shown by default, add data point in to create your own scatterplot. Hover over data points to get more information. ")
+      makeMessage("Top 10 wikimedia projects by number of humans are shown by default, add data point in to create your own scatterplot. Hover over data points to get more information.")
     } else if (view === "gender-female-male"){
-      makeMessage("Gender label is representative of gender data labelling on Wikidata")
+      makeMessage("Gender label is representative of gender data labelling on Wikidata.")
     } else if (view === "gender-sum-others"){
-      makeMessage("Sum of all genders that are not set as male or female in Wikidata (use Other Genders Breakdown to inspect)")
+      makeMessage("Sum of all genders that are not set as male or female in Wikidata (use Other Genders Breakdown to inspect).")
     }
 
     if (view === "country"){

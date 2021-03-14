@@ -231,6 +231,10 @@ function GenderByLanguageView({API, snapshots}) {
                             <HoverTooltip view={"language"}/>
                         </div>
                     </div>
+
+                    {isLoading ? loadingDiv : null}
+                    {isErrored ? <ErrorDiv errors={isErrored}/> : null}
+
                     <ScatterPlot
                         data={tableArr}
                         extrema={tableMetaData}
@@ -271,8 +275,7 @@ function GenderByLanguageView({API, snapshots}) {
             <Licensing/>
             <Row className="justify-content-md-center">
                 <div className="table-container">
-                    {isLoading ? loadingDiv : null}
-                    {isErrored ? <ErrorDiv errors={isErrored}/> : null}
+
                     <GenderTable
                         tableArr={tableArr}
                         tableColumns={tableColumns}

@@ -311,6 +311,9 @@ function GenderByCountryView({API, snapshots}) {
                         </div>
                     </div>
 
+                    {isLoading ? loadingDiv : null}
+                    {isErrored ? <ErrorDiv errors={isErrored}/> : null}
+
                     <WorldMap
                         mapData={mapData}
                         property={property}
@@ -355,8 +358,6 @@ function GenderByCountryView({API, snapshots}) {
             </Row>
             <Licensing/>
             <div className="table-container">
-                {isLoading ? loadingDiv : null}
-                {isErrored ? <ErrorDiv errors={isErrored}/> : null}
                 <GenderTable
                     tableArr={tableArr}
                     tableColumns={tableColumns}

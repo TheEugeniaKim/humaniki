@@ -330,7 +330,7 @@ function GenderByDOBView({API, snapshots}) {
             <div className="viz-description">
                 <h5>Gender Gap By Year of Birth</h5>
                 <p>
-                    This plot shows the Date of Birth (DoB) of content about humans
+                    This plot shows the year of birth of humans
                     in all Wikimedia projects, typically Wikipedia biography articles, by gender.
                 </p>
             </div>
@@ -345,7 +345,8 @@ function GenderByDOBView({API, snapshots}) {
                             <HoverTooltip view={"dob"}/>
                         </div>
                     </div>
-
+                {isLoading ? loadingDiv : null}
+                {isErrored ? <ErrorDiv errors={isErrored}/> : null}
                     {lineData.length === 0 ? null : (
                         <LineChart
                             lineData={lineData}
@@ -390,8 +391,6 @@ function GenderByDOBView({API, snapshots}) {
             <Licensing/>
             <hr/>
             <Row className="table-container">
-                {isLoading ? loadingDiv : null}
-                {isErrored ? <ErrorDiv errors={isErrored}/> : null}
                 <GenderTable
                     tableArr={tableArr}
                     tableColumns={tableColumns}
