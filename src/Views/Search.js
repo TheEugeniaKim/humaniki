@@ -161,7 +161,7 @@ function Search({ API, snapshots }) {
       );
     } else {
       setCompletenessExplanation(
-        `% of humans that have ${aggPropertiesStr} data avaialble on ${populationsStr}`
+        `% of humans that have ${aggPropertiesStr} data available on ${populationsStr}`
       );
     }
   }
