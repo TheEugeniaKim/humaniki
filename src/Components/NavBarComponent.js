@@ -23,7 +23,7 @@ function NavBarComponent({setNavBar}) {
                         <Nav.Link href="/search">Search</Nav.Link>
                         <NavDropdown title="Visualizations" id="collasible-nav-dropdown">
                             <NavDropdown.Item href="/gender-by-country">Gender By Country</NavDropdown.Item>
-                            <NavDropdown.Item href="/gender-by-dob">Gender By Date of Birth</NavDropdown.Item>
+                            <NavDropdown.Item href="/gender-by-dob">Gender By Year of Birth</NavDropdown.Item>
                             <NavDropdown.Item href="/gender-by-language">Gender By Language</NavDropdown.Item>
                         </NavDropdown>
                         <Nav.Link href="https://www.mediawiki.org/wiki/Humaniki/FAQ" target="_blank">FAQ</Nav.Link>

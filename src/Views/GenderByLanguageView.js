@@ -210,8 +210,8 @@ function GenderByLanguageView({API, snapshots}) {
 
     return (
         <div className="viz-container language-view sub-container">
-            <h4>Gender Gap by language editions in Wikimedia Projects</h4>
             <div className="viz-description">
+                <h5>Gender Gap by language editions in Wikimedia Projects</h5>
                 <p>
                     This plot compares number of gendered content in different
                     Wikimedia projects to female/male/othergenders percentage of that content.
@@ -243,12 +243,12 @@ function GenderByLanguageView({API, snapshots}) {
                 </Col>
                 <Col sm={3}>
                     <Row className="completeness">
-                        <div className="completeness-child">
+                        <div className="completeness-child explanation">
                             <div className="form-label">Data Completeness</div>
                             <div className="form-label-subfield">Gender By Language</div>
                             <p>% of humans that have content in at least one Wikimedia Project</p>
                         </div>
-                        <div className="completeness-child">
+                        <div className="completeness-child chart">
                             {completeness ? <RadialBarChart data={[completeness, 1 - completeness]}/> : null}
                         </div>
                     </Row>
