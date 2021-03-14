@@ -547,6 +547,10 @@ every country is selected by default until there are filter selections
 	    flex: 0 0 100%;
 	    max-width: 100%;
 	}
+
+	.footer-container {
+		justify-content: flex-start;
+	}
 }
 
 @media (max-width: 1200px) {

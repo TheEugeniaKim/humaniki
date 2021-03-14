@@ -120,7 +120,7 @@ function DefaultView({API}){
           <h4 className="default-title">Humaniki provides statistics about the gender gap in the content of all Wikimedia projects</h4>
           <h6>
             For example, as of {snapshotMonth ? snapshotMonth : null}  {snapshotYear ? snapshotYear : null}, 
-            only <NumericLabel>{womenPercent}</NumericLabel>% of content in all Wikimedia projects including biographies on Wikipedia are about female.
+            only <NumericLabel>{womenPercent}</NumericLabel>% of content in all Wikimedia projects including biographies on Wikipedia are about women.
           </h6>
         </Row>
         {isLoading ? loadingDiv : null }
@@ -145,7 +145,7 @@ function DefaultView({API}){
           </Link>
           <Link to = {`/gender-by-dob`} className ="col-button-container"> 
             <div className="col-button col-timeseries">
-              <h5> Gender by Date of Birth and Death </h5>
+              <h5> Gender by Date of Birth </h5>
               <h6> What is the temporal distribution of gender data? </h6>
             </div>
           </Link>
@@ -153,7 +153,7 @@ function DefaultView({API}){
       </div>
       <div className="search sub-container">
         <h4> Search </h4>
-        <h6> How to view cumulative gender metrics for different data dimensions at a time? </h6>
+        <h6> View cumulative gender metrics for different data dimensions at a time. </h6>
         <div className="row-search">
           <div className="col-search search-text">
             <p>You can mix these three dimensions, for example to gather data about the biographies in the German Wikipedia about French people born in the 19th century.</p>
