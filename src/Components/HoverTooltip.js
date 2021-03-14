@@ -46,8 +46,8 @@ function HoverTooltip({view}){
   
   return (
     <OverlayTrigger
-      key="right"
-      placement="right"
+      key="bottom"
+      placement="bottom"
       overlay={renderTooltip}
     >
       <div className="icon">

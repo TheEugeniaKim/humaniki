@@ -303,7 +303,7 @@ function GenderByDOBView({ API, snapshots }) {
 
   const snapshotsDropdownOptions = snapshots ? (
     <div>
-      <Form.Label>Snapshot (YYYY-MM-DD)</Form.Label>
+      <Form.Label>Snapshot</Form.Label>
       <Form.Control
         as="select"
         onChange={handleSnapshotChange}
@@ -324,8 +324,6 @@ function GenderByDOBView({ API, snapshots }) {
 
   return (
     <div className="viz-container dob-view sub-container">
-      <h4>Gender by Year of Birth Statistics</h4>
-      <PopulationToggle handleToggle={handleHumanChange}/>
       <div className="viz-description">
         <h5>Gender Gap By Year of Birth</h5>
         <p>
@@ -333,6 +331,7 @@ function GenderByDOBView({ API, snapshots }) {
           in all Wikimedia projects, typically Wikipedia biography articles, by gender.
         </p>
       </div>
+      <PopulationToggle handleToggle={handleHumanChange}/>
       <Row className="justify-content-md-center">
         <Col lg={7}>  
           <div className="viz-heading">

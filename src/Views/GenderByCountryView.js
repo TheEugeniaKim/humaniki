@@ -267,7 +267,7 @@ function GenderByCountryView({ API, snapshots }) {
 
   const snapshotsDropdownOptions = snapshots ? (
     <div>
-      <Form.Label>Snapshot (YYYY-MM-DD)</Form.Label>
+      <Form.Label>Snapshot</Form.Label>
       <Form.Control
         as="select"
         onChange={handleSnapshotChange}
@@ -288,21 +288,17 @@ function GenderByCountryView({ API, snapshots }) {
 
   return (
     <div className="viz-container country-view sub-container">
-      <h4 className="heading-left">Gender Gap By Country</h4>
-      <PopulationToggle handleToggle={handleHumanChange} />
       <div className="viz-description">
         <h5>
-          Percentage of biographies and other content of female based on country of
-          citizenship
+          Gender Gap By Country
         </h5>
         <p>
           This plot shows the percentage of biographies and other content of
           female, male, and other genders based on country of citizenship determined
-          by the citizenship property in Wikidata. We represent data only for
-          official as of December 2020. Note: As for January, 2016, only about 30%
-          of biographies had place of birth, so this data is incomplete.
+          by the citizenship property in Wikidata. 
         </p>
       </div>
+      <PopulationToggle handleToggle={handleHumanChange} />
       <Row className="justify-content-md-center">
         <Col lg={7}>
           <div className="viz-heading">

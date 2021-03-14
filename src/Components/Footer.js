@@ -33,7 +33,7 @@ function Footer(){
  	 		</div>
 			</div>
 			<div className="footer-copyright">
-				<p>All data, charts, and other content is available under the <b> Creative Commons Attribution-ShareAlike 4.0 </b> International License.</p>
+				<p>All data, charts, and other content is available under the <b> Creative Commons Attribution-ShareAlike 3.0 </b> International License.</p>
 			</div>
 		</footer>
   )

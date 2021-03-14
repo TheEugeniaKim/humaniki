@@ -189,7 +189,7 @@ function GenderByLanguageView({ API, snapshots }) {
 
   const snapshotsDropdownOptions = snapshots ? (
     <div>
-      <Form.Label>Snapshot (YYYY-MM-DD)</Form.Label>
+      <Form.Label>Snapshot</Form.Label>
       <Form.Control
         as="select"
         onChange={handleSnapshotChange}
