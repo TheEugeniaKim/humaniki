@@ -582,8 +582,13 @@ every country is selected by default until there are filter selections
 	}
 }
 
-/* .icon svg{
+.icon svg{
 	height: 1rem;
-} */
+}
+
+.form-dropdown-group svg{
+	height: 1rem;
+	width: 1rem;
+}
 
 /* .population-toggler */

@@ -16,7 +16,7 @@ function HoverTooltip({view}){
     } else if (view === "dob"){
       makeMessage("Enter Year Range filters (Format YYYY) to get detailed graph")
     } else if (view === "language"){
-      makeMessage("Hover over data points to get more information")
+      makeMessage(" Top 10 wikimedia projects by number of humans are shown by default, add data point in to create your own scatterplot. Hover over data points to get more information. ")
     } else if (view === "gender-female-male"){
       makeMessage("Gender label is representative of gender data labelling on Wikidata")
     } else if (view === "gender-sum-others"){
