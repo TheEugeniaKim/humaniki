@@ -1,24 +1,25 @@
-import React from 'react'
-import Modal from 'react-bootstrap/Modal'
-import Button from 'react-bootstrap/Button'
-import { toast } from 'react-toastify'
+import React from "react";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
+import { toast } from "react-toastify";
 
 function ModalComponent({
   columns,
   onColumnToggle,
-  toggles, 
+  toggles,
   show,
   onHide,
-  newToggles, 
-  setMyToggles
+  newToggles,
+  setMyToggles,
 }) {
-
-  function handleMyColumnToggle(dataField){
-    let tempMyToggles = newToggles
-    const targetVisibility = !tempMyToggles[dataField]
-    tempMyToggles[dataField] = targetVisibility
-    setMyToggles(tempMyToggles)
-    toast(`Setting ${dataField} Column ${targetVisibility ? "Visible" : "Hidden"}`)
+  function handleMyColumnToggle(dataField) {
+    let tempMyToggles = newToggles;
+    const targetVisibility = !tempMyToggles[dataField];
+    tempMyToggles[dataField] = targetVisibility;
+    setMyToggles(tempMyToggles);
+    toast(
+      `Setting ${dataField} Column ${targetVisibility ? "Visible" : "Hidden"}`
+    );
   }
 
   return (
@@ -30,9 +31,7 @@ function ModalComponent({
       centered
     >
       <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">
-          Columns: 
-        </Modal.Title>
+        <Modal.Title id="contained-modal-title-vcenter">Columns:</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         {columns
@@ -44,7 +43,9 @@ function ModalComponent({
             <button
               type="button"
               key={index}
-              className={`btn btn-warning ${newToggles[column.dataField] ? "active" : ""}`}
+              className={`btn btn-warning ${
+                newToggles[column.dataField] ? "active" : ""
+              }`}
               data-toggle="button"
               aria-pressed={newToggles[column.dataField] ? "true" : "false"}
               onClick={() => handleMyColumnToggle(column.dataField)}
@@ -60,4 +61,4 @@ function ModalComponent({
   );
 }
 
-export default ModalComponent
+export default ModalComponent;
