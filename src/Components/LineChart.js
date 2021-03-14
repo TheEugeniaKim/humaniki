@@ -50,13 +50,9 @@ function LineChart({
       Object.keys(extrema).length === 0 ||
       !dimensions
     ) {
-      // console.log("UNDEFINED AND RETURNING", !stateDimensions)
       return;
     }
     setStateDimensions(dimensions);
-    console.log("dimensions:", dimensions);
-    console.log("stateDimensions", stateDimensions);
-    // console.log("Line Data", lineData)
     const genderNums = genderMap
       ? Object.keys(genderMap).map((str) => parseInt(str))
       : [];
@@ -70,7 +66,6 @@ function LineChart({
 
     const width = +svg.attr("width");
     const height = +svg.attr("height");
-    console.log("width:", width, "height", height);
     const legend = select(".legend");
     const genderLineMaximums = lineData.map((genderLine) =>
       Math.max(...genderLine.values.map((tuple) => tuple.value))
@@ -96,6 +91,7 @@ function LineChart({
       .domain([totalMinXValue, totalMaxXValue + 9])
       .range([0, dimensions.width])
       .nice();
+    // Removed Zoom Behavior for alpha release because overflow: visible:
     // if (currentZoomState) {
     //   const newXScale = currentZoomState.rescaleX(xScale)
     //   xScale.domain(newXScale.domain())
@@ -188,6 +184,7 @@ function LineChart({
       .attr("y", (line, index) => (index + 1) * 20 + 30)
       .attr("fill", (line) => colorScale(line.name));
 
+    // Disabled Zoom Behavior for alpha release because overflow:visible:
     // const zoomBehavior = zoom()
     //   .scaleExtent([0.5, 5])
     //   .translateExtent([
@@ -217,27 +214,9 @@ function LineChart({
           <g className="x-axis" />
           <g className="x-axis-title" />
           <text className="x-axis-title-text"></text>
-
-          {/* <text
-              className="axis-label"
-              x={650 / 2}
-              y={350 + 50}
-              textAnchor="middle"
-            >
-              {xAxisLabel}
-            </text> */}
           <g className="y-axis" />
           <g className="y-axis-title" />
           <text className="y-axis-title-text"></text>
-          {/* <text
-              className="axis-label"
-              textAnchor="middle"
-              transform={`translate(${-50}, 
-              ${350 / 2}) rotate(-90)`}
-              style={{marginBottom:"20px"}}
-            >
-              {yAxisLabel}
-            </text> */}
           <g className="legend" />
         </svg>
       </div>

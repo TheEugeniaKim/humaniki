@@ -25,7 +25,6 @@ function GenderByDOBView({ API, snapshots }) {
     // this is a higher order function that will be predicate of each individual metric
     // is metric.item
     const metricYear = parseInt(metric.item.date_of_birth);
-    // console.log("in make year filter fun", yearStart, metricYear, yearEnd)
     return yearStart <= metricYear && metricYear <= yearEnd;
   };
   const [allMetrics, setAllMetrics] = useState(null);
@@ -91,36 +90,6 @@ function GenderByDOBView({ API, snapshots }) {
     }
   }
 
-  // full lineData shows all genders (before)
-  // function createLineData(meta, metrics) {
-  //   const lineData = [];
-  //   let sumOtherGendersLine = {}
-  //   sumOtherGendersLine.name = "sumOtherGenders"
-  //   sumOtherGendersLine.values = []
-  //   //line data loop
-  //   for (let genderId in meta.bias_labels) {
-  //     let genderLine = {};
-  //     genderLine.name = genderId;
-  //     genderLine.values = [];
-  //     metrics.forEach((dp) => {
-  //       if (Object.keys(dp.values).includes(genderId)) {
-  //         let tupleObj = {
-  //           year: +dp.item_label.date_of_birth,
-  //           value: dp["values"][genderId],
-  //         };
-  //         genderLine.values.push(tupleObj);
-  //       }
-  //       // if (Object.keys(dp.values))
-  //     });
-  //     lineData.push(genderLine);
-  //   }
-  //   console.log("DOB LINE DATA", lineData)
-  //   if (lineData.name !== QIDs.female || lineData.name !== QIDs.male){
-  //     console.log("hi")
-  //   }
-  //   setLineData(lineData)
-  // }
-
   function createLineData(meta, metrics) {
     const lineData = [
       { name: "female", values: [] },
@@ -154,19 +123,6 @@ function GenderByDOBView({ API, snapshots }) {
         value: sumOtherGendersTotal,
       };
       lineData[2].values.push(tupleObj);
-      // if (date["values"][QIDs.female]){
-      //   let tupleObj = {
-      //     year: +date.item_label.date_of_birth,
-      //     value: date["values"][QIDs.female]
-      //   }
-      //   lineData[0].values.push(tupleObj)
-      // } else if (date["values"][QIDs.male]){
-      //   let tupleObj = {
-      //     year: +date.item_label.date_of_birth,
-      //     value: date["values"][QIDs.male]
-      //   }
-      //   lineData[1].values.push(tupleObj)
-      // }
     });
     return lineData;
   }
@@ -213,16 +169,13 @@ function GenderByDOBView({ API, snapshots }) {
       } else if (tableObj.total < extrema.totalMin) {
         extrema.totalMin = tableObj.total;
       }
-      // console.log("Table Obj", tableObj)
     });
     return [tableArr, extrema];
   }
 
   function filterAndCreateVizAndTable(meta, metrics) {
-    console.log("meta, metrics", meta, metrics, yearStart, yearEnd);
     const yearFilterFn = makeYearFilterFn(yearStart, yearEnd);
     // const filteredMetrics = metrics // TODO: actually filter metrics
-    // console.log("Length of prefilter input is ,", metrics.length);
     const filteredMetrics = filterMetrics(metrics, yearFilterFn);
     // Here is genderFilter metrics
     // make fn in utils that will filter metrics by gender
@@ -280,7 +233,6 @@ function GenderByDOBView({ API, snapshots }) {
   // refetch useeffect
   useEffect(() => {
     setIsLoading(true);
-    console.log("REFETCHING", snapshot);
     API.get(
       {
         bias: "gender",

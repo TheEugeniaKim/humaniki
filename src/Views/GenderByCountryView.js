@@ -29,15 +29,6 @@ function GenderByCountryView({ API, snapshots }) {
     const selectedCountriesValues = selectedCountries.map(
       (country) => country.value
     );
-    console.log(
-      "selected Countries:",
-      selectedCountries,
-      "metrics:",
-      metric,
-      "filter",
-      selectedCountriesValues.includes(metric.item.citizenship)
-    );
-
     return selectedCountriesValues.includes(metric.item.citizenship);
   };
   const [allMetrics, setAllMetrics] = useState(null);
@@ -131,7 +122,6 @@ function GenderByCountryView({ API, snapshots }) {
 
   function processMapData(meta, metrics) {
     // todo: if properties exist don't need to re-calculate except if snapshot changes (another argument to tell us to recalculate)
-    console.log("SELECTED COUNTRIES:", selectedCountries);
     const selectedCountryQIDs = selectedCountries
       ? selectedCountries.map((country) => country.value)
       : [];
@@ -225,7 +215,6 @@ function GenderByCountryView({ API, snapshots }) {
 
   function processAPIData(err, fetchData) {
     if (err) {
-      console.log("ERROR:", err);
       setIsErrored(err);
     } else {
       setAllMetrics(fetchData.metrics);
@@ -260,11 +249,6 @@ function GenderByCountryView({ API, snapshots }) {
       filterAndCreateVizAndTable(allMeta, allMetrics);
     }
   }, [selectedCountries]);
-
-  function afterFilter(newResult, newFilters) {
-    console.log(newResult);
-    console.log(newFilters);
-  }
 
   const snapshotsDropdownOptions = snapshots ? (
     <div>

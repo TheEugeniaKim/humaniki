@@ -144,7 +144,6 @@ function GenderByLanguageView({ API, snapshots }) {
 
   function processData(err, data) {
     if (err) {
-      console.log("error is", err);
       setIsErrored(err);
     } else {
       setAllMetrics(data.metrics);

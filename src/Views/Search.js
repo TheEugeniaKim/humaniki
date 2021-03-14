@@ -168,7 +168,6 @@ function Search({ API, snapshots }) {
 
   function processAPIData(err, fetchData) {
     if (err) {
-      console.log("ERROR:", err);
       setIsErrored(err);
     } else {
       if (!fetchData) return;

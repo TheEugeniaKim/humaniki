@@ -4,7 +4,6 @@ import { selectAllOption } from "../utils";
 
 function SelectDropdown(props) {
   function handleOnChange(selected, event) {
-    console.log(event);
     if (selected !== null && selected.length > 0) {
       if (selected[selected.length - 1].value === selectAllOption.value) {
         return props.onChange([selectAllOption, ...props.options]);

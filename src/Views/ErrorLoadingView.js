@@ -19,7 +19,6 @@ function ErrorLoadingView({API}){
 
   function processCB(errors, data){
     if (errors){
-      console.log("in IF", errors, data)
       setIsErrored(errors)
     }
   }

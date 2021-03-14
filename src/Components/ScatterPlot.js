@@ -50,10 +50,6 @@ function ScatterPlot(props) {
         .domain([min_minus_a_bit, max_plus_a_bit])
         .range([dimensions.height, 0]);
 
-      // console.log('Yscale extrema',props.extrema.totalMin, props.extrema.totalMax)
-      // console.log('Yscale dim',dimensions.height)
-      // console.log('Yscale of 0, 1, 10, 100, 1500000',yScale(0), yScale(1), yScale(10), yScale(100), yScale(1500000),)
-
       const xAxis = axisBottom(xScale);
       svg
         .select(".x-axis")
