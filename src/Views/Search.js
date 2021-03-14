@@ -182,8 +182,8 @@ function Search({API, snapshots}) {
 
     return (
         <div className="viz-container combine-view">
-            <h5>Search gender metrics</h5>
             <div className="viz-description">
+                <h5>Search gender metrics</h5>
                 <p>The explore search shows cumulative gender metrics for different
                     Wikidata properties at a time.</p>
             </div>
@@ -197,13 +197,13 @@ function Search({API, snapshots}) {
                     snapshots={snapshots}
                 />
             </Row>
+            <div className="viz-heading">
+                <div className="viz-timestamp">
+                    All time, as of {snapshotDisplay}
+                </div>
+            </div>
             <div className="api-data-btn">
                 {url ? <Button variant="secondary" href={url} target="_blank">API Link</Button> : null}
-            </div>
-            <div className="viz-heading">
-                <p className="viz-timestamp">
-                    All time, as of {snapshotDisplay}
-                </p>
             </div>
             <div className="table-container">
                 {isLoading ? loadingDiv : null}
@@ -220,14 +220,14 @@ function Search({API, snapshots}) {
                             defaultSorted={defaultSorted}
                         />
                 }
-                <Row className="completeness-search">
-                    <Col sm={2} md={2} lg={2} className="completeness-child-search">
+                <Row className="completeness completeness-search">
+                    <div className="completeness-child-search chart">
                         {completeness ? <RadialBarChart data={[completeness, 1 - completeness]}/> : null}
-                    </Col>
-                    <Col className="completeness-child-search-explanation">
+                    </div>
+                    <div className="completeness-child-search explanation">
                         <h6>Data Completeness</h6>
                         {completenessExplanation}
-                    </Col>
+                    </div>
                 </Row>
             </div>
 

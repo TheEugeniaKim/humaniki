@@ -156,16 +156,27 @@ tbody {
   border: lightgray solid 0.1rem;
 }
 
-.completeness-child{
-  flex: 1;
+.completeness-search {
+    width: 50%;
 }
-
-.completeness-child .form-label {
+.completeness .form-label {
   padding-top: 0rem;
 }
 
-.completeness-child .p {
+.completeness .p {
   font-size: 0.8rem;
+}
+
+.completeness .chart{
+  width:30%;
+}
+
+.completeness .explanation{
+  width: 70%;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
 }
 
 .radial-chart-div{

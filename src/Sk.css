@@ -68,6 +68,12 @@ nav.navbar .mr-auto {
     justify-content: flex-end;
 }
 
+#alpha-tooltip .icon {
+	margin-top: -0.5rem;
+	padding-left: 0.3rem;
+	color: #696969;
+}
+
 /* Navbar end */
 
 
@@ -353,9 +359,6 @@ p.team-founder {
 	margin-bottom: 2rem;
 }
 
-.viz-description {
-	padding-top: 1rem;
-}
 .viz-description p {
 	font-weight: 500;
 	padding-top: 0.5rem;
@@ -363,6 +366,11 @@ p.team-founder {
 .viz-timestamp {
 	font-style: italic;
 }
+
+.combine-view .viz-timestamp {
+	margin-top: 1rem;
+}
+
 .viz-container .col-lg-7 {
 	margin-bottom: 1.5rem;
 	margin-left: 1rem;
@@ -405,6 +413,7 @@ p.team-founder {
 
 .explore-filter {
 	margin-top: 1rem;
+	margin-bottom: 2rem !important;
 }
 
 .form-group {
@@ -452,6 +461,12 @@ p.team-founder {
 }
 
 /*Data Table end*/
+
+/*Search View Begin*/
+.react-bootstrap-table-pagination {
+	margin-bottom: 2rem;
+}
+/*Search View End*/
 
 /*Footer begin*/
 footer {
@@ -548,6 +563,9 @@ every country is selected by default until there are filter selections
 
 	.footer-container {
 		justify-content: flex-start;
+	}
+	.completeness-search {
+		width: 100%;
 	}
 
 }

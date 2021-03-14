@@ -323,12 +323,12 @@ function GenderByCountryView({API, snapshots}) {
                 </Col>
                 <Col sm={3}>
                     <Row className="completeness">
-                        <div className="completeness-child">
+                        <div className="completeness-child explanation">
                             <div className="form-label">Data Completeness</div>
                             <div className="form-label-subfield">Gender By Country</div>
                             <p>% of humans that have citizenship data avaialble on Wikidata</p>
                         </div>
-                        <div className="completeness-child">
+                        <div className="completeness-child chart">
                             {completeness ? <RadialBarChart data={[completeness, 1 - completeness]}/> : null}
                         </div>
                     </Row>
