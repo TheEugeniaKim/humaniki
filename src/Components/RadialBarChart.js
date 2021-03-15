@@ -18,7 +18,7 @@ function RadialBarChart({ data }) {
     const arcGenerator = arc().innerRadius(35).outerRadius(45);
     const pieGenerator = pie();
     const instructions = pieGenerator(data);
-    const completePercentDisplay = data[0].toFixed(1) * 100;
+    const completePercentDisplay = data[0].toFixed(3) * 100;
 
     svg
       .selectAll(".slice")

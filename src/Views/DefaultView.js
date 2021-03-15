@@ -184,9 +184,9 @@ function DefaultView({ API }) {
             </p>
           </div>
           <div className="col-search search-button">
-            <Button>
-              <Link to={`/search`}> search </Link>
-            </Button>
+              <Link to={`/search`}>
+                <Button> Search </Button>
+              </Link>
           </div>
         </div>
       </div>
