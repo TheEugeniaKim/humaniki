@@ -61,39 +61,25 @@ function AdvacnedSearchForm({ onSubmit, snapshots }) {
   };
 
   function handleWikiInputChange(e) {
-    if (e.target.value === "All") {
-      setFormState({
-        ...formState,
-        selectedWikiProject: "all",
-      });
-    } else {
-      allWikiProjectsTuples.map((arr) => {
-        if (arr[1] === e.target.value) {
-          setFormState({
-            ...formState,
-            selectedWikiProject: arr[0],
-          });
-        }
-      });
-    }
+    const selectedIndex = e.target.options.selectedIndex;
+    const selectedValue = e.target.options[selectedIndex].getAttribute(
+      "data-key"
+    );
+    setFormState({
+      ...formState,
+      selectedWikiProject: selectedValue,
+    });
   }
 
   function handleCitizenshipInputChange(e) {
-    if (e.target.value === "All") {
-      setFormState({
-        ...formState,
-        selectedCitizenship: "all",
-      });
-    } else {
-      allWikiCountriesTuples.map((arr) => {
-        if (arr[1] === e.target.value) {
-          setFormState({
-            ...formState,
-            selectedCitizenship: arr[0],
-          });
-        }
-      });
-    }
+    const selectedIndex = e.target.options.selectedIndex;
+    const selectedValue = e.target.options[selectedIndex].getAttribute(
+      "data-key"
+    );
+    setFormState({
+      ...formState,
+      selectedCitizenship: selectedValue,
+    });
   }
 
   function onClickReset(e) {
@@ -192,9 +178,9 @@ function AdvacnedSearchForm({ onSubmit, snapshots }) {
               }
             >
               {allWikiProjectsTuples.map((projectArr) => (
-                <option key={projectArr[0]}>{projectArr[1]}</option>
+                <option key={projectArr[0]} data-key={projectArr[0]}>{projectArr[1]}</option>
               ))}
-            </Form.Control>
+            </Form.Control> 
           </Form.Group>
         </Col>
 
@@ -211,7 +197,7 @@ function AdvacnedSearchForm({ onSubmit, snapshots }) {
               }
             >
               {allWikiCountriesTuples.map((projectArr) => (
-                <option key={projectArr[0]}>{projectArr[1]}</option>
+                <option key={projectArr[0]} data-key={projectArr[0]} >{projectArr[1]}</option>
               ))}
             </Form.Control>
           </Form.Group>
