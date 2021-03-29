@@ -35,7 +35,12 @@ function HoverTooltip({ view }) {
       makeMessage(
         "This is an incomplete alpha-release. Please see FAQ in footer to view roadmap and report bugs."
       );
-      makeIcon("α");
+      makeIcon(
+        <a href="https://diff.wikimedia.org/2021/03/15/humaniki-march-update-public-launch-of-alpha-release/" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        >α</a>
+      );
     }
   }, [view]);
 
