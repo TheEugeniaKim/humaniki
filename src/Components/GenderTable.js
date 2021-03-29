@@ -60,7 +60,7 @@ function GenderTable({ tableColumns, tableArr, keyField, defaultSorted }) {
                 {...props.baseProps}
                 columnToggle={{ toggles: myToggles }}
                 filter={filterFactory({ afterFilter })}
-                pagination={paginationFactory()}
+                pagination={paginationFactory({sizePerPageList:[{text: '5th', value: 5}]})}
                 striped
                 hover
                 condensed

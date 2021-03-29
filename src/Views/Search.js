@@ -28,7 +28,7 @@ function Search({ API, snapshots }) {
   const [fetchObj, setFetchObj] = useState({
     bias: "gender",
     metric: "gap",
-    snapshot: snapshot,
+    snapshot: "latest",
     population: population,
     property_obj: {
       label_lang: "en",
@@ -40,11 +40,12 @@ function Search({ API, snapshots }) {
   const onSubmit = (formState) => {
     setIsLoading(true);
     setIsErrored(false);
+
     let tempPropertyObj = {
-      bias: "gender",
-      metric: "gap",
-      snapshot: snapshot,
-      population: population,
+      bias: fetchObj.bias,
+      metric: fetchObj.metric,
+      snapshot: fetchObj.snapshot,
+      population: fetchObj.population,
       property_obj: {},
     };
     if (formState.selectedSnapshot) {
