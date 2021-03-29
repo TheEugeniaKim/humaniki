@@ -44,11 +44,6 @@ function GenderByDOBView({ API, snapshots }) {
   const [isLoading, setIsLoading] = useState(true);
   const [isErrored, setIsErrored] = useState(false);
 
-  function afterFilter(newResult, newFilters) {
-    console.log(newResult);
-    console.log(newFilters);
-  }
-
   function handleHumanChange(e) {
     setIsLoading(true);
     setPopulation(e);

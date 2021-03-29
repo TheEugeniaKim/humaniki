@@ -181,11 +181,6 @@ function GenderByLanguageView({ API, snapshots }) {
     }
   }, [selectedProjects, topProjects]);
 
-  function afterFilter(newResult, newFilters) {
-    console.log(newResult);
-    console.log(newFilters);
-  }
-
   const snapshotsDropdownOptions = snapshots ? (
     <div>
       <Form.Label>Snapshot</Form.Label>

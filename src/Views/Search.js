@@ -194,11 +194,6 @@ function Search({ API, snapshots }) {
     return true;
   }
 
-  function afterFilter(newResult, newFilters) {
-    console.log(newResult);
-    console.log(newFilters);
-  }
-
   useEffect(() => {
     if (!snapshots) {
       return;

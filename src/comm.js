@@ -16,7 +16,7 @@ export default class humanikiAPI {
         processCB(json);
       })
       .catch((error) =>
-        console.error("Could not get snapshots because of ", error)
+        console.error("Humaniki comm layer error inside snapshots: ", error)
       );
   }
 
@@ -110,7 +110,7 @@ export default class humanikiAPI {
       try {
         this.getJSONFromURL(url, processCB);
       } catch (e) {
-        console.error("Catching e", e);
+        console.error("Humaniki comm layer error inside metrics get: ", e);
       }
     }
   }

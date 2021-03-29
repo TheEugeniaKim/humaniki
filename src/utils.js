@@ -100,7 +100,6 @@ function headerFormatOthers(column){
 }
 
 export function createColumns(meta, metrics, indexColTitle, gapCol=null ){
-  console.log("IndexColTitle", indexColTitle)
   const columns = []
     //column order: 
     // 1. index 
