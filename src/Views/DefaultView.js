@@ -146,17 +146,17 @@ function DefaultView({ API }) {
           <Link to={`/gender-by-country`} className="col-button-container">
             <div className="col-button col-worldmap">
               <h5> Gender by Country </h5>
-              <h7> What is the spatial distribution of gender data? </h7>
+              <h6> What is the spatial distribution of gender data? </h6>
             </div>
           </Link>
           <Link to={`/gender-by-language`} className="col-button-container">
             <div className="col-button col-scatterplot">
               <h5> Gender by Wikimedia Project </h5>
-              <h7>
+              <h6>
                 {" "}
                 How do different language Wikimedia projects compare in terms of
                 gender diversity?
-              </h7>
+              </h6>
             </div>
           </Link>
           <Link to={`/gender-by-dob`} className="col-button-container">

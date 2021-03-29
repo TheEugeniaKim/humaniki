@@ -110,7 +110,7 @@ export function createColumns(meta, metrics, indexColTitle, gapCol=null ){
     if (gapCol) {
       columns.push(
         {
-          dataField: "index", 
+          dataField: indexColTitle, 
           text: indexColTitle.toUpperCase(), 
           filter: textFilter({placeholder: "Search"}), 
           sort: true, 
@@ -133,6 +133,7 @@ export function createColumns(meta, metrics, indexColTitle, gapCol=null ){
     columns.push(
       {
         dataField: meta.bias_labels[QIDs.female],
+        text: meta.bias_labels[QIDs.female],
         headerFormatter: headerFormatFemale,
         formatter: thousandSeparator,
         sort: true,
@@ -158,6 +159,7 @@ export function createColumns(meta, metrics, indexColTitle, gapCol=null ){
     columns.push(
       {
         dataField: meta.bias_labels[QIDs.male],
+        text: meta.bias_labels[QIDs.male],
         headerFormatter: headerFormatMale,
         formatter: thousandSeparator,
         sort: true,
@@ -173,7 +175,7 @@ export function createColumns(meta, metrics, indexColTitle, gapCol=null ){
         classes: "gender-col gender-col-percent-male"
       }
     )
-    columns.push({dataField: "sumOtherGenders", headerFormatter: headerFormatOthers, headerStyle: {"minWidth": "100px"}, formatter: thousandSeparator, sort: true, classes: "gender-col gender-col-sum-other" })
+    columns.push({dataField: "sumOtherGenders", text: "∑ Other Genders", headerFormatter: headerFormatOthers, headerStyle: {"minWidth": "100px"}, formatter: thousandSeparator, sort: true, classes: "gender-col gender-col-sum-other" })
     columns.push({dataField: "sumOtherGendersPercent", text: "∑ Other Genders Percent", sort: true, formatter: percentFormatter, classes: "gender-col gender-col-percent-sum-other"})
 
     for (let genderId in meta.bias_labels) {

@@ -19,7 +19,6 @@ function RadialBarChart({ data }) {
     const pieGenerator = pie();
     const instructions = pieGenerator(data);
     const completePercentDisplay = (data[0]*100).toFixed(1);
-    console.log('radial chart', data, completePercentDisplay)
 
     svg
       .selectAll(".slice")

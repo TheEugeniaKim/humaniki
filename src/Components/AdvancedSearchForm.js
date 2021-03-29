@@ -212,7 +212,6 @@ function AdvacnedSearchForm({ onSubmit, snapshots }) {
               label="No Filter"
               id="noFilter"
               name="selectedYearRangeType"
-              defaultChecked
               checked={formState.selectedYearRange === null}
               onChange={handleSelectedYearRange}
             />

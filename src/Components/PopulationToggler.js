@@ -3,7 +3,7 @@ import Nav from "react-bootstrap/Nav";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import { populations } from "../utils";
-import InfoCircle from "../Components/InfoCircle";
+import InfoCircle from "./Icons/InfoCircle";
 
 function PopulationToggle({ handleToggle, GTE_ONLY }) {
   const renderTooltip = (props) => (

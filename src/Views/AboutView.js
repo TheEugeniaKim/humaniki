@@ -66,8 +66,8 @@ function AboutView() {
           for more.
         </p>
 
-        <p>
-          <div className="note-text"> A NOTE TO WIKIPEDIANS: </div>
+        <div className="note-text">A NOTE TO WIKIPEDIANS:</div>
+        <p> 
           This data relies entirely on Wikidata, so if you would like your work
           in writing biographies or other content about humans to be reflected
           here please make sure Wikidata knows that your article is about a

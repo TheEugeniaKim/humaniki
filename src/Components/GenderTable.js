@@ -64,6 +64,7 @@ function GenderTable({ tableColumns, tableArr, keyField, defaultSorted }) {
             {myToggles ? (
               <BootstrapTable
                 {...props.baseProps}
+                keyField={keyField}
                 columnToggle={{ toggles: myToggles }}
                 filter={filterFactory({ afterFilter })}
                 pagination={paginationFactory(paginationOptions)}
