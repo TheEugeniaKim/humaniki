@@ -15,7 +15,7 @@ function ErrorLoadingView({API}){
       },
       processCB
     )
-  }, [])
+  }, [API])
 
   function processCB(errors, data){
     if (errors){

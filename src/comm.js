@@ -30,7 +30,7 @@ export default class humanikiAPI {
       propertyObj.label_lang = "en";
     }
 
-    Object.keys(propertyObj).map((key) => {
+    Object.keys(propertyObj).forEach((key) => {
       let str = `${key}=${propertyObj[key]}`;
       propertiesQueriesSubArr.push(str);
     });

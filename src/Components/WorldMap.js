@@ -32,9 +32,6 @@ function WorldMap({ mapData, property, extrema, genders }) {
     const pathGenerator = geoPath().projection(projection);
     if (mapData === null) {
     } else {
-      const propertyValues = mapData.features.map(
-        (country) => country.properties[property]
-      );
       const propertyPercent = property + "Percent";
       const propertyValuesPercents = mapData.features.map(
         (country) => country.properties[propertyPercent]

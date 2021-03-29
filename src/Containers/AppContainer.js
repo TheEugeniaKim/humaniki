@@ -17,7 +17,7 @@ import { Container } from "react-bootstrap";
 const API = new humanikiAPI();
 
 function AppContainer() {
-  const [navBar, setNavBar] = useState("about");
+  // const [navBar, setNavBar] = useState("about");
   const [snapshots, setSnapshots] = useState(null);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ function AppContainer() {
   return (
     <Container className="App">
       <ToastContainer />
-      <NavBarComponent setNavBar={setNavBar} />
+      <NavBarComponent />
       <Router>
         <Route exact path={"/"} render={() => <DefaultView API={API} />} />
         <Route exact path={"/about"} render={() => <AboutView API={API} />} />

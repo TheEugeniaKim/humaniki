@@ -8,6 +8,7 @@ function Licensing() {
       <a
         href="https://www.wikidata.org/wiki/Wikidata:Main_Page"
         target="_blank"
+        rel="noopener noreferrer"
       >
         {" "}
         Wikidata{" "}

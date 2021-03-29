@@ -18,15 +18,12 @@ import ErrorDiv from "../Components/ErrorDiv";
 import RadialBarChart from "../Components/RadialBarChart";
 
 function Search({ API, snapshots }) {
-  const [allMetrics, setAllMetrics] = useState(null);
-  const [allMeta, setAllMeta] = useState(null);
   const [population, setPopulation] = useState(populations.GTE_ONE_SITELINK);
   const [tableColumns, setTableColumns] = useState([{}]);
   const [tableArr, setTableArr] = useState([]);
   const [snapshot, setSnapshot] = useState("latest");
   const [completeness, setCompleteness] = useState(null);
   const [completenessExplanation, setCompletenessExplanation] = useState("");
-  const [snapshotDisplay, setSnapshotDisplay] = useState(null);
   const [url, setURL] = useState(null);
   const [fetchObj, setFetchObj] = useState({
     bias: "gender",
@@ -163,43 +160,44 @@ function Search({ API, snapshots }) {
     }
   }
 
-  function processAPIData(err, fetchData) {
-    if (err) {
-      setIsErrored(err);
-    } else {
-      if (!fetchData) return;
-      if (!snapshots) return;
-      setAllMetrics(fetchData.metrics);
-      setAllMeta(fetchData.meta);
-      // check if we get data (metrics) back
-      // in the case where we query for metric but get 0 results
-      if (fetchData.metrics.length > 0) {
-        setTableColumns(
-          createColumns(
-            fetchData.meta,
-            fetchData.metrics,
-            keyFields.search,
-            true
-          )
-        );
-        processTableData(fetchData.meta, fetchData.metrics);
-        setCompleteness(fetchData.meta.coverage);
-        setSnapshotDisplay(fetchData.meta.snapshot);
-        makeCompletenessStrings(fetchData.meta);
-      } else {
-        setIsErrored({ "API reachable but": ["Query returned 0 results"] });
-      }
-    }
-    setIsLoading(false);
-    return true;
-  }
-
+  
   useEffect(() => {
     if (!snapshots) {
       return;
+    } 
+    
+    const processAPIData = (err, fetchData) => {
+      if (err) {
+        setIsErrored(err);
+      } else {
+        if (!fetchData) return;
+        if (!snapshots) return;
+        // check if we get data (metrics) back
+        // in the case where we query for metric but get 0 results
+        if (fetchData.metrics.length > 0) {
+          setTableColumns(
+            createColumns(
+              fetchData.meta,
+              fetchData.metrics,
+              keyFields.search,
+              true
+            )
+          );
+          processTableData(fetchData.meta, fetchData.metrics);
+          setCompleteness(fetchData.meta.coverage);
+          setSnapshot(fetchData.meta.snapshot);
+          makeCompletenessStrings(fetchData.meta);
+        } else {
+          setIsErrored({ "API reachable but": ["Query returned 0 results"] });
+        }
+      }
+      setIsLoading(false);
+      return true;
     }
+
     API.get(fetchObj, processAPIData);
-  }, [population, snapshots, snapshot, fetchObj]);
+
+  }, [population, snapshots, snapshot, fetchObj, API]);
 
   const defaultSorted = [
     {
@@ -225,7 +223,7 @@ function Search({ API, snapshots }) {
         <AdvacnedSearchForm onSubmit={onSubmit} snapshots={snapshots} />
       </Row>
       <div className="viz-heading">
-        <div className="viz-timestamp">All time, as of {snapshotDisplay}</div>
+        <div className="viz-timestamp">All time, as of {snapshot}</div>
       </div>
       <div className="api-data-btn">
         {url ? (

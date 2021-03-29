@@ -1,6 +1,4 @@
 import React from "react";
-import { Navbar } from "react-bootstrap";
-import { Link } from "react-router-dom";
 
 function Footer() {
   return (
@@ -16,6 +14,7 @@ function Footer() {
               <a
                 href="https://www.mediawiki.org/wiki/Humaniki/FAQ#What_is_the_roadmap?"
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 Humaniki Roadmap
               </a>
@@ -24,6 +23,7 @@ function Footer() {
               <a
                 href="https://www.mediawiki.org/wiki/Humaniki/FAQ#What_data_it_uses?"
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 Data it uses
               </a>
@@ -32,6 +32,7 @@ function Footer() {
               <a
                 href="https://www.mediawiki.org/wiki/Humaniki/FAQ"
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 FAQ
               </a>
@@ -45,6 +46,7 @@ function Footer() {
               <a
                 href="https://github.com/TheEugeniaKim/humaniki/blob/master/docs/CONTRIBUTION_GUIDE.md"
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 Contribution guide
               </a>
@@ -53,6 +55,7 @@ function Footer() {
               <a
                 href="https://phabricator.wikimedia.org/maniphest/task/edit/form/59/?title=Humaniki%20Bug&projectPHIDs=Humaniki"
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 Report a bug
               </a>
@@ -61,6 +64,7 @@ function Footer() {
               <a
                 href="https://phabricator.wikimedia.org/maniphest/task/edit/form/56/?title=Humaniki%20New%20Feature&projectPHIDs=Humaniki"
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 Request a Feature
               </a>
@@ -74,6 +78,7 @@ function Footer() {
               <a
                 href="https://phabricator.wikimedia.org/project/board/4967/"
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 Phabricator
               </a>
@@ -82,12 +87,16 @@ function Footer() {
               <a
                 href="https://github.com/TheEugeniaKim/humaniki/blob/master/docs/CONTRIBUTION_GUIDE.md"
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 Github
               </a>
             </li>
             <li>
-              <a href="https://twitter.com/humanikiData" target="_blank">
+              <a href="https://twitter.com/humanikiData" 
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Twitter
               </a>
             </li>

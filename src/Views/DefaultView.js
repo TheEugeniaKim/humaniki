@@ -19,7 +19,6 @@ function DefaultView({ API }) {
   const [total, setTotal] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [isErrored, setIsErrored] = useState(false);
-  const [snapshot, setSnapshot] = useState();
   const [snapshotMonth, setSnapshotMonth] = useState();
   const [snapshotYear, setSnapshotYear] = useState();
 
@@ -78,7 +77,7 @@ function DefaultView({ API }) {
       .attr("width", "100%")
       .attr("height", "100%")
       .attr("x", (value) => value);
-  }, [totalMen, totalOthers, totalWomen]);
+  }, [totalMen, totalOthers, totalWomen, API]);
 
   const viz = (
     <div className="default-data-container">

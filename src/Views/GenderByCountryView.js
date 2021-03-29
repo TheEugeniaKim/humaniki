@@ -212,24 +212,25 @@ function GenderByCountryView({ API, snapshots }) {
     processTableData(meta, filteredMetrics);
   }
 
-  function processAPIData(err, fetchData) {
-    if (err) {
-      setIsErrored(err);
-    } else {
-      setAllMetrics(fetchData.metrics);
-      setAllMeta(fetchData.meta);
-      setCompleteness(fetchData.meta.coverage);
-      setSnapshotDisplay(fetchData.meta.snapshot);
-      let multiSelectData = createMultiSelectData(fetchData.metrics);
-      setAllCountries(multiSelectData);
-      filterAndCreateVizAndTable(fetchData.meta, fetchData.metrics);
-    }
-    setIsLoading(false);
-    return true;
-  }
-
   // ReFetch useEffect:
   useEffect(() => {
+    const processAPIData = (err, fetchData) => {
+      console.log("fetchData", fetchData)
+      if (err) {
+        setIsErrored(err);
+      } else {
+        setAllMetrics(fetchData.metrics);
+        setAllMeta(fetchData.meta);
+        setCompleteness(fetchData.meta.coverage);
+        setSnapshotDisplay(fetchData.meta.snapshot);
+        let multiSelectData = createMultiSelectData(fetchData.metrics);
+        setAllCountries(multiSelectData);
+        filterAndCreateVizAndTable(fetchData.meta, fetchData.metrics);
+      }
+      setIsLoading(false);
+      return true;
+    }
+
     API.get(
       {
         bias: "gender",
@@ -240,14 +241,18 @@ function GenderByCountryView({ API, snapshots }) {
       },
       processAPIData
     );
-  }, [population, snapshot]);
+    // we think filterAndCreateVizAndTable is safe without inclusion in dependency
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [population, snapshot, API]);
 
   // ReFilter useEffect:
   useEffect(() => {
-    if ((allMeta, allMetrics)) {
+    if (allMeta && allMetrics) {
       filterAndCreateVizAndTable(allMeta, allMetrics);
     }
-  }, [selectedCountries]);
+    // we think filterAndCreateVizAndTable is safe without inclusion in dependency
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedCountries, allMeta, allMetrics]);
 
   const snapshotsDropdownOptions = snapshots ? (
     <div>

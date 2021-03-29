@@ -35,11 +35,11 @@ function AboutView() {
 
         <p>
           Humaniki is a merger of two previous data diversity tools,{" "}
-          <a href="https://whgi.wmflabs.org/" target="_blank">
+          <a href="https://whgi.wmflabs.org/" target="_blank" rel="noopener noreferrer">
             Wikidata Human Gender Indicators a.k.a WHGI
           </a>{" "}
           and{" "}
-          <a href="https://denelezh.wmcloud.org/" target="_blank">
+          <a href="https://denelezh.wmcloud.org/" target="_blank" rel="noopener noreferrer">
             Denelezh
           </a>
           , created by Maximillian Klein and Envel Le Hir respectively. Both of
@@ -58,6 +58,7 @@ function AboutView() {
           <a
             href="https://journals.sagepub.com/eprint/FCqs2m9JJxeN66dsTde9/full"
             target="_blank"
+            rel="noopener noreferrer"
           >
             'Gender gap through time and space: A journey through Wikipedia
             biographies via the Wikidata Human Gender Indicator'
@@ -72,7 +73,10 @@ function AboutView() {
           here please make sure Wikidata knows that your article is about a
           human and has an associated gender. For more on contributing human
           data, see our{" "}
-          <a href="https://www.mediawiki.org/wiki/Humaniki/FAQ" target="_blank">
+          <a href="https://www.mediawiki.org/wiki/Humaniki/FAQ" 
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             FAQ
           </a>
           .
@@ -84,6 +88,7 @@ function AboutView() {
           <a
             href="https://meta.wikimedia.org/wiki/Grants:Project/Maximilianklein/humaniki"
             target="_blank"
+            rel="noopener noreferrer"
           >
             Link
           </a>
@@ -96,7 +101,8 @@ function AboutView() {
           Humaniki provides a full open API that you may query. Please see{" "}
           <a
             href="https://github.com/notconfusing/humaniki-backend/blob/master/API%20documentation.md"
-            target="_Blank"
+            target="_blank"
+            rel="noopener noreferrer"
           >
             github for more details
           </a>
@@ -106,11 +112,11 @@ function AboutView() {
         <h5> Meet our Team </h5>
         <div className="row-team">
           <div className="col-team">
-            <a href="https://notconfusing.com/" target="_blank">
+            <a href="https://notconfusing.com/" target="_blank" rel="noopener noreferrer">
               <img
                 className="col-team-img"
                 src={mkImage}
-                alt="Image of Maximilian Klein"
+                alt="Maximilian Klein"
               />
               <p className="team-name"> Maximilian Klein </p>
               <p className="team-title"> Project Manager and Software Lead </p>
@@ -118,11 +124,11 @@ function AboutView() {
             </a>
           </div>
           <div className="col-team">
-            <a href="https://www.lehir.net/about/" target="_blank">
+            <a href="https://www.lehir.net/about/" target="_blank" rel="noopener noreferrer">
               <img
                 className="col-team-img"
                 src={ehImage}
-                alt="Image of Envel Le Hir"
+                alt="Envel Le Hir"
               />
               <p className="team-name"> Envel Le Hir </p>
               <p className="team-title"> Data Engineer </p>
@@ -133,11 +139,12 @@ function AboutView() {
             <a
               href="https://www.linkedin.com/in/theeugeniakim/"
               target="_blank"
+              rel="noopener noreferrer"
             >
               <img
                 className="col-team-img"
                 src={ekImage}
-                alt="Image of Eugenia Kim"
+                alt="Eugenia Kim"
               />
               <p className="team-name"> Eugenia Kim </p>
               <p className="team-title"> Frontend Engineer </p>
@@ -145,11 +152,11 @@ function AboutView() {
             </a>
           </div>
           <div className="col-team">
-            <a href="https://www.sejalkhatri.com/" target="_blank">
+            <a href="https://www.sejalkhatri.com/" target="_blank" rel="noopener noreferrer">
               <img
                 className="col-team-img"
                 src={skImage}
-                alt="Image of Sejal Khatri"
+                alt="Sejal Khatri"
               />
               <p className="team-name"> Sejal Khatri </p>
               <p className="team-title"> UX Researcher and Designer </p>
@@ -160,6 +167,7 @@ function AboutView() {
             <a
               href="https://diff.wikimedia.org/2020/09/15/humaniki-wikimedia-diversity-data-tools/"
               target="_blank"
+              rel="noopener noreferrer"
             >
               {" "}
               Learn more{" "}
@@ -172,7 +180,7 @@ function AboutView() {
         <p>
           {" "}
           Email us:{" "}
-          <a href="mailto:info@humanikidata.org" target="_blank">
+          <a href="mailto:info@humanikidata.org" target="_blank" rel="noopener noreferrer">
             {" "}
             info@humanikidata.org{" "}
           </a>{" "}
@@ -180,7 +188,7 @@ function AboutView() {
         <p>
           {" "}
           Check us out on Twitter:{" "}
-          <a href="https://twitter.com/humanikiData" target="_blank">
+          <a href="https://twitter.com/humanikiData" target="_blank" rel="noopener noreferrer">
             {" "}
             @humanikiData{" "}
           </a>

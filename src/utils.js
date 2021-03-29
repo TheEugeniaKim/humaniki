@@ -129,6 +129,7 @@ export function createColumns(meta, metrics, indexColTitle, gapCol=null ){
       )
     }
     columns.push({dataField: "total",text: "Total", formatter: thousandSeparator, sort: true})
+    // debugger
     columns.push(
       {
         dataField: meta.bias_labels[QIDs.female],

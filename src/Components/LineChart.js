@@ -53,9 +53,6 @@ function LineChart({
       return;
     }
     setStateDimensions(dimensions);
-    const genderNums = genderMap
-      ? Object.keys(genderMap).map((str) => parseInt(str))
-      : [];
     lineData.forEach((genderLine) => sortGenderLine(genderLine));
 
     function sortGenderLine(genderLine) {
@@ -64,8 +61,6 @@ function LineChart({
 
     const svg = select(svgRef.current);
 
-    const width = +svg.attr("width");
-    const height = +svg.attr("height");
     const legend = select(".legend");
     const genderLineMaximums = lineData.map((genderLine) =>
       Math.max(...genderLine.values.map((tuple) => tuple.value))

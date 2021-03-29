@@ -5,10 +5,10 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import humanikiLogo from "../assets/humaniki.png";
 import HoverTooltip from "./HoverTooltip";
 
-function NavBarComponent({ setNavBar }) {
+function NavBarComponent() {
   return (
     <React.Fragment>
-      <Navbar collapseOnSelect bg="light" expand="lg" onSelect={setNavBar}>
+      <Navbar collapseOnSelect bg="light" expand="lg">
         <div className={"navbar-brand-group"}>
           <Navbar.Brand href="/">
             <img className="nav-logo" src={humanikiLogo} alt="humaniki-logo" />

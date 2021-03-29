@@ -8,7 +8,6 @@ import filterFactory, { afterFilter } from "react-bootstrap-table2-filter";
 import paginationFactory from "react-bootstrap-table2-paginator";
 
 function GenderTable({ tableColumns, tableArr, keyField, defaultSorted }) {
-  const [showExpandGenders, setShowExpandGenders] = useState(false);
   const [modalShow, setModalShow] = useState(false);
   const [myToggles, setMyToggles] = useState({ male: true });
 
@@ -23,10 +22,6 @@ function GenderTable({ tableColumns, tableArr, keyField, defaultSorted }) {
       setMyToggles(visibleColumnsDefault);
     }
   }, [tableColumns]);
-
-  function handleGenderExpandClick(event) {
-    setShowExpandGenders(!showExpandGenders);
-  }
 
   const tableElementsComplete =
     tableColumns && tableArr && tableColumns.length > 1 && tableArr.length > 0;

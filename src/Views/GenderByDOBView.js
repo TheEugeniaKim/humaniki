@@ -12,7 +12,6 @@ import {
   createColumns,
   formatDate,
   populations,
-  percentFormatter,
   loadingDiv,
   QIDs,
   keyFields,
@@ -189,7 +188,7 @@ function GenderByDOBView({ API, snapshots }) {
     setTableColumns(createColumns(meta, filteredMetrics, keyFields.dob));
   }
 
-  function processData(err, data) {
+  const processData = (err, data) => {
     if (err) {
       setIsErrored(err);
     } else {
@@ -200,30 +199,6 @@ function GenderByDOBView({ API, snapshots }) {
     setIsLoading(false);
     return true;
   }
-
-  const columnFilters = (meta) => {
-    let columnFilters = [];
-    for (let genderId in meta.bias_labels) {
-      if (genderId !== QIDs.male && genderId !== QIDs.female) {
-        let obj = {
-          dataField: meta.bias_labels[genderId],
-          text: meta.bias_labels[genderId],
-          sort: true,
-        };
-        let objPercent = {
-          dataField: meta.bias_labels[genderId] + "Percent",
-          text: meta.bias_labels[genderId] + " Percent",
-          sort: true,
-          formatter: percentFormatter,
-        };
-        obj.hidden = true;
-        objPercent.hidden = true;
-        obj.label = meta.bias_labels[genderId];
-        columnFilters.push(obj);
-        columnFilters.push(objPercent);
-      }
-    }
-  };
 
   // refetch useeffect
   useEffect(() => {
@@ -238,14 +213,18 @@ function GenderByDOBView({ API, snapshots }) {
       },
       processData
     );
-  }, [snapshot, population]);
+    // we think filterAndCreateVizAndTable is safe without inclusion in dependency
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [snapshot, population, API]);
 
   // refilter useeffect
   useEffect(() => {
     if (allMeta && allMetrics) {
       filterAndCreateVizAndTable(allMeta, allMetrics);
     }
-  }, [yearStart, yearEnd]);
+    // we think filterAndCreateVizAndTable is safe without inclusion in dependency
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [yearStart, yearEnd, allMeta, allMetrics]);
 
   const snapshotsDropdownOptions = snapshots ? (
     <div>

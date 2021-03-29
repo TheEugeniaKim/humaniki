@@ -142,26 +142,28 @@ function GenderByLanguageView({ API, snapshots }) {
     return multiSelectData;
   }
 
-  function processData(err, data) {
-    if (err) {
-      setIsErrored(err);
-    } else {
-      setAllMetrics(data.metrics);
-      setAllMeta(data.meta);
-      setCompleteness(data.meta.coverage);
-      setSnapshotDisplay(data.meta.snapshot);
-      let multiSelectData = createMultiselectData(data.metrics);
-      setAllProjects(multiSelectData);
-      filterAndCreateVizAndTable(data.meta, data.metrics);
-    }
-    setIsLoading(false);
-    return true;
-  }
-
+  
   // ReFetch useEffect changing snapshot view:
   useEffect(() => {
     // set topProjects to null so that it will rerender to create top 25
     // setTopProjects(null)
+
+    const processData = (err, data) => {
+      if (err) {
+        setIsErrored(err);
+      } else {
+        setAllMetrics(data.metrics);
+        setAllMeta(data.meta);
+        setCompleteness(data.meta.coverage);
+        setSnapshotDisplay(data.meta.snapshot);
+        let multiSelectData = createMultiselectData(data.metrics);
+        setAllProjects(multiSelectData);
+        filterAndCreateVizAndTable(data.meta, data.metrics);
+      }
+      setIsLoading(false);
+      return true;
+    }
+    
     API.get(
       {
         bias: "gender",
@@ -172,14 +174,18 @@ function GenderByLanguageView({ API, snapshots }) {
       },
       processData
     );
-  }, [snapshot]);
+    // we think filterAndCreateVizAndTable is safe without inclusion in dependency
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [snapshot, API]);
 
   // ReFilter useEffect:
   useEffect(() => {
     if (allMeta && allMetrics) {
       filterAndCreateVizAndTable(allMeta, allMetrics);
     }
-  }, [selectedProjects, topProjects]);
+    //we think filterAndCreateVizAndTable is safe without inclusion in dependency
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedProjects, topProjects, allMeta, allMetrics]);
 
   const snapshotsDropdownOptions = snapshots ? (
     <div>
