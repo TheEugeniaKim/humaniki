@@ -11,6 +11,12 @@ function GenderTable({ tableColumns, tableArr, keyField, defaultSorted }) {
   const [modalShow, setModalShow] = useState(false);
   const [myToggles, setMyToggles] = useState({ male: true });
 
+  const paginationOptions = {sizePerPageList:[
+      {text: '10', value: 10},
+      {text: '50', value: 50},
+      {text: '100', value: 100},
+      {text: '500', value: 500},
+    ]}
   useEffect(() => {
     if (!tableColumns) {
       return;
@@ -60,7 +66,7 @@ function GenderTable({ tableColumns, tableArr, keyField, defaultSorted }) {
                 {...props.baseProps}
                 columnToggle={{ toggles: myToggles }}
                 filter={filterFactory({ afterFilter })}
-                pagination={paginationFactory({sizePerPageList:[{text: '5th', value: 5}]})}
+                pagination={paginationFactory(paginationOptions)}
                 striped
                 hover
                 condensed
