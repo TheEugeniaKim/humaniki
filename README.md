@@ -7,7 +7,7 @@
 - then run `source .env`
 (If on Windows, run `call env.bat` to set environment variables)
 
-### `npm install`
+### run `npm install`
 
-### `npm start`
+### run `npm start`
 
