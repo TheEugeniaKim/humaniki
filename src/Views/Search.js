@@ -100,18 +100,18 @@ function Search({ API, snapshots }) {
       item_labels = item_labels.length > 0 ? item_labels : ["Overall"];
       // in multi-dimensions search join the different titles in one index column
       if (item_labels.length > 1) {
-        tableObj.index = item_labels.join(", ");
+        tableObj[keyFields.search] = item_labels.join(", ");
       } else {
         // we know it's a single dimensional search
         // isNan(parseInt(value)) ? value : parseInt(value)
         const value = item_labels[0];
         const valueAsNum = parseInt(value);
-        tableObj.index = isNaN(valueAsNum) ? value : valueAsNum;
+        tableObj[keyFields.search] = isNaN(valueAsNum) ? value : valueAsNum;
       }
       // sometimes there is data but null values in item label.
-      //The table is looking for dataField=index so we need to set index null for items with no item labels
+      //The table is looking for dataField="Aggregation" (from utils) so we need to set index null for items with no item labels
       if (item_labels.includes(null)) {
-        tableObj.index = null;
+        tableObj[keyFields.search] = null;
       }
       tableObj.total = Object.values(obj.values).reduce((a, b) => a + b);
       tableObj.sumOtherGenders = 0;
@@ -136,7 +136,7 @@ function Search({ API, snapshots }) {
       genderTotalsArr.push(tableObj.malePercent);
       genderTotalsArr.push(tableObj.sumOtherGendersPercent);
       tableObj.gap = <SingleBarChart genderTotals={genderTotalsArr} />;
-      if (tableObj.index) {
+      if (tableObj[keyFields.search]) {
         tableArr.push(tableObj);
       }
     });
@@ -166,7 +166,7 @@ function Search({ API, snapshots }) {
     if (!snapshots) {
       return;
     } 
-    
+
     const processAPIData = (err, fetchData) => {
       if (err) {
         setIsErrored(err);
@@ -202,7 +202,7 @@ function Search({ API, snapshots }) {
 
   const defaultSorted = [
     {
-      dataField: "index",
+      dataField: keyFields.search,
       order: "asc",
     },
   ];

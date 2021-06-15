@@ -7,7 +7,7 @@ function DateFilterIcon() {
       width="16"
       height="16"
       fill="currentColor"
-      class="bi bi-calendar-range"
+      className="bi bi-calendar-range"
       viewBox="0 0 16 16"
     >
       <path d="M9 7a1 1 0 0 1 1-1h5v2h-5a1 1 0 0 1-1-1zM1 9h4a1 1 0 0 1 0 2H1V9z" />

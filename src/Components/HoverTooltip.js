@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
-import DateFilterIcon from "./DateFilterIcon";
-import QuestionIcon from "./QuestionIcon";
-import ZoomInIcon from "./ZoomInIcon";
-import InfoCircle from "./InfoCircle";
+import DateFilterIcon from "./Icons/DateFilterIcon";
+import QuestionIcon from "./Icons/QuestionIcon.js";
+import ZoomInIcon from "./Icons/ZoomInIcon";
+import InfoCircle from "./Icons/InfoCircle";
 
 function HoverTooltip({ view }) {
   const [message, makeMessage] = useState(null);
@@ -35,7 +35,12 @@ function HoverTooltip({ view }) {
       makeMessage(
         "This is an incomplete alpha-release. Please see FAQ in footer to view roadmap and report bugs."
       );
-      makeIcon("α");
+      makeIcon(
+        <a href="https://diff.wikimedia.org/2021/03/15/humaniki-march-update-public-launch-of-alpha-release/" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        >α</a>
+      );
     }
   }, [view]);
 

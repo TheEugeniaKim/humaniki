@@ -1,11 +1,13 @@
 # Humaniki 
 
-## Available Scripts
+## Installation 
 
-In the project directory, you can run:
+### define an .env file
+- copy .env.sample to new .env file
+- then run `source .env`
+(If on Windows, run `call env.bat` to set environment variables)
 
-### `npm install`
+### run `npm install`
 
-### `npm start`
+### run `npm start`
 
-If on Windows, run `call env.bat` to set environment variables 

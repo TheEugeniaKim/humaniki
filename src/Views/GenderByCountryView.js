@@ -215,7 +215,6 @@ function GenderByCountryView({ API, snapshots }) {
   // ReFetch useEffect:
   useEffect(() => {
     const processAPIData = (err, fetchData) => {
-      console.log("fetchData", fetchData)
       if (err) {
         setIsErrored(err);
       } else {
