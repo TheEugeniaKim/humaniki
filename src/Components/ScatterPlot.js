@@ -105,7 +105,7 @@ function ScatterPlot(props) {
           ${obj.language}
           Total Bios: ${obj.total}
           Total Women Bios: ${obj.female}
-          Women: ${obj.femalePercent}%
+          Women: ${obj.femalePercent.toFixed(2)}%
         `
       );
       nodes
