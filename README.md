@@ -11,5 +11,5 @@
 
 ### run `npm start`
 
-## License [
-MIT License](./LICENSE.md)
+## License 
+[MIT License](master/LICENSE.md)
