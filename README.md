@@ -11,3 +11,5 @@
 
 ### run `npm start`
 
+## License [
+MIT License](https://github.com/TheEugeniaKim/humaniki/blob/master/LICENSE.md)
