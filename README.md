@@ -12,4 +12,4 @@
 ### run `npm start`
 
 ## License 
-[MIT License](master/LICENSE.md)
+[MIT License](humaniki/LICENSE.md)
