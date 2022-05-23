@@ -5,7 +5,7 @@ Humaniki is a completely open-source and open-data project that will always welc
 There are four components to the Humaniki stack.
 1. Wikidata dump processing.
     - https://github.com/notconfusing/denelezh-import
-    - This is a [Wikdata-Toolkit](https://github.com/Wikidata/Wikidata-Toolkit) Java program that processes huge the wikidata
+    - This is a [Wikdata-Toolkit](https://github.com/Wikidata/Wikidata-Toolkit) Java program that processes the huge wikidata
       dumpfiles and subsets it into CSVs that just relate to humans.
 2. Metrics generation
     - https://github.com/notconfusing/humaniki-schema
