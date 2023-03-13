@@ -310,7 +310,7 @@ function GenderByCountryView({ API, snapshots }) {
               <div className="form-label">Data Completeness</div>
               <div className="form-label-subfield">Gender By Country</div>
               <p>
-                % of humans that have citizenship data avaialble on Wikidata
+                % of humans that have citizenship data available on Wikidata
               </p>
             </div>
             <div className="completeness-child chart">
